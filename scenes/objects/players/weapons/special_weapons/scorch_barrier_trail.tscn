@@ -87,8 +87,6 @@ animations = [{
 
 [node name="ScorchBarrierTrail" type="AnimatedSprite2D"]
 material = SubResource("ShaderMaterial_1028d")
-position = Vector2(-0.25, 0)
-scale = Vector2(1.02381, 1)
 sprite_frames = SubResource("SpriteFrames_nlvml")
 animation = &"Bass"
 autoplay = "Bass"

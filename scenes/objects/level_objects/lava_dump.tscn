@@ -1,0 +1,106 @@
+[gd_scene load_steps=7 format=3 uid="uid://dj68n86k30i4s"]
+
+[ext_resource type="Script" uid="uid://r23sl0r4p3il" path="res://scenes/objects/level_objects/lava_dump.gd" id="1_mmvod"]
+[ext_resource type="Texture2D" uid="uid://cfpr2ugco06py" path="res://sprites/objects/lava dump.png" id="2_pntxf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wp5vq"]
+size = Vector2(23.75, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8fba"]
+atlas = ExtResource("2_pntxf")
+region = Rect2(0, 0, 0, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_djg4a"]
+atlas = ExtResource("2_pntxf")
+region = Rect2(0, 8, 0, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sm5yt"]
+atlas = ExtResource("2_pntxf")
+region = Rect2(0, 16, 0, 8)
+
+[node name="Lava Dump" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_mmvod")
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="Hurtbox" type="CollisionShape2D" parent="hurt"]
+position = Vector2(-0.125, -40)
+shape = SubResource("RectangleShape2D_wp5vq")
+debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_wp5vq")
+debug_color = Color(0, 1, 0.0705882, 0.419608)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="VisibleOnScreenNotifier2D2" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-15, -80)
+scale = Vector2(1.875, 4.44444)
+rect = Rect2(0, 0, 16, 18)
+
+[node name="Top" type="Sprite2D" parent="."]
+position = Vector2(0, -108)
+texture = SubResource("AtlasTexture_u8fba")
+
+[node name="Middle" type="Sprite2D" parent="."]
+position = Vector2(0, -100)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle2" type="Sprite2D" parent="."]
+position = Vector2(0, -92)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle3" type="Sprite2D" parent="."]
+position = Vector2(0, -84)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle4" type="Sprite2D" parent="."]
+position = Vector2(0, -76)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle5" type="Sprite2D" parent="."]
+position = Vector2(0, -68)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle6" type="Sprite2D" parent="."]
+position = Vector2(0, -60)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle7" type="Sprite2D" parent="."]
+position = Vector2(0, -52)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle8" type="Sprite2D" parent="."]
+position = Vector2(0, -44)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle9" type="Sprite2D" parent="."]
+position = Vector2(0, -36)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle10" type="Sprite2D" parent="."]
+position = Vector2(0, -28)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle11" type="Sprite2D" parent="."]
+position = Vector2(0, -20)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Middle12" type="Sprite2D" parent="."]
+position = Vector2(0, -12)
+texture = SubResource("AtlasTexture_djg4a")
+
+[node name="Bottom" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = SubResource("AtlasTexture_sm5yt")
+
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D2" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

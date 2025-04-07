@@ -8,8 +8,8 @@ signal teleported
 
 #region Enums
 enum STATES {
-	NONE,
-	TELEPORT,
+	NONE, 
+	TELEPORT, ##Teleporting down in a beam of energy
 	TELEPORT_LANDING,
 	IDLE,
 	STEP,
@@ -53,6 +53,7 @@ var direction
 var canLadder : bool
 var ladderArea
 var underRoof : bool
+var scytheflashtimer : int = 0
 #input related
 
 
@@ -229,6 +230,7 @@ func _physics_process(delta: float) -> void:
 				checkForFloor()
 				processJump()
 				processShoot()
+				processCharge()
 				processDamage()
 			STATES.IDLE_SHIELD:
 				checkForFloor()
@@ -296,9 +298,8 @@ func _physics_process(delta: float) -> void:
 		animationMatching()
 		switchWeapons()
 		move_and_slide()
-		
 	
-#region Character Things
+	#region Character Things
 
 func invul(arg):
 	hurtbox.monitorable = arg
@@ -379,6 +380,8 @@ func allowLeftRight(delta):
 func checkForFloor():
 	if !is_on_floor():
 		currentState = STATES.FALL_START
+		$mainCollision.disabled = false
+		$slideCollision.disabled = true
 
 func processJump():
 	if Input.is_action_just_pressed("jump") && direction.y != -1:
@@ -463,6 +466,9 @@ func Jump(delta):
 		currentState = STATES.FALL_START
 
 func fall(delta):
+	$mainCollision.set_disabled(false)
+	$slideCollision.set_disabled(true)
+				
 	if direction.x == 0 :
 		if ice_jump == false:
 			velocity.x = 0
@@ -528,6 +534,7 @@ func slideProcess():
 			velocity.x = 200 * sprite.scale.x
 		currentState = STATES.SLIDE
 		$mainCollision.disabled = true
+		$slideCollision.disabled = false
 		$hurtboxArea/mainHurtbox.set_disabled(true)
 		slide_timer.start(0.4)
 		FX = preload("res://scenes/objects/players/dash_trail.tscn").instantiate()
@@ -558,6 +565,7 @@ func sliding(delta):
 		currentState = STATES.FALL
 	if Input.is_action_just_pressed("jump"):
 		$mainCollision.disabled = true
+		$slideCollision.disabled = false
 		$hurtboxArea/mainHurtbox.set_disabled(true)
 		
 func _on_slide_timer_timeout() -> void:
@@ -566,6 +574,7 @@ func _on_slide_timer_timeout() -> void:
 		slide_timer.start(0.1)
 	else:
 		$mainCollision.disabled = false
+		$slideCollision.disabled = true
 		$hurtboxArea/mainHurtbox.set_disabled(false)
 		if !is_on_floor():
 			pass
@@ -716,6 +725,7 @@ func processShoot():
 				busterAnimMatch()
 				weapon_arrow()
 			WEAPONS.PUNK:
+				throwAnimMatch()
 				weapon_punk()
 			WEAPONS.BALLADE:
 				throwAnimMatch()
@@ -725,6 +735,23 @@ func processShoot():
 #i dunno where the purple goes
 
 func processCharge():
+	if scytheflashtimer < 2:
+		scytheflashtimer += 1
+	else:
+		scytheflashtimer = 0
+	
+	if currentWeapon == WEAPONS.REAPER:
+		if ScytheCharge > 19:
+			if scytheflashtimer == 1:
+				sprite.material.set_shader_parameter("palette", weapon_palette[19])
+			if scytheflashtimer != 1:
+				set_current_weapon_palette()
+		if ScytheCharge > 69:
+			if scytheflashtimer == 2:
+				sprite.material.set_shader_parameter("palette", weapon_palette[20])
+		if ScytheCharge == 0:
+			set_current_weapon_palette()
+	
 	if Input.is_action_pressed("shoot") && transing != true:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
@@ -766,23 +793,31 @@ func weapon_blaze():
 			if GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 1 or GameState.infinite_ammo == true:
 				GameState.onscreen_sp_bullets += 1
 				shield = weapon_scenes[2].instantiate()
-				add_child(shield)
+				get_parent().add_child(shield)
 				shield.theta = 0*space
+				shield.position = position
+				
 			if GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 3 or GameState.infinite_ammo == true:
 				GameState.onscreen_sp_bullets += 1
 				shield2 = weapon_scenes[2].instantiate()
-				add_child(shield2)
+				get_parent().add_child(shield2)
 				shield2.theta = 1*space
+				shield2.position = position
+				
 			if GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 2 or GameState.infinite_ammo == true:
 				GameState.onscreen_sp_bullets += 1
 				shield3 = weapon_scenes[2].instantiate()
-				add_child(shield3)
+				get_parent().add_child(shield3)
 				shield3.theta = 2*space
+				shield3.position = position
+				
 			if GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 4 or GameState.infinite_ammo == true:
 				GameState.onscreen_sp_bullets += 1
 				shield4 = weapon_scenes[2].instantiate()
-				add_child(shield4)
+				get_parent().add_child(shield4)
 				shield4.theta = 3*space
+				shield4.position = position
+				
 			if GameState.infinite_ammo == false:
 				GameState.weapon_energy[WEAPONS.BLAZE] -= 4
 			#print(get_children())
@@ -978,7 +1013,7 @@ func weapon_reaper():
 			anim.seek(0)
 			shot_type = 2
 			attack_timer.start(0.3)
-			if ScytheCharge < 25: #Uncharged. Throws 1 boomerang with an alternating curve
+			if ScytheCharge < 20: #Uncharged. Throws 1 boomerang with an alternating curve
 
 				projectile = weapon_scenes[5].instantiate()
 				get_parent().add_child(projectile)
@@ -1001,7 +1036,7 @@ func weapon_reaper():
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.REAPER] -= 1
 
-			if ScytheCharge >= 25 and ScytheCharge < 75:  #Mid charge. Throws 2 shots that curve back in opposite ways
+			if ScytheCharge >= 20 and ScytheCharge < 70:  #Mid charge. Throws 2 shots that curve back in opposite ways
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.REAPER] -= 2
 				GameState.onscreen_sp_bullets += 2
@@ -1024,7 +1059,7 @@ func weapon_reaper():
 				projectile.scale.x = -sprite.scale.x
 				projectile.direction = 1
 
-			if ScytheCharge >= 75: #Full charge. Throws 2 shots that run to the top and bottom of the screen and return.
+			if ScytheCharge >= 70: #Full charge. Throws 2 shots that run to the top and bottom of the screen and return.
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.REAPER] -= 4
 				GameState.onscreen_sp_bullets += 2
@@ -1052,21 +1087,21 @@ func weapon_reaper():
 	if !Input.is_action_pressed("shoot"):
 		ScytheCharge = 0
 
-	if ScytheCharge >= 25 && GameState.weapon_energy[GameState.WEAPONS.REAPER] < 2:
-		ScytheCharge = 2
+	if ScytheCharge >= 20 && GameState.weapon_energy[GameState.WEAPONS.REAPER] < 2:
+		ScytheCharge = 1
 
-	if ScytheCharge >= 75 && GameState.weapon_energy[GameState.WEAPONS.REAPER] < 4:
+	if ScytheCharge >= 70 && GameState.weapon_energy[GameState.WEAPONS.REAPER] < 4:
 		ScytheCharge = 26
 
 	if Input.is_action_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.REAPER] > 0 or GameState.infinite_ammo == true):
-		if ScytheCharge < 78:
+		if ScytheCharge < 75:
 			ScytheCharge += 1
 			if ScytheCharge == 13:
 				SoundManager.play("player", "charge1")
-			if ScytheCharge == 76:
+			if ScytheCharge == 71:
 				SoundManager.play("player", "charge2")
 		else:
-			ScytheCharge = 77
+			ScytheCharge = 72
 	else:
 		Charge = 0
 		SoundManager.instance_poly("player", "charge1").release()

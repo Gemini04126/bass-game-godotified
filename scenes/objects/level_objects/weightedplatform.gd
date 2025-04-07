@@ -26,6 +26,7 @@ func _physics_process(delta):
 				position.y += 1
 				distance += 1
 				roll += 1
+				
 			else:
 				ticks += 1
 			
@@ -33,6 +34,12 @@ func _physics_process(delta):
 		roll = 6
 	if roll == 7:
 		roll = 0
+		
+	if ticks == 0 && weighted != 0:
+		if distance < bottomlimit && distance > 0:
+			if roll == 0 or roll == 3:
+				$AudioStreamPlayer.play()
+	
 		
 	$Wheel.set_frame_and_progress(roll,0)
 	

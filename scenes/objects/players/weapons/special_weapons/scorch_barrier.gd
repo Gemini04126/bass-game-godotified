@@ -4,7 +4,7 @@ const trailscn = preload("res://scenes/objects/players/weapons/special_weapons/s
 var trail
 
 var W_Type = GameState.DMGTYPE.BS_BLAZE
-const FOLLOW_SPEED = 4.0 # follow speed
+#const FOLLOW_SPEED = 4.0 # follow speed
 var player
 @onready var parent = get_parent().get_parent()
 
@@ -15,7 +15,7 @@ var theta : float # changed from int to float
 
 var radius : int
 
-var dist : int
+var dist : float
 
 var durability : int = 6
 var invul : int
@@ -32,10 +32,10 @@ func _ready():
 		W_Type = GameState.DMGTYPE.CR_BLAZE
 	else:
 		W_Type = GameState.DMGTYPE.BS_BLAZE
-	$SpawnSound.play()
 	baseposx = position.x
 	baseposy = position.y
-	theta = rotation
+	$SpawnSound.play()
+	#theta = rotation
 	animate()
 	
 		
@@ -85,24 +85,28 @@ func _physics_process(_delta):
 			theta += 3.5
 	else:
 		theta = 0
+		if wet == false:
+			if $AmbientSound.finished:
+				$AmbientSound.play()
+		
 	
 	if fired == true && GameState.character_selected != 2: # Bass version
 		if left == false:
-			dist = dist + 1
+			dist += 1
 			if dist > 10 :
-				dist = dist + 1
+				dist += 0.5
 			if dist > 20 :
-				dist = dist + 1
+				dist += 0.5
 			if dist > 30 :
-				dist = dist + 1
+				dist += 0.5
 		if left == true:
-			dist = dist - 1
+			dist -= 1
 			if dist < -10 :
-				dist = dist - 1
+				dist -= 0.5
 			if dist < -20 :
-				dist = dist - 1
+				dist -= 0.5
 			if dist < -30 :
-				dist = dist - 1
+				dist -= 0.5
 				
 	if fired == true && GameState.character_selected == 2: # Copy Robot version
 		radius = radius + 2
@@ -115,7 +119,10 @@ func _physics_process(_delta):
 	
 	if (GameState.character_selected == 2 and radius < 30) or (GameState.character_selected != 2 and radius < 25):
 		radius = radius + 1
-
+	
+	if fired == false:
+		baseposx = GameState.player.position.x
+		baseposy = GameState.player.position.y
 	
 	position.x = dist + baseposx + cos(theta*0.09)*radius
 	position.y = baseposy + sin(theta*0.09)*radius

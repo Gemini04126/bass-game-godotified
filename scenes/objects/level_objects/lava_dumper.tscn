@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3 uid="uid://bupv4efhufyfe"]
+
+[ext_resource type="Texture2D" uid="uid://ca82dkfxj4gjd" path="res://sprites/objects/lava dumper.png" id="1_2b0ny"]
+[ext_resource type="Script" uid="uid://c86j3816medpg" path="res://scenes/objects/level_objects/lava_dumper.gd" id="2_2b0ny"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qm12d"]
+atlas = ExtResource("1_2b0ny")
+region = Rect2(48, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thvod"]
+atlas = ExtResource("1_2b0ny")
+region = Rect2(0, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45ud1"]
+atlas = ExtResource("1_2b0ny")
+region = Rect2(0, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4sudp"]
+atlas = ExtResource("1_2b0ny")
+region = Rect2(48, 0, 48, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a3oey"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qm12d")
+}],
+"loop": true,
+"name": &"dump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_thvod")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45ud1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4sudp")
+}],
+"loop": true,
+"name": &"warning",
+"speed": 10.0
+}]
+
+[node name="Lava Dumper" type="AnimatedSprite2D"]
+z_index = 2
+sprite_frames = SubResource("SpriteFrames_a3oey")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.0381616
+script = ExtResource("2_2b0ny")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(-2.86102e-06, -0.500001)
+scale = Vector2(5.4, 1.85)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true

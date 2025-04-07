@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://biy1mk3b78gh"]
+[gd_scene load_steps=35 format=3 uid="uid://biy1mk3b78gh"]
 
 [ext_resource type="Script" uid="uid://i1llq8yq18p8" path="res://scenes/objects/players/weapons/special_weapons/scorch_barrier.gd" id="1_emmpe"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_ca07l"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="4_ke4xy"]
 [ext_resource type="AudioStream" uid="uid://dcvhxvuushcu4" path="res://sounds/chargeshot.wav" id="5_l2puw"]
 [ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="6_wmt8g"]
+[ext_resource type="AudioStream" uid="uid://mcla46x8hsbd" path="res://sounds/scorchambient.wav" id="9_hao3f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fyvtn"]
 shader = ExtResource("2_ca07l")
@@ -210,8 +211,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0fvlc"]
-size = Vector2(14, 14)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hao3f"]
 
 [node name="ScorchBarrier" type="CharacterBody2D" groups=["scorch"]]
 collision_layer = 10
@@ -232,8 +232,7 @@ position = Vector2(-2.86102e-06, 0.499992)
 scale = Vector2(4, 18.15)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["scorch"]]
-scale = Vector2(1.75, 1.75)
-shape = SubResource("RectangleShape2D_0fvlc")
+shape = SubResource("RectangleShape2D_hao3f")
 
 [node name="SpawnSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_l2puw")
@@ -242,5 +241,8 @@ bus = &"SFX"
 [node name="HitSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_wmt8g")
 bus = &"SFX"
+
+[node name="AmbientSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_hao3f")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
