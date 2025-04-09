@@ -7,8 +7,13 @@ script/source = "extends Enemy_Template
 
 class_name Jumbro
 @onready var projectile
+@onready var timer: Timer = $Timer
+@onready var sprite: AnimatedSprite2D = $Sprite
 
-var hops : int
+var hops : int = 0
+var HopToPos = 0.00
+#this is used so he doesnt track the player in mid air and instead only picks his jump direction when he jumps -lynnv
+
 
 func _ready():
 	basedmg()
@@ -19,25 +24,36 @@ func _physics_process(delta):
 	if Cur_HP <= 0:
 		projectile = preload(\"res://scenes/objects/explosion_1.tscn\").instantiate()
 		get_parent().add_child(projectile)
-		projectile.position.x = position.x
-		projectile.position.y = position.y
+		projectile.position = position
 		if GameState.droptimer < 3:
 			projectile = preload(\"res://scenes/objects/items/pickup.tscn\").instantiate()
 			get_parent().add_child(projectile)
-			projectile.position.x = position.x
-			projectile.position.y = position.y
+			projectile.position = position
 			projectile.dropped = true
 		queue_free()
-		
+	
+	
 	if !is_on_floor():
 		velocity += get_gravity() * delta
+		velocity.x = HopToPos
+		timer.start(1) #change this to change how long he waits before hopping again -lynnv
 	else:
-		if hops > 3:
-			velocity.y =  -80
-			hops = 0
-		else:
-			velocity.y =  -30
-			hops += 1
+		velocity.x = 0
+		if timer.is_stopped():
+			if GameState.player != null:
+				HopToPos = sign(GameState.player.position.x - position.x) * 40
+				if sign(HopToPos) != 0: #dont turn invisible dumbass -lynnv
+					if sign(HopToPos) < 0: #turn around bb -lynnv
+						sprite.flip_h = 0
+					else:
+						sprite.flip_h = 1
+			if hops > 3:
+				velocity.y =  -400
+				hops = 0
+			else:
+				velocity.y =  -250
+				hops += 1
+	move_and_slide()
 	
 	if blown == true:
 		position.x += GameState.galeforce*0.015
@@ -156,6 +172,10 @@ collision_mask = 2
 position = Vector2(1, 5)
 shape = SubResource("RectangleShape2D_euuk7")
 debug_color = Color(1, 0, 0, 0.623529)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
 
 [connection signal="body_entered" from="hitable" to="." method="_on_hitable_body_entered"]
 [connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]

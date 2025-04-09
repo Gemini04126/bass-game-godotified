@@ -192,7 +192,7 @@ position = Vector2(960, 376)
 position = Vector2(545, 296)
 
 [node name="Jumbro2" parent="Level Objects/Enemies" instance=ExtResource("3_8qce2")]
-position = Vector2(676, 296)
+position = Vector2(671, 297)
 
 [node name="Jumbro3" parent="Level Objects/Enemies" instance=ExtResource("3_8qce2")]
 position = Vector2(677, 231)
@@ -224,6 +224,9 @@ position = Vector2(1144, 296)
 
 [node name="Sutsi" parent="Level Objects/Enemies" instance=ExtResource("14_2a8mj")]
 position = Vector2(-480, 472)
+
+[node name="Jumbro5" parent="Level Objects/Enemies" instance=ExtResource("3_8qce2")]
+position = Vector2(759, 342)
 
 [node name="Breakable Blocks" type="Node2D" parent="Level Objects"]
 
