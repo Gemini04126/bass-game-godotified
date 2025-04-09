@@ -63,8 +63,7 @@ func _init() -> void:
 #function that applies gravity need to specify to only apply it during certain states since it will only execute on the correct states. It's also just nicer to look at.
 
 func _physics_process(delta: float) -> void:
-	if GameState.current_hp <= 0:
-		currentState = STATES.DEAD
+	check_for_death()
 	
 	GameState.player.position.x = position.x
 	GameState.player.position.y = position.y

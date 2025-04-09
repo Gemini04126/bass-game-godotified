@@ -49,9 +49,7 @@ func _process(_delta: float) -> void:
 	else:
 		$WeaponBar.visible = true
 		if GameState.infinite_ammo == false:
-			if GameState.weapon_energy[GameState.current_weapon] < 0:
-				GameState.weapon_energy[GameState.current_weapon] = 0
-			$WeaponBar.frame = GameState.weapon_energy[GameState.current_weapon]
+			$WeaponBar.frame = clamp(GameState.weapon_energy[GameState.current_weapon], 0, 28)
 		else:
 			$WeaponBar.frame = 29 # Infinity
 	if GameState.player != null:
@@ -59,7 +57,7 @@ func _process(_delta: float) -> void:
 		$WeaponBar.material.set_shader_parameter(\"palette\", GameState.player.get_node(\"Sprite2D\").material.get_shader_parameter(\"palette\"))
 		
 	# Health bar
-	$HealthBar.frame = GameState.current_hp
+	$HealthBar.frame = clamp(GameState.current_hp, 0, 28)
 
 func process_refills():
 	if (GameState.player != null): # Null check!

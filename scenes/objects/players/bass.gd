@@ -62,8 +62,7 @@ func _init() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if GameState.current_hp <= 0:
-		currentState = STATES.DEAD
+	check_for_death()
 	
 	GameState.player.position.x = position.x
 	GameState.player.position.y = position.y
@@ -147,6 +146,7 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
+				module_blaze()
 			STATES.FALL_START, STATES.FALL, STATES.FALL_SHOOT, STATES.FALL_THROW, STATES.FALL_SHIELD:
 				fall(delta)
 				applyGrav(delta)
@@ -156,6 +156,7 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
+				module_blaze()
 			STATES.DASH:
 				dashing(delta)
 				processJump()
@@ -177,7 +178,17 @@ func _physics_process(delta: float) -> void:
 		animationMatching()
 		switchWeapons()
 		move_and_slide()
-		
+
+func checkForFloor():
+	if !is_on_floor():
+		currentState = STATES.FALL_START
+		$mainCollision.disabled = false
+		$slideCollision.disabled = true
+	else:
+		if blast_jumped == true:
+			blast_jumped = false
+			slowed = false
+
 func dashProcess():
 	if Input.is_action_just_pressed("dash"):
 		if on_ice != true:
@@ -301,8 +312,6 @@ func weapon_buster():
 				attack_timer.start(0.4)
 				projectile = projectile_scenes[0].instantiate()
 				get_parent().add_child(projectile)
-				projectile.position.x = position.x + sprite.scale.x * 5
-				projectile.position.y = position.y + 5
 				projectile.scale.x = sprite.scale.x
 				if GameState.onscreen_bullets == 1 or GameState.onscreen_bullets == 3:
 					projectile.frames = 1
@@ -311,13 +320,21 @@ func weapon_buster():
 					if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 						projectile.velocity.x = sign(sprite.scale.x) * (buster_speed * 0.5)
 						projectile.velocity.y = -(buster_speed * 0.5)
+						projectile.position.x = position.x + sprite.scale.x * 14
+						projectile.position.y = position.y + -6
 					else:
 						projectile.velocity.y = -buster_speed
+						projectile.position.x = position.x + sprite.scale.x * 2
+						projectile.position.y = position.y - 17
 				elif Input.is_action_pressed("move_down"):
 					projectile.velocity.x = sign(sprite.scale.x) * (buster_speed * 0.5)
 					projectile.velocity.y = (buster_speed * 0.5)
+					projectile.position.x = position.x + sprite.scale.x * 14
+					projectile.position.y = position.y + 10
 				else:
 					projectile.velocity.x = sign(sprite.scale.x) * buster_speed
+					projectile.position.x = position.x + sprite.scale.x * 17
+					projectile.position.y = position.y + 2
 					
 	#		is_dashing = false
 			return
@@ -378,17 +395,20 @@ func weapon_origami():
 # ================
 
 func module_blaze() -> void:
-	SoundManager.play("bass", "blast_jump")
-	velocity.y = -FAST_FALL
-	slide_timer.stop()
-	blast_jumped = true
-	slowed = true
-	ice_jump = false
-	projectile = projectile_scenes[1].instantiate()
-	get_parent().add_child(projectile)
-	projectile.position.x = position.x
-	projectile.position.y = position.y
-	projectile.velocity.y = 280
+	if (blast_jumped == false) && Input.is_action_just_pressed("jump") && Input.is_action_pressed("move_up") && (GameState.modules_enabled[WEAPONS.BLAZE] == true):
+		SoundManager.play("bass", "blast_jump")
+		velocity.y = -FAST_FALL
+		slide_timer.stop()
+		blast_jumped = true
+		slowed = true
+		dashjumped = false
+		ice_jump = false
+		currentState = STATES.JUMP
+		projectile = projectile_scenes[1].instantiate()
+		get_parent().add_child(projectile)
+		projectile.position.x = position.x
+		projectile.position.y = position.y
+		projectile.velocity.y = 280
 
 func module_smog() -> void:
 	if anim.get_current_animation() != "Mist Dash":

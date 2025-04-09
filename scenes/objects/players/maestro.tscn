@@ -678,6 +678,10 @@ process_callback = 0
 wait_time = 0.4
 one_shot = true
 
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
 [node name="upLadder" type="RayCast2D" parent="."]
 position = Vector2(0, 15.67)
 target_position = Vector2(0, -10)

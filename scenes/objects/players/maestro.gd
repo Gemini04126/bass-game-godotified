@@ -105,6 +105,7 @@ const CRACKER_SPEED := 450
 @onready var pain_timer: Timer = $PainTimer
 @onready var slide_timer: Timer = $SlideTimer
 @onready var attack_timer: Timer = $FireDelay
+@onready var death_timer: Timer = $DeathTimer
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var starburst: AnimatedSprite2D = $FX/Starburst
@@ -199,8 +200,7 @@ func _ready():
 #function that applies gravity need to specify to only apply it during certain states since it will only execute on the correct states. It's also just nicer to look at.
 
 func _physics_process(delta: float) -> void:
-	if GameState.current_hp <= 0:
-		currentState = STATES.DEAD
+	check_for_death()
 	
 	GameState.player.position.x = position.x
 	GameState.player.position.y = position.y
@@ -619,9 +619,10 @@ func hurt():
 		else:
 			currentState = STATES.FALL
 
-func death():
-	if pain_timer.is_stopped():
-		SoundManager.play("player", "death")
+func check_for_death():
+	if GameState.current_hp <= 0 && currentState != STATES.DEAD:
+		death_timer.start(10)
+		currentState = STATES.DEAD
 
 func dead():
 	$hurtboxArea/mainHurtbox.set_disabled(true)
@@ -631,15 +632,16 @@ func dead():
 	velocity.x = 0
 	if pain_timer.is_stopped():
 		SoundManager.play("player", "death")
-		scale = Vector2.ZERO
+		#scale = Vector2.ZERO
+		$Sprite2D.visible = false
 		for i in 12:
 			projectile = preload("res://scenes/objects/explosion_player.tscn").instantiate()
-			get_parent().add_child(projectile)
-			projectile.position.x = position.x
-			projectile.position.y = position.y
+			add_child(projectile)
+			#projectile.position.x = position.x
+			#projectile.position.y = position.y
 			projectile.velocity = EXPLOSION_SPEEDS[i]
 		pain_timer.start(2550)
-	if state_timer.is_stopped():
+	if death_timer.is_stopped():
 		sprite.visible = false
 		Fade.fade_out()
 		#await Fade.fade_out().finished # G: Seems to not work
@@ -647,7 +649,6 @@ func dead():
 		#Reset the stage
 		reset(false)
 		get_tree().reload_current_scene()
-
 #endregion
 
 #STATES.keys()[currentState]

@@ -4,6 +4,7 @@
 
 [sub_resource type="GDScript" id="GDScript_0jxnm"]
 script/source = "extends CharacterBody2D
+class_name PlayerExplosion
 
 func _physics_process(_delta: float) -> void:
 	move_and_slide()

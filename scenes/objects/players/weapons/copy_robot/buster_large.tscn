@@ -104,6 +104,7 @@ bus = &"SFX"
 
 [node name="HitSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_gqv0c")
+volume_db = -4.0
 bus = &"SFX"
 
 [node name="ReflectSound" type="AudioStreamPlayer" parent="."]

@@ -68,10 +68,12 @@ shape = SubResource("RectangleShape2D_bjbb8")
 
 [node name="SpawnSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_nyin2")
+volume_db = -2.0
 bus = &"SFX"
 
 [node name="HitSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_6625l")
+volume_db = -4.0
 bus = &"SFX"
 
 [node name="ReflectSound" type="AudioStreamPlayer" parent="."]
