@@ -2,6 +2,8 @@ extends MaestroPlayer
 
 class_name BassPlayer
 
+
+
 # References
 @onready var rapid_timer = $RapidTimer
 
@@ -11,9 +13,8 @@ const ORIGAMI_SPEEDB := 450
 # Variables
 var buster_speed = 300
 var blast_jumped = false
-var dashing = false
-var dashdir = 0
 func _init() -> void:
+	
 	weapon_palette = [
 		preload("res://sprites/players/bass/palettes/Bass Buster.png"),
 		preload("res://sprites/players/bass/palettes/Scorch Barrier.png"),
@@ -87,7 +88,7 @@ func _physics_process(delta: float) -> void:
 				applyGrav(delta)
 			STATES.IDLE, STATES.IDLE_SHOOT:
 				idle(delta)
-				slideProcess()
+				dashProcess()
 				checkForFloor()
 				processJump()
 				processShoot()
@@ -104,11 +105,22 @@ func _physics_process(delta: float) -> void:
 				checkForFloor()
 				processShoot()
 				processDamage()
+			
+			STATES.IDLE_AIM, STATES.IDLE_AIM_UP, STATES.IDLE_AIM_DIAG, STATES.IDLE_AIM_DOWN:
+				if on_ice == false:
+					velocity.x = 0
+				else:
+					velocity.x = lerpf(velocity.x, 0, delta * ICE_FLOOR_WEIGHT)
+				processBuster()
+				checkForFloor()
+				processJump()
+				processShoot()
+				processDamage()
 				
 			STATES.STEP:
 				step(delta)
 				checkForFloor()
-				slideProcess()
+				dashProcess()
 				processJump()
 				processShoot()
 				processBuster()
@@ -117,7 +129,7 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 			STATES.WALK, STATES.WALKING_SHOOT:
 				walk()
-				slideProcess()
+				dashProcess()
 				checkForFloor()
 				processJump()
 				allowLeftRight(delta)
@@ -144,10 +156,9 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.SLIDE:
-				sliding(delta)
-				if !$ceilCheck.is_colliding():
-					processJump()
+			STATES.DASH:
+				dashing(delta)
+				processJump()
 				processCharge()
 				ladderCheck()
 				processDamage()
@@ -166,6 +177,109 @@ func _physics_process(delta: float) -> void:
 		animationMatching()
 		switchWeapons()
 		move_and_slide()
+		
+func dashProcess():
+	if Input.is_action_just_pressed("dash"):
+		if on_ice != true:
+			velocity.x = 200 * sprite.scale.x
+		currentState = STATES.DASH
+		slide_timer.start(0.4)
+		FX = preload("res://scenes/objects/players/dash_trail.tscn").instantiate()
+		get_parent().add_child(FX)
+		if sprite.scale.x == -1:
+			FX.scale.x = -1
+			FX.position.x = position.x + 15
+		else:
+			FX.position.x = position.x - 15
+		FX.position.y = position.y+8
+		SoundManager.play("player", "slide")
+
+func dashing(delta):
+	if on_ice == false:
+		velocity.x = 250 * sprite.scale.x
+	else:
+		velocity.x = lerpf(velocity.x, sprite.scale.x * 260, delta * 4)
+	
+	if direction.x != 0:
+		if direction.x + sprite.scale.x == 0:
+			if $ceilCheck.is_colliding():
+				sprite.scale.x = direction.x
+			else:
+				slide_timer.start(0.001)
+	
+	if !is_on_floor():
+		velocity.x = 0
+		currentState = STATES.FALL
+		
+	if Input.is_action_just_pressed("jump") or !is_on_floor():
+		dashdir = sprite.scale.x
+		dashjumped = true
+		
+		
+func _on_slide_timer_timeout() -> void:
+	if !is_on_floor():
+		pass
+	if on_ice == false:
+		velocity.x = 0
+	if direction.x:
+		currentState = STATES.WALK
+	else:
+		currentState = STATES.IDLE
+
+func processShoot():
+	if Input.is_action_just_pressed("shoot") && transing != true:
+		currentWeapon = GameState.current_weapon
+		match currentWeapon:
+				#buster dont go here lol
+			WEAPONS.BLAZE:
+				#the animation match stuff is within the actual weapon since its a two parter
+				weapon_blaze()
+			WEAPONS.SMOG:
+				busterAnimMatch()
+				weapon_smog()
+			WEAPONS.SHARK:
+				throwAnimMatch()
+				weapon_shark()
+			WEAPONS.ORIGAMI:
+				throwAnimMatch()
+				weapon_origami()
+			WEAPONS.GALE:
+				shieldAnimMatch()
+				weapon_gale()
+			WEAPONS.GUERRILLA:
+				busterAnimMatch()
+				weapon_guerilla()
+			WEAPONS.CARRY:
+				throwAnimMatch()
+				weapon_carry()
+			WEAPONS.ARROW:
+				busterAnimMatch()
+				weapon_arrow()
+			WEAPONS.PUNK:
+				throwAnimMatch()
+				weapon_punk()
+			WEAPONS.BALLADE:
+				throwAnimMatch()
+				weapon_ballade()
+			WEAPONS.QUINT:
+				weapon_quint()
+
+func aimAnimMatch():
+	$ShootTimer.start()
+	if is_on_floor():
+		if direction.y == -1:
+			currentState = STATES.IDLE_AIM_DOWN
+		elif direction.y == 1 and direction.x == 0:
+			currentState = STATES.IDLE_AIM_UP
+		elif direction.y == 1:
+			currentState = STATES.IDLE_AIM_DIAG
+		else:
+			currentState = STATES.IDLE_AIM
+
+func processBuster():
+	if Input.is_action_pressed("buster") or (GameState.current_weapon == WEAPONS.BUSTER and Input.is_action_pressed("shoot")):
+		aimAnimMatch()
+		weapon_buster()
 
 func weapon_buster():
 	if (currentState != STATES.SLIDE) and (currentState != STATES.HURT):
@@ -268,7 +382,6 @@ func module_blaze() -> void:
 	velocity.y = -FAST_FALL
 	slide_timer.stop()
 	blast_jumped = true
-	dashing = false
 	slowed = true
 	ice_jump = false
 	projectile = projectile_scenes[1].instantiate()
@@ -276,9 +389,6 @@ func module_blaze() -> void:
 	projectile.position.x = position.x
 	projectile.position.y = position.y
 	projectile.velocity.y = 280
-	# G: The way the jump, jump transition, and fall animations play bothers me greatly and this doesn't work because of it.
-	anim.play("Jump")
-	StepTime = 0
 
 func module_smog() -> void:
 	if anim.get_current_animation() != "Mist Dash":

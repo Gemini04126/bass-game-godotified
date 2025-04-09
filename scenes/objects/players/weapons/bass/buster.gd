@@ -7,8 +7,8 @@ var frames : int
 
 func _ready():
 	if GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true:
-		$SpawnSound.play()
-		W_Type = 2
+		$Machine.play()
+		W_Type = GameState.DMGTYPE.MD_GUERILLA
 	else:
 		$SpawnSound.play()
 	
@@ -41,6 +41,12 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	GameState.onscreen_bullets -= 1
 	queue_free()
 
+func kill():
+	if GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true:
+		pass
+	else:
+		destroy()
+
 func destroy():
 	$CollisionShape2D.set_deferred("disabled", true)
 	$HitSound.play()
@@ -67,9 +73,3 @@ func reflect():
 			velocity.x = -velocity.y
 		if frames == 2:
 			velocity.x = velocity.y
-		
-	
-	
-func kill():
-	destroy()
-	

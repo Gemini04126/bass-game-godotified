@@ -31,7 +31,12 @@ enum STATES {
 	IDLE_SHIELD,
 	JUMP_SHIELD,
 	FALL_SHIELD,
-	DEAD
+	DEAD,
+	DASH,
+	IDLE_AIM,
+	IDLE_AIM_DOWN,
+	IDLE_AIM_DIAG,
+	IDLE_AIM_UP
 }
 
 enum WEAPONS {BUSTER, BLAZE, VIDEO, SMOG, SHARK, ORIGAMI, GALE, GUERRILLA, REAPER, PROTO, TREBLE, CARRY, ARROW, ENKER, PUNK, BALLADE, QUINT}
@@ -54,6 +59,8 @@ var canLadder : bool
 var ladderArea
 var underRoof : bool
 var scytheflashtimer : int = 0
+var dashdir : int
+var dashjumped = false
 #input related
 
 
@@ -367,7 +374,13 @@ func allowLeftRight(delta):
 			pass
 			
 		else:
-			velocity.x = MAXSPEED * direction.x
+			if dashjumped == true && !is_on_floor():
+				if direction.x == dashdir:
+					velocity.x = 200 * direction.x
+				else:
+					velocity.x = 70 * direction.x
+			else:
+				velocity.x = MAXSPEED * direction.x
 			sprite.scale.x = direction.x
 			#velocity.x = lerpf(velocity.x, sprite.scale.x * 250, delta * 4)
 			
@@ -476,6 +489,7 @@ func fall(delta):
 			velocity.x = lerpf(velocity.x, 0, delta * ICE_AIR_WEIGHT)
 	if is_on_floor():
 		ice_jump = false
+		dashjumped = false
 		if direction.x != 0:
 			currentState = STATES.WALK
 		else:
