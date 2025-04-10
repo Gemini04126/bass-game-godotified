@@ -99,6 +99,7 @@ func _physics_process(delta: float) -> void:
 				checkForFloor()
 				processJump()
 				processShoot()
+				processCharge()
 				processDamage()
 			STATES.IDLE_SHIELD:
 				checkForFloor()
