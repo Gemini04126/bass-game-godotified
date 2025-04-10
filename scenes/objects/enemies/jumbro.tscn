@@ -1,6 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://7vytwtvvonec"]
+[gd_scene load_steps=17 format=3 uid="uid://7vytwtvvonec"]
 
 [ext_resource type="Texture2D" uid="uid://5m5m4sib6hsc" path="res://sprites/enemies/jumbro.png" id="1_hw46l"]
+[ext_resource type="AudioStream" uid="uid://d2oevy2xek073" path="res://sounds/jump.wav" id="2_s46tw"]
+[ext_resource type="AudioStream" uid="uid://djvqj0ndwgcyb" path="res://sounds/damage.wav" id="3_vlejn"]
 
 [sub_resource type="GDScript" id="GDScript_gwqdi"]
 script/source = "extends Enemy_Template
@@ -36,7 +38,7 @@ func _physics_process(delta):
 	if !is_on_floor():
 		velocity += get_gravity() * delta
 		velocity.x = HopToPos
-		timer.start(1) #change this to change how long he waits before hopping again -lynnv
+		timer.start(0.01) #change this to change how long he waits before hopping again -lynnv
 	else:
 		velocity.x = 0
 		if timer.is_stopped():
@@ -48,9 +50,13 @@ func _physics_process(delta):
 					else:
 						sprite.flip_h = 1
 			if hops > 3:
+				$JumpSound.play()
+				$Sprite.play(\"Jump\")
 				velocity.y =  -400
 				hops = 0
 			else:
+				$HopSound.play()
+				$Sprite.play(\"Hop\")
 				velocity.y =  -250
 				hops += 1
 	move_and_slide()
@@ -79,6 +85,14 @@ region = Rect2(35, 0, 35, 49)
 atlas = ExtResource("1_hw46l")
 region = Rect2(105, 0, 35, 49)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_03w0l"]
+atlas = ExtResource("1_hw46l")
+region = Rect2(70, 0, 35, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qceq"]
+atlas = ExtResource("1_hw46l")
+region = Rect2(35, 0, 35, 49)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_iw0ku"]
 atlas = ExtResource("1_hw46l")
 region = Rect2(70, 0, 35, 49)
@@ -86,6 +100,14 @@ region = Rect2(70, 0, 35, 49)
 [sub_resource type="AtlasTexture" id="AtlasTexture_cobx7"]
 atlas = ExtResource("1_hw46l")
 region = Rect2(140, 0, 35, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s46tw"]
+atlas = ExtResource("1_hw46l")
+region = Rect2(105, 0, 35, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlejn"]
+atlas = ExtResource("1_hw46l")
+region = Rect2(70, 0, 35, 49)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gytoc"]
 atlas = ExtResource("1_hw46l")
@@ -104,10 +126,16 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sykwa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03w0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qceq")
 }],
-"loop": true,
+"loop": false,
 "name": &"Hop",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -120,10 +148,19 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cobx7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s46tw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vlejn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qceq")
 }],
-"loop": true,
+"loop": false,
 "name": &"Jump",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -142,13 +179,13 @@ size = Vector2(20, 29)
 
 [node name="Jumbro" type="CharacterBody2D"]
 collision_layer = 0
-collision_mask = 19
+collision_mask = 17
 script = SubResource("GDScript_gwqdi")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0.5, 0)
 sprite_frames = SubResource("SpriteFrames_62nvj")
-animation = &"Idle"
+animation = &"Hop"
 autoplay = "Idle"
 
 [node name="Collision" type="CollisionShape2D" parent="."]
@@ -176,6 +213,12 @@ debug_color = Color(1, 0, 0, 0.623529)
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="HopSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_s46tw")
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_vlejn")
 
 [connection signal="body_entered" from="hitable" to="." method="_on_hitable_body_entered"]
 [connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
