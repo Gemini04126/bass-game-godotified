@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://bsy7vba3t8awq"]
+[gd_scene load_steps=62 format=3 uid="uid://bsy7vba3t8awq"]
 
 [ext_resource type="Script" uid="uid://bsxw7au27mfj5" path="res://scenes/objects/players/bass.gd" id="1_lug7r"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_m015p"]
@@ -320,54 +320,6 @@ tracks/0/keys = {
 "values": [44, 45, 46]
 }
 
-[sub_resource type="Animation" id="Animation_tbuh8"]
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [38]
-}
-
-[sub_resource type="Animation" id="Animation_ayqyp"]
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [40]
-}
-
-[sub_resource type="Animation" id="Animation_ri60d"]
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [37]
-}
-
 [sub_resource type="Animation" id="Animation_rc3eo"]
 resource_name = "LADDER"
 length = 0.8
@@ -467,23 +419,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [75]
-}
-
-[sub_resource type="Animation" id="Animation_lauva"]
-resource_name = "Ladder-Up"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [74]
 }
 
 [sub_resource type="Animation" id="Animation_lyowt"]
@@ -637,6 +572,91 @@ tracks/0/keys = {
 "values": [10, 11, 12, 13, 14, 15]
 }
 
+[sub_resource type="Animation" id="Animation_tbuh8"]
+resource_name = "JUMP_AIM_DIAG"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [38]
+}
+
+[sub_resource type="Animation" id="Animation_ayqyp"]
+resource_name = "JUMP_AIM_DOWN"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [40]
+}
+
+[sub_resource type="Animation" id="Animation_ri60d"]
+resource_name = "JUMP_AIM_UP"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [37]
+}
+
+[sub_resource type="Animation" id="Animation_v5lim"]
+resource_name = "JUMP_AIM"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [39]
+}
+
+[sub_resource type="Animation" id="Animation_lauva"]
+resource_name = "LADDER_UP"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [74]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_knm54"]
 _data = {
 &"DASH": SubResource("Animation_rlpjp"),
@@ -654,19 +674,20 @@ _data = {
 &"IDLE_SHOOT": SubResource("Animation_3wyk4"),
 &"IDLE_THROW": SubResource("Animation_3sett"),
 &"JUMP": SubResource("Animation_kg8lw"),
+&"JUMP_AIM": SubResource("Animation_v5lim"),
+&"JUMP_AIM_DIAG": SubResource("Animation_tbuh8"),
+&"JUMP_AIM_DOWN": SubResource("Animation_ayqyp"),
+&"JUMP_AIM_UP": SubResource("Animation_ri60d"),
 &"JUMP_SHIELD": SubResource("Animation_8uyj2"),
 &"JUMP_SHOOT": SubResource("Animation_n5jw4"),
 &"JUMP_THROW": SubResource("Animation_uwqs6"),
-&"Jump-Shoot Diagonal": SubResource("Animation_tbuh8"),
-&"Jump-Shoot Down": SubResource("Animation_ayqyp"),
-&"Jump-Shoot Up": SubResource("Animation_ri60d"),
 &"LADDER": SubResource("Animation_rc3eo"),
 &"LADDER_SHOOT": SubResource("Animation_a5pwf"),
 &"LADDER_THROW": SubResource("Animation_7hbn4"),
+&"LADDER_UP": SubResource("Animation_lauva"),
 &"Ladder-Shoot Diagonal": SubResource("Animation_kwtfk"),
 &"Ladder-Shoot Down": SubResource("Animation_pnkuv"),
 &"Ladder-Shoot Up": SubResource("Animation_h6dsx"),
-&"Ladder-Up": SubResource("Animation_lauva"),
 &"Mist Dash": SubResource("Animation_lyowt"),
 &"RESET": SubResource("Animation_15kij"),
 &"STEP": SubResource("Animation_lvb1v"),
