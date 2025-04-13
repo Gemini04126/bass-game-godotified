@@ -1,8 +1,7 @@
-[gd_scene load_steps=36 format=4 uid="uid://by07rq184shwd"]
+[gd_scene load_steps=35 format=4 uid="uid://by07rq184shwd"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_ac8st"]
 [ext_resource type="TileSet" uid="uid://bglohi0dt4uvq" path="res://tilesets/test_stage.tres" id="2_cu0lw"]
-[ext_resource type="PackedScene" uid="uid://7vytwtvvonec" path="res://scenes/objects/enemies/jumbro.tscn" id="3_8qce2"]
 [ext_resource type="PackedScene" uid="uid://bpd4uso3ynaeo" path="res://scenes/objects/enemies/metall.tscn" id="5_pn607"]
 [ext_resource type="PackedScene" uid="uid://blmlnutul2hyu" path="res://scenes/objects/level_objects/yoku_block.tscn" id="7_iycjf"]
 [ext_resource type="AudioStream" uid="uid://djxcyatg2dd7s" path="res://music/Test Stage.mp3" id="7_lu0fe"]
@@ -187,18 +186,6 @@ interval = 1
 [node name="Metall" parent="Level Objects/Enemies" instance=ExtResource("5_pn607")]
 position = Vector2(960, 376)
 
-[node name="Jumbro" parent="Level Objects/Enemies" instance=ExtResource("3_8qce2")]
-position = Vector2(545, 296)
-
-[node name="Jumbro2" parent="Level Objects/Enemies" instance=ExtResource("3_8qce2")]
-position = Vector2(671, 297)
-
-[node name="Jumbro3" parent="Level Objects/Enemies" instance=ExtResource("3_8qce2")]
-position = Vector2(677, 231)
-
-[node name="Jumbro4" parent="Level Objects/Enemies" instance=ExtResource("3_8qce2")]
-position = Vector2(477, 23)
-
 [node name="Sniper Joe" parent="Level Objects/Enemies" instance=ExtResource("8_ffb0a")]
 material = SubResource("ShaderMaterial_rpvm6")
 position = Vector2(904, 280)
@@ -220,9 +207,6 @@ position = Vector2(1144, 296)
 
 [node name="Sutsi" parent="Level Objects/Enemies" instance=ExtResource("14_2a8mj")]
 position = Vector2(-480, 472)
-
-[node name="Jumbro5" parent="Level Objects/Enemies" instance=ExtResource("3_8qce2")]
-position = Vector2(759, 342)
 
 [node name="Breakable Blocks" type="Node2D" parent="Level Objects"]
 

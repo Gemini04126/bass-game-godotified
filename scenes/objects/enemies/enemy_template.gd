@@ -86,12 +86,13 @@ func _on_hitable_body_entered(weapon): # needs to be redefined because damage va
 			if Cur_HP <= 0 and weapon.W_Type == GameState.DMGTYPE.CB_GALE:
 				Cur_HP = 999
 				blown = true
+				pass
 			
 			#If the projectile kills, or are the below weapons on hit, go to the kill state!
-			if Cur_HP <= 0 or (weapon.W_Type == GameState.DMGTYPE.CR_SHARK1 or GameState.DMGTYPE.CR_SHARK2 or GameState.DMGTYPE.BS_SHARK):
+			if Cur_HP <= 0 or (weapon.W_Type == GameState.DMGTYPE.CR_SHARK1 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2 or weapon.W_Type == GameState.DMGTYPE.BS_SHARK):
 				weapon.kill()
+				print(weapon.W_Type)
 			else:
-				#If neither of these conditions are met, whatever!
 				weapon.destroy()
 
 func _on_hurt_body_entered(body):

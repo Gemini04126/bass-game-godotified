@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://d37lgnax6eyvf"
-path="res://.godot/imported/S3K_A0.wav-9494495b4244418a0aa05d92b13d8963.sample"
+uid="uid://lap56ylqg4a6"
+path="res://.godot/imported/scythe2.wav-05f1aad79088a90a25fe247c3e8ff4fc.sample"
 
 [deps]
 
-source_file="res://sounds/S3K_A0.wav"
-dest_files=["res://.godot/imported/S3K_A0.wav-9494495b4244418a0aa05d92b13d8963.sample"]
+source_file="res://sounds/scythe2.wav"
+dest_files=["res://.godot/imported/scythe2.wav-05f1aad79088a90a25fe247c3e8ff4fc.sample"]
 
 [params]
 

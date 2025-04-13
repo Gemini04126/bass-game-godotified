@@ -220,5 +220,15 @@ stream = ExtResource("2_s46tw")
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_vlejn")
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1, 3.5)
+scale = Vector2(1.6, 2.15)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(0.5, 5)
+scale = Vector2(1.45, 2.1)
+enable_node_path = NodePath("../VisibleOnScreenNotifier2D")
+
 [connection signal="body_entered" from="hitable" to="." method="_on_hitable_body_entered"]
 [connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

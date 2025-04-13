@@ -304,13 +304,23 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				return
 			if bustercharge >= 92: # da big boi
 				attack_timer.start(0.3)
-				GameState.onscreen_bullets += 3
+				
+				position.x -= sprite.scale.x * 2
+				
+				GameState.onscreen_bullets += 1
 				projectile = projectile_scenes[2].instantiate()
 				get_parent().add_child(projectile)
 				projectile.position.x = position.x + (sprite.scale.x * 18)
 				projectile.position.y = position.y + 2
 				projectile.velocity.x = sprite.scale.x * 350
 				projectile.scale.x = sprite.scale.x
+				
+				projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x + (sprite.scale.x * 18)
+				projectile.position.y = position.y + 2
+				
+				
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
 				bustercharge = 0
