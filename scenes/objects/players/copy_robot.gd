@@ -81,7 +81,7 @@ func _physics_process(delta: float) -> void:
 	#this cancels out any floats in the inputs and makes inputs to be purely digital (-1,0,1) rather than analouge
 	direction = Vector2(sign(direction.x), sign(direction.y))
 	$states.text = "[center]%s[/center]" % STATES.keys()[currentState]
-	if transing != true:
+	if !transing:
 		match currentState:
 			STATES.TELEPORT, STATES.TELEPORT_LANDING:
 				teleporting()
@@ -167,10 +167,11 @@ func _physics_process(delta: float) -> void:
 		position.x += wind_push
 		animationMatching()
 		switchWeapons()
-		move_and_slide()
+		if currentState != STATES.DEAD:
+			move_and_slide()
 		
 func processShoot():
-	if Input.is_action_just_pressed("shoot") && transing != true:
+	if Input.is_action_just_pressed("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 				#buster stuff doesn't go here now
@@ -241,23 +242,23 @@ func processCharge():
 		if ScytheCharge == 0:
 			set_current_weapon_palette()
 	
-	if Input.is_action_pressed("shoot") && transing != true:
+	if Input.is_action_pressed("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 			WEAPONS.REAPER:
 				weapon_reaper()
-	elif Input.is_action_just_released("shoot") && transing != true:
+	elif Input.is_action_just_released("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 			WEAPONS.REAPER:
 				throwAnimMatch()
 				weapon_reaper()
 				
-	if (Input.is_action_pressed("shoot") or Input.is_action_pressed("buster")) && transing != true:
+	if (Input.is_action_pressed("shoot") or Input.is_action_pressed("buster")) && !transing:
 		currentWeapon = GameState.current_weapon
 		if currentWeapon == WEAPONS.BUSTER or Input.is_action_pressed("buster"):
 			weapon_cbuster()
-	elif (Input.is_action_just_released("shoot") or Input.is_action_just_released("buster")) && transing != true:
+	elif (Input.is_action_just_released("shoot") or Input.is_action_just_released("buster")) && !transing:
 		currentWeapon = GameState.current_weapon
 		if currentWeapon == WEAPONS.BUSTER or Input.is_action_just_released("buster"):
 			busterAnimMatch()
@@ -298,8 +299,8 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				projectile.scale.x = sprite.scale.x
 				bustercharge = 0
 				set_current_weapon_palette()
-				SoundManager.instance_poly("player", "charge1").release()
-				SoundManager.instance_poly("player", "charge2").release()
+				$Audio/Charge1.stop()
+				$Audio/Charge2.stop()
 				return
 			if bustercharge >= 92: # da big boi
 				attack_timer.start(0.3)
@@ -310,8 +311,8 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				projectile.position.y = position.y + 2
 				projectile.velocity.x = sprite.scale.x * 350
 				projectile.scale.x = sprite.scale.x
-				SoundManager.instance_poly("player", "charge1").release()
-				SoundManager.instance_poly("player", "charge2").release()
+				$Audio/Charge1.stop()
+				$Audio/Charge2.stop()
 				bustercharge = 0
 				set_current_weapon_palette()
 				return
@@ -319,12 +320,12 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 		if bustercharge < 111:
 			bustercharge += 1
 			if bustercharge == 32:
-				SoundManager.play("player", "charge1")
-			if bustercharge == 105:
-				SoundManager.play("player", "charge2")
+				$Audio/Charge1.play()
+			if bustercharge == 108:
+				$Audio/Charge2.play()
 			
 		else:
-			bustercharge = 103
+			bustercharge = 110
 	else:
 		bustercharge = 0
 		return
@@ -389,13 +390,13 @@ func weapon_shark():
 		if sharkcharge < 78:
 			sharkcharge += 1
 			if sharkcharge == 26:
-				SoundManager.play("player", "charge1")
+				$Audio/Charge1.play()
 		else:
 			sharkcharge = 77
 	else:
 		bustercharge = 0
-		SoundManager.instance_poly("player", "charge1").release()
-		SoundManager.instance_poly("player", "charge2").release()
+		$Audio/Charge1.stop()
+		$Audio/Charge2.stop()
 		return
 		
 func weapon_quint():
@@ -410,7 +411,7 @@ func weapon_quint():
 	return
 	
 func play_start_sound() -> void:
-	pass#SoundManager.play("copy_robot", "start") Why the fuck did you do this one man
+	pass#$Audio/Start.play() #M: Why the fuck did you do this one man
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:

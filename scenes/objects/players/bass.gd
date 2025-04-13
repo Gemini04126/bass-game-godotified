@@ -5,7 +5,7 @@ class_name BassPlayer
 
 
 # References
-@onready var rapid_timer = $RapidTimer
+@onready var rapid_timer = $Timers/RapidTimer
 
 
 const ORIGAMI_SPEEDB := 450
@@ -80,7 +80,7 @@ func _physics_process(delta: float) -> void:
 	#this cancels out any floats in the inputs and makes inputs to be purely digital (-1,0,1) rather than analouge
 	direction = Vector2(sign(direction.x), sign(direction.y))
 	$states.text = "[center]%s[/center]" % STATES.keys()[currentState]
-	if transing != true:
+	if !transing:
 		match currentState:
 			STATES.TELEPORT, STATES.TELEPORT_LANDING:
 				teleporting()
@@ -178,7 +178,8 @@ func _physics_process(delta: float) -> void:
 		position.x += wind_push
 		animationMatching()
 		switchWeapons()
-		move_and_slide()
+		if currentState != STATES.DEAD:
+			move_and_slide()
 
 func checkForFloor():
 	if !is_on_floor():
@@ -204,7 +205,7 @@ func dashProcess():
 		else:
 			FX.position.x = position.x - 15
 		FX.position.y = position.y+8
-		SoundManager.play("player", "slide")
+		$Audio/Slide.play()
 
 func dashing(delta):
 	if on_ice == false:
@@ -239,7 +240,7 @@ func _on_slide_timer_timeout() -> void:
 		currentState = STATES.IDLE
 
 func processShoot():
-	if Input.is_action_just_pressed("shoot") && transing != true:
+	if Input.is_action_just_pressed("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 				#buster dont go here lol
@@ -277,7 +278,7 @@ func processShoot():
 				weapon_quint()
 
 func aimAnimMatch():
-	$ShootTimer.start()
+	shoot_timer.start()
 	if is_on_floor():
 		if direction.y == -1:
 			currentState = STATES.IDLE_AIM_DOWN
@@ -397,7 +398,7 @@ func weapon_origami():
 
 func module_blaze() -> void:
 	if (blast_jumped == false) && Input.is_action_just_pressed("jump") && Input.is_action_pressed("move_up") && (GameState.modules_enabled[WEAPONS.BLAZE] == true):
-		SoundManager.play("bass", "blast_jump")
+		$Audio/BlastJump.play()
 		velocity.y = -FAST_FALL
 		slide_timer.stop()
 		blast_jumped = true
@@ -431,7 +432,7 @@ func dash_jump(direction, delta):
 
 
 func play_start_sound() -> void:
-	pass#SoundManager.play("bass", "start")
+	pass#$Audio/Start.play()
 
 
 func _on_teleported() -> void:

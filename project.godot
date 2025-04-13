@@ -39,8 +39,6 @@ Loading="*res://addons/loading/loading.tscn"
 Debug="*res://autoload/debug.gd"
 GameState="*res://autoload/game_state.tscn"
 DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
-SoundManager="*res://addons/resonate/sound_manager/sound_manager.gd"
-MusicManager="*res://addons/resonate/music_manager/music_manager.gd"
 
 [display]
 
@@ -58,7 +56,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/resonate/plugin.cfg")
+enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/debug_menu/plugin.cfg")
 
 [global_group]
 

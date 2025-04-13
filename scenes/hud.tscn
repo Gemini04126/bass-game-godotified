@@ -67,7 +67,7 @@ func process_refills():
 					refill_timer.start()
 					GameState.weapon_energy[GameState.current_weapon] += 1
 					GameState.ammoamt -= 1
-					SoundManager.play(\"generic\", \"bar_fill\")
+					GameState.get_node(\"Audio/BarFill\").play()
 				else:
 					GameState.ammoamt = 0
 			
@@ -77,7 +77,7 @@ func process_refills():
 					refill_timer.start()
 					GameState.current_hp += 1
 					GameState.healamt -= 1
-					SoundManager.play(\"generic\", \"bar_fill\")
+					GameState.get_node(\"Audio/BarFill\").play()
 				else:
 					GameState.healamt = 0
 "

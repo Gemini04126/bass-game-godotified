@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://ddyt8hs82gnug" path="res://scenes/objects/players/weapons/copy_robot/buster_large.gd" id="1_nh5ni"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_421jd"]
 [ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="2_bf1pf"]
-[ext_resource type="AudioStream" uid="uid://hpniuwujnaff" path="res://sounds/chargeshot_full.wav" id="4_ev0xy"]
 [ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="5_gqv0c"]
+[ext_resource type="AudioStream" uid="uid://gm5p36ys1f14" path="res://sounds/cr_chargeshot.wav" id="5_udoeo"]
 [ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="6_7bgpv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4u3xc"]
@@ -99,7 +99,7 @@ scale = Vector2(2, 1.2)
 shape = SubResource("RectangleShape2D_p0hn2")
 
 [node name="SpawnSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_ev0xy")
+stream = ExtResource("5_udoeo")
 bus = &"SFX"
 
 [node name="HitSound" type="AudioStreamPlayer" parent="."]

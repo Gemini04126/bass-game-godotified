@@ -100,19 +100,19 @@ const CRACKER_SPEED := 450
 #@onready var top_ladder_check: RayCast2D = $LadderCheck1
 #@onready var bottom_ladder_check: RayCast2D = $LadderCheck2
 #@onready var floor_ladder_check: RayCast2D = $LadderCheck3
-@onready var state_timer: Timer = $StateTimer
-@onready var invul_timer: Timer = $InvulTimer
-@onready var pain_timer: Timer = $PainTimer
-@onready var slide_timer: Timer = $SlideTimer
-@onready var attack_timer: Timer = $FireDelay
-@onready var death_timer: Timer = $DeathTimer
+@onready var state_timer: Timer = $Timers/StateTimer
+@onready var invul_timer: Timer = $Timers/InvulTimer
+@onready var pain_timer: Timer = $Timers/PainTimer
+@onready var slide_timer: Timer = $Timers/SlideTimer
+@onready var attack_timer: Timer = $Timers/FireDelay
+@onready var death_timer: Timer = $Timers/DeathTimer
+@onready var shoot_timer = $Timers/ShootTimer
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var starburst: AnimatedSprite2D = $FX/Starburst
 @onready var sweat: AnimatedSprite2D = $FX/Sweat
 @onready var FX: Node2D
 @onready var hurtbox = $hurtboxArea
-@onready var shoot_timer = $ShootTimer
 @onready var projectile
 @onready var shield
 @onready var shield2
@@ -193,7 +193,7 @@ func _ready():
 	invul_timer.start(0.01)
 	currentState = STATES.TELEPORT
 	position.y = targetpos
-	SoundManager.play("player", "warp")
+	$Audio/Warp.play()
 	print(GameState.current_hp)
 
 #So basically what this new state machine does is that it organizes every state into a little chunk that'll execute the functions it's meant to each frame. This way you won't need to have the
@@ -218,7 +218,7 @@ func _physics_process(delta: float) -> void:
 	#this cancels out any floats in the inputs and makes inputs to be purely digital (-1,0,1) rather than analouge
 	direction = Vector2(sign(direction.x), sign(direction.y))
 	$states.text = "[center]%s[/center]" % STATES.keys()[currentState]
-	if transing != true:
+	if !transing:
 		match currentState:
 			STATES.TELEPORT, STATES.TELEPORT_LANDING:
 				teleporting()
@@ -304,7 +304,8 @@ func _physics_process(delta: float) -> void:
 		position.x += wind_push
 		animationMatching()
 		switchWeapons()
-		move_and_slide()
+		if currentState != STATES.DEAD:
+			move_and_slide()
 	
 	#region Character Things
 
@@ -312,7 +313,7 @@ func invul(arg):
 	hurtbox.monitorable = arg
 
 func applyGrav(delta):
-	if transing != true:
+	if !transing:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 			if fallstored != 0:
@@ -404,11 +405,11 @@ func processJump():
 		$hurtboxArea/mainHurtbox.set_disabled(false)
 		$mainCollision.disabled = false
 		JumpHeight = 0
-		SoundManager.play("player", "jump")
+		$Audio/Jump.play()
 
 func processDamage():
 	#Process the Invul Frames first!
-	if !invul_timer.is_stopped():
+	if !invul_timer.is_stopped() && !transing:
 		invincible = true
 		$hurtboxArea/mainHurtbox.set_disabled(true)
 		$hurtboxArea/slideHurtbox.set_disabled(true)
@@ -449,7 +450,7 @@ func processDamage():
 			currentState = STATES.DEAD
 			
 		DmgQueue = 0
-		SoundManager.play("player", "hurt")
+		$Audio/Hurt.play()
 
 func Jump(delta):
 	if on_ice == true:
@@ -559,7 +560,7 @@ func slideProcess():
 		else:
 			FX.position.x = position.x - 15
 		FX.position.y = position.y+8
-		SoundManager.play("player", "slide")
+		$Audio/Slide.play()
 
 func sliding(delta):
 	if on_ice == false:
@@ -631,7 +632,7 @@ func dead():
 	velocity.y = 0
 	velocity.x = 0
 	if pain_timer.is_stopped():
-		SoundManager.play("player", "death")
+		$Audio/Death.play()
 		#scale = Vector2.ZERO
 		$Sprite2D.visible = false
 		for i in 12:
@@ -661,7 +662,7 @@ func animationMatching():
 		anim.play(STATES.keys()[currentState])
 
 func busterAnimMatch():
-	$ShootTimer.start()
+	shoot_timer.start()
 	if currentState == STATES.IDLE or currentState == STATES.STEP:
 		currentState = STATES.IDLE_SHOOT
 	elif currentState == STATES.WALK:
@@ -674,7 +675,7 @@ func busterAnimMatch():
 		currentState = STATES.FALL_SHOOT
 
 func shieldAnimMatch():
-	$ShootTimer.start()
+	shoot_timer.start()
 	if currentState == STATES.IDLE or currentState == STATES.STEP or currentState == STATES.WALK:
 		velocity.x = 0
 		currentState = STATES.IDLE_SHIELD
@@ -684,7 +685,7 @@ func shieldAnimMatch():
 		currentState = STATES.FALL_SHIELD
 
 func throwAnimMatch():
-	$ShootTimer.start()
+	shoot_timer.start()
 	if currentState == STATES.IDLE or currentState == STATES.STEP or currentState == STATES.WALK:
 		velocity.x = 0
 		currentState = STATES.IDLE_THROW
@@ -709,7 +710,7 @@ func _on_shoot_timer_timeout() -> void:
 
 #region Weapon Shit
 func processShoot():
-	if Input.is_action_just_pressed("shoot") && transing != true:
+	if Input.is_action_just_pressed("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 			WEAPONS.BUSTER:
@@ -767,12 +768,12 @@ func processCharge():
 		if ScytheCharge == 0:
 			set_current_weapon_palette()
 	
-	if Input.is_action_pressed("shoot") && transing != true:
+	if Input.is_action_pressed("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 			WEAPONS.REAPER:
 				weapon_reaper()
-	elif Input.is_action_just_released("shoot") && transing != true:
+	elif Input.is_action_just_released("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 			WEAPONS.REAPER:
@@ -798,7 +799,7 @@ func weapon_buster():
 		Charge = 0
 
 func weapon_blaze():
-	if Input.is_action_just_pressed("shoot") and transing != true:
+	if Input.is_action_just_pressed("shoot") and !transing:
 		var space : int = 18
 		if shield == null && shield2 == null && shield3 == null && shield4 == null && (GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 1 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets == 0:
 			shot_type = 3
@@ -865,7 +866,7 @@ func weapon_blaze():
 
 func weapon_smog():
 	if Input.is_action_just_pressed("shoot") && (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and GameState.onscreen_sp_bullets < 1:
-		if transing != true:
+		if !transing:
 			anim.seek(0)
 			shot_type = 1
 			attack_timer.start(0.3)
@@ -881,7 +882,7 @@ func weapon_smog():
 
 func weapon_shark():
 	if Input.is_action_just_pressed("shoot") && (currentState != STATES.SLIDE) and (currentState != STATES.HURT) && is_on_floor() && (GameState.weapon_energy[GameState.WEAPONS.SHARK] >= 5 or GameState.infinite_ammo == true):
-		if transing != true:
+		if !transing:
 			if GameState.onscreen_sp_bullets < 1:
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.SHARK] -= 5
@@ -900,7 +901,7 @@ func weapon_shark():
 
 func weapon_origami():
 	if Input.is_action_just_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.ORIGAMI] >= 1 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets < 5:
-		if transing != true:
+		if !transing:
 			if GameState.infinite_ammo == false:
 				GameState.weapon_energy[GameState.WEAPONS.ORIGAMI] -= 1
 			anim.seek(0)
@@ -987,7 +988,7 @@ func weapon_origami():
 
 func weapon_gale():
 	if Input.is_action_just_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.GALE] >= 7 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets < 1:
-		if transing != true:
+		if !transing:
 			if GameState.infinite_ammo == false:
 				GameState.weapon_energy[GameState.WEAPONS.GALE] -= 7
 			anim.seek(0)
@@ -1112,15 +1113,16 @@ func weapon_reaper():
 		if ScytheCharge < 75:
 			ScytheCharge += 1
 			if ScytheCharge == 13:
-				SoundManager.play("player", "charge1")
+				$Audio/Charge1.play()
 			if ScytheCharge == 71:
-				SoundManager.play("player", "charge2")
+				$Audio/Charge1.stop()
+				$Audio/Charge2.play()
 		else:
 			ScytheCharge = 72
 	else:
 		Charge = 0
-		SoundManager.instance_poly("player", "charge1").release()
-		SoundManager.instance_poly("player", "charge2").release()
+		$Audio/Charge1.stop()
+		$Audio/Charge2.stop()
 		return
 
 func weapon_carry():
@@ -1235,14 +1237,14 @@ func switchWeapons():
 					GameState.current_weapon -= 1
 	if GameState.old_weapon != GameState.current_weapon:
 		GameState.onscreen_sp_bullets = 0
-		SoundManager.play("player", "switch")
+		$Audio/Switch.play()
 		GameState.old_weapon = GameState.current_weapon
 		set_current_weapon_palette()
 	if  (Input.is_action_just_pressed("switch_left") && Input.is_action_pressed("switch_right")) or (Input.is_action_pressed("switch_left") && Input.is_action_just_pressed("switch_right")):
 		if (currentState != STATES.TELEPORT and currentState != STATES.DEAD):
 			GameState.current_weapon = GameState.WEAPONS.BUSTER
 			if GameState.old_weapon != GameState.current_weapon:
-				SoundManager.play("player", "switch")
+				$Audio/Switch.play()
 				GameState.onscreen_sp_bullets = 0
 			set_current_weapon_palette()
 
