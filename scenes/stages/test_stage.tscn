@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=4 uid="uid://by07rq184shwd"]
+[gd_scene load_steps=36 format=4 uid="uid://by07rq184shwd"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_ac8st"]
 [ext_resource type="TileSet" uid="uid://bglohi0dt4uvq" path="res://tilesets/test_stage.tres" id="2_cu0lw"]
@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://bb5sie3euhqc8" path="res://scenes/objects/level_objects/steel_block.tscn" id="21_p2rgk"]
 [ext_resource type="PackedScene" uid="uid://ccb265wd4npkn" path="res://scenes/objects/level_objects/wind.tscn" id="22_hgj2p"]
 [ext_resource type="PackedScene" uid="uid://pptkgepiuq7x" path="res://scenes/objects/level_objects/weightedplatform.tscn" id="24_8ck6h"]
+[ext_resource type="PackedScene" uid="uid://da1cskv133mma" path="res://scenes/objects/enemies/shotman.tscn" id="25_p2rgk"]
 [ext_resource type="PackedScene" uid="uid://bupv4efhufyfe" path="res://scenes/objects/level_objects/lava_dumper.tscn" id="26_x3vwo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d8swr"]
@@ -483,6 +484,9 @@ resistance_down = 5
 
 [node name="Lava Dumper" parent="." instance=ExtResource("26_x3vwo")]
 position = Vector2(1624, 336)
+
+[node name="ShotMan" parent="." instance=ExtResource("25_p2rgk")]
+position = Vector2(317, 37)
 
 [connection signal="body_entered" from="Water" to="." method="_on_water_body_entered"]
 [connection signal="body_exited" from="Water" to="." method="_on_water_body_exited"]

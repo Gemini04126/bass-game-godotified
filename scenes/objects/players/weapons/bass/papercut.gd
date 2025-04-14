@@ -4,7 +4,7 @@ var W_Type = GameState.DMGTYPE.MD_ORIGAMI
 var timer : int = 0
 
 func _ready():
-	$SpawnSound.play()
+	pass
 
 func _physics_process(delta):
 	move_and_slide()

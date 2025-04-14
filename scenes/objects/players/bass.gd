@@ -16,7 +16,7 @@ var airactiontaken = false
 var hovered = false
 var hoverstrength : int
 var airdashed
-var airdashtime
+var airdashtime : int
 
 func _init() -> void:
 	
@@ -434,7 +434,7 @@ func weapon_origami():
 func module_blaze() -> void:
 	if (airactiontaken == false) && Input.is_action_just_pressed("jump") && Input.is_action_pressed("move_up") && (GameState.modules_enabled[WEAPONS.BLAZE] == true):
 		$Audio/BlastJump.play()
-		velocity.y = -30
+		velocity.y = -275
 		slide_timer.stop()
 		airactiontaken = true
 		slowed = true
@@ -464,7 +464,7 @@ func module_gale() -> void:
 			hoverstrength = 230
 			ice_jump = false
 			
-		if (airactiontaken == true) && (hovered == false) && Input.is_action_pressed("jump"):
+		if (airactiontaken == true) && (hovered == false) && Input.is_action_pressed("jump") && !Input.is_action_pressed("move_up"):
 			if hoverstrength > 0:
 				velocity.y = WATER_FAST_FALL - hoverstrength
 			if hoverstrength > 200:
