@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://bsy7vba3t8awq"]
+[gd_scene load_steps=71 format=3 uid="uid://bsy7vba3t8awq"]
 
 [ext_resource type="Script" uid="uid://bsxw7au27mfj5" path="res://scenes/objects/players/bass.gd" id="1_lug7r"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_m015p"]
@@ -16,6 +16,8 @@
 [ext_resource type="AudioStream" uid="uid://rm3ckgibk0u5" path="res://sounds/charge1.wav" id="12_dte03"]
 [ext_resource type="AudioStream" uid="uid://dnnvv4semeufh" path="res://sounds/charge2.ogg" id="13_o8ixe"]
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="14_m0k0y"]
+[ext_resource type="AudioStream" uid="uid://mcla46x8hsbd" path="res://sounds/scorchambient.wav" id="17_fb25d"]
+[ext_resource type="AudioStream" uid="uid://gm5p36ys1f14" path="res://sounds/cr_chargeshot.wav" id="18_xc18w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qymoq"]
 shader = ExtResource("2_m015p")
@@ -664,8 +666,42 @@ tracks/0/keys = {
 "values": [10, 11, 12, 13, 14, 15]
 }
 
+[sub_resource type="Animation" id="Animation_fb25d"]
+resource_name = "AIR_DASH"
+length = 0.333333
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [29]
+}
+
+[sub_resource type="Animation" id="Animation_xc18w"]
+resource_name = "PAPER_CUT"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [41, 42, 43]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_knm54"]
 _data = {
+&"AIR_DASH": SubResource("Animation_fb25d"),
 &"DASH": SubResource("Animation_rlpjp"),
 &"DEAD": SubResource("Animation_uc8dv"),
 &"FALL": SubResource("Animation_ibabb"),
@@ -696,6 +732,7 @@ _data = {
 &"Ladder-Shoot Down": SubResource("Animation_pnkuv"),
 &"Ladder-Shoot Up": SubResource("Animation_h6dsx"),
 &"Mist Dash": SubResource("Animation_lyowt"),
+&"PAPER_CUT": SubResource("Animation_xc18w"),
 &"RESET": SubResource("Animation_15kij"),
 &"STEP": SubResource("Animation_lvb1v"),
 &"TELEPORT": SubResource("Animation_8m6b5"),
@@ -782,6 +819,7 @@ floor_constant_speed = true
 script = ExtResource("1_lug7r")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 material = SubResource("ShaderMaterial_7773x")
 texture = ExtResource("3_gjpaj")
 hframes = 84
@@ -949,6 +987,14 @@ bus = &"SFX"
 [node name="Start" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("9_e7if1")
 bus = &"SFX"
+
+[node name="Hover" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("17_fb25d")
+volume_db = 3.0
+pitch_scale = 4.0
+
+[node name="ReaperDash" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("18_xc18w")
 
 [connection signal="teleported" from="." to="." method="_on_teleported"]
 [connection signal="timeout" from="Timers/SlideTimer" to="." method="_on_slide_timer_timeout"]

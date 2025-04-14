@@ -12,7 +12,12 @@ const ORIGAMI_SPEEDB := 450
 
 # Variables
 var buster_speed = 300
-var blast_jumped = false
+var airactiontaken = false
+var hovered = false
+var hoverstrength : int
+var airdashed
+var airdashtime
+
 func _init() -> void:
 	
 	weapon_palette = [
@@ -85,7 +90,7 @@ func _physics_process(delta: float) -> void:
 			STATES.TELEPORT, STATES.TELEPORT_LANDING:
 				teleporting()
 				applyGrav(delta)
-			STATES.IDLE, STATES.IDLE_SHOOT:
+			STATES.IDLE:
 				idle(delta)
 				dashProcess()
 				checkForFloor()
@@ -95,13 +100,13 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.IDLE_THROW:
+			STATES.IDLE_THROW, STATES.IDLE_SHOOT:
 				checkForFloor()
 				processJump()
 				processShoot()
 				processCharge()
 				processDamage()
-			STATES.IDLE_SHIELD:
+			STATES.IDLE_SHIELD, STATES.PAPER_CUT:
 				checkForFloor()
 				processShoot()
 				processDamage()
@@ -138,7 +143,7 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.JUMP, STATES.JUMP_SHOOT, STATES.JUMP_THROW, STATES.JUMP_SHIELD:
+			STATES.JUMP, STATES.JUMP_SHOOT, STATES.JUMP_THROW, STATES.JUMP_SHIELD, STATES.JUMP_AIM, STATES.JUMP_AIM_UP, STATES.JUMP_AIM_DIAG, STATES.JUMP_AIM_DOWN:
 				Jump(delta)
 				applyGrav(delta)
 				allowLeftRight(delta)
@@ -148,7 +153,8 @@ func _physics_process(delta: float) -> void:
 				ladderCheck()
 				processDamage()
 				module_blaze()
-			STATES.FALL_START, STATES.FALL, STATES.FALL_SHOOT, STATES.FALL_THROW, STATES.FALL_SHIELD:
+				module_reaper()
+			STATES.FALL_START, STATES.FALL, STATES.FALL_SHOOT, STATES.FALL_THROW, STATES.FALL_SHIELD, STATES.FALL_AIM, STATES.FALL_AIM_UP, STATES.FALL_AIM_DIAG, STATES.FALL_AIM_DOWN:
 				fall(delta)
 				applyGrav(delta)
 				allowLeftRight(delta)
@@ -158,12 +164,19 @@ func _physics_process(delta: float) -> void:
 				ladderCheck()
 				processDamage()
 				module_blaze()
+				module_gale()
+				module_reaper()
+			STATES.AIR_DASH:
+				module_reaper()
+				processDamage()
+				module_origami()
 			STATES.DASH:
 				dashing(delta)
 				processJump()
 				processCharge()
 				ladderCheck()
 				processDamage()
+				module_origami()
 			STATES.LADDER:
 				ladder()
 				processCharge()
@@ -175,6 +188,7 @@ func _physics_process(delta: float) -> void:
 				applyGrav(delta)
 			STATES.DEAD:
 				dead()
+				
 		position.x += wind_push
 		animationMatching()
 		switchWeapons()
@@ -187,9 +201,11 @@ func checkForFloor():
 		$mainCollision.disabled = false
 		$slideCollision.disabled = true
 	else:
-		if blast_jumped == true:
-			blast_jumped = false
+		if airactiontaken == true:
+			airactiontaken = false
 			slowed = false
+		hovered = false
+		airdashed = false
 
 func dashProcess():
 	if Input.is_action_just_pressed("dash"):
@@ -227,7 +243,8 @@ func dashing(delta):
 	if Input.is_action_just_pressed("jump") or !is_on_floor():
 		dashdir = sprite.scale.x
 		dashjumped = true
-		
+	if Input.is_action_just_released("dash"):
+		slide_timer.start(0.001)
 		
 func _on_slide_timer_timeout() -> void:
 	if !is_on_floor():
@@ -288,6 +305,24 @@ func aimAnimMatch():
 			currentState = STATES.IDLE_AIM_DIAG
 		else:
 			currentState = STATES.IDLE_AIM
+	elif STATES.keys()[currentState].contains("JUMP"):
+		if direction.y == -1:
+			currentState = STATES.JUMP_AIM_DOWN
+		elif direction.y == 1 and direction.x == 0:
+			currentState = STATES.JUMP_AIM_UP
+		elif direction.y == 1:
+			currentState = STATES.JUMP_AIM_DIAG
+		else:
+			currentState = STATES.JUMP_AIM
+	elif STATES.keys()[currentState].contains("FALL"):
+		if direction.y == -1:
+			currentState = STATES.FALL_AIM_DOWN
+		elif direction.y == 1 and direction.x == 0:
+			currentState = STATES.FALL_AIM_UP
+		elif direction.y == 1:
+			currentState = STATES.FALL_AIM_DIAG
+		else:
+			currentState = STATES.FALL_AIM
 
 func processBuster():
 	if Input.is_action_pressed("buster") or (GameState.current_weapon == WEAPONS.BUSTER and Input.is_action_pressed("shoot")):
@@ -397,11 +432,11 @@ func weapon_origami():
 # ================
 
 func module_blaze() -> void:
-	if (blast_jumped == false) && Input.is_action_just_pressed("jump") && Input.is_action_pressed("move_up") && (GameState.modules_enabled[WEAPONS.BLAZE] == true):
+	if (airactiontaken == false) && Input.is_action_just_pressed("jump") && Input.is_action_pressed("move_up") && (GameState.modules_enabled[WEAPONS.BLAZE] == true):
 		$Audio/BlastJump.play()
-		velocity.y = -FAST_FALL
+		velocity.y = -30
 		slide_timer.stop()
-		blast_jumped = true
+		airactiontaken = true
 		slowed = true
 		dashjumped = false
 		ice_jump = false
@@ -419,6 +454,72 @@ func module_smog() -> void:
 	#Changes Collision
 	$MainHitbox.set_disabled(true)
 	$SlideHitbox.set_disabled(false)
+
+func module_gale() -> void:
+	if GameState.modules_enabled[WEAPONS.GALE] == true:
+		if (airactiontaken == false) && (hovered == false) && Input.is_action_just_pressed("jump") && !Input.is_action_pressed("move_up"):
+			airactiontaken = true
+			slowed = true
+			dashjumped = false
+			hoverstrength = 230
+			ice_jump = false
+			
+		if (airactiontaken == true) && (hovered == false) && Input.is_action_pressed("jump"):
+			if hoverstrength > 0:
+				velocity.y = WATER_FAST_FALL - hoverstrength
+			if hoverstrength > 200:
+				velocity.y = 0
+			hoverstrength -= 1
+			$Audio/Hover.play()
+			
+		if (airactiontaken == true) && Input.is_action_just_released("jump"):
+			hovered = true
+	
+func module_reaper() -> void:
+	if GameState.modules_enabled[WEAPONS.REAPER] == true:
+		if (airactiontaken == false) && (airdashed == false) && Input.is_action_just_pressed("dash"):
+			airactiontaken = true
+			slowed = true
+			dashjumped = false
+			airdashtime = 25
+			ice_jump = false
+			$Audio/ReaperDash.play()
+			currentState = STATES.AIR_DASH
+			
+		if (airactiontaken == true) && (airdashed == false) && Input.is_action_pressed("dash"):
+			velocity.y = 0
+			velocity.x = sprite.scale.x * 250
+			if airdashtime == 25 or airdashtime == 20 or airdashtime == 15 or airdashtime == 10 or airdashtime == 5:
+				FX = preload("res://scenes/objects/players/weapons/bass/reaper_dash.tscn").instantiate()
+				get_parent().add_child(FX)
+				FX.position = position
+				if sprite.scale.x == -1:
+					FX.flip_h = true
+			airdashtime -= 1
+			
+		if (airactiontaken == true) && Input.is_action_just_released("dash") or airdashtime == 0:
+			airdashed = true
+			airdashtime = -5
+			currentState = STATES.FALL_START
+			
+func module_origami() -> void:
+	if GameState.modules_enabled[WEAPONS.ORIGAMI] == true:
+		if Input.is_action_just_pressed("shoot"):
+			velocity.x = 0
+			$Audio/ReaperDash.play()
+			
+			
+			projectile = preload("res://scenes/objects/players/weapons/bass/papercut.tscn").instantiate()
+			get_parent().add_child(projectile)
+			projectile.position.y = position.y
+			projectile.position.x = position.x + sprite.scale.x * 12
+			projectile.velocity.x = sprite.scale.x * 70
+			slide_timer.start(0)
+			projectile.scale.x = sprite.scale.x
+			currentState = STATES.PAPER_CUT
+			
+
+
 
 func dash_jump(direction, delta):
 	if direction.x:

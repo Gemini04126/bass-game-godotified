@@ -40,7 +40,7 @@ func basedmg():
 	
 	Dmg_Vals[GameState.DMGTYPE.MD_BLAZE] = 3
 	Dmg_Vals[GameState.DMGTYPE.MD_VIDEO] = 2
-	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 3
+	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 4
 	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 2
 	
 func _ready():

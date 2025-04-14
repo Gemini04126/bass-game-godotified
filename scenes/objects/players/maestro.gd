@@ -36,7 +36,17 @@ enum STATES {
 	IDLE_AIM,
 	IDLE_AIM_DOWN,
 	IDLE_AIM_DIAG,
-	IDLE_AIM_UP
+	IDLE_AIM_UP,
+	JUMP_AIM,
+	JUMP_AIM_DOWN,
+	JUMP_AIM_DIAG,
+	JUMP_AIM_UP,
+	FALL_AIM,
+	FALL_AIM_DOWN,
+	FALL_AIM_DIAG,
+	FALL_AIM_UP,
+	AIR_DASH,
+	PAPER_CUT
 }
 
 enum WEAPONS {BUSTER, BLAZE, VIDEO, SMOG, SHARK, ORIGAMI, GALE, GUERRILLA, REAPER, PROTO, TREBLE, CARRY, ARROW, ENKER, PUNK, BALLADE, QUINT}
@@ -372,6 +382,7 @@ func allowLeftRight(delta):
 		elif is_on_floor() == false && ice_jump == true:
 				velocity.x = lerpf(velocity.x, sprite.scale.x * MAXSPEED * 1.25, delta * ICE_AIR_WEIGHT)
 		elif slowed == true:
+			velocity.x = 50 * direction.x
 			pass
 			
 		else:

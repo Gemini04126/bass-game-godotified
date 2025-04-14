@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://cfj6gtufe8ytl"]
+
+[ext_resource type="Script" uid="uid://djnqnlm4j34a7" path="res://scenes/objects/players/weapons/bass/papercut.gd" id="1_pr0uf"]
+[ext_resource type="Texture2D" uid="uid://ci7isoihfgws6" path="res://sprites/players/bass/weapons/mod_origami.png" id="2_pr0uf"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="5_dju7a"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="6_ip0vx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkt2s"]
+atlas = ExtResource("2_pr0uf")
+region = Rect2(0, 0, 32, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfj6w"]
+atlas = ExtResource("2_pr0uf")
+region = Rect2(32, 0, 32, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtge1"]
+atlas = ExtResource("2_pr0uf")
+region = Rect2(64, 0, 32, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tmmfq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkt2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfj6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rtge1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0hn2"]
+size = Vector2(18, 18.3333)
+
+[node name="Papercut" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_pr0uf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tmmfq")
+autoplay = "default"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-1.78814e-07, -1.49012e-07)
+scale = Vector2(2, 1.2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2.84217e-14)
+scale = Vector2(2, 1.2)
+shape = SubResource("RectangleShape2D_p0hn2")
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_dju7a")
+volume_db = -4.0
+bus = &"SFX"
+
+[node name="ReflectSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ip0vx")
+bus = &"SFX"
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

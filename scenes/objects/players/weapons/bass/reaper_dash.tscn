@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=3 uid="uid://cpa6jyuodj1ty"]
+
+[ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_ew85c"]
+[ext_resource type="Texture2D" uid="uid://b6btxb3qjemxq" path="res://sprites/players/bass/weapons/mod_reaper.png" id="2_1e8kf"]
+[ext_resource type="Script" uid="uid://cemx4tk303ad3" path="res://scenes/objects/players/weapons/bass/reaper_dash.gd" id="4_lgi7q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1028d"]
+shader = ExtResource("1_ew85c")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgi7q"]
+atlas = ExtResource("2_1e8kf")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4a1r"]
+atlas = ExtResource("2_1e8kf")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qumtv"]
+atlas = ExtResource("2_1e8kf")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_avdav"]
+atlas = ExtResource("2_1e8kf")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nlvml"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgi7q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q4a1r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qumtv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_avdav")
+}],
+"loop": false,
+"name": &"Bass",
+"speed": 10.0
+}]
+
+[node name="DashShadow" type="AnimatedSprite2D"]
+material = SubResource("ShaderMaterial_1028d")
+sprite_frames = SubResource("SpriteFrames_nlvml")
+animation = &"Bass"
+autoplay = "Bass"
+frame = 3
+frame_progress = 1.0
+script = ExtResource("4_lgi7q")
