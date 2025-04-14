@@ -43,6 +43,7 @@ enum DMGTYPE
 	MD_VIDEO,
 	MD_ORIGAMI,
 	MD_GUERILLA,
+	MD_GUERILLA2,
 	
 	#MegaMan Weapons (MM)
 	MM_VOLT,

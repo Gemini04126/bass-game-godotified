@@ -9,14 +9,18 @@ class_name BassPlayer
 
 
 const ORIGAMI_SPEEDB := 450
+const DASH_SPEED := 175
 
 # Variables
 var buster_speed = 300
 var airactiontaken = false
 var hovered = false
+var hovering = false
 var hoverstrength : int
 var airdashed
 var airdashtime : int
+var chargedshots : int
+var machinecharge : int
 
 func _init() -> void:
 	
@@ -194,6 +198,13 @@ func _physics_process(delta: float) -> void:
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
+		if GameState.modules_enabled[WEAPONS.GUERRILLA] == true:
+			$states.text = "[center]%s[/center]" % chargedshots
+			if machinecharge > 0 and chargedshots < 5:
+				machinecharge -= 1
+			if machinecharge == 0:
+				machinecharge = 60
+				chargedshots += 1
 
 func checkForFloor():
 	if !is_on_floor():
@@ -205,12 +216,13 @@ func checkForFloor():
 			airactiontaken = false
 			slowed = false
 		hovered = false
+		hovering = false
 		airdashed = false
 
 func dashProcess():
 	if Input.is_action_just_pressed("dash"):
 		if on_ice != true:
-			velocity.x = 200 * sprite.scale.x
+			velocity.x = 175 * sprite.scale.x
 		currentState = STATES.DASH
 		slide_timer.start(0.4)
 		FX = preload("res://scenes/objects/players/dash_trail.tscn").instantiate()
@@ -350,6 +362,11 @@ func weapon_buster():
 				projectile = projectile_scenes[0].instantiate()
 				get_parent().add_child(projectile)
 				projectile.scale.x = sprite.scale.x
+				if chargedshots > 0:
+					projectile.charged = true
+					chargedshots -= 1
+				
+				
 				if GameState.onscreen_bullets == 1 or GameState.onscreen_bullets == 3:
 					projectile.frames = 1
 				# inputs
@@ -454,54 +471,7 @@ func module_smog() -> void:
 	#Changes Collision
 	$MainHitbox.set_disabled(true)
 	$SlideHitbox.set_disabled(false)
-
-func module_gale() -> void:
-	if GameState.modules_enabled[WEAPONS.GALE] == true:
-		if (airactiontaken == false) && (hovered == false) && Input.is_action_just_pressed("jump") && !Input.is_action_pressed("move_up"):
-			airactiontaken = true
-			slowed = true
-			dashjumped = false
-			hoverstrength = 230
-			ice_jump = false
-			
-		if (airactiontaken == true) && (hovered == false) && Input.is_action_pressed("jump") && !Input.is_action_pressed("move_up"):
-			if hoverstrength > 0:
-				velocity.y = WATER_FAST_FALL - hoverstrength
-			if hoverstrength > 200:
-				velocity.y = 0
-			hoverstrength -= 1
-			$Audio/Hover.play()
-			
-		if (airactiontaken == true) && Input.is_action_just_released("jump"):
-			hovered = true
 	
-func module_reaper() -> void:
-	if GameState.modules_enabled[WEAPONS.REAPER] == true:
-		if (airactiontaken == false) && (airdashed == false) && Input.is_action_just_pressed("dash"):
-			airactiontaken = true
-			slowed = true
-			dashjumped = false
-			airdashtime = 25
-			ice_jump = false
-			$Audio/ReaperDash.play()
-			currentState = STATES.AIR_DASH
-			
-		if (airactiontaken == true) && (airdashed == false) && Input.is_action_pressed("dash"):
-			velocity.y = 0
-			velocity.x = sprite.scale.x * 250
-			if airdashtime == 25 or airdashtime == 20 or airdashtime == 15 or airdashtime == 10 or airdashtime == 5:
-				FX = preload("res://scenes/objects/players/weapons/bass/reaper_dash.tscn").instantiate()
-				get_parent().add_child(FX)
-				FX.position = position
-				if sprite.scale.x == -1:
-					FX.flip_h = true
-			airdashtime -= 1
-			
-		if (airactiontaken == true) && Input.is_action_just_released("dash") or airdashtime == 0:
-			airdashed = true
-			airdashtime = -5
-			currentState = STATES.FALL_START
-			
 func module_origami() -> void:
 	if GameState.modules_enabled[WEAPONS.ORIGAMI] == true:
 		if Input.is_action_just_pressed("shoot"):
@@ -517,15 +487,61 @@ func module_origami() -> void:
 			slide_timer.start(0)
 			projectile.scale.x = sprite.scale.x
 			currentState = STATES.PAPER_CUT
+
+func module_gale() -> void:
+	if GameState.modules_enabled[WEAPONS.GALE] == true:
+		if (airactiontaken == false) && (hovered == false) && (hovering == false) && Input.is_action_just_pressed("jump") && !Input.is_action_pressed("move_up"):
+			airactiontaken = true
+			hovering = true
+			slowed = true
+			dashjumped = false
+			hoverstrength = 230
+			ice_jump = false
+			
+		if (hovering == true) && (hovered == false) && Input.is_action_pressed("jump") && !Input.is_action_pressed("move_up"):
+			if hoverstrength > 0:
+				velocity.y = WATER_FAST_FALL - hoverstrength
+			if hoverstrength > 200:
+				velocity.y = 0
+			hoverstrength -= 1
+			$Audio/Hover.play()
+			
+		if (hovering == true) && Input.is_action_just_released("jump"):
+			hovered = true
 			
 
-
+func module_reaper() -> void:
+	if GameState.modules_enabled[WEAPONS.REAPER] == true:
+		if (airactiontaken == false) && (airdashed == false) && Input.is_action_just_pressed("dash"):
+			airactiontaken = true
+			slowed = true
+			dashjumped = false
+			airdashtime = 25
+			ice_jump = false
+			$Audio/ReaperDash.play()
+			currentState = STATES.AIR_DASH
+			
+		if (airdashtime > 0) && (airdashed == false) && Input.is_action_pressed("dash"):
+			velocity.y = 0
+			velocity.x = sprite.scale.x * DASH_SPEED
+			if airdashtime == 25 or airdashtime == 20 or airdashtime == 15 or airdashtime == 10 or airdashtime == 5:
+				FX = preload("res://scenes/objects/players/weapons/bass/reaper_dash.tscn").instantiate()
+				get_parent().add_child(FX)
+				FX.position = position
+				if sprite.scale.x == -1:
+					FX.flip_h = true
+			airdashtime -= 1
+			
+		if (airactiontaken == true) && Input.is_action_just_released("dash") or airdashtime == 0:
+			airdashed = true
+			airdashtime = -5
+			currentState = STATES.FALL_START
 
 func dash_jump(direction, delta):
 	if direction.x:
 		sprite.scale.x = sign(direction.x)
 		if direction.x == dashdir:
-			velocity.x = sprite.scale.x * 175
+			velocity.x = sprite.scale.x * DASH_SPEED
 		else:
 			velocity.x = sprite.scale.x * MAXSPEED * 0.75
 	else:

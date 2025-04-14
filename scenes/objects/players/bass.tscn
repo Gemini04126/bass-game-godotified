@@ -855,6 +855,14 @@ bbcode_enabled = true
 text = "state
 goes here"
 
+[node name="chargedshots" type="RichTextLabel" parent="."]
+offset_left = -24.0
+offset_top = 18.0
+offset_right = 29.0
+offset_bottom = 27.0
+bbcode_enabled = true
+text = "CSHOT"
+
 [node name="hurtboxArea" type="Area2D" parent="." groups=["player"]]
 collision_layer = 36
 collision_mask = 2
