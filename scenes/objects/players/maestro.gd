@@ -199,6 +199,7 @@ func _ready():
 	GameState.player = self
 	GameState.onscreen_bullets = 0
 	GameState.onscreen_sp_bullets = 0
+	GameState.onscreen_track2s = 0
 	state_timer.start(0.5)
 	invul_timer.start(0.01)
 	currentState = STATES.TELEPORT

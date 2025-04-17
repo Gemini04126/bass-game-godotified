@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://kfk1dq7hqeyc"]
+[gd_scene load_steps=71 format=3 uid="uid://kfk1dq7hqeyc"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_wqydu"]
 [ext_resource type="Script" uid="uid://dxsi1x2id3bt" path="res://scenes/objects/players/bass-old.gd" id="2_32p0t"]
@@ -541,9 +541,6 @@ size = Vector2(14, 26)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3mf6s"]
 size = Vector2(16, 14)
 
-[sub_resource type="Resource" id="Resource_uxsry"]
-metadata/__load_path__ = "res://sounds/charge2.wav"
-
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 material = SubResource("ShaderMaterial_qymoq")
 collision_layer = 2
@@ -600,7 +597,6 @@ bus = &"SFX"
 stream = ExtResource("11_0h476")
 
 [node name="Charge2" type="AudioStreamPlayer" parent="Audio"]
-stream = SubResource("Resource_uxsry")
 
 [node name="CeilingCheck" type="RayCast2D" parent="."]
 position = Vector2(0, 12)

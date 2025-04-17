@@ -52,6 +52,7 @@ func _init() -> void:
 		preload("res://scenes/objects/players/weapons/bass/buster.tscn"),
 		preload("res://scenes/objects/players/weapons/bass/blast_jump.tscn"),
 		preload("res://scenes/objects/players/weapons/bass/track_2.tscn"),
+		preload("res://scenes/objects/players/weapons/bass/papercut.tscn"),
 		preload("res://scenes/objects/players/weapons/copy_robot/buster_small.tscn"),
 		preload("res://scenes/objects/players/weapons/bass/protoshot1.tscn"),
 		preload("res://scenes/objects/players/weapons/bass/protoshot2.tscn")
@@ -104,16 +105,19 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
+				module_video()
 			STATES.IDLE_THROW, STATES.IDLE_SHOOT:
 				checkForFloor()
 				processJump()
 				processShoot()
 				processCharge()
 				processDamage()
+				module_video()
 			STATES.IDLE_SHIELD, STATES.PAPER_CUT:
 				checkForFloor()
 				processShoot()
 				processDamage()
+				module_video()
 			
 			STATES.IDLE_AIM, STATES.IDLE_AIM_UP, STATES.IDLE_AIM_DIAG, STATES.IDLE_AIM_DOWN:
 				if on_ice == false:
@@ -125,6 +129,7 @@ func _physics_process(delta: float) -> void:
 				processJump()
 				processShoot()
 				processDamage()
+				module_video()
 				
 			STATES.STEP:
 				step(delta)
@@ -136,6 +141,7 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
+				module_video()
 			STATES.WALK, STATES.WALKING_SHOOT:
 				walk()
 				dashProcess()
@@ -147,6 +153,7 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
+				module_video()
 			STATES.JUMP, STATES.JUMP_SHOOT, STATES.JUMP_THROW, STATES.JUMP_SHIELD, STATES.JUMP_AIM, STATES.JUMP_AIM_UP, STATES.JUMP_AIM_DIAG, STATES.JUMP_AIM_DOWN:
 				Jump(delta)
 				applyGrav(delta)
@@ -158,6 +165,7 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 				module_blaze()
 				module_reaper()
+				module_video()
 			STATES.FALL_START, STATES.FALL, STATES.FALL_SHOOT, STATES.FALL_THROW, STATES.FALL_SHIELD, STATES.FALL_AIM, STATES.FALL_AIM_UP, STATES.FALL_AIM_DIAG, STATES.FALL_AIM_DOWN:
 				fall(delta)
 				applyGrav(delta)
@@ -170,10 +178,12 @@ func _physics_process(delta: float) -> void:
 				module_blaze()
 				module_gale()
 				module_reaper()
+				module_video()
 			STATES.AIR_DASH:
 				module_reaper()
 				processDamage()
 				module_origami()
+				module_video()
 			STATES.DASH:
 				dashing(delta)
 				processJump()
@@ -181,12 +191,14 @@ func _physics_process(delta: float) -> void:
 				ladderCheck()
 				processDamage()
 				module_origami()
+				module_video()
 			STATES.LADDER:
 				ladder()
 				processCharge()
 				processShoot()
 				processBuster()
 				processDamage()
+				module_video()
 			STATES.HURT:
 				hurt()
 				applyGrav(delta)
@@ -464,6 +476,16 @@ func module_blaze() -> void:
 		projectile.position.y = position.y
 		projectile.velocity.y = 280
 
+func module_video():
+	if Input.is_action_just_pressed("jump") && Input.is_action_pressed("move_down") && (GameState.onscreen_track2s == 0) && (GameState.modules_enabled[WEAPONS.VIDEO] == true):
+		$Audio/BlastJump.play()
+		projectile = projectile_scenes[2].instantiate()
+		get_parent().add_child(projectile)
+		projectile.sprite.scale.x = sprite.scale.x
+		projectile.position.x = position.x
+		projectile.position.y = position.y+2
+		GameState.onscreen_track2s += 1
+
 func module_smog() -> void:
 	if anim.get_current_animation() != "Mist Dash":
 		anim.stop()
@@ -479,7 +501,7 @@ func module_origami() -> void:
 			$Audio/ReaperDash.play()
 			
 			
-			projectile = preload("res://scenes/objects/players/weapons/bass/papercut.tscn").instantiate()
+			projectile = projectile_scenes[3].instantiate()
 			get_parent().add_child(projectile)
 			projectile.position.y = position.y
 			projectile.position.x = position.x + sprite.scale.x * 12

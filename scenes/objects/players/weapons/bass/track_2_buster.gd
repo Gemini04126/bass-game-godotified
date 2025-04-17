@@ -54,7 +54,6 @@ func _physics_process(delta):
 		destroy()
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
-	GameState.onscreen_bullets -= 1
 	queue_free()
 
 func kill():
@@ -69,7 +68,6 @@ func destroy():
 	dead = true
 	velocity.x = 0
 	velocity.y = 0
-	GameState.onscreen_bullets -= 1
 	$AnimatedSprite2D.play("hit")
 	await $AnimatedSprite2D.animation_finished
 	queue_free()

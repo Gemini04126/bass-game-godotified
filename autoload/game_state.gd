@@ -108,6 +108,7 @@ var player_lives : int = 3
 # TODO: Could be improved using object pooling
 var onscreen_bullets : int
 var onscreen_sp_bullets : int
+var onscreen_track2s : int
 
 var galeforce : float # converted from int to float
 

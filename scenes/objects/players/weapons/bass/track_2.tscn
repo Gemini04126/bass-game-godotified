@@ -128,7 +128,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bjbb8"]
 size = Vector2(8, 6)
 
-[node name="Buster" type="CharacterBody2D"]
+[node name="Track 2" type="CharacterBody2D"]
 collision_layer = 8
 collision_mask = 5
 script = ExtResource("1_7d8uq")
@@ -136,10 +136,8 @@ script = ExtResource("1_7d8uq")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_tmmfq")
-animation = &"Explode"
+animation = &"Forward"
 autoplay = "Forward"
-frame = 4
-frame_progress = 1.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(3.57628e-07, 0)
