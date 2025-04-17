@@ -677,8 +677,8 @@ func busterAnimMatch():
 	shoot_timer.start()
 	if currentState == STATES.IDLE or currentState == STATES.STEP:
 		currentState = STATES.IDLE_SHOOT
-	elif currentState == STATES.WALK:
-		var getFrame = anim.current_animation_position
+	elif currentState == STATES.WALK: # G: TODO: this seems to not work atm? there's a visible reset
+		var getFrame = anim.get_current_animation_position()
 		currentState = STATES.WALKING_SHOOT
 		anim.seek(getFrame)
 	elif currentState == STATES.JUMP:

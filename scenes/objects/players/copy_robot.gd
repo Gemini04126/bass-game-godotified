@@ -279,6 +279,8 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 			projectile.velocity.x = sprite.scale.x * 350
 			projectile.scale.x = sprite.scale.x
 			bustercharge = 0
+			$Audio/Charge1.stop()
+			$Audio/Charge2.stop()
 			set_current_weapon_palette()
 			busterAnimMatch()
 			return
@@ -286,6 +288,8 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3):
 			if bustercharge < 32: # no Charge
 				bustercharge = 0
+				$Audio/Charge1.stop()
+				$Audio/Charge2.stop()
 				set_current_weapon_palette()
 				return
 			if bustercharge >= 32 and bustercharge < 92: # medium charge
@@ -298,9 +302,9 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				projectile.velocity.x = sprite.scale.x * 350
 				projectile.scale.x = sprite.scale.x
 				bustercharge = 0
-				set_current_weapon_palette()
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
+				set_current_weapon_palette()
 				return
 			if bustercharge >= 92: # da big boi
 				attack_timer.start(0.3)
@@ -321,9 +325,9 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				projectile.position.y = position.y + 2
 				
 				
+				bustercharge = 0
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
-				bustercharge = 0
 				set_current_weapon_palette()
 				return
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_pressed("shoot")) or Input.is_action_pressed("buster"):
@@ -338,6 +342,9 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 			bustercharge = 110
 	else:
 		bustercharge = 0
+		$Audio/Charge1.stop()
+		$Audio/Charge2.stop()
+		set_current_weapon_palette()
 		return
 		
 func weapon_shark():
@@ -407,6 +414,7 @@ func weapon_shark():
 		bustercharge = 0
 		$Audio/Charge1.stop()
 		$Audio/Charge2.stop()
+		set_current_weapon_palette()
 		return
 		
 func weapon_quint():
