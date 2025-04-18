@@ -46,7 +46,13 @@ enum STATES {
 	FALL_AIM_DIAG,
 	FALL_AIM_UP,
 	AIR_DASH,
-	PAPER_CUT
+	PAPER_CUT,
+	IDLE_FIN_SHREDDER,
+	IDLE_DOUBLE_FIN_SHREDDER,
+	JUMP_FIN_SHREDDER,
+	JUMP_DOUBLE_FIN_SHREDDER,
+	FALL_FIN_SHREDDER,
+	FALL_DOUBLE_FIN_SHREDDER
 }
 
 enum WEAPONS {BUSTER, BLAZE, VIDEO, SMOG, SHARK, ORIGAMI, GALE, GUERRILLA, REAPER, PROTO, TREBLE, CARRY, ARROW, ENKER, PUNK, BALLADE, QUINT}
@@ -68,7 +74,7 @@ var direction
 var canLadder : bool
 var ladderArea
 var underRoof : bool
-var scytheflashtimer : int = 0
+var weaponflashtimer : int = 0
 var dashdir : int
 var dashjumped = false
 #input related
@@ -244,7 +250,7 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.IDLE_THROW:
+			STATES.IDLE_THROW, STATES.IDLE_FIN_SHREDDER, STATES.IDLE_DOUBLE_FIN_SHREDDER:
 				checkForFloor()
 				processJump()
 				processShoot()
@@ -717,8 +723,6 @@ func _on_shoot_timer_timeout() -> void:
 		currentState = STATES.JUMP
 	elif STATES.keys()[currentState].contains("FALL"):
 		currentState = STATES.FALL
-	elif currentState == STATES.IDLE_THROW:
-		currentState = STATES.IDLE
 
 #region Weapon Shit
 func processShoot():
@@ -735,7 +739,7 @@ func processShoot():
 				busterAnimMatch()
 				weapon_smog()
 			WEAPONS.SHARK:
-				throwAnimMatch()
+				#throwAnimMatch()
 				weapon_shark()
 			WEAPONS.ORIGAMI:
 				throwAnimMatch()
@@ -763,19 +767,19 @@ func processShoot():
 #i dunno where the purple goes
 
 func processCharge():
-	if scytheflashtimer < 2:
-		scytheflashtimer += 1
+	if weaponflashtimer < 2:
+		weaponflashtimer += 1
 	else:
-		scytheflashtimer = 0
+		weaponflashtimer = 0
 	
 	if currentWeapon == WEAPONS.REAPER:
 		if ScytheCharge > 19:
-			if scytheflashtimer == 1:
+			if weaponflashtimer == 1:
 				sprite.material.set_shader_parameter("palette", weapon_palette[19])
-			if scytheflashtimer != 1:
+			if weaponflashtimer != 1:
 				set_current_weapon_palette()
 		if ScytheCharge > 69:
-			if scytheflashtimer == 2:
+			if weaponflashtimer == 2:
 				sprite.material.set_shader_parameter("palette", weapon_palette[20])
 		if ScytheCharge == 0:
 			set_current_weapon_palette()
@@ -898,6 +902,9 @@ func weapon_shark():
 			if GameState.onscreen_sp_bullets < 1:
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.SHARK] -= 5
+				shoot_timer.start()
+				velocity.x = 0
+				currentState = STATES.IDLE_FIN_SHREDDER
 				anim.seek(0)
 				shot_type = 4
 				attack_timer.start(0.51)

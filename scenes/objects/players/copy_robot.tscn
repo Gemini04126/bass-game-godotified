@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://cnpcm2juvcutu"]
+[gd_scene load_steps=68 format=3 uid="uid://cnpcm2juvcutu"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_hk0hv"]
 [ext_resource type="Script" uid="uid://cdp8cckqtq8nw" path="res://scenes/objects/players/copy_robot.gd" id="2_we56i"]
@@ -65,21 +65,6 @@ tracks/0/keys = {
 "values": [30]
 }
 
-[sub_resource type="Animation" id="Animation_7rapa"]
-resource_name = "DoubleFinShredder"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.233333, 0.3, 0.366666, 0.433333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [42, 43, 44, 54, 55, 56, 57]
-}
-
 [sub_resource type="Animation" id="Animation_q4ygw"]
 resource_name = "FALL"
 length = 0.166667
@@ -95,6 +80,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [38, 39]
+}
+
+[sub_resource type="Animation" id="Animation_enocn"]
+resource_name = "FALL_SHIELD"
+length = 0.533333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [51, 52, 53]
 }
 
 [sub_resource type="Animation" id="Animation_g6kul"]
@@ -130,8 +131,9 @@ tracks/0/keys = {
 "values": [37]
 }
 
-[sub_resource type="Animation" id="Animation_lgup5"]
-length = 0.6
+[sub_resource type="Animation" id="Animation_5l8y4"]
+resource_name = "FALL_THROW"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -139,10 +141,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [54, 55, 56, 57]
+"values": [45, 46, 47]
 }
 
 [sub_resource type="Animation" id="Animation_i4l8q"]
@@ -607,9 +609,8 @@ tracks/0/keys = {
 "values": [14, 15, 16, 17, 18, 19]
 }
 
-[sub_resource type="Animation" id="Animation_enocn"]
-resource_name = "FALL_SHIELD"
-length = 0.533333
+[sub_resource type="Animation" id="Animation_7rapa"]
+resource_name = "IDLE_DOUBLE_FIN_SHREDDER"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -617,15 +618,15 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.233333, 0.3, 0.366666, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [51, 52, 53]
+"values": [42, 43, 44, 54, 55, 56, 57]
 }
 
-[sub_resource type="Animation" id="Animation_5l8y4"]
-resource_name = "FALL_THROW"
-length = 0.5
+[sub_resource type="Animation" id="Animation_lgup5"]
+resource_name = "IDLE_FIN_SHREDDER"
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -633,28 +634,94 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [45, 46, 47]
+"values": [54, 55, 56, 57]
+}
+
+[sub_resource type="Animation" id="Animation_swv65"]
+resource_name = "JUMP_FIN_SHREDDER"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [54, 55, 56, 57]
+}
+
+[sub_resource type="Animation" id="Animation_wy1ok"]
+resource_name = "FALL_FIN_SHREDDER"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [54, 55, 56, 57]
+}
+
+[sub_resource type="Animation" id="Animation_nehsi"]
+resource_name = "JUMP_DOUBLE_FIN_SHREDDER"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.233333, 0.3, 0.366666, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [42, 43, 44, 54, 55, 56, 57]
+}
+
+[sub_resource type="Animation" id="Animation_hy6ug"]
+resource_name = "FALL_DOUBLE_FIN_SHREDDER"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.233333, 0.3, 0.366666, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [42, 43, 44, 54, 55, 56, 57]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mvjlo"]
 _data = {
 &"DEAD": SubResource("Animation_p42vu"),
-&"DoubleFinShredder": SubResource("Animation_7rapa"),
 &"FALL": SubResource("Animation_q4ygw"),
+&"FALL_DOUBLE_FIN_SHREDDER": SubResource("Animation_hy6ug"),
+&"FALL_FIN_SHREDDER": SubResource("Animation_wy1ok"),
 &"FALL_SHIELD": SubResource("Animation_enocn"),
 &"FALL_SHOOT": SubResource("Animation_g6kul"),
 &"FALL_START": SubResource("Animation_c5o8q"),
 &"FALL_THROW": SubResource("Animation_5l8y4"),
-&"FinShredder": SubResource("Animation_lgup5"),
 &"HURT": SubResource("Animation_i4l8q"),
 &"IDLE": SubResource("Animation_edosb"),
+&"IDLE_DOUBLE_FIN_SHREDDER": SubResource("Animation_7rapa"),
+&"IDLE_FIN_SHREDDER": SubResource("Animation_lgup5"),
 &"IDLE_SHIELD": SubResource("Animation_30cjn"),
 &"IDLE_SHOOT": SubResource("Animation_evk1v"),
 &"IDLE_THROW": SubResource("Animation_sub63"),
 &"JUMP": SubResource("Animation_tb4da"),
+&"JUMP_DOUBLE_FIN_SHREDDER": SubResource("Animation_nehsi"),
+&"JUMP_FIN_SHREDDER": SubResource("Animation_swv65"),
 &"JUMP_SHIELD": SubResource("Animation_c04vi"),
 &"JUMP_SHOOT": SubResource("Animation_j1aih"),
 &"JUMP_THROW": SubResource("Animation_rss1p"),
@@ -762,7 +829,7 @@ z_index = 1
 material = SubResource("ShaderMaterial_7773x")
 texture = ExtResource("5_a7tix")
 hframes = 73
-frame = 14
+frame = 42
 
 [node name="shifter" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D")

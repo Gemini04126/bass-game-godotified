@@ -232,22 +232,6 @@ tracks/0/keys = {
 "values": [44, 45, 46]
 }
 
-[sub_resource type="Animation" id="Animation_govqx"]
-resource_name = "FinShredder"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [53, 54, 55, 56]
-}
-
 [sub_resource type="Animation" id="Animation_edvn7"]
 resource_name = "HURT"
 length = 0.2
@@ -816,6 +800,22 @@ tracks/0/keys = {
 "values": [10, 11, 12, 13, 14, 15]
 }
 
+[sub_resource type="Animation" id="Animation_govqx"]
+resource_name = "IDLE_FIN_SHREDDER"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [53, 54, 55, 56]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_knm54"]
 _data = {
 &"AIR_DASH": SubResource("Animation_fb25d"),
@@ -830,13 +830,13 @@ _data = {
 &"FALL_SHOOT": SubResource("Animation_m0k0y"),
 &"FALL_START": SubResource("Animation_a5vmh"),
 &"FALL_THROW": SubResource("Animation_u1bed"),
-&"FinShredder": SubResource("Animation_govqx"),
 &"HURT": SubResource("Animation_edvn7"),
 &"IDLE": SubResource("Animation_8pco5"),
 &"IDLE_AIM": SubResource("Animation_17qx0"),
 &"IDLE_AIM_DIAG": SubResource("Animation_ui02v"),
 &"IDLE_AIM_DOWN": SubResource("Animation_7sw26"),
 &"IDLE_AIM_UP": SubResource("Animation_xvx7x"),
+&"IDLE_FIN_SHREDDER": SubResource("Animation_govqx"),
 &"IDLE_SHIELD": SubResource("Animation_7lbq7"),
 &"IDLE_SHOOT": SubResource("Animation_3wyk4"),
 &"IDLE_THROW": SubResource("Animation_3sett"),

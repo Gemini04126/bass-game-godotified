@@ -96,7 +96,7 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.IDLE_THROW:
+			STATES.IDLE_THROW, STATES.IDLE_FIN_SHREDDER, STATES.IDLE_DOUBLE_FIN_SHREDDER:
 				checkForFloor()
 				processJump()
 				processShoot()
@@ -128,7 +128,7 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.JUMP, STATES.JUMP_SHOOT, STATES.JUMP_THROW, STATES.JUMP_SHIELD:
+			STATES.JUMP, STATES.JUMP_SHOOT, STATES.JUMP_THROW, STATES.JUMP_SHIELD, STATES.JUMP_FIN_SHREDDER, STATES.FALL_FIN_SHREDDER:
 				Jump(delta)
 				applyGrav(delta)
 				allowLeftRight(delta)
@@ -137,7 +137,7 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.FALL_START, STATES.FALL, STATES.FALL_SHOOT, STATES.FALL_THROW, STATES.FALL_SHIELD:
+			STATES.FALL_START, STATES.FALL, STATES.FALL_SHOOT, STATES.FALL_THROW, STATES.FALL_SHIELD, STATES.JUMP_DOUBLE_FIN_SHREDDER, STATES.FALL_DOUBLE_FIN_SHREDDER:
 				fall(delta)
 				applyGrav(delta)
 				allowLeftRight(delta)
@@ -181,9 +181,6 @@ func processShoot():
 			WEAPONS.SMOG:
 				busterAnimMatch()
 				weapon_smog()
-			WEAPONS.SHARK:
-				throwAnimMatch()
-				weapon_shark()
 			WEAPONS.ORIGAMI:
 				throwAnimMatch()
 				weapon_origami()
@@ -209,10 +206,10 @@ func processShoot():
 				weapon_quint()
 
 func processCharge():
-	if scytheflashtimer < 2:
-		scytheflashtimer += 1
+	if weaponflashtimer < 2:
+		weaponflashtimer += 1
 	else:
-		scytheflashtimer = 0
+		weaponflashtimer = 0
 		
 	if busterflashtimer < 2:
 		busterflashtimer += 1
@@ -232,14 +229,25 @@ func processCharge():
 			
 	if currentWeapon == WEAPONS.REAPER:
 		if ScytheCharge > 19:
-			if scytheflashtimer == 1:
+			if weaponflashtimer == 1:
 				sprite.material.set_shader_parameter("palette", weapon_palette[19])
-			if scytheflashtimer != 1:
+			if weaponflashtimer != 1:
 				set_current_weapon_palette()
 		if ScytheCharge > 69:
-			if scytheflashtimer == 2:
+			if weaponflashtimer == 2:
 				sprite.material.set_shader_parameter("palette", weapon_palette[20])
 		if ScytheCharge == 0:
+			set_current_weapon_palette()
+	elif currentWeapon == WEAPONS.SHARK:
+		if sharkcharge > 0:
+			if weaponflashtimer == 1:
+				sprite.material.set_shader_parameter("palette", weapon_palette[21])
+			if weaponflashtimer != 1:
+				set_current_weapon_palette()
+		if sharkcharge > 25:
+			if weaponflashtimer == 2:
+				sprite.material.set_shader_parameter("palette", weapon_palette[22])
+		if sharkcharge == 0:
 			set_current_weapon_palette()
 	
 	if Input.is_action_pressed("shoot") && !transing:
@@ -247,12 +255,17 @@ func processCharge():
 		match currentWeapon:
 			WEAPONS.REAPER:
 				weapon_reaper()
+			WEAPONS.SHARK:
+				weapon_shark()
+				
 	elif Input.is_action_just_released("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 			WEAPONS.REAPER:
 				throwAnimMatch()
 				weapon_reaper()
+			WEAPONS.SHARK:
+				weapon_shark()
 				
 	if (Input.is_action_pressed("shoot") or Input.is_action_pressed("buster")) && !transing:
 		currentWeapon = GameState.current_weapon
@@ -349,6 +362,7 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 		
 func weapon_shark():
 	if Input.is_action_just_released("shoot"):
+		print("released")
 		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and GameState.onscreen_sp_bullets < 1 and (GameState.weapon_energy[GameState.WEAPONS.SHARK] > 3 or GameState.infinite_ammo == true):
 			if sharkcharge < 25: #Uncharged. Single Fin Shredder
 
@@ -358,6 +372,9 @@ func weapon_shark():
 				GameState.onscreen_sp_bullets += 1
 				projectile = weapon_scenes[4].instantiate()
 				get_parent().add_child(projectile)
+				shoot_timer.start()
+				velocity.x = 0
+				currentState = STATES.IDLE_FIN_SHREDDER
 				
 				
 				
@@ -381,7 +398,9 @@ func weapon_shark():
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.SHARK] -= 4
 				GameState.onscreen_sp_bullets += 1
-
+				shoot_timer.start(0.75)
+				velocity.x = 0
+				currentState = STATES.IDLE_DOUBLE_FIN_SHREDDER
 				anim.seek(0)
 				shot_type = 5
 				attack_timer.start(0.51)
@@ -400,10 +419,11 @@ func weapon_shark():
 	if !Input.is_action_pressed("shoot"):
 		sharkcharge = 0
 
-	if sharkcharge >= 25 && GameState.weapon_energy[GameState.WEAPONS.SHARK] < 6:
+	if sharkcharge >= 25 && (GameState.weapon_energy[GameState.WEAPONS.SHARK] < 6 and GameState.infinite_ammo == false):
 		sharkcharge = 2
 
 	if Input.is_action_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.SHARK] > 0 or GameState.infinite_ammo == true):
+		print("pressed")
 		if sharkcharge < 78:
 			sharkcharge += 1
 			if sharkcharge == 26:
@@ -411,7 +431,7 @@ func weapon_shark():
 		else:
 			sharkcharge = 77
 	else:
-		bustercharge = 0
+		sharkcharge = 0
 		$Audio/Charge1.stop()
 		$Audio/Charge2.stop()
 		set_current_weapon_palette()

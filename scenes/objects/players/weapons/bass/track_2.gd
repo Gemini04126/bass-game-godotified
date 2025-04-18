@@ -5,6 +5,7 @@ var buster_timer : int
 var timer : int
 var flash_timer : int
 var buster_speed = 300
+var explode_state : int
 
 var aim : int
 
@@ -17,10 +18,13 @@ func _ready():
 	$SpawnSound.play()
 
 func _physics_process(delta):
-	timer = (timer + 1)
-	if timer > 850:
+	timer += 1
+	if timer <= 850:
+		handle_buster()
+	if timer > 850 && explode_state == 0:
+		handle_buster()
 		if $AnimatedSprite2D.animation != "explode":
-			flash_timer = (flash_timer + 1)
+			flash_timer += 1
 			if flash_timer == 3:
 				$AnimatedSprite2D.hide()
 			if flash_timer == 6:
@@ -28,15 +32,31 @@ func _physics_process(delta):
 				flash_timer = 0
 		else:
 			$AnimatedSprite2D.show()
-	if timer > 900:
+	if timer > 900 && explode_state == 0:
 		if $AnimatedSprite2D.animation != "explode":
 			$AnimatedSprite2D.show()
 			$AnimatedSprite2D.play("Explode")
+			explode_state = 1
+	if explode_state == 1:
 		await $AnimatedSprite2D.animation_finished
-		GameState.onscreen_track2s -= 1
-		queue_free()
+		explode_state = 2 # G: for the love of god dont run this again
+		done_exploding()
+	return
 	
-	buster_timer = buster_timer + 1
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	GameState.onscreen_track2s -= 1
+	print(GameState.onscreen_track2s)
+	print("offscreen")
+	queue_free()
+
+func done_exploding():
+	GameState.onscreen_track2s -= 1
+	print(GameState.onscreen_track2s)
+	print("exploded")
+	queue_free()
+
+func handle_buster():
+	buster_timer += 1
 	current_frame = $AnimatedSprite2D.get_frame()
 	current_progress = $AnimatedSprite2D.get_frame_progress()
 	
@@ -100,8 +120,3 @@ func _physics_process(delta):
 				projectile.position.y = position.y - 17
 		
 		buster_timer = 0
-	return
-	
-func _on_visible_on_screen_notifier_2d_screen_exited():
-	GameState.onscreen_track2s -= 1
-	queue_free()

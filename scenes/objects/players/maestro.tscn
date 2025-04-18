@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://bksinirshmwgf"]
+[gd_scene load_steps=60 format=3 uid="uid://bksinirshmwgf"]
 
 [ext_resource type="Script" uid="uid://bmoeo1pjk4r87" path="res://scenes/objects/players/maestro.gd" id="1_ct76e"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_lnglj"]
@@ -145,21 +145,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [23, 24]
-}
-
-[sub_resource type="Animation" id="Animation_kapwp"]
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [21, 22]
 }
 
 [sub_resource type="Animation" id="Animation_1pvat"]
@@ -502,6 +487,38 @@ tracks/0/keys = {
 "values": [15, 16, 17, 16]
 }
 
+[sub_resource type="Animation" id="Animation_kapwp"]
+resource_name = "IDLE_FIN_SHREDDER"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [21, 22]
+}
+
+[sub_resource type="Animation" id="Animation_u3nua"]
+resource_name = "IDLE_DOUBLE_FIN_SHREDDER"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [21, 22]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_atfpo"]
 _data = {
 &"DEAD": SubResource("Animation_kvtkx"),
@@ -510,9 +527,10 @@ _data = {
 &"FALL_SHOOT": SubResource("Animation_iqo4o"),
 &"FALL_START": SubResource("Animation_3e4rw"),
 &"FALL_THROW": SubResource("Animation_mno6c"),
-&"FinShredder": SubResource("Animation_kapwp"),
 &"HURT": SubResource("Animation_1pvat"),
 &"IDLE": SubResource("Animation_srkdc"),
+&"IDLE_DOUBLE_FIN_SHREDDER": SubResource("Animation_u3nua"),
+&"IDLE_FIN_SHREDDER": SubResource("Animation_kapwp"),
 &"IDLE_SHIELD": SubResource("Animation_wjtks"),
 &"IDLE_SHOOT": SubResource("Animation_o4kk7"),
 &"IDLE_THROW": SubResource("Animation_5warb"),
@@ -622,7 +640,7 @@ z_index = 1
 material = SubResource("ShaderMaterial_dtetj")
 texture = ExtResource("4_w3lef")
 hframes = 35
-frame = 18
+frame = 21
 
 [node name="shifter" type="AnimationPlayer" parent="."]
 root_node = NodePath("../hurtboxArea")

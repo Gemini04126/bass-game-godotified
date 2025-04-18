@@ -292,7 +292,7 @@ func processShoot():
 				busterAnimMatch()
 				weapon_smog()
 			WEAPONS.SHARK:
-				throwAnimMatch()
+				#throwAnimMatch()
 				weapon_shark()
 			WEAPONS.ORIGAMI:
 				throwAnimMatch()
@@ -485,6 +485,7 @@ func module_video():
 		projectile.position.x = position.x
 		projectile.position.y = position.y+2
 		GameState.onscreen_track2s += 1
+		print(GameState.onscreen_track2s)
 
 func module_smog() -> void:
 	if anim.get_current_animation() != "Mist Dash":
