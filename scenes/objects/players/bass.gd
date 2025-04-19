@@ -20,7 +20,8 @@ var hoverstrength : int
 var airdashed
 var airdashtime : int
 var chargedshots : int
-var machinecharge : int
+var machinechargetimer : int
+var smogchargetimer : int
 
 func _init() -> void:
 	
@@ -190,8 +191,18 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
+				module_smog()
 				module_origami()
 				module_video()
+			STATES.SLIDE:
+				$mainCollision.set_disabled(true)
+				dashing(delta)
+				processJump()
+				processCharge()
+				$hurtboxArea/mainHurtbox.set_disabled(true)
+				$hurtboxArea/slideHurtbox.set_disabled(true)
+				DmgQueue = 0
+				
 			STATES.LADDER:
 				ladder()
 				processCharge()
@@ -210,19 +221,25 @@ func _physics_process(delta: float) -> void:
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
+		
+		if GameState.modules_enabled[WEAPONS.SMOG] == true:
+			if currentState != STATES.SLIDE:
+				if smogchargetimer < 5 and GameState.smogcharge < 18:
+					smogchargetimer += 1
+				if smogchargetimer == 5:
+					smogchargetimer = 0
+					GameState.smogcharge += 1
 		if GameState.modules_enabled[WEAPONS.GUERRILLA] == true:
-			$states.text = "[center]%s[/center]" % chargedshots
-			if machinecharge > 0 and chargedshots < 5:
-				machinecharge -= 1
-			if machinecharge == 0:
-				machinecharge = 60
-				chargedshots += 1
+			if machinechargetimer > 0 and GameState.machinecharge < 5:
+				machinechargetimer -= 1
+			if machinechargetimer == 0:
+				machinechargetimer = 60
+				GameState.machinecharge += 1
 
 func checkForFloor():
 	if !is_on_floor():
 		currentState = STATES.FALL_START
 		$mainCollision.disabled = false
-		$slideCollision.disabled = true
 	else:
 		if airactiontaken == true:
 			airactiontaken = false
@@ -271,14 +288,20 @@ func dashing(delta):
 		slide_timer.start(0.001)
 		
 func _on_slide_timer_timeout() -> void:
-	if !is_on_floor():
-		pass
-	if on_ice == false:
-		velocity.x = 0
-	if direction.x:
-		currentState = STATES.WALK
+	if $ceilCheck.is_colliding():
+		print("keep sliding")
+		slide_timer.start(0.1)
 	else:
-		currentState = STATES.IDLE
+		if !is_on_floor():
+			pass
+		if on_ice == false:
+			velocity.x = 0
+		if $mainCollision.disabled == true:
+			$mainCollision.disabled = false
+		if direction.x:
+			currentState = STATES.WALK
+		else:
+			currentState = STATES.IDLE
 
 func processShoot():
 	if Input.is_action_just_pressed("shoot") && !transing:
@@ -374,10 +397,16 @@ func weapon_buster():
 				projectile = projectile_scenes[0].instantiate()
 				get_parent().add_child(projectile)
 				projectile.scale.x = sprite.scale.x
-				if chargedshots > 0:
+				if GameState.machinecharge > 0:
 					projectile.charged = true
-					chargedshots -= 1
-				
+					GameState.machinecharge -= 1
+					machinechargetimer = 60
+					$Audio/Machine.play()
+				else:
+					if GameState.modules_enabled[WEAPONS.GUERRILLA] == true:
+						$Audio/Machine2.play()
+					else:
+						$Audio/Buster.play()
 				
 				if GameState.onscreen_bullets == 1 or GameState.onscreen_bullets == 3:
 					projectile.frames = 1
@@ -488,12 +517,13 @@ func module_video():
 		print(GameState.onscreen_track2s)
 
 func module_smog() -> void:
-	if anim.get_current_animation() != "Mist Dash":
-		anim.stop()
-		anim.play("Mist Dash")
-	#Changes Collision
-	$MainHitbox.set_disabled(true)
-	$SlideHitbox.set_disabled(false)
+	if Input.is_action_pressed("move_down") and GameState.modules_enabled[WEAPONS.SMOG] == true:
+		if GameState.smogcharge == 18:
+			currentState = STATES.SLIDE
+			GameState.smogcharge = 0
+			$hurtboxArea/mainHurtbox.set_disabled(true)
+			$hurtboxArea/slideHurtbox.set_disabled(true)
+		
 	
 func module_origami() -> void:
 	if GameState.modules_enabled[WEAPONS.ORIGAMI] == true:

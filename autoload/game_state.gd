@@ -109,6 +109,8 @@ var player_lives : int = 3
 var onscreen_bullets : int
 var onscreen_sp_bullets : int
 var onscreen_track2s : int
+var machinecharge : int = 0
+var smogcharge : int = 0
 
 var galeforce : float # converted from int to float
 

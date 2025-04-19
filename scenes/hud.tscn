@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bdurhvklic0ac"]
+[gd_scene load_steps=23 format=3 uid="uid://bdurhvklic0ac"]
 
 [ext_resource type="PackedScene" uid="uid://b0opfnom6gmbo" path="res://scenes/module_tester.tscn" id="1_kxric"]
 [ext_resource type="Theme" uid="uid://c1bun7kn776g1" path="res://themes/ui_theme.tres" id="2_15wwj"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://cuvb46u27vp7v" path="res://sprites/players/maestro/life.png" id="6_7hqwc"]
 [ext_resource type="Texture2D" uid="uid://dj8dbh1vderdl" path="res://sprites/hud/health_bar.png" id="6_dn5r5"]
 [ext_resource type="Texture2D" uid="uid://d1opwguwnxvwa" path="res://sprites/hud/boss_bar.png" id="8_0v72v"]
+[ext_resource type="Texture2D" uid="uid://cw16ljjy2qy3d" path="res://sprites/hud/machine_bar.png" id="8_apjy4"]
+[ext_resource type="Texture2D" uid="uid://b6iop2b48kmq7" path="res://sprites/hud/smog_bar.png" id="9_5n1hp"]
 [ext_resource type="Texture2D" uid="uid://bbn3fnovvleio" path="res://sprites/hud/ready.png" id="11_7y6ti"]
 [ext_resource type="Texture2D" uid="uid://fqh6tglw6ad7" path="res://sprites/hud/ready_scene.png" id="14_ndc36"]
 
@@ -39,6 +41,7 @@ resource_name = "Bars"
 script/source = "extends Node
 
 @onready var refill_timer = $RefillTimer
+enum WEAPONS {BUSTER, BLAZE, VIDEO, SMOG, SHARK, ORIGAMI, GALE, GUERRILLA, REAPER, PROTO, TREBLE, CARRY, ARROW, ENKER, PUNK, BALLADE, QUINT}
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -58,6 +61,18 @@ func _process(_delta: float) -> void:
 		
 	# Health bar
 	$HealthBar.frame = clamp(GameState.current_hp, 0, 28)
+	
+	if GameState.modules_enabled[WEAPONS.GUERRILLA] == true:
+		$MachineBar.frame = clamp(GameState.machinecharge, 0, 5)
+		$MachineBar.visible = true
+	else:
+		$MachineBar.visible = false
+		
+	if GameState.modules_enabled[WEAPONS.SMOG] == true:
+		$MistBar.frame = clamp(GameState.smogcharge, 0, 18)
+		$MistBar.visible = true
+	else:
+		$MistBar.visible = false
 
 func process_refills():
 	if (GameState.player != null): # Null check!
@@ -239,6 +254,20 @@ position = Vector2(20, 64)
 texture = ExtResource("6_dn5r5")
 hframes = 29
 frame = 28
+
+[node name="MachineBar" type="Sprite2D" parent="Bars"]
+material = SubResource("ShaderMaterial_w86cq")
+position = Vector2(28, 89)
+texture = ExtResource("8_apjy4")
+hframes = 6
+frame = 5
+
+[node name="MistBar" type="Sprite2D" parent="Bars"]
+material = SubResource("ShaderMaterial_w86cq")
+position = Vector2(28, 57)
+texture = ExtResource("9_5n1hp")
+hframes = 19
+frame = 18
 
 [node name="WeaponBar" type="Sprite2D" parent="Bars"]
 z_index = -1

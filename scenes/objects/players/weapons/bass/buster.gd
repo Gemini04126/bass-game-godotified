@@ -9,10 +9,10 @@ var charged : bool
 
 func _ready():
 	if GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true:
-		$Machine.play()
+		#$Machine.play()
 		W_Type = GameState.DMGTYPE.MD_GUERILLA
-	else:
-		$SpawnSound.play()
+	#else:
+		#$SpawnSound.play()
 	
 
 func _physics_process(delta):

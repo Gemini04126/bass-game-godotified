@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://bsy7vba3t8awq"]
+[gd_scene load_steps=81 format=3 uid="uid://bsy7vba3t8awq"]
 
 [ext_resource type="Script" uid="uid://bsxw7au27mfj5" path="res://scenes/objects/players/bass.gd" id="1_lug7r"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_m015p"]
@@ -18,6 +18,9 @@
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="14_m0k0y"]
 [ext_resource type="AudioStream" uid="uid://mcla46x8hsbd" path="res://sounds/scorchambient.wav" id="17_fb25d"]
 [ext_resource type="AudioStream" uid="uid://gm5p36ys1f14" path="res://sounds/cr_chargeshot.wav" id="18_xc18w"]
+[ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="19_deyoo"]
+[ext_resource type="AudioStream" uid="uid://dsb2rfsve51ay" path="res://sounds/machbuster.wav" id="20_dte03"]
+[ext_resource type="AudioStream" uid="uid://bq6ccpgtocrqr" path="res://sounds/machbust.wav" id="21_o8ixe"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qymoq"]
 shader = ExtResource("2_m015p")
@@ -334,6 +337,22 @@ tracks/0/keys = {
 "values": [33]
 }
 
+[sub_resource type="Animation" id="Animation_govqx"]
+resource_name = "IDLE_FIN_SHREDDER"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [53, 54, 55, 56]
+}
+
 [sub_resource type="Animation" id="Animation_7lbq7"]
 resource_name = "IDLE_SHIELD"
 length = 0.533333
@@ -633,22 +652,6 @@ tracks/0/keys = {
 "values": [75]
 }
 
-[sub_resource type="Animation" id="Animation_lyowt"]
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [82, 83]
-}
-
 [sub_resource type="Animation" id="Animation_xc18w"]
 resource_name = "PAPER_CUT"
 length = 0.5
@@ -800,9 +803,10 @@ tracks/0/keys = {
 "values": [10, 11, 12, 13, 14, 15]
 }
 
-[sub_resource type="Animation" id="Animation_govqx"]
-resource_name = "IDLE_FIN_SHREDDER"
-length = 0.6
+[sub_resource type="Animation" id="Animation_lyowt"]
+resource_name = "SLIDE"
+length = 0.2
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -810,10 +814,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [53, 54, 55, 56]
+"values": [82, 83]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_knm54"]
@@ -855,9 +859,9 @@ _data = {
 &"Ladder-Shoot Diagonal": SubResource("Animation_kwtfk"),
 &"Ladder-Shoot Down": SubResource("Animation_pnkuv"),
 &"Ladder-Shoot Up": SubResource("Animation_h6dsx"),
-&"Mist Dash": SubResource("Animation_lyowt"),
 &"PAPER_CUT": SubResource("Animation_xc18w"),
 &"RESET": SubResource("Animation_15kij"),
+&"SLIDE": SubResource("Animation_lyowt"),
 &"STEP": SubResource("Animation_lvb1v"),
 &"TELEPORT": SubResource("Animation_8m6b5"),
 &"TELEPORT_LANDING": SubResource("Animation_beqyk"),
@@ -927,10 +931,10 @@ size = Vector2(12, 26)
 size = Vector2(14, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cb33"]
-size = Vector2(14, 26)
+size = Vector2(14, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lw0ta"]
-size = Vector2(13, 14)
+size = Vector2(14, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vxmyy"]
 size = Vector2(1, 0)
@@ -1001,11 +1005,15 @@ position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_bkdc0")
 
 [node name="mainCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 3)
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_3cb33")
 
+[node name="mistCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 9)
+shape = SubResource("RectangleShape2D_lw0ta")
+
 [node name="slideCollision" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 9)
+position = Vector2(0, 7)
 shape = SubResource("RectangleShape2D_lw0ta")
 
 [node name="upLadder" type="RayCast2D" parent="."]
@@ -1127,6 +1135,18 @@ pitch_scale = 4.0
 
 [node name="ReaperDash" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("18_xc18w")
+
+[node name="Buster" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("19_deyoo")
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="Machine" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("20_dte03")
+volume_db = -5.0
+
+[node name="Machine2" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("21_o8ixe")
 
 [connection signal="teleported" from="." to="." method="_on_teleported"]
 [connection signal="timeout" from="Timers/SlideTimer" to="." method="_on_slide_timer_timeout"]

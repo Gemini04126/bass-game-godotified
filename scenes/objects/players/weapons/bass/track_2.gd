@@ -32,24 +32,17 @@ func _physics_process(delta):
 				flash_timer = 0
 		else:
 			$AnimatedSprite2D.show()
-	if timer > 900 && explode_state == 0:
-		if $AnimatedSprite2D.animation != "explode":
-			$AnimatedSprite2D.show()
-			$AnimatedSprite2D.play("Explode")
-			explode_state = 1
-	if explode_state == 1:
-		await $AnimatedSprite2D.animation_finished
-		explode_state = 2 # G: for the love of god dont run this again
-		done_exploding()
-	return
+	if timer > 900:
+		projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
+		get_parent().add_child(projectile)
+		
+		projectile.position = position
+		die()
 	
 func _on_visible_on_screen_notifier_2d_screen_exited():
-	GameState.onscreen_track2s -= 1
-	print(GameState.onscreen_track2s)
-	print("offscreen")
-	queue_free()
+	die()
 
-func done_exploding():
+func die():
 	GameState.onscreen_track2s -= 1
 	print(GameState.onscreen_track2s)
 	print("exploded")
@@ -78,7 +71,7 @@ func handle_buster():
 		$AnimatedSprite2D.set_frame_and_progress(current_frame, current_progress)
 		
 
-	if (Input.is_action_pressed("buster") && !Input.is_action_pressed("move_down") && !Input.is_action_pressed("move_up")):
+	if (Input.is_action_pressed("buster") && !Input.is_action_pressed("move_down") && !Input.is_action_pressed("move_up") &&  (Input.is_action_pressed("move_left") or  Input.is_action_pressed("move_right"))):
 		aim = 0
 		$AnimatedSprite2D.play("Forward")
 		$AnimatedSprite2D.set_frame_and_progress(current_frame, current_progress)
@@ -93,6 +86,7 @@ func handle_buster():
 
 
 	if buster_timer > 10:
+		$Buster.play()
 		projectile = preload("res://scenes/objects/players/weapons/bass/track_2_buster.tscn").instantiate()
 		get_parent().add_child(projectile)
 		
