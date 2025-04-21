@@ -1,9 +1,8 @@
-class_name BossDoor
+class_name BossDoor_H
 extends StaticBody2D
 
 static var static_audio_player : AudioStreamPlayer2D
 
-@export var state : int
 
 @export var scrollX1 : int ##Left bounds of the current room
 @export var scrollX2 : int ##Right bounds of the current room
@@ -32,26 +31,28 @@ var oldscaley
 
 func _ready():
 	if way == 0:
-		$OpenTrigger/OpenTriggerRight.queue_free()
+		$OpenTrigger/OpenTop.queue_free()
 	if way == 1:
-		$OpenTrigger/OpenTriggerLeft.queue_free()
+		$OpenTrigger/OpenTop.queue_free()
 
 func _physics_process(delta):
 	if GameState.screentransiton > 0 and GameState.screentransiton < 40 and opening == true:
-		if $Top.position.y >= -48:
-			$Top.position.y -= 2
-			$Bottom.position.y += 2
+		if $Top.position.x >= -48:
+			$Top.position.x -= 2
+			$Bottom.position.x += 2
 	
 	if GameState.transdir == 0:
 		opening = false
-		if $Top.position.y < -16:
-			$Top.position.y += 2
-			$Bottom.position.y -= 2
+		$CollisionShape2D.disabled = false
+		if $Top.position.x < -16:
+			$Top.position.x += 2
+			$Bottom.position.x -= 2
 
 func _on_open_trigger_body_entered(body):
 	GameState.bossdoor = true
 	opening = true
 	print("yo")
+	$CollisionShape2D.disabled = true
 	if body.is_in_group("player") && GameState.transdir == 0:
 		if ladderonly == false or GameState.playerstate == 7:
 			if scrollX1 != GameState.scrollX1 or scrollX2 != GameState.scrollX2 or scrollY1 != GameState.scrollY1 or scrollY2 != GameState.scrollY2:

@@ -1,0 +1,79 @@
+[gd_scene load_steps=8 format=3 uid="uid://trkgtebh8rbb"]
+
+[ext_resource type="Script" uid="uid://dari3luqe4d5p" path="res://scenes/objects/level_objects/boss_door_h.gd" id="1_u6hss"]
+[ext_resource type="AudioStream" uid="uid://xgre6yptpa2v" path="res://sounds/yoku.wav" id="2_l2e04"]
+[ext_resource type="Texture2D" uid="uid://dlqjqpe0tstrq" path="res://sprites/objects/door.png" id="3_hnq8l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3htip"]
+atlas = ExtResource("3_hnq8l")
+region = Rect2(0, 0, 0, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8kaqg"]
+atlas = ExtResource("3_hnq8l")
+region = Rect2(0, 32, 0, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f54ev"]
+size = Vector2(64, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gam5x"]
+size = Vector2(64, 32)
+
+[node name="BossDoor_H" type="StaticBody2D"]
+script = ExtResource("1_u6hss")
+
+[node name="YokuSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_l2e04")
+max_distance = 9.22337e+18
+attenuation = 1e-05
+panning_strength = 0.0
+bus = &"SFX"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="Top" type="Sprite2D" parent="."]
+position = Vector2(-16, 8)
+rotation = 4.71239
+texture = SubResource("AtlasTexture_3htip")
+
+[node name="Part3" type="Sprite2D" parent="Top"]
+position = Vector2(16, 0)
+texture = SubResource("AtlasTexture_3htip")
+
+[node name="Part4" type="Sprite2D" parent="Top"]
+position = Vector2(32, 0)
+texture = SubResource("AtlasTexture_3htip")
+
+[node name="Bottom" type="Sprite2D" parent="."]
+position = Vector2(16, 8)
+rotation = 4.71239
+texture = SubResource("AtlasTexture_8kaqg")
+
+[node name="Part4" type="Sprite2D" parent="Bottom"]
+position = Vector2(16, 0)
+texture = SubResource("AtlasTexture_8kaqg")
+
+[node name="Part5" type="Sprite2D" parent="Bottom"]
+position = Vector2(32, 0)
+texture = SubResource("AtlasTexture_8kaqg")
+
+[node name="OpenTrigger" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="OpenBottom" type="CollisionShape2D" parent="OpenTrigger"]
+position = Vector2(0, 18)
+shape = SubResource("RectangleShape2D_f54ev")
+debug_color = Color(0, 0.588235, 0, 0.419608)
+
+[node name="OpenTop" type="CollisionShape2D" parent="OpenTrigger"]
+position = Vector2(0, -34)
+shape = SubResource("RectangleShape2D_f54ev")
+debug_color = Color(0, 0.588235, 0, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_gam5x")
+debug_color = Color(0, 0.619608, 1, 0.419608)
+
+[connection signal="body_entered" from="OpenTrigger" to="." method="_on_open_trigger_body_entered"]

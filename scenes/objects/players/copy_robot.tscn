@@ -1009,6 +1009,7 @@ bus = &"SFX"
 
 [node name="Buster3" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("17_hy6ug")
+volume_db = 2.0
 bus = &"SFX"
 
 [node name="Death" type="AudioStreamPlayer" parent="Audio"]

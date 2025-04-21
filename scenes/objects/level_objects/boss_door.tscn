@@ -13,7 +13,7 @@ atlas = ExtResource("3_kjufa")
 region = Rect2(0, 32, 0, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ydltv"]
-size = Vector2(4, 64)
+size = Vector2(4, 55)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qkgg4"]
 size = Vector2(32, 64)
@@ -53,15 +53,19 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CloseTrigger" type="CollisionShape2D" parent="CloseTrigger"]
-position = Vector2(28, 0)
 shape = SubResource("RectangleShape2D_ydltv")
 debug_color = Color(0.981952, 0, 0.366536, 0.42)
 
 [node name="OpenTrigger" type="Area2D" parent="."]
 collision_mask = 2
 
-[node name="OpenTrigger" type="CollisionShape2D" parent="OpenTrigger"]
-position = Vector2(-19, 0)
+[node name="OpenTriggerLeft" type="CollisionShape2D" parent="OpenTrigger"]
+position = Vector2(-19, 4.5)
+shape = SubResource("RectangleShape2D_ydltv")
+debug_color = Color(0, 0.588235, 0, 0.419608)
+
+[node name="OpenTriggerRight" type="CollisionShape2D" parent="OpenTrigger"]
+position = Vector2(19, 5)
 shape = SubResource("RectangleShape2D_ydltv")
 debug_color = Color(0, 0.588235, 0, 0.419608)
 
