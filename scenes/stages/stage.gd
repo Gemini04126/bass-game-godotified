@@ -71,6 +71,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if GameState.bossfightstatus == 1:
+		$Music.stop()
+		$BossMusic.play()
+		GameState.bossfightstatus = 2
+		
 	process_camera()
 
 func _physics_process(_delta: float):

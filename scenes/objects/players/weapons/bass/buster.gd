@@ -11,6 +11,7 @@ func _ready():
 	if GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true:
 		#$Machine.play()
 		W_Type = GameState.DMGTYPE.MD_GUERILLA
+		
 	#else:
 		#$SpawnSound.play()
 	
@@ -19,6 +20,7 @@ func _physics_process(delta):
 	
 	if GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true && !dead:
 		if charged == true:
+			W_Type = GameState.DMGTYPE.MD_GUERILLA2
 			if velocity.y > 0:
 				$AnimatedSprite2D.play("charged_dow")
 			if velocity.y < 0 && velocity.x == 0:

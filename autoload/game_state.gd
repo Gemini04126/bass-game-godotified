@@ -104,6 +104,16 @@ var maxCharacterID = characters.size() - 1 # Whyyyyy...?
 var character_selected : int
 var player # absolute path to player node
 var player_lives : int = 3
+var bossfightstatus : int = 0
+
+var boss1 
+var boss2 
+var boss3 
+var boss4 
+var boss5 
+var boss6 
+var boss7 
+var boss8 
 
 # TODO: Could be improved using object pooling
 var onscreen_bullets : int
