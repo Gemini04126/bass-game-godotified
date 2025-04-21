@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=3 uid="uid://bsy7vba3t8awq"]
+[gd_scene load_steps=84 format=3 uid="uid://bsy7vba3t8awq"]
 
 [ext_resource type="Script" uid="uid://bsxw7au27mfj5" path="res://scenes/objects/players/bass.gd" id="1_lug7r"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_m015p"]
@@ -21,9 +21,18 @@
 [ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="19_deyoo"]
 [ext_resource type="AudioStream" uid="uid://dsb2rfsve51ay" path="res://sounds/machbuster.wav" id="20_dte03"]
 [ext_resource type="AudioStream" uid="uid://bq6ccpgtocrqr" path="res://sounds/machbust.wav" id="21_o8ixe"]
+[ext_resource type="Texture2D" uid="uid://culj6yyxpqgs1" path="res://sprites/players/bass/palettes/Bass Buster.png" id="22_o8ixe"]
+[ext_resource type="Texture2D" uid="uid://bu1d7yfrawcb5" path="res://sprites/hud/bass_weapons.png" id="23_o8ixe"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qymoq"]
 shader = ExtResource("2_m015p")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u1bed"]
+shader = ExtResource("2_m015p")
+shader_parameter/palette = ExtResource("22_o8ixe")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
@@ -946,6 +955,14 @@ collision_mask = 17
 floor_snap_length = 5.0
 script = ExtResource("1_lug7r")
 
+[node name="WeaponIcon" type="Sprite2D" parent="."]
+visible = false
+z_index = 6
+material = SubResource("ShaderMaterial_u1bed")
+position = Vector2(0, -20)
+texture = ExtResource("23_o8ixe")
+hframes = 12
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
 material = SubResource("ShaderMaterial_7773x")
@@ -1050,6 +1067,9 @@ debug_color = Color(0.969991, 0, 0.457701, 0.42)
 one_shot = true
 autostart = true
 
+[node name="SwitchTimer" type="Timer" parent="Timers"]
+process_callback = 0
+
 [node name="InvulTimer" type="Timer" parent="Timers"]
 one_shot = true
 autostart = true
@@ -1149,5 +1169,6 @@ volume_db = -5.0
 stream = ExtResource("21_o8ixe")
 
 [connection signal="teleported" from="." to="." method="_on_teleported"]
+[connection signal="timeout" from="Timers/SwitchTimer" to="." method="_on_switch_timer_timeout"]
 [connection signal="timeout" from="Timers/SlideTimer" to="." method="_on_slide_timer_timeout"]
 [connection signal="timeout" from="Timers/ShootTimer" to="." method="_on_shoot_timer_timeout"]

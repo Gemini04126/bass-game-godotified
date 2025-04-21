@@ -3,6 +3,7 @@ extends MaestroPlayer
 class_name CopyRobotPlayer
 
 # Variables
+var recoil : int
 var busterflashtimer : int
 var sharkcharge : int
 var bustercharge : int
@@ -63,6 +64,13 @@ func _init() -> void:
 #function that applies gravity need to specify to only apply it during certain states since it will only execute on the correct states. It's also just nicer to look at.
 
 func _physics_process(delta: float) -> void:
+	if recoil != 0:
+		if recoil < 0:
+			position.x -= 1
+			recoil += 1
+		if recoil > 0:
+			position.x += 1
+			recoil -= 1
 	check_for_death()
 	
 	GameState.player.position.x = position.x
@@ -171,7 +179,7 @@ func _physics_process(delta: float) -> void:
 			move_and_slide()
 		
 func processShoot():
-	if Input.is_action_just_pressed("shoot") && !transing:
+	if Input.is_action_just_pressed("shoot") && !transing && GameState.inputdisabled == false:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 				#buster stuff doesn't go here now
@@ -274,7 +282,8 @@ func processCharge():
 	elif (Input.is_action_just_released("shoot") or Input.is_action_just_released("buster")) && !transing:
 		currentWeapon = GameState.current_weapon
 		if currentWeapon == WEAPONS.BUSTER or Input.is_action_just_released("buster"):
-			busterAnimMatch()
+			if GameState.inputdisabled == false:
+				busterAnimMatch()
 			weapon_cbuster()
 
 # ================
@@ -282,21 +291,23 @@ func processCharge():
 # ================
 func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'd need to redefine it in a game where everyone charges anyway. good one fr fr
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_just_pressed("shoot")) or Input.is_action_just_pressed("buster"):
-		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3):
-			attack_timer.start(0.3)
-			GameState.onscreen_bullets += 1
-			projectile = projectile_scenes[0].instantiate()
-			get_parent().add_child(projectile)
-			projectile.position.x = position.x + (sprite.scale.x * 18)
-			projectile.position.y = position.y + 2
-			projectile.velocity.x = sprite.scale.x * 350
-			projectile.scale.x = sprite.scale.x
-			bustercharge = 0
-			$Audio/Charge1.stop()
-			$Audio/Charge2.stop()
-			set_current_weapon_palette()
-			busterAnimMatch()
-			return
+		if GameState.inputdisabled == false:
+			if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3):
+				attack_timer.start(0.3)
+				GameState.onscreen_bullets += 1
+				projectile = projectile_scenes[0].instantiate()
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x + (sprite.scale.x * 18)
+				projectile.position.y = position.y + 2
+				projectile.velocity.x = sprite.scale.x * 350
+				projectile.scale.x = sprite.scale.x
+				bustercharge = 0
+				$Audio/Charge1.stop()
+				$Audio/Charge2.stop()
+				$Audio/Buster1.play()
+				set_current_weapon_palette()
+				busterAnimMatch()
+				return
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_just_released("shoot")) or Input.is_action_just_released("buster"):
 		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3):
 			if bustercharge < 32: # no Charge
@@ -306,41 +317,45 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				set_current_weapon_palette()
 				return
 			if bustercharge >= 32 and bustercharge < 92: # medium charge
-				attack_timer.start(0.3)
-				GameState.onscreen_bullets += 1
-				projectile = projectile_scenes[1].instantiate()
-				get_parent().add_child(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 18)
-				projectile.position.y = position.y + 2
-				projectile.velocity.x = sprite.scale.x * 350
-				projectile.scale.x = sprite.scale.x
+				if GameState.inputdisabled == false:
+					attack_timer.start(0.3)
+					GameState.onscreen_bullets += 1
+					projectile = projectile_scenes[1].instantiate()
+					get_parent().add_child(projectile)
+					projectile.position.x = position.x + (sprite.scale.x * 18)
+					projectile.position.y = position.y + 2
+					projectile.velocity.x = sprite.scale.x * 350
+					projectile.scale.x = sprite.scale.x
 				bustercharge = 0
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
+				$Audio/Buster2.play()
 				set_current_weapon_palette()
 				return
 			if bustercharge >= 92: # da big boi
-				attack_timer.start(0.3)
+				if GameState.inputdisabled == false:
+					attack_timer.start(0.3)
 				
-				position.x -= sprite.scale.x * 2
+					position.x -= sprite.scale.x * 2
 				
-				GameState.onscreen_bullets += 1
-				projectile = projectile_scenes[2].instantiate()
-				get_parent().add_child(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 18)
-				projectile.position.y = position.y + 2
-				projectile.velocity.x = sprite.scale.x * 350
-				projectile.scale.x = sprite.scale.x
-				
-				projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
-				get_parent().add_child(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 18)
-				projectile.position.y = position.y + 2
-				
-				
+					GameState.onscreen_bullets += 1
+					projectile = projectile_scenes[2].instantiate()
+					get_parent().add_child(projectile)
+					projectile.position.x = position.x + (sprite.scale.x * 18)
+					projectile.position.y = position.y + 2
+					projectile.velocity.x = sprite.scale.x * 350
+					projectile.scale.x = sprite.scale.x
+					
+					projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
+					get_parent().add_child(projectile)
+					projectile.position.x = position.x + (sprite.scale.x * 18)
+					projectile.position.y = position.y + 2
+					recoil = -sprite.scale.x * 4
+					
 				bustercharge = 0
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
+				$Audio/Buster3.play()
 				set_current_weapon_palette()
 				return
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_pressed("shoot")) or Input.is_action_pressed("buster"):

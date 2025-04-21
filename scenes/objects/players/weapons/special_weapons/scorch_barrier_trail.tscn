@@ -86,6 +86,7 @@ animations = [{
 }]
 
 [node name="ScorchBarrierTrail" type="AnimatedSprite2D"]
+z_index = 2
 material = SubResource("ShaderMaterial_1028d")
 sprite_frames = SubResource("SpriteFrames_nlvml")
 animation = &"Bass"

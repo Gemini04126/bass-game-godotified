@@ -195,6 +195,7 @@ size = Vector2(21.053, 30)
 size = Vector2(42.1053, 27)
 
 [node name="Fin Shredder" type="CharacterBody2D"]
+z_index = 2
 collision_layer = 8
 script = ExtResource("1_nr124")
 

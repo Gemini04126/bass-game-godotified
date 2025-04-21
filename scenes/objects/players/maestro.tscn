@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://bksinirshmwgf"]
+[gd_scene load_steps=63 format=3 uid="uid://bksinirshmwgf"]
 
 [ext_resource type="Script" uid="uid://bmoeo1pjk4r87" path="res://scenes/objects/players/maestro.gd" id="1_ct76e"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_lnglj"]
@@ -15,6 +15,8 @@
 [ext_resource type="AudioStream" uid="uid://rm3ckgibk0u5" path="res://sounds/charge1.wav" id="13_u3nua"]
 [ext_resource type="AudioStream" uid="uid://dnnvv4semeufh" path="res://sounds/charge2.ogg" id="14_38jsf"]
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="15_gi8v7"]
+[ext_resource type="Texture2D" uid="uid://culj6yyxpqgs1" path="res://sprites/players/bass/palettes/Bass Buster.png" id="16_gi8v7"]
+[ext_resource type="Texture2D" uid="uid://dspk0k641qf8b" path="res://sprites/hud/copy_robot_weapons.png" id="17_6rfa2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u81pt"]
 shader = ExtResource("1_lnglj")
@@ -614,6 +616,13 @@ size = Vector2(14, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r35an"]
 size = Vector2(1, 0)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o4erw"]
+shader = ExtResource("1_lnglj")
+shader_parameter/palette = ExtResource("16_gi8v7")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
 [node name="Maestro" type="CharacterBody2D" groups=["player", "splash"]]
 editor_description = "Maestro, the base class for every character."
 material = SubResource("ShaderMaterial_u81pt")
@@ -700,9 +709,9 @@ target_position = Vector2(0, -7)
 
 [node name="states" type="RichTextLabel" parent="."]
 offset_left = -36.0
-offset_top = -29.0
+offset_top = -44.0
 offset_right = 43.0
-offset_bottom = 11.0
+offset_bottom = -4.0
 bbcode_enabled = true
 text = "state
 goes here"
@@ -764,6 +773,9 @@ process_callback = 0
 one_shot = true
 autostart = true
 
+[node name="SwitchTimer" type="Timer" parent="Timers"]
+process_callback = 0
+
 [node name="InvulTimer" type="Timer" parent="Timers"]
 process_callback = 0
 one_shot = true
@@ -794,10 +806,19 @@ process_callback = 0
 wait_time = 0.35
 one_shot = true
 
+[node name="WeaponIcon" type="Sprite2D" parent="."]
+visible = false
+z_index = 6
+material = SubResource("ShaderMaterial_o4erw")
+position = Vector2(0, -20)
+texture = ExtResource("17_6rfa2")
+hframes = 17
+
 [connection signal="area_entered" from="hurtboxArea" to="." method="_on_hurtbox_area_area_entered"]
 [connection signal="body_entered" from="hurtboxArea" to="." method="_on_hurtbox_area_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="animationPlayerFinished"]
 [connection signal="area_entered" from="waterCheck" to="." method="_on_water_check"]
 [connection signal="area_exited" from="waterCheck" to="." method="_on_water_check"]
+[connection signal="timeout" from="Timers/SwitchTimer" to="." method="_on_switch_timer_timeout"]
 [connection signal="timeout" from="Timers/SlideTimer" to="." method="_on_slide_timer_timeout"]
 [connection signal="timeout" from="Timers/ShootTimer" to="." method="_on_shoot_timer_timeout"]

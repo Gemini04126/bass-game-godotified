@@ -8,6 +8,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lc3ro"]
 
 [node name="WildGaleAtk" type="CharacterBody2D"]
+z_index = 4
 position = Vector2(-0.25, 0)
 scale = Vector2(1.02381, 1)
 collision_layer = 8

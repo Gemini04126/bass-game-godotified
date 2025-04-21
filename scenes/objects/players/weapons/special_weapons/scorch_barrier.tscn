@@ -214,6 +214,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hao3f"]
 
 [node name="ScorchBarrier" type="CharacterBody2D" groups=["scorch"]]
+z_index = 2
 collision_layer = 10
 collision_mask = 20
 script = ExtResource("1_emmpe")

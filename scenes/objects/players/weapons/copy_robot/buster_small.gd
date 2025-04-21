@@ -2,9 +2,6 @@ extends CharacterBody2D
 
 const W_Type = GameState.DMGTYPE.CR_BUSTER_1
 
-func _ready():
-	$SpawnSound.play()
-
 func _physics_process(_delta):
 	move_and_slide()
 

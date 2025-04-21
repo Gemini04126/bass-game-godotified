@@ -38,6 +38,7 @@ animations = [{
 size = Vector2(18, 18.3333)
 
 [node name="Papercut" type="CharacterBody2D"]
+z_index = 2
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_pr0uf")

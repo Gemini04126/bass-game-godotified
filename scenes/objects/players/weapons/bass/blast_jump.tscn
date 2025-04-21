@@ -45,6 +45,7 @@ animations = [{
 size = Vector2(28, 9)
 
 [node name="BlastJump" type="CharacterBody2D"]
+z_index = 2
 collision_layer = 8
 script = ExtResource("1_w2psd")
 

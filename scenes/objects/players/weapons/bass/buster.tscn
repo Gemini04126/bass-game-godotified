@@ -159,6 +159,7 @@ animations = [{
 size = Vector2(8, 8)
 
 [node name="Buster" type="CharacterBody2D"]
+z_index = 1
 collision_layer = 8
 script = ExtResource("1_3torn")
 

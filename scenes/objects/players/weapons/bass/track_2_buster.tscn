@@ -161,6 +161,7 @@ animations = [{
 size = Vector2(8, 8)
 
 [node name="Track 2 Buster" type="CharacterBody2D"]
+z_index = 2
 collision_layer = 8
 script = ExtResource("1_v81oh")
 

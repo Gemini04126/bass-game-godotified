@@ -350,7 +350,7 @@ func teleporting():
 		currentState = STATES.TELEPORT_LANDING
 
 func idle(delta):
-	if direction.x != 0:
+	if direction.x != 0 and GameState.inputdisabled == false:
 		if on_ice == false:
 			position.x += direction.x
 			velocity.x = 0
@@ -363,7 +363,7 @@ func idle(delta):
 
 func step(delta):
 	StepTime += 1
-	if direction.x == 0:
+	if direction.x == 0 or GameState.inputdisabled == true:
 		currentState = STATES.IDLE
 	else:
 		sprite.scale.x = direction.x
@@ -371,44 +371,45 @@ func step(delta):
 		currentState = STATES.WALK
 
 func walk():
-	if direction.x == 0:
+	if direction.x == 0 or GameState.inputdisabled == true:
 		currentState = STATES.IDLE
 
 func allowLeftRight(delta):
-	if direction.x != 0:
-		sprite.scale.x = direction.x
-		if on_ice == true:
-			if (sprite.scale.x != sign(direction.x)) and currentSpeed != 0:
-				if is_on_floor() == true && on_ice == true:
-					if velocity.x <= -MAXSPEED && velocity.x >= MAXSPEED:
-						velocity.x = lerpf(velocity.x, sprite.scale.x * 250, delta * ICE_FLOOR_WEIGHT)
-				else:
-					currentSpeed = MAXSPEED
-			if is_on_floor() == true && on_ice == true:
-				velocity.x = lerpf(velocity.x, sprite.scale.x * MAXSPEED * 1.25, delta * ICE_FLOOR_WEIGHT)
-		elif is_on_floor() == false && ice_jump == true:
-				velocity.x = lerpf(velocity.x, sprite.scale.x * MAXSPEED * 1.25, delta * ICE_AIR_WEIGHT)
-		elif slowed == true:
-			velocity.x = 50 * direction.x
-			pass
-			
-		else:
-			if dashjumped == true && !is_on_floor():
-				if direction.x == dashdir:
-					velocity.x = 200 * direction.x
-				else:
-					velocity.x = 70 * direction.x
-			else:
-				velocity.x = MAXSPEED * direction.x
+	if GameState.inputdisabled == false:
+		if direction.x != 0:
 			sprite.scale.x = direction.x
-			#velocity.x = lerpf(velocity.x, sprite.scale.x * 250, delta * 4)
-			
-	#else:
-		#if on_ice == false:
-			#velocity.x = 0
+			if on_ice == true:
+				if (sprite.scale.x != sign(direction.x)) and currentSpeed != 0:
+					if is_on_floor() == true && on_ice == true:
+						if velocity.x <= -MAXSPEED && velocity.x >= MAXSPEED:
+							velocity.x = lerpf(velocity.x, sprite.scale.x * 250, delta * ICE_FLOOR_WEIGHT)
+					else:
+						currentSpeed = MAXSPEED
+				if is_on_floor() == true && on_ice == true:
+					velocity.x = lerpf(velocity.x, sprite.scale.x * MAXSPEED * 1.25, delta * ICE_FLOOR_WEIGHT)
+			elif is_on_floor() == false && ice_jump == true:
+					velocity.x = lerpf(velocity.x, sprite.scale.x * MAXSPEED * 1.25, delta * ICE_AIR_WEIGHT)
+			elif slowed == true:
+				velocity.x = 50 * direction.x
+				pass
+				
+			else:
+				if dashjumped == true && !is_on_floor():
+					if direction.x == dashdir:
+						velocity.x = 200 * direction.x
+					else:
+						velocity.x = 70 * direction.x
+				else:
+					velocity.x = MAXSPEED * direction.x
+				sprite.scale.x = direction.x
+				#velocity.x = lerpf(velocity.x, sprite.scale.x * 250, delta * 4)
+				
 		#else:
-			#velocity.x = lerpf(velocity.x, 0, delta * 2 * sprite.scale.x)
-
+			#if on_ice == false:
+				#velocity.x = 0
+			#else:
+				#velocity.x = lerpf(velocity.x, 0, delta * 2 * sprite.scale.x)
+	
 func checkForFloor():
 	if !is_on_floor():
 		currentState = STATES.FALL_START
@@ -416,14 +417,15 @@ func checkForFloor():
 		$slideCollision.disabled = true
 
 func processJump():
-	if Input.is_action_just_pressed("jump") && direction.y != -1:
-		velocity.y = JUMP_VELOCITY
-		currentState = STATES.JUMP
-		slide_timer.stop()
-		$hurtboxArea/mainHurtbox.set_disabled(false)
-		$mainCollision.disabled = false
-		JumpHeight = 0
-		$Audio/Jump.play()
+	if GameState.inputdisabled == false:
+		if Input.is_action_just_pressed("jump") && direction.y != -1:
+			velocity.y = JUMP_VELOCITY
+			currentState = STATES.JUMP
+			slide_timer.stop()
+			$hurtboxArea/mainHurtbox.set_disabled(false)
+			$mainCollision.disabled = false
+			JumpHeight = 0
+			$Audio/Jump.play()
 
 func processDamage():
 	#Process the Invul Frames first!
@@ -473,9 +475,10 @@ func processDamage():
 func Jump(delta):
 	if on_ice == true:
 		ice_jump = true
-	if (JumpHeight < JUMP_HEIGHT && Input.is_action_pressed("jump")):
-		velocity.y = JUMP_VELOCITY
-		JumpHeight += 1
+	if GameState.inputdisabled == false:
+		if (JumpHeight < JUMP_HEIGHT && Input.is_action_pressed("jump")):
+			velocity.y = JUMP_VELOCITY
+			JumpHeight += 1
 	if (JumpHeight == JUMP_HEIGHT):
 		JumpHeight = 80
 		velocity.y = PEAK_VELOCITY
@@ -509,7 +512,7 @@ func fall(delta):
 	if is_on_floor():
 		ice_jump = false
 		dashjumped = false
-		if direction.x != 0:
+		if direction.x != 0 and GameState.inputdisabled == false:
 			currentState = STATES.WALK
 		else:
 			currentState = STATES.IDLE
@@ -562,24 +565,25 @@ func _on_collision_area_area_exited(area: Area2D) -> void:
 		print("not touching ladder...")
 
 func slideProcess():
-	if direction.y == -1 && Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("dash"):
-		if on_ice != true:
-			velocity.x = 200 * sprite.scale.x
-		currentState = STATES.SLIDE
-		$mainCollision.disabled = true
-		$slideCollision.disabled = false
-		$hurtboxArea/mainHurtbox.set_disabled(true)
-		slide_timer.start(0.4)
-		FX = preload("res://scenes/objects/players/dash_trail.tscn").instantiate()
-		get_parent().add_child(FX)
-		if sprite.scale.x == -1:
-			FX.scale.x = -1
-			FX.position.x = position.x + 15
-		else:
-			FX.position.x = position.x - 15
-		FX.position.y = position.y+8
-		$Audio/Slide.play()
-
+	if GameState.inputdisabled == false:
+		if direction.y == -1 && Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("dash"):
+			if on_ice != true:
+				velocity.x = 200 * sprite.scale.x
+			currentState = STATES.SLIDE
+			$mainCollision.disabled = true
+			$slideCollision.disabled = false
+			$hurtboxArea/mainHurtbox.set_disabled(true)
+			slide_timer.start(0.4)
+			FX = preload("res://scenes/objects/players/dash_trail.tscn").instantiate()
+			get_parent().add_child(FX)
+			if sprite.scale.x == -1:
+				FX.scale.x = -1
+				FX.position.x = position.x + 15
+			else:
+				FX.position.x = position.x - 15
+			FX.position.y = position.y+8
+			$Audio/Slide.play()
+	
 func sliding(delta):
 	if on_ice == false:
 		velocity.x = 200 * sprite.scale.x
@@ -726,7 +730,7 @@ func _on_shoot_timer_timeout() -> void:
 
 #region Weapon Shit
 func processShoot():
-	if Input.is_action_just_pressed("shoot") && !transing:
+	if Input.is_action_just_pressed("shoot") && !transing && GameState.inputdisabled == false:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 			WEAPONS.BUSTER:
@@ -1257,13 +1261,19 @@ func switchWeapons():
 	if GameState.old_weapon != GameState.current_weapon:
 		GameState.onscreen_sp_bullets = 0
 		$Audio/Switch.play()
+		$Audio/Switch.play()
+		$Timers/SwitchTimer.start(2)
+		$WeaponIcon.visible = true
+		$WeaponIcon.frame = GameState.current_weapon
+		if (GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true and GameState.current_weapon == GameState.WEAPONS.BUSTER):
+			$WeaponIcon.frame = 11
+		
 		GameState.old_weapon = GameState.current_weapon
 		set_current_weapon_palette()
 	if  (Input.is_action_just_pressed("switch_left") && Input.is_action_pressed("switch_right")) or (Input.is_action_pressed("switch_left") && Input.is_action_just_pressed("switch_right")):
 		if (currentState != STATES.TELEPORT and currentState != STATES.DEAD):
 			GameState.current_weapon = GameState.WEAPONS.BUSTER
 			if GameState.old_weapon != GameState.current_weapon:
-				$Audio/Switch.play()
 				GameState.onscreen_sp_bullets = 0
 			set_current_weapon_palette()
 
@@ -1289,3 +1299,7 @@ func reset(everything: bool) -> void:
 				#velocity.x = lerpf(direction.x * 50, 0, delta * 7)
 	#else:
 		#velocity.x = lerpf(velocity.x, 0, delta * 4)
+
+
+func _on_switch_timer_timeout():
+	$WeaponIcon.visible = false

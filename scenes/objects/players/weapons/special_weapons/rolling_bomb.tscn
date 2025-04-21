@@ -52,6 +52,7 @@ animations = [{
 size = Vector2(10, 10)
 
 [node name="RollingBomb" type="CharacterBody2D"]
+z_index = 2
 position = Vector2(0, 1)
 collision_layer = 9
 script = ExtResource("1_kvwvl")

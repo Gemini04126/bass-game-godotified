@@ -74,6 +74,7 @@ animations = [{
 }]
 
 [node name="WildGaleFX" type="AnimatedSprite2D"]
+z_index = 4
 material = SubResource("ShaderMaterial_1028d")
 position = Vector2(-0.25, 0)
 scale = Vector2(1.02381, 1)

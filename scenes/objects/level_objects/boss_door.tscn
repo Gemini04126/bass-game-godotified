@@ -16,7 +16,7 @@ region = Rect2(0, 32, 0, 32)
 size = Vector2(4, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qkgg4"]
-size = Vector2(16, 64)
+size = Vector2(32, 64)
 
 [node name="BossDoor" type="StaticBody2D"]
 script = ExtResource("1_f87d5")
@@ -32,12 +32,20 @@ bus = &"SFX"
 wait_time = 4.0
 one_shot = true
 
-[node name="Part1" type="Sprite2D" parent="."]
-position = Vector2(0, -16)
+[node name="Top" type="Sprite2D" parent="."]
+position = Vector2(-8, -16)
 texture = SubResource("AtlasTexture_3htip")
 
-[node name="Part2" type="Sprite2D" parent="."]
-position = Vector2(0, 16)
+[node name="Part3" type="Sprite2D" parent="Top"]
+position = Vector2(16, 0)
+texture = SubResource("AtlasTexture_3htip")
+
+[node name="Bottom" type="Sprite2D" parent="."]
+position = Vector2(-8, 16)
+texture = SubResource("AtlasTexture_8kaqg")
+
+[node name="Part4" type="Sprite2D" parent="Bottom"]
+position = Vector2(16, 0)
 texture = SubResource("AtlasTexture_8kaqg")
 
 [node name="CloseTrigger" type="Area2D" parent="."]
@@ -45,11 +53,21 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CloseTrigger" type="CollisionShape2D" parent="CloseTrigger"]
-position = Vector2(10, 0)
+position = Vector2(28, 0)
 shape = SubResource("RectangleShape2D_ydltv")
 debug_color = Color(0.981952, 0, 0.366536, 0.42)
 
+[node name="OpenTrigger" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="OpenTrigger" type="CollisionShape2D" parent="OpenTrigger"]
+position = Vector2(-19, 0)
+shape = SubResource("RectangleShape2D_ydltv")
+debug_color = Color(0, 0.588235, 0, 0.419608)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_qkgg4")
+debug_color = Color(0, 0.619608, 1, 0.419608)
 
-[connection signal="body_exited" from="CloseTrigger" to="." method="_on_close_trigger_body_exited"]
+[connection signal="body_entered" from="CloseTrigger" to="." method="_on_close_trigger_body_entered"]
+[connection signal="body_entered" from="OpenTrigger" to="." method="_on_open_trigger_body_entered"]

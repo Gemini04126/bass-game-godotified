@@ -103,6 +103,7 @@ animations = [{
 }]
 
 [node name="Arrow" type="CharacterBody2D"]
+z_index = 2
 collision_layer = 9
 motion_mode = 1
 script = ExtResource("1_huft4")

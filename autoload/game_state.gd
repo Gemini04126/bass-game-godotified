@@ -106,6 +106,7 @@ var player # absolute path to player node
 var player_lives : int = 3
 var bossfightstatus : int = 0
 
+
 var boss1 
 var boss2 
 var boss3 
@@ -128,6 +129,8 @@ var playerposx
 var playerposy
 var playerstate
 
+var inputdisabled : bool = false
+
 #Camera Variables
 var camposx
 var camposy
@@ -146,6 +149,7 @@ var scrollY3
 var scrollY4
 
 var screentransiton : int
+var bossdoor : bool
 var transdir : int
 
 var checkpoint

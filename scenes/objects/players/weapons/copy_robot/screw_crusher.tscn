@@ -81,6 +81,7 @@ collision_mask = 0
 script = ExtResource("1_arag5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 2
 material = SubResource("ShaderMaterial_fajo5")
 position = Vector2(-0.25, 0)
 scale = Vector2(1.02381, 1)

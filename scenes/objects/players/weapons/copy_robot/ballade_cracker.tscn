@@ -125,6 +125,7 @@ size = Vector2(14, 14)
 size = Vector2(42.5, 41)
 
 [node name="BalladeCracker" type="CharacterBody2D"]
+z_index = 2
 collision_layer = 8
 script = ExtResource("1_srl0e")
 

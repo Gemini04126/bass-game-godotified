@@ -75,7 +75,11 @@ func _process(_delta):
 		$Music.stop()
 		$BossMusic.play()
 		GameState.bossfightstatus = 2
+		GameState.inputdisabled = true
 		
+	if GameState.bossfightstatus == 2 && (GameState.boss1 == null or GameState.boss1.Cur_HP == GameState.boss1.Max_HP):
+		GameState.bossfightstatus = 3
+		GameState.inputdisabled = false
 	process_camera()
 
 func _physics_process(_delta: float):
@@ -105,12 +109,15 @@ func process_camera():
 			$Camera2D.position.x += 6
 		if player != null:
 			if GameState.screentransiton == 0:
-				player.position.x += 0.5
+				if GameState.bossdoor == true:
+					player.position.x += 0.75
+				else:
+					player.position.x += 0.5
 			player.transing = true
 		
 	elif GameState.transdir == 2 && ($Camera2D.position.y < (224*GameState.scrollY1)+108 + 8):
 		if GameState.screentransiton == 0:
-			$Camera2D.position.y += 6
+			$Camera2D.position.y += 8
 		if player != null:
 			if GameState.screentransiton == 0:
 				player.position.y += 1
@@ -121,7 +128,10 @@ func process_camera():
 			$Camera2D.position.x -= 6
 		if player != null:
 			if GameState.screentransiton == 0:
-				player.position.x -= 0.5
+				if GameState.bossdoor == true:
+					player.position.x -= 0.75
+				else:
+					player.position.x -= 0.5
 			player.transing = true
 		
 	elif GameState.transdir == 4 && ($Camera2D.position.y > (224*GameState.scrollY2)+108 + 8):

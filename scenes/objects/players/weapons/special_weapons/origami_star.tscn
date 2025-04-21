@@ -76,6 +76,7 @@ animations = [{
 size = Vector2(14, 14)
 
 [node name="OrigamiStar" type="CharacterBody2D"]
+z_index = 2
 collision_layer = 8
 script = ExtResource("1_uyu0v")
 

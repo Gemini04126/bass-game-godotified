@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://c1nko4yyonafj"]
+[gd_scene load_steps=11 format=3 uid="uid://c1nko4yyonafj"]
 
 [ext_resource type="Script" uid="uid://cm8w86jwnp3vb" path="res://scenes/objects/players/weapons/copy_robot/buster_small.gd" id="1_ibwb5"]
 [ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="1_mtts4"]
-[ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="3_nyin2"]
 [ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="4_6625l"]
 [ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="5_qdnsf"]
 
@@ -51,6 +50,7 @@ animations = [{
 size = Vector2(8, 6)
 
 [node name="BusterSmall" type="CharacterBody2D"]
+z_index = 1
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_ibwb5")
@@ -65,11 +65,6 @@ scale = Vector2(0.8, 0.8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_bjbb8")
-
-[node name="SpawnSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_nyin2")
-volume_db = -2.0
-bus = &"SFX"
 
 [node name="HitSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_6625l")
