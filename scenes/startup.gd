@@ -149,8 +149,14 @@ func _physics_process(delta):
 		if Action == 20:
 			$Bass.play("dash")
 			$Dash.play()
-			$Timer.start(2500)
+			$Timer.start(2)
 			
+		if Action == 21:
+			Fade.fade_out()
+			$Timer.start(2)
+		
+		if Action == 22:
+			get_tree().change_scene_to_file("res://scenes/forteengine.tscn")
 		
 		Action += 1
 		

@@ -1,0 +1,412 @@
+[gd_scene load_steps=25 format=3 uid="uid://dhk36n5mijt86"]
+
+[ext_resource type="Script" uid="uid://co1ujmuk4ditw" path="res://scenes/intro.gd" id="1_4bx60"]
+[ext_resource type="Texture2D" uid="uid://c055arjnotmvm" path="res://sprites/intro.png" id="2_4bx60"]
+[ext_resource type="Texture2D" uid="uid://dlg0eqwyhkb8u" path="res://sprites/fade2.png" id="3_i2l1n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wfs7u"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(0, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_es01l"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(2, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0naf5"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(4, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bu1yb"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(6, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1qkj"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(8, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_272cy"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(10, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37iue"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(12, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6p8m"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(14, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3r7s"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(16, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwriy"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(18, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bx60"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(18, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2l1n"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(16, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5myo"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(14, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u05oh"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(12, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epycs"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(10, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ge50m"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(8, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17bgi"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(6, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dryi7"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(4, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pmge"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(2, 0, 2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hai50"]
+atlas = ExtResource("3_i2l1n")
+region = Rect2(0, 0, 2, 2)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u5myo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wfs7u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_es01l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0naf5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bu1yb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1qkj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_272cy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_37iue")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6p8m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m3r7s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwriy")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"fadein",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bx60")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i2l1n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5myo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u05oh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epycs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ge50m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17bgi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dryi7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pmge")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hai50")
+}],
+"loop": false,
+"name": &"fadeout",
+"speed": 15.0
+}]
+
+[node name="Startup" type="Node2D"]
+script = ExtResource("1_4bx60")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 384.0
+offset_bottom = 216.0
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "The year is 20XX."
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "Peace has settled, and life has
+returned to normal once again."
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "Hoever, this wasn't without it's worries."
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "Over the past few weeks, robot masters
+across the world have gone missing. Though
+worrying, nobody could do much about this."
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "One day..."
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel6" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "ROLL: Rock, come quick! You have to see this!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel7" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "8 of the missing robot masters have
+joined forces to wreak havoc
+across the Earth!!!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel8" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "Rock: This has Wily's name written
+all over it! I'm heading out!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel9" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "BASS: Bah! Why did the old man even
+ bother with this plan if he won't even
+ send me out? "
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel10" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "BASS: Does he think those stupid robots
+ can beat Megaman? He's done this same
+dumb plan more times than I can process!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel11" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "BASS: I'm the strongest robot ever! I
+could defeat all of the old fool's robots
+and beat Mega Man without breaking a sweat!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel12" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "BASS: WAIT!!! That's it! I'll wreck ALL of them! I'll show Wily I'm the strongest, I'll even take out Megaman! That'll prove my power!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel13" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "BASS: WAIT!!! That's it! I'll wreck ALL of them! I'll show Wily I'm the strongest, I'll even take out Megaman! That'll show him!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel14" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "???: Heh, sounds pretty fun! Mind if I
+join in, bro?"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel15" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "Bass: Mind your own business, fake!
+ You couldn't beat Mega Man years ago, what makes you think you could beat him now?"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel16" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "COPY ROBOT: Cool your jets, fin head! I 
+didn't wanna help you anyway!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel17" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "COPY ROBOT: Can you believe it? Even Bass thinks I'm a wimp, and he's done nothing but lose! But..."
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel18" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "COPY ROBOT:  If I can't tag along, then
+ I'll go out myself! I'll beat everyone
+to prove that I'm the coolest!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel19" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "COPY ROBOT: I'll show everyone I'm more
+than a copy of the Blue Blunder and
+ people will finally like me!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="RichTextLabel20" type="RichTextLabel" parent="."]
+visible = false
+offset_top = 164.0
+offset_right = 384.0
+offset_bottom = 216.0
+text = "GET READY, MEGA MAN!!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Image" type="Sprite2D" parent="."]
+position = Vector2(190, 88)
+texture = ExtResource("2_4bx60")
+vframes = 10
+
+[node name="TopCover" type="AnimatedSprite2D" parent="."]
+position = Vector2(192, 88)
+scale = Vector2(140, 80)
+sprite_frames = SubResource("SpriteFrames_u5myo")
+animation = &"fadein"
+autoplay = "fadein"
+
+[node name="BottomCover" type="AnimatedSprite2D" parent="."]
+position = Vector2(192, 193.38)
+scale = Vector2(189.82, 20)
+sprite_frames = SubResource("SpriteFrames_u5myo")
+animation = &"fadein"
+autoplay = "fadein"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
