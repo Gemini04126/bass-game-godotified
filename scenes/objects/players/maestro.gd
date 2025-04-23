@@ -567,8 +567,11 @@ func _on_collision_area_area_exited(area: Area2D) -> void:
 func slideProcess():
 	if GameState.inputdisabled == false:
 		if direction.y == -1 && Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("dash"):
-			if on_ice != true:
-				velocity.x = 200 * sprite.scale.x
+			if !on_ice:
+				if GameState.upgrades_enabled[8]:
+					velocity.x = 300 * sprite.scale.x
+				else:
+					velocity.x = 200 * sprite.scale.x
 			currentState = STATES.SLIDE
 			$mainCollision.disabled = true
 			$slideCollision.disabled = false
@@ -585,10 +588,16 @@ func slideProcess():
 			$Audio/Slide.play()
 	
 func sliding(delta):
-	if on_ice == false:
-		velocity.x = 200 * sprite.scale.x
+	if !on_ice:
+		if GameState.upgrades_enabled[8]:
+			velocity.x = 300 * sprite.scale.x
+		else:
+			velocity.x = 200 * sprite.scale.x
 	else:
-		velocity.x = lerpf(velocity.x, sprite.scale.x * 250, delta * 4)
+		if GameState.upgrades_enabled[8]:
+			velocity.x = lerpf(velocity.x, sprite.scale.x * 375, delta * 4)
+		else:
+			velocity.x = lerpf(velocity.x, sprite.scale.x * 250, delta * 4)
 	
 	if direction.x != 0:
 		if direction.x + sprite.scale.x == 0:

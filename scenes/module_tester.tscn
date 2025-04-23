@@ -418,6 +418,7 @@ layout_mode = 2
 icon = SubResource("AtlasTexture_je76y")
 
 [node name="Upgrades" type="GridContainer" parent="."]
+visible = false
 offset_left = 104.02
 offset_right = 172.435
 offset_bottom = 200.0
@@ -506,8 +507,8 @@ metadata/_edit_use_anchors_ = true
 [connection signal="toggled" from="Weapons/CheckButton18" to="." method="_on_check_button_18_toggled"]
 [connection signal="toggled" from="Weapons/CheckButton19" to="." method="_on_check_button_19_toggled"]
 [connection signal="toggled" from="Weapons/CheckButton20" to="." method="_on_check_button_20_toggled"]
-[connection signal="toggled" from="Weapons/CheckButton21" to="." method="_on_check_button_2_toggled"]
 [connection signal="toggled" from="Weapons/CheckButton21" to="." method="_on_check_button_21_toggled"]
+[connection signal="toggled" from="Weapons/CheckButton21" to="." method="_on_check_button_2_toggled"]
 [connection signal="toggled" from="Upgrades/UpButton" to="." method="_on_up_button_toggled"]
 [connection signal="toggled" from="Upgrades/UpButton2" to="." method="_on_up_button_2_toggled"]
 [connection signal="toggled" from="Upgrades/UpButton3" to="." method="_on_up_button_3_toggled"]

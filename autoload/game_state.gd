@@ -280,11 +280,11 @@ var upgrades_enabled = [
 	false, # BL up
 	false, # Super Heal
 	false, # Super Enrgy
-	false, # 
-	false, # Aero Glide
-	false, # Machine Buster
-	false, # Spirit Dash
-	false, # Proto Shield
+	false, # Wall Pierce / Angle Buster
+	false, # X / Hyper Charge
+	false, # Z / Hyper Slide
+	false, # ? / Slide Shot
+	false, # ? / ?
 ]
 #endregion
 

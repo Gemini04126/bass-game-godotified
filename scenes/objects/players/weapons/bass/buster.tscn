@@ -165,9 +165,7 @@ script = ExtResource("1_3torn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tmmfq")
-animation = &"charged_up"
 autoplay = "default"
-frame_progress = 0.216049
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(3.57628e-07, 0)

@@ -8,6 +8,8 @@ var frames : int
 var charged : bool
 
 func _ready():
+	if GameState.upgrades_enabled[6] == true:
+		collision_mask = 0 # Disable collision with surfaces
 	if GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true:
 		#$Machine.play()
 		W_Type = GameState.DMGTYPE.MD_GUERILLA
