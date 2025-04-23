@@ -577,7 +577,7 @@ func module_reaper() -> void:
 		if (airdashtime > 0) && (airdashed == false) && Input.is_action_pressed("dash"):
 			velocity.y = 0
 			velocity.x = sprite.scale.x * DASH_SPEED
-			if airdashtime == 25 or airdashtime == 20 or airdashtime == 15 or airdashtime == 10 or airdashtime == 5:
+			if airdashtime % 5 == 0:
 				FX = preload("res://scenes/objects/players/weapons/bass/reaper_dash.tscn").instantiate()
 				get_parent().add_child(FX)
 				FX.position = position
@@ -585,7 +585,7 @@ func module_reaper() -> void:
 					FX.flip_h = true
 			airdashtime -= 1
 			
-		if (airactiontaken == true) && Input.is_action_just_released("dash") or airdashtime == 0:
+		if airactiontaken == true && (Input.is_action_just_released("dash") or airdashtime == 0):
 			airdashed = true
 			airdashtime = -5
 			currentState = STATES.FALL_START

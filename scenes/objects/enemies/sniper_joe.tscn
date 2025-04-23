@@ -222,7 +222,7 @@ animations = [{
 size = Vector2(13, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wp5vq"]
-size = Vector2(21, 28)
+size = Vector2(20, 28)
 
 [node name="Sniper Joe" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_gtk0d")
@@ -250,7 +250,7 @@ collision_layer = 4
 collision_mask = 8
 
 [node name="MainHitbox" type="CollisionShape2D" parent="hitable"]
-position = Vector2(6.5, -6)
+position = Vector2(7, -6)
 shape = SubResource("RectangleShape2D_wp5vq")
 
 [node name="hurt" type="Area2D" parent="."]
@@ -263,8 +263,7 @@ shape = SubResource("RectangleShape2D_wp5vq")
 debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(6.5, -5.5)
+position = Vector2(7, -6)
 shape = SubResource("RectangleShape2D_wp5vq")
 debug_color = Color(0, 1, 0.0705882, 0.419608)
 
