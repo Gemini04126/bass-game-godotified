@@ -88,7 +88,10 @@ func _ready():
 			match item_size:
 				0:
 					$AnimatedSprite2D.hide()
-					$Sprite2D.texture = load(GameState.lifeIcons[GameState.character_selected])
+					if not Engine.is_editor_hint():
+						$Sprite2D.texture = load(GameState.lifeIcons[GameState.character_selected])
+					else:
+						$Sprite2D.texture = load("res://sprites/players/bass/life.png")
 					$Sprite2D.show()
 				1:
 					$AnimatedSprite2D.play("STnk")
