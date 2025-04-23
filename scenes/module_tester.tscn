@@ -1,8 +1,9 @@
-[gd_scene load_steps=30 format=3 uid="uid://b0opfnom6gmbo"]
+[gd_scene load_steps=42 format=3 uid="uid://b0opfnom6gmbo"]
 
 [ext_resource type="Texture2D" uid="uid://cau6vfnef7e7f" path="res://sprites/hud/bass_modules.png" id="2_41jk2"]
 [ext_resource type="Texture2D" uid="uid://dspk0k641qf8b" path="res://sprites/hud/copy_robot_weapons.png" id="3_oh0nk"]
 [ext_resource type="Texture2D" uid="uid://bu1d7yfrawcb5" path="res://sprites/hud/bass_weapons.png" id="3_t6oby"]
+[ext_resource type="Texture2D" uid="uid://dj7dgagx5rtro" path="res://sprites/hud/upgrades.png" id="4_w22i7"]
 
 [sub_resource type="GDScript" id="GDScript_ety86"]
 resource_name = "Module Tester"
@@ -73,10 +74,12 @@ func _on_button_toggled(toggled_on):
 	if toggled_on == false:
 		$Modules.hide()
 		$Weapons.hide()
+		$Upgrades.hide()
 		$Button.text = \"Show\"
 	else:
 		$Modules.show()
 		$Weapons.show()
+		$Upgrades.show()
 		$Button.text = \"Hide\"
 
 func _on_check_button_20_toggled(toggled_on):
@@ -96,6 +99,42 @@ func _on_check_button_25_toggled(toggled_on):
 
 func _on_check_button_26_toggled(toggled_on):
 	GameState.weapons_unlocked[16] = toggled_on
+
+
+func _on_up_button_toggled(toggled_on: bool) -> void:
+	GameState.upgrades_enabled[1] = toggled_on
+
+
+func _on_up_button_2_toggled(toggled_on: bool) -> void:
+	GameState.upgrades_enabled[2] = toggled_on
+
+
+func _on_up_button_3_toggled(toggled_on: bool) -> void:
+	GameState.upgrades_enabled[3] = toggled_on
+
+
+func _on_up_button_4_toggled(toggled_on: bool) -> void:
+	GameState.upgrades_enabled[4] = toggled_on
+
+
+func _on_up_button_5_toggled(toggled_on: bool) -> void:
+	GameState.upgrades_enabled[5] = toggled_on
+
+
+func _on_up_button_6_toggled(toggled_on: bool) -> void:
+	GameState.upgrades_enabled[6] = toggled_on
+
+
+func _on_up_button_7_toggled(toggled_on: bool) -> void:
+	GameState.upgrades_enabled[7] = toggled_on
+
+
+func _on_up_button_8_toggled(toggled_on: bool) -> void:
+	GameState.upgrades_enabled[8] = toggled_on
+
+
+func _on_up_button_9_toggled(toggled_on: bool) -> void:
+	GameState.upgrades_enabled[9] = toggled_on
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dxhje"]
@@ -197,6 +236,49 @@ region = Rect2(176, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_je76y"]
 atlas = ExtResource("3_oh0nk")
 region = Rect2(192, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtop0"]
+atlas = ExtResource("4_w22i7")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f60p5"]
+atlas = ExtResource("4_w22i7")
+region = Rect2(0, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5xu2k"]
+atlas = ExtResource("4_w22i7")
+region = Rect2(0, 32, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hono5"]
+atlas = ExtResource("4_w22i7")
+region = Rect2(0, 48, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_im42h"]
+atlas = ExtResource("4_w22i7")
+region = Rect2(0, 64, 32, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xdq7h"]
+load_path = "res://.godot/imported/upgrades.png-be4e4d5a54176adb9156b479907ab416.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_837ak"]
+atlas = SubResource("CompressedTexture2D_xdq7h")
+region = Rect2(0, 80, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6fxn1"]
+atlas = SubResource("CompressedTexture2D_xdq7h")
+region = Rect2(0, 96, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_078qe"]
+atlas = SubResource("CompressedTexture2D_xdq7h")
+region = Rect2(0, 112, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttbjd"]
+atlas = SubResource("CompressedTexture2D_xdq7h")
+region = Rect2(0, 128, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w22i7"]
+atlas = SubResource("CompressedTexture2D_xdq7h")
+region = Rect2(0, 144, 32, 16)
 
 [node name="Module Tester" type="Node2D"]
 script = SubResource("GDScript_ety86")
@@ -335,6 +417,63 @@ icon = SubResource("AtlasTexture_7820v")
 layout_mode = 2
 icon = SubResource("AtlasTexture_je76y")
 
+[node name="Upgrades" type="GridContainer" parent="."]
+offset_left = 104.02
+offset_right = 172.435
+offset_bottom = 200.0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = -8
+
+[node name="UpButton" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_wtop0")
+
+[node name="UpButton2" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_f60p5")
+
+[node name="UpButton3" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_5xu2k")
+
+[node name="UpButton4" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_hono5")
+
+[node name="UpButton5" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_im42h")
+
+[node name="UpButton6" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_837ak")
+
+[node name="UpButton7" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_6fxn1")
+
+[node name="UpButton8" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_078qe")
+
+[node name="UpButton9" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_ttbjd")
+
+[node name="UpButton10" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_w22i7")
+
 [node name="Button" type="Button" parent="."]
 offset_left = 344.0
 offset_right = 384.0
@@ -369,4 +508,14 @@ metadata/_edit_use_anchors_ = true
 [connection signal="toggled" from="Weapons/CheckButton20" to="." method="_on_check_button_20_toggled"]
 [connection signal="toggled" from="Weapons/CheckButton21" to="." method="_on_check_button_2_toggled"]
 [connection signal="toggled" from="Weapons/CheckButton21" to="." method="_on_check_button_21_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton" to="." method="_on_up_button_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton2" to="." method="_on_up_button_2_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton3" to="." method="_on_up_button_3_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton4" to="." method="_on_up_button_4_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton5" to="." method="_on_up_button_5_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton6" to="." method="_on_up_button_6_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton7" to="." method="_on_up_button_7_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton8" to="." method="_on_up_button_8_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton9" to="." method="_on_up_button_9_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton10" to="." method="_on_up_button_9_toggled"]
 [connection signal="toggled" from="Button" to="." method="_on_button_toggled"]

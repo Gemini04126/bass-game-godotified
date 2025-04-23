@@ -80,10 +80,10 @@ func _physics_process(delta: float) -> void:
 		GameState.onscreen_sp_bullets = 0
 	if GameState.onscreen_bullets < 0:
 		GameState.onscreen_bullets = 0
-	if GameState.current_hp > 28:
-		GameState.current_hp = 28
-	if GameState.weapon_energy[GameState.current_weapon] > GameState.max_weapon_energy[GameState.current_weapon]:
-		GameState.weapon_energy[GameState.current_weapon] = GameState.max_weapon_energy[GameState.current_weapon]
+	if GameState.current_hp > GameState.max_HP:
+		GameState.current_hp = GameState.max_HP
+	if GameState.weapon_energy[GameState.current_weapon] > GameState.max_WE:
+		GameState.weapon_energy[GameState.current_weapon] = GameState.max_WE
 	#INPUTS -lynn
 	direction = Input.get_vector("move_left", "move_right", "move_down", "move_up")
 	#this cancels out any floats in the inputs and makes inputs to be purely digital (-1,0,1) rather than analouge
@@ -292,7 +292,7 @@ func processCharge():
 func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'd need to redefine it in a game where everyone charges anyway. good one fr fr
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_just_pressed("shoot")) or Input.is_action_just_pressed("buster"):
 		if GameState.inputdisabled == false:
-			if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3):
+			if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3 or (GameState.upgrades_enabled[3] == true and GameState.onscreen_bullets < 5)):
 				attack_timer.start(0.3)
 				GameState.onscreen_bullets += 1
 				projectile = projectile_scenes[0].instantiate()
@@ -309,7 +309,7 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				busterAnimMatch()
 				return
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_just_released("shoot")) or Input.is_action_just_released("buster"):
-		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3):
+		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3 or (GameState.upgrades_enabled[3] == true and GameState.onscreen_bullets < 5)):
 			if bustercharge < 32: # no Charge
 				bustercharge = 0
 				$Audio/Charge1.stop()
@@ -343,7 +343,12 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 					get_parent().add_child(projectile)
 					projectile.position.x = position.x + (sprite.scale.x * 18)
 					projectile.position.y = position.y + 2
-					projectile.velocity.x = sprite.scale.x * 350
+					
+					if GameState.upgrades_enabled[6] and direction.y != 0:
+						projectile.velocity.x = sprite.scale.x * 280
+						projectile.velocity.y = direction.y * -70
+					else:
+						projectile.velocity.x = sprite.scale.x * 350
 					projectile.scale.x = sprite.scale.x
 					
 					projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
@@ -360,7 +365,10 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				return
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_pressed("shoot")) or Input.is_action_pressed("buster"):
 		if bustercharge < 111:
+			if GameState.upgrades_enabled[7] and busterflashtimer == 2:
+				bustercharge += 1
 			bustercharge += 1
+				
 			if bustercharge == 32:
 				$Audio/Charge1.play()
 			if bustercharge == 108:

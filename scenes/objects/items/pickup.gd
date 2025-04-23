@@ -127,8 +127,18 @@ func _on_touch_body_entered(body):
 		
 		match item_type:
 			0: # HP
+				if GameState.upgrades_enabled[4]:
+					if item_size == 0:
+						amount = 5
+					if item_size == 1:
+						amount = 15
 				GameState.healamt += amount
 			1: # WE
+				if GameState.upgrades_enabled[5]:
+					if item_size == 0:
+						amount = 5
+					if item_size == 1:
+						amount = 15
 				GameState.ammoamt += amount
 			2: # BOLTS
 				$BoltSound.play()

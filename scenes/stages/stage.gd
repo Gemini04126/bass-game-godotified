@@ -34,6 +34,15 @@ func _ready():
 	GameState.player = null
 	GameState.playerposx = 0
 	GameState.playerposy = 0
+	if GameState.upgrades_enabled[1] == true:
+		GameState.max_HP = 36
+	else:
+		GameState.max_HP = 28
+		
+	if GameState.upgrades_enabled[2] == true:
+		GameState.max_WE = 36
+	else:
+		GameState.max_WE = 28
 	
 	
 	$StartPosition/Sprite2D.queue_free()	# just delete the sprite2d instead of making it invisible. why have it stick around?
@@ -236,7 +245,7 @@ func process_refills():
 	if (player != null): # Null check!
 		if (GameState.ammoamt):
 			if refilltimer == 0:
-				if GameState.weapon_energy[GameState.current_weapon] < 28:
+				if GameState.weapon_energy[GameState.current_weapon] < GameState.max_WE:
 					refilltimer = 3
 					GameState.weapon_energy[GameState.current_weapon] += 1
 					GameState.ammoamt -= 1
@@ -247,7 +256,7 @@ func process_refills():
 			
 		if (GameState.healamt):
 			if refilltimer == 0:
-				if GameState.current_hp < 28:
+				if GameState.current_hp < GameState.max_HP:
 					refilltimer = 3
 					GameState.current_hp += 1
 					GameState.healamt -= 1

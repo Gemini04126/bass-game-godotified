@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bdurhvklic0ac"]
+[gd_scene load_steps=25 format=3 uid="uid://bdurhvklic0ac"]
 
 [ext_resource type="PackedScene" uid="uid://b0opfnom6gmbo" path="res://scenes/module_tester.tscn" id="1_kxric"]
 [ext_resource type="Theme" uid="uid://c1bun7kn776g1" path="res://themes/ui_theme.tres" id="2_15wwj"]
@@ -8,10 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://culj6yyxpqgs1" path="res://sprites/players/bass/palettes/Bass Buster.png" id="5_nk4r6"]
 [ext_resource type="Texture2D" uid="uid://cuvb46u27vp7v" path="res://sprites/players/maestro/life.png" id="6_7hqwc"]
 [ext_resource type="Texture2D" uid="uid://dj8dbh1vderdl" path="res://sprites/hud/health_bar.png" id="6_dn5r5"]
+[ext_resource type="Texture2D" uid="uid://cvlkf1rh2klyq" path="res://sprites/hud/health_bar_2.png" id="7_3swnk"]
 [ext_resource type="Texture2D" uid="uid://d1opwguwnxvwa" path="res://sprites/hud/boss_bar.png" id="8_0v72v"]
 [ext_resource type="Texture2D" uid="uid://cw16ljjy2qy3d" path="res://sprites/hud/machine_bar.png" id="8_apjy4"]
 [ext_resource type="Texture2D" uid="uid://b6iop2b48kmq7" path="res://sprites/hud/smog_bar.png" id="9_5n1hp"]
 [ext_resource type="Texture2D" uid="uid://bbn3fnovvleio" path="res://sprites/hud/ready.png" id="11_7y6ti"]
+[ext_resource type="Texture2D" uid="uid://y7pu5y5deiu0" path="res://sprites/hud/weapon_bar_2.png" id="11_qkknv"]
 [ext_resource type="Texture2D" uid="uid://fqh6tglw6ad7" path="res://sprites/hud/ready_scene.png" id="14_ndc36"]
 
 [sub_resource type="GDScript" id="GDScript_lduve"]
@@ -48,20 +50,40 @@ func _process(_delta: float) -> void:
 	process_refills()
 	# Weapon bar
 	if GameState.max_weapon_energy[GameState.current_weapon] == 0:
+		
 		$WeaponBar.visible = false
+		$WeaponBar2.visible = false
+		
 	else:
-		$WeaponBar.visible = true
-		if GameState.infinite_ammo == false:
-			$WeaponBar.frame = clamp(GameState.weapon_energy[GameState.current_weapon], 0, 28)
+		if GameState.upgrades_enabled[2] == true:
+			$WeaponBar2.visible = true
+			if GameState.infinite_ammo == false:
+				$WeaponBar2.frame = clamp(GameState.weapon_energy[GameState.current_weapon], 0, 36)
+			else:
+				$WeaponBar2.frame = 38 # Infinity
 		else:
-			$WeaponBar.frame = 29 # Infinity
-	if GameState.player != null:
-		$HealthBar.material.set_shader_parameter(\"palette\", GameState.player.get_node(\"Sprite2D\").material.get_shader_parameter(\"palette\"))
-		$WeaponBar.material.set_shader_parameter(\"palette\", GameState.player.get_node(\"Sprite2D\").material.get_shader_parameter(\"palette\"))
+			$WeaponBar.visible = true
+			if GameState.infinite_ammo == false:
+				$WeaponBar.frame = clamp(GameState.weapon_energy[GameState.current_weapon], 0, 28)
+			else:
+				$WeaponBar.frame = 29 # Infinity
+		
+		if GameState.player != null:
+			$HealthBar.material.set_shader_parameter(\"palette\", GameState.player.get_node(\"Sprite2D\").material.get_shader_parameter(\"palette\"))
+			$HealthBar2.material.set_shader_parameter(\"palette\", GameState.player.get_node(\"Sprite2D\").material.get_shader_parameter(\"palette\"))
+			$WeaponBar.material.set_shader_parameter(\"palette\", GameState.player.get_node(\"Sprite2D\").material.get_shader_parameter(\"palette\"))
+			$WeaponBar2.material.set_shader_parameter(\"palette\", GameState.player.get_node(\"Sprite2D\").material.get_shader_parameter(\"palette\"))
 		
 	# Health bar
-	$HealthBar.frame = clamp(GameState.current_hp, 0, 28)
-	
+	if GameState.upgrades_enabled[1] == true:
+		$HealthBar2.visible = true
+		$HealthBar.visible = false
+		$HealthBar2.frame = clamp(GameState.current_hp, 0, 36)
+	else:
+		$HealthBar.visible = true
+		$HealthBar2.visible = false
+		$HealthBar.frame = clamp(GameState.current_hp, 0, 28)
+		
 	if GameState.modules_enabled[WEAPONS.GUERRILLA] == true:
 		$MachineBar.frame = clamp(GameState.machinecharge, 0, 5)
 		$MachineBar.visible = true
@@ -103,7 +125,7 @@ func process_refills():
 	if (GameState.player != null): # Null check!
 		if (GameState.ammoamt):
 			if refill_timer.is_stopped():
-				if GameState.weapon_energy[GameState.current_weapon] < GameState.max_weapon_energy[GameState.current_weapon]:
+				if GameState.weapon_energy[GameState.current_weapon] < GameState.max_WE:
 					refill_timer.start()
 					GameState.weapon_energy[GameState.current_weapon] += 1
 					GameState.ammoamt -= 1
@@ -113,7 +135,7 @@ func process_refills():
 			
 		if (GameState.healamt):
 			if refill_timer.is_stopped():
-				if GameState.current_hp < GameState.max_hp:
+				if GameState.current_hp < GameState.max_HP:
 					refill_timer.start()
 					GameState.current_hp += 1
 					GameState.healamt -= 1
@@ -274,6 +296,14 @@ texture = ExtResource("6_dn5r5")
 hframes = 29
 frame = 28
 
+[node name="HealthBar2" type="Sprite2D" parent="Bars"]
+visible = false
+material = SubResource("ShaderMaterial_w86cq")
+position = Vector2(20, 56)
+texture = ExtResource("7_3swnk")
+hframes = 38
+frame = 28
+
 [node name="MachineBar" type="Sprite2D" parent="Bars"]
 material = SubResource("ShaderMaterial_w86cq")
 position = Vector2(28, 89)
@@ -294,6 +324,15 @@ material = SubResource("ShaderMaterial_o6d4v")
 position = Vector2(12, 64)
 texture = ExtResource("5_1d45g")
 hframes = 30
+frame = 28
+
+[node name="WeaponBar2" type="Sprite2D" parent="Bars"]
+visible = false
+z_index = -1
+material = SubResource("ShaderMaterial_o6d4v")
+position = Vector2(12, 56)
+texture = ExtResource("11_qkknv")
+hframes = 38
 frame = 28
 
 [node name="RefillTimer" type="Timer" parent="Bars"]

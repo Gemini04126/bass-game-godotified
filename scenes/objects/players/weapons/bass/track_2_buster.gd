@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var W_Type = GameState.DMGTYPE.BS_BUSTER
+var W_Type = GameState.DMGTYPE.MD_VIDEO
 var dead : bool
 var speeded : bool
 var frames : int

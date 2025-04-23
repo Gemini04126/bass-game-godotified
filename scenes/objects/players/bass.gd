@@ -82,10 +82,10 @@ func _physics_process(delta: float) -> void:
 		GameState.onscreen_sp_bullets = 0
 	if GameState.onscreen_bullets < 0:
 		GameState.onscreen_bullets = 0
-	if GameState.current_hp > 28:
-		GameState.current_hp = 28
-	if GameState.weapon_energy[GameState.current_weapon] > GameState.max_weapon_energy[GameState.current_weapon]:
-		GameState.weapon_energy[GameState.current_weapon] = GameState.max_weapon_energy[GameState.current_weapon]
+	if GameState.current_hp > GameState.max_HP:
+		GameState.current_hp = GameState.max_HP
+	if GameState.weapon_energy[GameState.current_weapon] > GameState.max_WE:
+		GameState.weapon_energy[GameState.current_weapon] = GameState.max_WE
 	#INPUTS -lynn
 	direction = Input.get_vector("move_left", "move_right", "move_down", "move_up")
 	#this cancels out any floats in the inputs and makes inputs to be purely digital (-1,0,1) rather than analouge
@@ -389,7 +389,7 @@ func weapon_buster():
 			if Input.is_action_pressed("move_right"):
 				sprite.scale.x = 1
 			
-			if rapid_timer.is_stopped() and GameState.onscreen_bullets < 4:
+			if rapid_timer.is_stopped() and (GameState.onscreen_bullets < 4 or (GameState.upgrades_enabled[3] == true and GameState.onscreen_bullets < 6)):
 				rapid_timer.start(0.10)
 				shot_type = 1
 				GameState.onscreen_bullets += 1

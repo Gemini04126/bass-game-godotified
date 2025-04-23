@@ -161,7 +161,8 @@ var bolts = 0
 var ETanks = 0
 var WTanks = 0
 var STanks = 0
-var max_hp = 28 # G: upgradeable # M: not upgradable anymore # G: yeah but mod characters :)) #M: what mod characters?
+var max_HP = 28 # G: upgradeable # M: not upgradable anymore # G: yeah but mod characters :)) #M: what mod characters? #it's upgradeable again
+var max_WE = 28 
 var healamt = 0
 var ammoamt = 0
 var droptimer : int
@@ -272,14 +273,27 @@ var modules_enabled = [
 	false, # Spirit Dash
 	false, # Proto Shield
 ]
+
+var upgrades_enabled = [
+	false, # HP up
+	false, # WE up
+	false, # BL up
+	false, # Super Heal
+	false, # Super Enrgy
+	false, # 
+	false, # Aero Glide
+	false, # Machine Buster
+	false, # Spirit Dash
+	false, # Proto Shield
+]
 #endregion
 
 func refill_health() -> void:
-	current_hp = max_hp # Reset HP
+	current_hp = max_HP # Reset HP
 
 func refill_ammo() -> void:
 	for n in weapon_energy.size():
-		weapon_energy[n] = max_weapon_energy[n] # Reset WE
+		weapon_energy[n] = max_WE # Reset WE
 
 func load_custom() -> void:
 	var file_names: Array[String]

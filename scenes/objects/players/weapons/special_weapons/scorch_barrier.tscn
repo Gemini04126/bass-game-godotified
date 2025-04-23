@@ -245,5 +245,6 @@ bus = &"SFX"
 
 [node name="AmbientSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_hao3f")
+volume_db = 2.0
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
