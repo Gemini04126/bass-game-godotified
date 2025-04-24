@@ -826,6 +826,7 @@ func weapon_buster():
 		projectile.velocity.x = sprite.scale.x * 350
 		projectile.scale.x = sprite.scale.x
 		Charge = 0
+		$Audio/Buster1.play()
 
 func weapon_blaze():
 	if Input.is_action_just_pressed("shoot") and !transing:
@@ -1294,6 +1295,7 @@ func set_current_weapon_palette() -> void:
 func reset(everything: bool) -> void:
 	GameState.refill_health()
 	GameState.current_weapon = GameState.WEAPONS.BUSTER # Reset current weapon
+	GameState.bosses.clear() # You died or reset the level anyway, so why not just clear the bosses?
 	if everything == true:
 		GameState.refill_ammo()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://bksinirshmwgf"]
+[gd_scene load_steps=64 format=3 uid="uid://bksinirshmwgf"]
 
 [ext_resource type="Script" uid="uid://bmoeo1pjk4r87" path="res://scenes/objects/players/maestro.gd" id="1_ct76e"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_lnglj"]
@@ -15,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://rm3ckgibk0u5" path="res://sounds/charge1.wav" id="13_u3nua"]
 [ext_resource type="AudioStream" uid="uid://dnnvv4semeufh" path="res://sounds/charge2.ogg" id="14_38jsf"]
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="15_gi8v7"]
+[ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="16_6rfa2"]
 [ext_resource type="Texture2D" uid="uid://culj6yyxpqgs1" path="res://sprites/players/bass/palettes/Bass Buster.png" id="16_gi8v7"]
 [ext_resource type="Texture2D" uid="uid://dspk0k641qf8b" path="res://sprites/hud/copy_robot_weapons.png" id="17_6rfa2"]
 
@@ -766,6 +767,10 @@ bus = &"SFX"
 [node name="Death" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("15_gi8v7")
 volume_db = -16.0
+bus = &"SFX"
+
+[node name="Buster1" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("16_6rfa2")
 bus = &"SFX"
 
 [node name="Timers" type="Node" parent="."]

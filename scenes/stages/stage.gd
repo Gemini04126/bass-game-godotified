@@ -86,7 +86,7 @@ func _process(_delta):
 		GameState.bossfightstatus = 2
 		GameState.inputdisabled = true
 		
-	if GameState.bossfightstatus == 2 && (GameState.boss1 == null or GameState.boss1.Cur_HP == GameState.boss1.Max_HP):
+	if GameState.bossfightstatus == 2 && (GameState.bosses[0] == null or GameState.bosses[0].Cur_HP == GameState.bosses[0].Max_HP):
 		GameState.bossfightstatus = 3
 		GameState.inputdisabled = false
 	process_camera()

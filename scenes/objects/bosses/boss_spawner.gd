@@ -27,24 +27,8 @@ func _process(_delta):
 			baby = enemytype[type].instantiate()
 			get_parent().add_child(baby)
 			baby.position = position
-			
-			if slot == 0:
-				GameState.boss1 = baby
-			if slot == 1:
-				GameState.boss2 = baby
-			if slot == 2:
-				GameState.boss3 = baby
-			if slot == 3:
-				GameState.boss4 = baby
-			if slot == 4:
-				GameState.boss5 = baby
-			if slot == 5:
-				GameState.boss6 = baby
-			if slot == 6:
-				GameState.boss7 = baby
-			if slot == 7:
-				GameState.boss8 = baby
-				
+			GameState.bosses.append(baby)
+			print(GameState.bosses)
 			queue_free()
 	if Engine.is_editor_hint():
 		if baby == null:

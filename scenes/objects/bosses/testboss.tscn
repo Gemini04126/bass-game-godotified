@@ -1,9 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://bnu231of4aecw"]
+[gd_scene load_steps=24 format=3 uid="uid://bnu231of4aecw"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_pimeo"]
 [ext_resource type="Texture2D" uid="uid://daefccg61j7bv" path="res://sprites/enemies/sniper_joe.png" id="2_soadc"]
 [ext_resource type="AudioStream" uid="uid://ctstbffrq85ky" path="res://sounds/bar_fill.wav" id="3_soadc"]
 [ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/playerhurt.wav" id="4_epx4v"]
+[ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="5_y84bs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
 shader = ExtResource("1_pimeo")
@@ -21,6 +22,7 @@ var Dmg_Vals = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24
 var Inv_Vals = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37]
 var Atk_Dmg = 4
 var flash : bool
+var exploded : bool
 var Max_HP = 56
 var Cur_HP = 0
 var blown : bool = false
@@ -140,18 +142,27 @@ func _physics_process(_delta):
 				state = STATES.IDLE
 			else:
 				Cur_HP += 1
-				$HPFill.play()
+				$Audio/HPFill.play()
 	if state == STATES.IDLE:
 		$Sprite.play(\"Idle\")
 		
 	if state == STATES.DEAD:
-		for i in 12:
-			projectile = preload(\"res://scenes/objects/explosion_player.tscn\").instantiate()
-			add_child(projectile)
-			projectile.position = position
-			projectile.velocity = EXPLOSION_SPEEDS[i]
 		if $Sprite.frame == 6:
-			queue_free()
+			if !exploded:
+				$Audio/Death.play()
+				for i in 12:
+					projectile = preload(\"res://scenes/objects/explosion_player.tscn\").instantiate()
+					get_parent().add_child(projectile)
+					projectile.position = position
+					projectile.velocity = EXPLOSION_SPEEDS[i]
+				GameState.bosses.erase(self)
+				exploded = true
+			else:
+				$Sprite.visible = false
+				$hitable/MainHitbox.disabled = true
+				$hurt/Hurtbox.disabled = true
+				await $Audio/Death.finished
+				queue_free()
 	
 	if flash == true:
 		flash = false
@@ -169,7 +180,7 @@ func _on_hitable_body_entered(weapon): # needs to be redefined because damage va
 		if track2hits == 4:
 			track2hits = 0
 			Cur_HP -= 1
-			$DamageSound.play()
+			$Audio/Damage.play()
 		else:
 			track2hits += 1
 	
@@ -198,7 +209,7 @@ func _on_hitable_body_entered(weapon): # needs to be redefined because damage va
 				#Look up the damage type and do damage according to it.
 				Cur_HP -= Dmg_Vals[weapon.W_Type]
 				$InvulTimer.start(Inv_Vals[weapon.W_Type])
-				$DamageSound.play()
+				$Audio/Damage.play()
 				
 	
 				
@@ -382,7 +393,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wp5vq"]
 size = Vector2(21, 28)
 
-[node name="TestBossGuy2" type="CharacterBody2D"]
+[node name="TestBossGuy3" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_gtk0d")
 collision_layer = 0
 script = SubResource("GDScript_k5bra")
@@ -423,12 +434,19 @@ wait_time = 0.001
 one_shot = true
 autostart = true
 
-[node name="HPFill" type="AudioStreamPlayer" parent="."]
+[node name="Audio" type="Node" parent="."]
+
+[node name="HPFill" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("3_soadc")
 volume_db = -10.0
 
-[node name="DamageSound" type="AudioStreamPlayer" parent="."]
+[node name="Damage" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("4_epx4v")
+
+[node name="Death" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("5_y84bs")
+volume_db = -16.0
+bus = &"SFX"
 
 [connection signal="body_entered" from="hitable" to="." method="_on_hitable_body_entered"]
 [connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
