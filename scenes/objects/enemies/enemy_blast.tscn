@@ -1,0 +1,165 @@
+[gd_scene load_steps=20 format=3 uid="uid://l8cswqq15oaf"]
+
+[ext_resource type="Texture2D" uid="uid://di1wfh2x1b16k" path="res://sprites/big_explosion.png" id="1_py4q1"]
+[ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="2_vc1j6"]
+[ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="3_live8"]
+
+[sub_resource type="GDScript" id="GDScript_7e10n"]
+script/source = "extends CharacterBody2D
+
+const Atk_Dmg = 4
+var timer : int = 90
+
+var firsttick = true
+
+func _ready():
+	$SpawnSound.play()
+
+func _physics_process(delta):
+	if timer > 0:
+		timer -= 1
+	else:
+		queue_free()
+	if timer == 45:
+		$hurt.queue_free()
+
+func _on_hurt_body_entered(body):
+	body.DmgQueue = Atk_Dmg
+	if body.is_in_group(\"scorch\"):
+		if GameState.character_selected != 2:
+			body.durability -= 2
+		else:
+			body.durability -= 1
+		queue_free()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y1sy"]
+atlas = ExtResource("1_py4q1")
+region = Rect2(0, 0, 58, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vc1j6"]
+atlas = ExtResource("1_py4q1")
+region = Rect2(58, 0, 58, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o43q6"]
+atlas = ExtResource("1_py4q1")
+region = Rect2(116, 0, 58, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wb831"]
+atlas = ExtResource("1_py4q1")
+region = Rect2(174, 0, 58, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg5a3"]
+atlas = ExtResource("1_py4q1")
+region = Rect2(232, 0, 58, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ru5t"]
+atlas = ExtResource("1_py4q1")
+region = Rect2(290, 0, 58, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eg0en"]
+atlas = ExtResource("1_py4q1")
+region = Rect2(348, 0, 58, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pnhyw"]
+atlas = ExtResource("1_py4q1")
+region = Rect2(406, 0, 58, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abj6u"]
+atlas = ExtResource("1_py4q1")
+region = Rect2(464, 0, 58, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e08mh"]
+atlas = ExtResource("2_vc1j6")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fp8dl"]
+atlas = ExtResource("2_vc1j6")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhj74"]
+atlas = ExtResource("2_vc1j6")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tmmfq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5y1sy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vc1j6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o43q6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wb831")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mg5a3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ru5t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eg0en")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pnhyw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abj6u")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e08mh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fp8dl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhj74")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eg0en"]
+size = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_18vqv"]
+size = Vector2(48, 48)
+
+[node name="EnemyBlast" type="CharacterBody2D"]
+collision_layer = 32
+collision_mask = 0
+script = SubResource("GDScript_7e10n")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tmmfq")
+autoplay = "default"
+frame = 8
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_eg0en")
+
+[node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_live8")
+bus = &"SFX"
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="MainHitbox" type="CollisionShape2D" parent="hurt"]
+shape = SubResource("RectangleShape2D_18vqv")
+debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]

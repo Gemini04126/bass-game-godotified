@@ -139,7 +139,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"Attack",
-"speed": 5.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -192,7 +192,7 @@ scale = Vector2(2.2, 1.25)
 material = SubResource("ShaderMaterial_3u8v0")
 position = Vector2(0, -3)
 sprite_frames = SubResource("SpriteFrames_62nvj")
-animation = &"Land"
+animation = &"Attack"
 autoplay = "Idle"
 
 [node name="hitable" type="Area2D" parent="."]

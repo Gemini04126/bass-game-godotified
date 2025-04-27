@@ -373,7 +373,9 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				$Audio/Charge1.play()
 			if bustercharge == 108:
 				$Audio/Charge2.play()
-			
+				$Audio/Charge2.volume_linear = 1
+			if bustercharge > 108:
+				$Audio/Charge2.volume_linear -= 0.01
 		else:
 			bustercharge = 110
 	else:
@@ -391,11 +393,10 @@ func weapon_shark():
 
 				anim.seek(0)
 				shot_type = 4
-				attack_timer.start(0.51)
 				GameState.onscreen_sp_bullets += 1
 				projectile = weapon_scenes[4].instantiate()
 				get_parent().add_child(projectile)
-				shoot_timer.start()
+				shoot_timer.start(0.65)
 				velocity.x = 0
 				currentState = STATES.IDLE_FIN_SHREDDER
 				
