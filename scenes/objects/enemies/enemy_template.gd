@@ -8,6 +8,7 @@ var Cur_Inv = 0
 var Max_HP = 3
 var Cur_HP = 3
 var blown : bool = false
+var subtype = 0
 
 func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.CB_SMOG] = 1
@@ -33,7 +34,7 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.CR_QUINT1] = 4
 	Dmg_Vals[GameState.DMGTYPE.CR_QUINT2] = 1
 	
-	Dmg_Vals[GameState.DMGTYPE.BS_BUSTER] = 1
+	Dmg_Vals[GameState.DMGTYPE.BS_BUSTER] = 0.75
 	Dmg_Vals[GameState.DMGTYPE.BS_BLAZE] = 3
 	Dmg_Vals[GameState.DMGTYPE.BS_SHARK] = 8
 	Dmg_Vals[GameState.DMGTYPE.BS_TREBLE] = 1
@@ -41,7 +42,8 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.MD_BLAZE] = 3
 	Dmg_Vals[GameState.DMGTYPE.MD_VIDEO] = 2
 	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 4
-	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 2
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 0.85
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 1.25
 	
 func _ready():
 	basedmg()

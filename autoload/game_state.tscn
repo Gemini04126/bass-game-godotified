@@ -157,7 +157,7 @@ volume_db = -4.0
 [node name="Transiton" type="Timer" parent="."]
 
 [node name="Input" type="Node2D" parent="."]
-position = Vector2(322, 205)
+position = Vector2(340, 205)
 script = ExtResource("10_3txlf")
 
 [node name="Start" type="Sprite2D" parent="Input"]

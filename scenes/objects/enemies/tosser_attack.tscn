@@ -1,0 +1,162 @@
+[gd_scene load_steps=15 format=3 uid="uid://cjww7eclo8l2b"]
+
+[ext_resource type="Texture2D" uid="uid://ridy4qhly2ed" path="res://sprites/enemies/tosser.png" id="1_1hmcy"]
+[ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="2_x1f0d"]
+[ext_resource type="AudioStream" uid="uid://cq4lw880ecl7v" path="res://sounds/enemyattack.wav" id="3_iogsl"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="4_sr8el"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="5_41kmx"]
+
+[sub_resource type="GDScript" id="GDScript_npklr"]
+script/source = "extends CharacterBody2D
+
+const Atk_Dmg = 4
+var projectile
+const SPEED = 300.0
+var gravity = 800
+var type #0 is ice, 1 is bomb
+
+
+func _ready():
+	$SpawnSound.play()
+		
+func _physics_process(delta):
+	if type == 1:
+		$AnimatedSprite2D.play(\"Bomb\")
+		velocity.y += gravity * delta
+	move_and_slide()
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()
+
+func destroy():
+	$CollisionShape2D.set_deferred(\"disabled\", true)
+	$HitSound.play()
+	velocity.x = 0
+	velocity.y = 0
+	if type == 0:
+		projectile = preload(\"res://scenes/objects/enemies/enemy_bullet.tscn\").instantiate()
+		get_parent().add_child(projectile)
+		projectile.skin = 1
+		projectile.sound = 2
+		projectile.position = position
+		projectile.velocity.x = -110
+		projectile.velocity.y = 210
+		
+		projectile = preload(\"res://scenes/objects/enemies/enemy_bullet.tscn\").instantiate()
+		get_parent().add_child(projectile)
+		projectile.skin = 1
+		projectile.sound = 2
+		projectile.position = position
+		projectile.velocity.x = 110
+		projectile.velocity.y = 210
+
+	queue_free()
+
+func _on_hurt_body_entered(body):
+	if body.is_in_group(\"player\"):
+		body.DmgQueue = Atk_Dmg
+	if body.is_in_group(\"scorch\"):
+		if GameState.character_selected != 2:
+			body.durability -= 3
+		else:
+			body.durability -= 2
+	destroy()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x1f0d"]
+atlas = ExtResource("1_1hmcy")
+region = Rect2(140, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iogsl"]
+atlas = ExtResource("1_1hmcy")
+region = Rect2(140, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e08mh"]
+atlas = ExtResource("2_x1f0d")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fp8dl"]
+atlas = ExtResource("2_x1f0d")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhj74"]
+atlas = ExtResource("2_x1f0d")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tmmfq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x1f0d")
+}],
+"loop": true,
+"name": &"Bomb",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iogsl")
+}],
+"loop": true,
+"name": &"Ice",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e08mh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fp8dl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhj74")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0fvlc"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1hmcy"]
+size = Vector2(14, 16)
+
+[node name="TosserShot" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 32
+collision_mask = 0
+script = SubResource("GDScript_npklr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tmmfq")
+animation = &"Ice"
+autoplay = "Ice"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0fvlc")
+
+[node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_iogsl")
+bus = &"SFX"
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_sr8el")
+bus = &"SFX"
+
+[node name="ReflectSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_41kmx")
+bus = &"SFX"
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 3
+
+[node name="MainHitbox" type="CollisionShape2D" parent="hurt"]
+shape = SubResource("RectangleShape2D_1hmcy")
+debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]

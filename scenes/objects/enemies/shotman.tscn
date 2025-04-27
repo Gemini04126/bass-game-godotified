@@ -72,8 +72,9 @@ func _physics_process(_delta):
 			$Sprite.play(\"Attack-1\")
 			$Sprite.set_frame_and_progress(0, 0)
 			$Timer.start(0.45)
-			projectile = preload(\"res://scenes/objects/enemies/enemy_bullet2.tscn\").instantiate()
+			projectile = preload(\"res://scenes/objects/enemies/enemy_bullet.tscn\").instantiate()
 			get_parent().add_child(projectile)
+			projectile.gravity = 800
 			projectile.position.x = position.x - (scale.x * 16)
 			projectile.position.y = position.y - 6
 			projectile.velocity.x = scale.x * -330
@@ -84,8 +85,9 @@ func _physics_process(_delta):
 			$Sprite.play(\"Attack-2\")
 			$Sprite.set_frame_and_progress(0, 0)
 			$Timer.start(0.45)
-			projectile = preload(\"res://scenes/objects/enemies/enemy_bullet2.tscn\").instantiate()
+			projectile = preload(\"res://scenes/objects/enemies/enemy_bullet.tscn\").instantiate()
 			get_parent().add_child(projectile)
+			projectile.gravity = 800
 			projectile.position.x = position.x - (scale.x * 15)
 			projectile.position.y = position.y - 19
 			projectile.velocity.x = scale.x * -85

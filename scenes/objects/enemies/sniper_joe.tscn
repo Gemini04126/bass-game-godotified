@@ -80,7 +80,7 @@ func _physics_process(_delta):
 			$Sprite.play(\"Attack\")
 			$Sprite.set_frame_and_progress(0, 0)
 			
-			projectile = preload(\"res://scenes/objects/enemies/enemy_bullet1.tscn\").instantiate()
+			projectile = preload(\"res://scenes/objects/enemies/enemy_bullet.tscn\").instantiate()
 			get_parent().add_child(projectile)
 			projectile.position.x = position.x - (scale.x * 8)
 			projectile.position.y = position.y - 6

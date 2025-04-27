@@ -11,7 +11,7 @@ var olddirection: int
 
 @export var type : int ##The type of enemy.
 @export var direction : int
-@export var subtype : int
+@export var subtype : int ##Variation on the enemy.
 @export var difficulty : int ##0: Easy, 1: Normal, 2:Hard, 3:V.H.
 @onready var baby
 var enemytype = [
@@ -20,7 +20,8 @@ var enemytype = [
 	preload("res://scenes/objects/enemies/shotman.tscn"),
 	preload("res://scenes/objects/enemies/wanaan_kai.tscn"),
 	preload("res://scenes/objects/enemies/commando_joe.tscn"),
-	preload("res://scenes/objects/enemies/sutsi.tscn")
+	preload("res://scenes/objects/enemies/sutsi.tscn"),
+	preload("res://scenes/objects/enemies/tosser.tscn")
 ]
 
 func _on_visible_on_screen_notifier_2d_screen_entered():
@@ -30,23 +31,28 @@ func _on_visible_on_screen_notifier_2d_screen_entered():
 		if baby == null:
 			baby = enemytype[type].instantiate()
 			get_parent().add_child(baby)
-			baby.position.x = position.x
-			baby.position.y = position.y
+			baby.subtype = subtype
+			baby.position = position
 			if direction == 1: 
 				baby.scale.x = -1
 			
-			baby.position.x = position.x
-			baby.position.y = position.y
-
+func _ready() -> void:
+	if not Engine.is_editor_hint():
+		$Info.queue_free()
+		
 func _process(_delta):
 	if not Engine.is_editor_hint():
 		return
 	if Engine.is_editor_hint():
+		$Info/SubType.text = "%s" % subtype
+		
 		if baby == null:
 			baby = enemytype[type].instantiate()
 			get_parent().add_child(baby)
-			baby.position.x = position.x
-			baby.position.y = position.y
+			baby.position = position
+			baby.subtype = subtype
+			if direction == 1: 
+				baby.scale.x = -1
 			
 		if baby != null:
 			if oldposx != position.x:
@@ -63,6 +69,8 @@ func _process(_delta):
 		oldposx = position.x
 		oldposy = position.y
 		oldtype = type
+		oldsubtype = subtype
+		olddirection = direction
 	else:
 		pass
 		

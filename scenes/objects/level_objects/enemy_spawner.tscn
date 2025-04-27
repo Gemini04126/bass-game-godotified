@@ -8,4 +8,20 @@ script = ExtResource("1_vkwdh")
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 scale = Vector2(2, 2)
 
+[node name="Info" type="Node2D" parent="."]
+
+[node name="SUB" type="RichTextLabel" parent="Info"]
+offset_left = -20.0
+offset_top = -29.0
+offset_right = 5.0
+offset_bottom = -20.0
+text = "SUB"
+
+[node name="SubType" type="RichTextLabel" parent="Info"]
+offset_left = 9.0
+offset_top = -29.0
+offset_right = 20.0
+offset_bottom = -20.0
+text = "0"
+
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
