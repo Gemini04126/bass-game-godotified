@@ -18,7 +18,7 @@ func _ready():
 	$SpawnSound.play()
 
 func _physics_process(delta):
-	timer += 1
+	timer += 2
 	if timer <= 850:
 		handle_buster()
 	if timer > 850 && explode_state == 0:

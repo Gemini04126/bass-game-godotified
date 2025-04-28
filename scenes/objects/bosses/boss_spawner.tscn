@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ckx64t5b2ht0i" path="res://scenes/objects/bosses/boss_spawner.gd" id="1_cyg6j"]
 
-[node name="Spawner" type="Node2D"]
+[node name="BossSpawner" type="Node2D"]
 script = ExtResource("1_cyg6j")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

@@ -1,12 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://trkgtebh8rbb"]
+[gd_scene load_steps=9 format=3 uid="uid://trkgtebh8rbb"]
 
 [ext_resource type="Script" uid="uid://dari3luqe4d5p" path="res://scenes/objects/level_objects/boss_door_h.gd" id="1_u6hss"]
 [ext_resource type="AudioStream" uid="uid://xgre6yptpa2v" path="res://sounds/yoku.wav" id="2_l2e04"]
 [ext_resource type="Texture2D" uid="uid://dlqjqpe0tstrq" path="res://sprites/objects/door.png" id="3_hnq8l"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u6hss"]
+size = Vector2(64, 48)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_3htip"]
 atlas = ExtResource("3_hnq8l")
 region = Rect2(0, 0, 0, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l2e04"]
+size = Vector2(32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8kaqg"]
 atlas = ExtResource("3_hnq8l")
@@ -14,9 +20,6 @@ region = Rect2(0, 32, 0, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f54ev"]
 size = Vector2(64, 4)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_u6hss"]
-size = Vector2(64, 48)
 
 [node name="BossDoor_H" type="StaticBody2D"]
 script = ExtResource("1_u6hss")
@@ -32,9 +35,16 @@ bus = &"SFX"
 wait_time = 4.0
 one_shot = true
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_u6hss")
+disabled = true
+debug_color = Color(0, 0.619608, 1, 0.419608)
+
 [node name="Top" type="Sprite2D" parent="."]
-position = Vector2(-16, 8)
+position = Vector2(-16, -24)
 rotation = 4.71239
+scale = Vector2(-1, 1)
 texture = SubResource("AtlasTexture_3htip")
 
 [node name="Part3" type="Sprite2D" parent="Top"]
@@ -45,9 +55,19 @@ texture = SubResource("AtlasTexture_3htip")
 position = Vector2(32, 0)
 texture = SubResource("AtlasTexture_3htip")
 
+[node name="Area2D" type="Area2D" parent="Top"]
+position = Vector2(16, 1.52588e-05)
+rotation = 1.5708
+scale = Vector2(1, -1)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Top/Area2D"]
+shape = SubResource("RectangleShape2D_l2e04")
+debug_color = Color(0, 0.619608, 1, 0.419608)
+
 [node name="Bottom" type="Sprite2D" parent="."]
-position = Vector2(16, 8)
+position = Vector2(16, -24)
 rotation = 4.71239
+scale = Vector2(-1, 1)
 texture = SubResource("AtlasTexture_8kaqg")
 
 [node name="Part4" type="Sprite2D" parent="Bottom"]
@@ -57,6 +77,16 @@ texture = SubResource("AtlasTexture_8kaqg")
 [node name="Part5" type="Sprite2D" parent="Bottom"]
 position = Vector2(32, 0)
 texture = SubResource("AtlasTexture_8kaqg")
+
+[node name="Area2D" type="Area2D" parent="Bottom"]
+position = Vector2(48, 1.52588e-05)
+rotation = 1.5708
+scale = Vector2(1, -1)
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Bottom/Area2D"]
+position = Vector2(3.24249e-05, -32)
+shape = SubResource("RectangleShape2D_l2e04")
+debug_color = Color(0, 0.619608, 1, 0.419608)
 
 [node name="OpenTrigger" type="Area2D" parent="."]
 collision_mask = 2
@@ -70,10 +100,5 @@ debug_color = Color(0, 0.588235, 0, 0.419608)
 position = Vector2(0, -34)
 shape = SubResource("RectangleShape2D_f54ev")
 debug_color = Color(0, 0.588235, 0, 0.419608)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -8)
-shape = SubResource("RectangleShape2D_u6hss")
-debug_color = Color(0, 0.619608, 1, 0.419608)
 
 [connection signal="body_entered" from="OpenTrigger" to="." method="_on_open_trigger_body_entered"]

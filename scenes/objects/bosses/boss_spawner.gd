@@ -13,7 +13,8 @@ var readied : bool
 @export var slot : int
 @onready var baby
 var enemytype = [
-	preload("res://scenes/objects/bosses/testboss.tscn")
+	preload("res://scenes/objects/bosses/testboss.tscn"),
+	preload("res://scenes/objects/bosses/shark_man.tscn")
 ]
 
 func _on_visible_on_screen_notifier_2d_screen_entered():

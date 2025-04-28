@@ -129,7 +129,10 @@ func process_camera():
 			$Camera2D.position.y += 8
 		if player != null:
 			if GameState.screentransiton == 0:
-				player.position.y += 1
+				if GameState.bossdoor == true:
+					player.position.y += 2
+				else:
+					player.position.y += 1
 			player.transing = true
 		
 	elif GameState.transdir == 3 && ($Camera2D.position.x > (384*GameState.scrollX2) + 192):

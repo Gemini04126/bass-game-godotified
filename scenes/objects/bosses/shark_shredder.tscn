@@ -1,0 +1,101 @@
+[gd_scene load_steps=10 format=3 uid="uid://bip5gv5iwww0g"]
+
+[ext_resource type="Texture2D" uid="uid://bre3dp0v511ax" path="res://sprites/enemies/bosses/shark_finshreder.png" id="1_awr4y"]
+[ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="2_lqm6t"]
+
+[sub_resource type="GDScript" id="GDScript_npklr"]
+script/source = "extends CharacterBody2D
+
+const Atk_Dmg = 5
+var projectile
+
+
+func _ready():
+	$SpawnSound.play()
+	if velocity.x < 0:
+		scale.x = -1
+		
+func _physics_process(delta):
+	move_and_slide()
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()
+
+func _on_hurt_body_entered(body):
+	if body.is_in_group(\"player\"):
+		body.DmgQueue = Atk_Dmg
+	if body.is_in_group(\"scorch\"):
+		if GameState.character_selected != 2:
+			body.durability -= 3
+		else:
+			body.durability -= 2
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awr4y"]
+atlas = ExtResource("1_awr4y")
+region = Rect2(0, 0, 43, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqm6t"]
+atlas = ExtResource("1_awr4y")
+region = Rect2(43, 0, 43, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8w08"]
+atlas = ExtResource("1_awr4y")
+region = Rect2(86, 0, 43, 53)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tmmfq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awr4y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqm6t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8w08")
+}],
+"loop": true,
+"name": &"Attack",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0fvlc"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rv2qt"]
+size = Vector2(16, 47)
+
+[node name="Fin Shredder" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 32
+collision_mask = 0
+script = SubResource("GDScript_npklr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 7)
+sprite_frames = SubResource("SpriteFrames_tmmfq")
+animation = &"Attack"
+autoplay = "Attack"
+frame_progress = 0.932673
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0fvlc")
+
+[node name="SpawnSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_lqm6t")
+bus = &"SFX"
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 3
+
+[node name="MainHitbox" type="CollisionShape2D" parent="hurt"]
+position = Vector2(10, 9.5)
+shape = SubResource("RectangleShape2D_rv2qt")
+debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]

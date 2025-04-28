@@ -33,7 +33,7 @@ func _ready():
 	if way == 0:
 		$OpenTrigger/OpenTop.queue_free()
 	if way == 1:
-		$OpenTrigger/OpenTop.queue_free()
+		$OpenTrigger/OpenBottom.queue_free()
 
 func _physics_process(delta):
 	if GameState.screentransiton > 0 and GameState.screentransiton < 40 and opening == true:
@@ -52,7 +52,7 @@ func _on_open_trigger_body_entered(body):
 	GameState.bossdoor = true
 	opening = true
 	print("yo")
-	$CollisionShape2D.disabled = true
+	#$CollisionShape2D.disabled = true
 	if body.is_in_group("player") && GameState.transdir == 0:
 		if ladderonly == false or GameState.playerstate == 7:
 			if scrollX1 != GameState.scrollX1 or scrollX2 != GameState.scrollX2 or scrollY1 != GameState.scrollY1 or scrollY2 != GameState.scrollY2:

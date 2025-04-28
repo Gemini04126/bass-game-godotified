@@ -1,0 +1,181 @@
+[gd_scene load_steps=15 format=3 uid="uid://lqyn4h036wty"]
+
+[ext_resource type="Texture2D" uid="uid://fwskan2g3m33" path="res://sprites/enemies/bosses/shark_storm.png" id="1_37pnc"]
+[ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="2_4p71a"]
+
+[sub_resource type="GDScript" id="GDScript_npklr"]
+script/source = "extends CharacterBody2D
+
+const Atk_Dmg = 6
+var projectile
+var time = 0
+
+
+func _ready():
+	$SpawnSound.play()
+		
+func _physics_process(delta):
+	if $Timer.is_stopped():
+		if time < 8:
+			position.y -= 8
+		else:
+			position.y += 8
+			
+		if time > 18:
+			queue_free()
+		time += 1
+		$Timer.start(0.02)
+		
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()
+
+func _on_hurt_body_entered(body):
+	if body.is_in_group(\"player\"):
+		body.DmgQueue = Atk_Dmg
+	if body.is_in_group(\"scorch\"):
+		if GameState.character_selected != 2:
+			body.durability -= 3
+		else:
+			body.durability -= 2
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37pnc"]
+atlas = ExtResource("1_37pnc")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4p71a"]
+atlas = ExtResource("1_37pnc")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8pp5a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_37pnc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4p71a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msxik"]
+atlas = ExtResource("1_37pnc")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0lrku"]
+atlas = ExtResource("1_37pnc")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tmmfq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msxik")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0lrku")
+}],
+"loop": true,
+"name": &"Ice",
+"speed": 15.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8pp5a"]
+atlas = ExtResource("1_37pnc")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ureu4"]
+atlas = ExtResource("1_37pnc")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p33gq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8pp5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ureu4")
+}],
+"loop": true,
+"name": &"Ice",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0fvlc"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ureu4"]
+size = Vector2(16, 88)
+
+[node name="Raging Storm" type="CharacterBody2D"]
+collision_layer = 32
+collision_mask = 0
+script = SubResource("GDScript_npklr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 8)
+sprite_frames = SubResource("SpriteFrames_8pp5a")
+autoplay = "default"
+frame = 1
+frame_progress = 0.186636
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 24)
+sprite_frames = SubResource("SpriteFrames_tmmfq")
+animation = &"Ice"
+autoplay = "Ice"
+frame_progress = 0.677281
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 40)
+sprite_frames = SubResource("SpriteFrames_p33gq")
+animation = &"Ice"
+autoplay = "Ice"
+
+[node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 56)
+sprite_frames = SubResource("SpriteFrames_p33gq")
+animation = &"Ice"
+autoplay = "Ice"
+
+[node name="AnimatedSprite2D5" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 72)
+sprite_frames = SubResource("SpriteFrames_p33gq")
+animation = &"Ice"
+autoplay = "Ice"
+
+[node name="AnimatedSprite2D6" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 88)
+sprite_frames = SubResource("SpriteFrames_p33gq")
+animation = &"Ice"
+autoplay = "Ice"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 92)
+shape = SubResource("RectangleShape2D_0fvlc")
+
+[node name="SpawnSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_4p71a")
+bus = &"SFX"
+
+[node name="hurt" type="Area2D" parent="."]
+position = Vector2(-1, 1)
+collision_layer = 4
+collision_mask = 3
+
+[node name="MainHitbox" type="CollisionShape2D" parent="hurt"]
+position = Vector2(1, 51)
+shape = SubResource("RectangleShape2D_ureu4")
+debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]

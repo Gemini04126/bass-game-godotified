@@ -227,7 +227,7 @@ func _on_hurt_body_entered(body):
 	body.DmgQueue = Atk_Dmg
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3u8v0"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y84bs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lwhwx"]
 atlas = ExtResource("2_soadc")
@@ -281,7 +281,7 @@ region = Rect2(76, 0, 38, 36)
 atlas = ExtResource("2_soadc")
 region = Rect2(38, 0, 38, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_62nvj"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_8am6b"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -390,43 +390,42 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wp5vq"]
-size = Vector2(21, 28)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8am6b"]
+size = Vector2(24, 30)
 
-[node name="TestBossGuy3" type="CharacterBody2D"]
+[node name="TestBossGuy4" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_gtk0d")
 collision_layer = 0
 script = SubResource("GDScript_k5bra")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_3u8v0")
-position = Vector2(0, -3)
-sprite_frames = SubResource("SpriteFrames_62nvj")
-animation = &"Dead"
+material = SubResource("ShaderMaterial_y84bs")
+position = Vector2(0, -6)
+sprite_frames = SubResource("SpriteFrames_8am6b")
+animation = &"Attack"
 autoplay = "Idle"
-frame = 6
-frame_progress = 1.0
 
 [node name="hitable" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 8
 
-[node name="MainHitbox" type="CollisionShape2D" parent="hitable"]
-position = Vector2(0, -6)
-shape = SubResource("RectangleShape2D_wp5vq")
+[node name="Collision3" type="CollisionShape2D" parent="hitable"]
+position = Vector2(2, -10)
+shape = SubResource("RectangleShape2D_8am6b")
+debug_color = Color(0, 0.627451, 1, 0.419608)
 
 [node name="hurt" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 2
 
-[node name="Hurtbox" type="CollisionShape2D" parent="hurt"]
-position = Vector2(0, -6)
-shape = SubResource("RectangleShape2D_wp5vq")
-debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+[node name="Collision2" type="CollisionShape2D" parent="hurt"]
+position = Vector2(2, -10)
+shape = SubResource("RectangleShape2D_8am6b")
+debug_color = Color(1, 0, 0.0705882, 0.419608)
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, -6)
-shape = SubResource("RectangleShape2D_wp5vq")
+position = Vector2(2, -10)
+shape = SubResource("RectangleShape2D_8am6b")
 debug_color = Color(0, 1, 0.0705882, 0.419608)
 
 [node name="InvulTimer" type="Timer" parent="."]
