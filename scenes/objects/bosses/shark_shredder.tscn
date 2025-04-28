@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bip5gv5iwww0g"]
+[gd_scene load_steps=15 format=3 uid="uid://bip5gv5iwww0g"]
 
 [ext_resource type="Texture2D" uid="uid://bre3dp0v511ax" path="res://sprites/enemies/bosses/shark_finshreder.png" id="1_awr4y"]
+[ext_resource type="Texture2D" uid="uid://bmfbbubre4nsu" path="res://sprites/players/weapons/Shark1.png" id="2_b8w08"]
 [ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="2_lqm6t"]
 
 [sub_resource type="GDScript" id="GDScript_npklr"]
@@ -29,6 +30,34 @@ func _on_hurt_body_entered(body):
 			body.durability -= 3
 		else:
 			body.durability -= 2
+
+func destroy():
+	$CollisionShape2D.set_deferred(\"disabled\", true)
+	#$HitSound.play()
+	velocity.x = 0
+	velocity.y = 0
+	$AnimatedSprite2D.play(\"Destroy\")
+	await $AnimatedSprite2D.animation_finished
+	queue_free()
+
+func _on_reflect_body_entered(weapon):
+	match weapon.W_Type:
+		GameState.DMGTYPE.CB_SMOG:
+			weapon.destroy()
+		GameState.DMGTYPE.CB_GUERILLA:
+			weapon.destroy()
+		GameState.DMGTYPE.CB_REAPER_1:
+			weapon.destroy()
+		GameState.DMGTYPE.BS_SHARK:
+			# Destroy both!
+			destroy()
+			weapon.destroy()
+		GameState.DMGTYPE.CR_SHARK1:
+			# Destroy both!
+			destroy()
+			weapon.destroy()
+		_:
+			pass
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_awr4y"]
@@ -42,6 +71,18 @@ region = Rect2(43, 0, 43, 53)
 [sub_resource type="AtlasTexture" id="AtlasTexture_b8w08"]
 atlas = ExtResource("1_awr4y")
 region = Rect2(86, 0, 43, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_elc0o"]
+atlas = ExtResource("2_b8w08")
+region = Rect2(0, 190, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_320nq"]
+atlas = ExtResource("2_b8w08")
+region = Rect2(0, 228, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rv2qt"]
+atlas = ExtResource("2_b8w08")
+region = Rect2(0, 266, 38, 38)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tmmfq"]
 animations = [{
@@ -58,12 +99,29 @@ animations = [{
 "loop": true,
 "name": &"Attack",
 "speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_elc0o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_320nq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rv2qt")
+}],
+"loop": false,
+"name": &"Destroy",
+"speed": 15.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0fvlc"]
 size = Vector2(8, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rv2qt"]
+size = Vector2(16, 47)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lqm6t"]
 size = Vector2(16, 47)
 
 [node name="Fin Shredder" type="CharacterBody2D"]
@@ -75,9 +133,8 @@ script = SubResource("GDScript_npklr")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 7)
 sprite_frames = SubResource("SpriteFrames_tmmfq")
-animation = &"Attack"
+animation = &"Destroy"
 autoplay = "Attack"
-frame_progress = 0.932673
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
@@ -97,5 +154,14 @@ position = Vector2(10, 9.5)
 shape = SubResource("RectangleShape2D_rv2qt")
 debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
 
+[node name="reflect" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+
+[node name="ReflectHitbox" type="CollisionShape2D" parent="reflect"]
+position = Vector2(10, 9.5)
+shape = SubResource("RectangleShape2D_lqm6t")
+
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
+[connection signal="body_entered" from="reflect" to="." method="_on_reflect_body_entered"]

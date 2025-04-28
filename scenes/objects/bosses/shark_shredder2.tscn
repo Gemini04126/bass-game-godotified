@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://w8y7aj32j53w"]
+[gd_scene load_steps=16 format=3 uid="uid://w8y7aj32j53w"]
 
 [ext_resource type="Texture2D" uid="uid://b0b56d52ticih" path="res://sprites/enemies/bosses/shark_twinshredder.png" id="1_7slg6"]
+[ext_resource type="Texture2D" uid="uid://birsolsp1t1mb" path="res://sprites/players/weapons/Shark3.png" id="2_3ea3k"]
 [ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="2_hlsj7"]
 
 [sub_resource type="GDScript" id="GDScript_npklr"]
@@ -21,6 +22,15 @@ func _physics_process(delta):
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
 
+func destroy():
+	$CollisionShape2D.set_deferred(\"disabled\", true)
+	#$HitSound.play()
+	velocity.x = 0
+	velocity.y = 0
+	$AnimatedSprite2D.play(\"Destroy\")
+	await $AnimatedSprite2D.animation_finished
+	queue_free()
+
 func _on_hurt_body_entered(body):
 	if body.is_in_group(\"player\"):
 		body.DmgQueue = Atk_Dmg
@@ -29,6 +39,27 @@ func _on_hurt_body_entered(body):
 			body.durability -= 3
 		else:
 			body.durability -= 2
+
+func _on_reflect_body_entered(weapon):
+	match weapon.W_Type:
+		GameState.DMGTYPE.CR_BUSTER_3:
+			# Do nothing
+			pass
+		GameState.DMGTYPE.MD_ORIGAMI:
+			# Do nothing
+			pass
+		GameState.DMGTYPE.CB_GALE:
+			# Do nothing
+			pass
+		GameState.DMGTYPE.CB_REAPER_2:
+			# Do nothing
+			pass
+		GameState.DMGTYPE.CR_SHARK2:
+			# Destroy both!
+			destroy()
+			weapon.destroy()
+		_:
+			weapon.destroy()
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hlsj7"]
@@ -46,6 +77,18 @@ region = Rect2(230, 0, 115, 133)
 [sub_resource type="AtlasTexture" id="AtlasTexture_gcust"]
 atlas = ExtResource("1_7slg6")
 region = Rect2(345, 0, 115, 133)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6n8id"]
+atlas = ExtResource("2_3ea3k")
+region = Rect2(45, 0, 45, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4q22"]
+atlas = ExtResource("2_3ea3k")
+region = Rect2(45, 64, 45, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvg5h"]
+atlas = ExtResource("2_3ea3k")
+region = Rect2(45, 128, 45, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tmmfq"]
 animations = [{
@@ -65,6 +108,20 @@ animations = [{
 "loop": true,
 "name": &"Attack",
 "speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6n8id")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g4q22")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvg5h")
+}],
+"loop": false,
+"name": &"Destroy",
+"speed": 15.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0fvlc"]
@@ -72,6 +129,9 @@ size = Vector2(8, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rv2qt"]
 size = Vector2(68, 77.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7slg6"]
+size = Vector2(68, 78)
 
 [node name="Twin Shredder" type="CharacterBody2D"]
 z_index = 1
@@ -82,9 +142,8 @@ script = SubResource("GDScript_npklr")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -53)
 sprite_frames = SubResource("SpriteFrames_tmmfq")
-animation = &"Attack"
+animation = &"Destroy"
 autoplay = "Attack"
-frame_progress = 0.704406
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
@@ -104,5 +163,14 @@ position = Vector2(6, -29.125)
 shape = SubResource("RectangleShape2D_rv2qt")
 debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
 
+[node name="reflect" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+
+[node name="ReflectHitbox" type="CollisionShape2D" parent="reflect"]
+position = Vector2(6, -29)
+shape = SubResource("RectangleShape2D_7slg6")
+
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
+[connection signal="body_entered" from="reflect" to="." method="_on_reflect_body_entered"]

@@ -454,7 +454,7 @@ func processDamage():
 	#If you're not invulnerable... eat shit!
 	if DmgQueue > 0:
 		GameState.current_hp -= DmgQueue
-		invul_timer.start(1.0)
+		invul_timer.start(1.55)
 		pain_timer.start(0.55)
 		if GameState.current_hp > 0:
 			$FX/Starburst.visible = true
