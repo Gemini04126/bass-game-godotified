@@ -16,7 +16,7 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 5
 	Dmg_Vals[GameState.DMGTYPE.CB_GALE] = 8
 	Dmg_Vals[GameState.DMGTYPE.CB_ORIGAMI] = 2
-	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 0.8
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_1] = 2
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_2] = 3
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_3] = 5

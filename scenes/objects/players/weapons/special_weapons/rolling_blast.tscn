@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://be3fqiuk81q5f"]
+
+[ext_resource type="Script" uid="uid://buasnh48ccs3g" path="res://scenes/objects/players/weapons/special_weapons/rolling_blast.gd" id="1_it3ei"]
+[ext_resource type="Texture2D" uid="uid://dgiwcwe0dt077" path="res://sprites/explosion.png" id="2_cl4t7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l2sjg"]
+atlas = ExtResource("2_cl4t7")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cl4t7"]
+atlas = ExtResource("2_cl4t7")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7imcv"]
+atlas = ExtResource("2_cl4t7")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcx71"]
+atlas = ExtResource("2_cl4t7")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bh17w"]
+atlas = ExtResource("2_cl4t7")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tmmfq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l2sjg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cl4t7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7imcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcx71")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bh17w")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_by75o"]
+size = Vector2(64, 64)
+
+[node name="Blast" type="CharacterBody2D"]
+z_index = 2
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_it3ei")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tmmfq")
+autoplay = "default"
+frame = 5
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_by75o")

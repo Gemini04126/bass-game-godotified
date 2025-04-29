@@ -5,14 +5,18 @@ var W_Type = GameState.DMGTYPE.CB_GUERILLA
 var state := STATES.SPAWNED
 var checker: String 
 var direction: int
-var explosion = preload("res://scenes/objects/explosion_1.tscn")
+var explosion = preload("res://scenes/objects/players/weapons/special_weapons/rolling_blast.tscn")
+var surface
+var attached : bool
+var time = 0
+var blasts = 16
 
 enum DIRECTION {
 	NONE, 
-	LEFT, 
-	RIGHT, 
-	UP, 
-	DOWN
+	FLOOR, 
+	CLIMB, 
+	CEILING, 
+	LOWER
 	}
 
 enum STATES{
@@ -24,81 +28,58 @@ enum STATES{
 var CurrentDir = DIRECTION.NONE
 
 func _ready():
+	direction = scale.x
 	$SpawnSound.play()
 
-func _physics_process(_delta):
+func _physics_process(delta):
+	if GameState.player != null:
+		$AnimatedSprite2D.material.set_shader_parameter("palette", GameState.player.get_node("Sprite2D").material.get_shader_parameter("palette"))
+	
 	if GameState.current_weapon != GameState.WEAPONS.GUERRILLA:
 		queue_free()
 	match state:
 		STATES.SPAWNED:
 			spawn()
 		STATES.DIE:
-			pass
+			blast()
 	move_and_slide()
+	
+	
 
 func spawn():
-	velocity.x = 150 * direction
-	velocity.y = 150
-	if is_on_floor_only():
-		velocity.y = 0
-		velocity.x = 150 * direction
-	if is_on_wall():
-		velocity.x = 0
-		velocity.y = -150
-
-
-	#if CurrentDir == DIRECTION.NONE:
-		#velocity.x = 100
-		#velocity.y = 150
-		#if $BottomCast1.is_colliding() or $BottomCast2.is_colliding():
-			#CurrentDir = DIRECTION.RIGHT 
-			#
-		#if $FrontCast1.is_colliding() or $FrontCast2.is_colliding():
-			#CurrentDir = DIRECTION.UP 
-		#
-	#if CurrentDir == DIRECTION.LEFT:
-		#velocity.x = -200
-		#velocity.y = 0
-		#if !$TopCast1.is_colliding() and !$TopCast2.is_colliding():
-			#CurrentDir = DIRECTION.DOWN
-	#
-	#if CurrentDir == DIRECTION.RIGHT:
-		#velocity.x = 200
-		#velocity.y = 0
-		#if $FrontCast1.is_colliding() or $FrontCast2.is_colliding():
-			#CurrentDir = DIRECTION.UP 
-		#if !$BottomCast1.is_colliding() and !$BottomCast2.is_colliding():
-			#CurrentDir = DIRECTION.DOWN
-	#
-	#if CurrentDir == DIRECTION.UP:
-		#velocity.x = 0
-		#velocity.y = -200
-		#if !$FrontCast1.is_colliding() and !$FrontCast2.is_colliding():
-			#CurrentDir = DIRECTION.RIGHT
-			#velocity.x = 200
-			#velocity.y = 0
-			#
-		#if $TopCast1.is_colliding() or $TopCast2.is_colliding():
-			#CurrentDir = DIRECTION.LEFT
-			#velocity.x = -200
-			#velocity.y = 0
-		#
-	#if CurrentDir == DIRECTION.DOWN:
-		#velocity.x = 0
-		#velocity.y = 200
-		#if $BottomCast1.is_colliding() or $BottomCast2.is_colliding():
-			#CurrentDir = DIRECTION.RIGHT
-			#velocity.x = 200
-			#velocity.y = 0
-		#if !$BackCast1.is_colliding() and !$BackCast2.is_colliding():
-			#CurrentDir = DIRECTION.LEFT
-			#velocity.x = -200
-			#velocity.y = 0
-	#
-		#
-	#
-			#
-	#move_and_slide()
+	time += 1
+	
+	if surface == null:
+		if $Point/FrontEnd.is_colliding() or $Point/BackEnd.is_colliding():
+			surface = 1
+			$Point.rotation = 0
+			
+		if $Point/ClimbCorner.is_colliding() or $Point/ClimbCorner2.is_colliding():
+			surface = 1
+			$Point.rotation -= deg_to_rad(90)
+	
+	if surface == 1:
+		velocity.x = direction * (cos($Point.rotation) * 125)
+		velocity.y = sin($Point.rotation) * 125
+		if !$Point/FrontEnd.is_colliding() and !$Point/BackEnd.is_colliding() and ($Point/TurnCorner.is_colliding() or $Point/TurnCorner2.is_colliding() or $Point/TurnCorner3.is_colliding()):
+			$Point.rotation += deg_to_rad(90)
+			
+		if $Point/ClimbCorner.is_colliding():
+			$Point.rotation -= deg_to_rad(90)
+			
+		if !$Point/FrontEnd.is_colliding() and !$Point/BackEnd.is_colliding() and !$Point/TurnCorner.is_colliding() and !$Point/TurnCorner2.is_colliding() and !$Point/TurnCorner3.is_colliding():
+			velocity.x -= direction * sin($Point.rotation) * 125
+			velocity.y += cos($Point.rotation) * 125
+			
+func blast():
+	if $Timer.is_stopped():
+		blasts -= 1
+		$Timer.start(0.05)
+		if blasts > 0:
+			var exp = explosion.instantiate()
+			add_child(exp)
+		if blasts == -50:
+			queue_free()
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	GameState.onscreen_sp_bullets -= 1
@@ -113,10 +94,7 @@ func destroy():
 	velocity.y = 0
 	GameState.onscreen_sp_bullets -= 1
 	$AnimatedSprite2D.play("hit")
-	var exp = explosion.instantiate()
-	add_child(exp)
-	await $AnimatedSprite2D.animation_finished
-	queue_free()
+	
 
 func kill():
 	destroy()
