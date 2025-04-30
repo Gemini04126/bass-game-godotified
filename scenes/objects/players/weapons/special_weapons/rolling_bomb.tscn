@@ -80,7 +80,7 @@ shape = SubResource("RectangleShape2D_v4vdm")
 material = SubResource("ShaderMaterial_abts6")
 sprite_frames = SubResource("SpriteFrames_tmmfq")
 autoplay = "default"
-frame_progress = 0.59578
+frame_progress = 0.5393
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(0, 1)

@@ -46,7 +46,8 @@ func _init() -> void:
 		preload("res://sprites/players/bass/palettes/Proto Charge 1.png"),
 		preload("res://sprites/players/bass/palettes/Proto Charge 2.png"),
 		preload("res://sprites/players/weapons/ScytheCharge0.png"),
-		preload("res://sprites/players/weapons/ScytheCharge1.png")
+		preload("res://sprites/players/weapons/ScytheCharge1.png"),
+		preload("res://sprites/players/bass/palettes/Ultimate.png")
 	]
 	
 	projectile_scenes = [
@@ -70,7 +71,11 @@ func _init() -> void:
 		preload("res://scenes/objects/players/weapons/special_weapons/wild_gale.tscn")
 	]
 	
-
+func set_current_weapon_palette() -> void:
+	if GameState.current_weapon == 0 and GameState.ultimate == true:
+		sprite.material.set_shader_parameter("palette", weapon_palette[21])
+	else:
+		sprite.material.set_shader_parameter("palette", weapon_palette[GameState.current_weapon])
 
 func _physics_process(delta: float) -> void:
 	check_for_death()
@@ -94,6 +99,8 @@ func _physics_process(delta: float) -> void:
 	if !transing:
 		match currentState:
 			STATES.TELEPORT, STATES.TELEPORT_LANDING:
+				if GameState.ultimate == true:
+					sprite.material.set_shader_parameter("palette", weapon_palette[21])
 				teleporting()
 				applyGrav(delta)
 			STATES.IDLE:
@@ -143,7 +150,7 @@ func _physics_process(delta: float) -> void:
 				ladderCheck()
 				processDamage()
 				module_video()
-			STATES.WALK, STATES.WALKING_SHOOT:
+			STATES.WALK:
 				walk()
 				dashProcess()
 				checkForFloor()
@@ -370,6 +377,15 @@ func aimAnimMatch():
 			currentState = STATES.FALL_AIM_DIAG
 		else:
 			currentState = STATES.FALL_AIM
+			
+func busterAnimMatch():
+	shoot_timer.start()
+	if currentState == STATES.IDLE or currentState == STATES.STEP or currentState == STATES.WALK:
+		currentState = STATES.IDLE_SHOOT
+	elif currentState == STATES.JUMP:
+		currentState = STATES.JUMP_SHOOT
+	elif currentState == STATES.FALL or currentState == STATES.FALL_START:
+		currentState = STATES.FALL_SHOOT
 
 func processBuster():
 	if Input.is_action_pressed("buster") or (GameState.current_weapon == WEAPONS.BUSTER and Input.is_action_pressed("shoot")):

@@ -75,11 +75,13 @@ func _on_button_toggled(toggled_on):
 		$Modules.hide()
 		$Weapons.hide()
 		$Upgrades.hide()
+		$Ultimate.hide()
 		$Button.text = \"Show\"
 	else:
 		$Modules.show()
 		$Weapons.show()
 		$Upgrades.show()
+		$Ultimate.show()
 		$Button.text = \"Hide\"
 
 func _on_check_button_20_toggled(toggled_on):
@@ -135,6 +137,10 @@ func _on_up_button_8_toggled(toggled_on: bool) -> void:
 
 func _on_up_button_9_toggled(toggled_on: bool) -> void:
 	GameState.upgrades_enabled[9] = toggled_on
+
+
+func _on_ultimate_toggle_toggled(toggled_on: bool) -> void:
+	GameState.ultimate = toggled_on
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dxhje"]
@@ -475,6 +481,23 @@ layout_mode = 2
 focus_mode = 0
 icon = SubResource("AtlasTexture_w22i7")
 
+[node name="UpButton11" type="CheckButton" parent="Upgrades"]
+layout_mode = 2
+focus_mode = 0
+icon = SubResource("AtlasTexture_w22i7")
+
+[node name="Ultimate" type="GridContainer" parent="."]
+visible = false
+offset_left = 175.0
+offset_right = 239.0
+offset_bottom = 216.0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = -8
+
+[node name="UltimateToggle" type="CheckButton" parent="Ultimate"]
+layout_mode = 2
+focus_mode = 0
+
 [node name="Button" type="Button" parent="."]
 offset_left = 344.0
 offset_right = 384.0
@@ -507,8 +530,8 @@ metadata/_edit_use_anchors_ = true
 [connection signal="toggled" from="Weapons/CheckButton18" to="." method="_on_check_button_18_toggled"]
 [connection signal="toggled" from="Weapons/CheckButton19" to="." method="_on_check_button_19_toggled"]
 [connection signal="toggled" from="Weapons/CheckButton20" to="." method="_on_check_button_20_toggled"]
-[connection signal="toggled" from="Weapons/CheckButton21" to="." method="_on_check_button_21_toggled"]
 [connection signal="toggled" from="Weapons/CheckButton21" to="." method="_on_check_button_2_toggled"]
+[connection signal="toggled" from="Weapons/CheckButton21" to="." method="_on_check_button_21_toggled"]
 [connection signal="toggled" from="Upgrades/UpButton" to="." method="_on_up_button_toggled"]
 [connection signal="toggled" from="Upgrades/UpButton2" to="." method="_on_up_button_2_toggled"]
 [connection signal="toggled" from="Upgrades/UpButton3" to="." method="_on_up_button_3_toggled"]
@@ -519,4 +542,6 @@ metadata/_edit_use_anchors_ = true
 [connection signal="toggled" from="Upgrades/UpButton8" to="." method="_on_up_button_8_toggled"]
 [connection signal="toggled" from="Upgrades/UpButton9" to="." method="_on_up_button_9_toggled"]
 [connection signal="toggled" from="Upgrades/UpButton10" to="." method="_on_up_button_9_toggled"]
+[connection signal="toggled" from="Upgrades/UpButton11" to="." method="_on_up_button_9_toggled"]
+[connection signal="toggled" from="Ultimate/UltimateToggle" to="." method="_on_ultimate_toggle_toggled"]
 [connection signal="toggled" from="Button" to="." method="_on_button_toggled"]

@@ -19,7 +19,8 @@ func _init() -> void:
 		preload("res://scenes/objects/players/weapons/copy_robot/screw_crusher.tscn"),
 		preload("res://scenes/objects/players/weapons/copy_robot/arrow.tscn"),
 		preload("res://scenes/objects/players/weapons/copy_robot/cr_fin_shredder.tscn"),
-		preload("res://scenes/objects/players/weapons/copy_robot/sakugarne.tscn")
+		preload("res://scenes/objects/players/weapons/copy_robot/sakugarne.tscn"),
+		preload("res://scenes/objects/players/weapons/copy_robot/buster_ultimate.tscn")
 	]
 
 	weapon_palette = [
@@ -45,7 +46,8 @@ func _init() -> void:
 		preload("res://sprites/players/weapons/ScytheCharge0.png"),
 		preload("res://sprites/players/weapons/ScytheCharge1.png"),
 		preload("res://sprites/players/copy_robot/palettes/SharkCharge0.png"),
-		preload("res://sprites/players/copy_robot/palettes/SharkCharge1.png")
+		preload("res://sprites/players/copy_robot/palettes/SharkCharge1.png"),
+		preload("res://sprites/players/copy_robot/palettes/Ultimate.png")
 	]
 	weapon_scenes = [
 		preload("res://scenes/objects/players/weapons/special_weapons/origami_star.tscn"),
@@ -62,6 +64,12 @@ func _init() -> void:
 
 #So basically what this new state machine does is that it organizes every state into a little chunk that'll execute the functions it's meant to each frame. This way you won't need to have the
 #function that applies gravity need to specify to only apply it during certain states since it will only execute on the correct states. It's also just nicer to look at.
+
+func set_current_weapon_palette() -> void:
+	if GameState.current_weapon == 0 and GameState.ultimate == true:
+		sprite.material.set_shader_parameter("palette", weapon_palette[23])
+	else:
+		sprite.material.set_shader_parameter("palette", weapon_palette[GameState.current_weapon])
 
 func _physics_process(delta: float) -> void:
 	if recoil != 0:
@@ -92,6 +100,8 @@ func _physics_process(delta: float) -> void:
 	if !transing:
 		match currentState:
 			STATES.TELEPORT, STATES.TELEPORT_LANDING:
+				if GameState.ultimate == true:
+					sprite.material.set_shader_parameter("palette", weapon_palette[23])
 				teleporting()
 				applyGrav(delta)
 			STATES.IDLE, STATES.IDLE_SHOOT:
@@ -141,6 +151,8 @@ func _physics_process(delta: float) -> void:
 				applyGrav(delta)
 				allowLeftRight(delta)
 				processShoot()
+				if GameState.ultimate == true:
+					slideProcess()
 				#processBuster()
 				processCharge()
 				ladderCheck()
@@ -150,6 +162,8 @@ func _physics_process(delta: float) -> void:
 				applyGrav(delta)
 				allowLeftRight(delta)
 				processShoot()
+				if GameState.ultimate == true:
+					slideProcess()
 				#processBuster()
 				processCharge()
 				ladderCheck()
@@ -289,13 +303,20 @@ func processCharge():
 # ================
 # WEAPON FUNCTIONS
 # ================
-func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'd need to redefine it in a game where everyone charges anyway. good one fr fr
+func weapon_cbuster():
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_just_pressed("shoot")) or Input.is_action_just_pressed("buster"):
 		if GameState.inputdisabled == false:
 			if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3 or (GameState.upgrades_enabled[3] == true and GameState.onscreen_bullets < 5)):
 				attack_timer.start(0.3)
 				GameState.onscreen_bullets += 1
-				projectile = projectile_scenes[0].instantiate()
+				if GameState.ultimate == false:
+					projectile = projectile_scenes[0].instantiate()
+					$Audio/Buster1.play()
+				
+				else:
+					projectile = projectile_scenes[1].instantiate()
+					$Audio/Buster2.play()
+				
 				get_parent().add_child(projectile)
 				projectile.position.x = position.x + (sprite.scale.x * 18)
 				projectile.position.y = position.y + 2
@@ -304,7 +325,6 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				bustercharge = 0
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
-				$Audio/Buster1.play()
 				set_current_weapon_palette()
 				busterAnimMatch()
 				return
@@ -320,16 +340,26 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				if GameState.inputdisabled == false:
 					attack_timer.start(0.3)
 					GameState.onscreen_bullets += 1
-					projectile = projectile_scenes[1].instantiate()
+					if GameState.ultimate == false:
+						projectile = projectile_scenes[1].instantiate()
+						$Audio/Buster2.play()
+					else:
+						projectile = projectile_scenes[2].instantiate()
+						$Audio/Buster3.play()
 					get_parent().add_child(projectile)
+					
+					if GameState.ultimate == true and direction.y != 0:
+						projectile.velocity.x = sprite.scale.x * 280
+						projectile.velocity.y = direction.y * -70
+					else:
+						projectile.velocity.x = sprite.scale.x * 350
+						
 					projectile.position.x = position.x + (sprite.scale.x * 18)
 					projectile.position.y = position.y + 2
-					projectile.velocity.x = sprite.scale.x * 350
 					projectile.scale.x = sprite.scale.x
 				bustercharge = 0
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
-				$Audio/Buster2.play()
 				set_current_weapon_palette()
 				return
 			if bustercharge >= 92: # da big boi
@@ -339,7 +369,14 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 					position.x -= sprite.scale.x * 2
 				
 					GameState.onscreen_bullets += 1
-					projectile = projectile_scenes[2].instantiate()
+					
+					
+					if GameState.ultimate == false:
+						projectile = projectile_scenes[2].instantiate()
+						$Audio/Buster2.play()
+					else:
+						projectile = projectile_scenes[9].instantiate()
+						$Audio/Buster3.play()
 					get_parent().add_child(projectile)
 					projectile.position.x = position.x + (sprite.scale.x * 18)
 					projectile.position.y = position.y + 2
@@ -360,7 +397,6 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 				bustercharge = 0
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
-				$Audio/Buster3.play()
 				set_current_weapon_palette()
 				return
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_pressed("shoot")) or Input.is_action_pressed("buster"):
@@ -372,6 +408,7 @@ func weapon_cbuster(): #Good idea to randomly remove charging from maestro so I'
 			if bustercharge == 32:
 				$Audio/Charge1.play()
 			if bustercharge == 108:
+				$Audio/Charge1.stop()
 				$Audio/Charge2.play()
 				$Audio/Charge2.volume_linear = 1
 			if bustercharge > 108:

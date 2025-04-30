@@ -183,6 +183,7 @@ var PROGRESSDICT = {
 
 var difficulty : int
 var infinite_ammo : bool = false
+var ultimate : bool = false
 var weapon_energy : Array = [
 	0,	# Buster
 	28,	# Scorch Barrier

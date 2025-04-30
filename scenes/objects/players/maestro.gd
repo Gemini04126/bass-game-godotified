@@ -77,6 +77,7 @@ var underRoof : bool
 var weaponflashtimer : int = 0
 var dashdir : int
 var dashjumped = false
+var slideused = false
 #input related
 
 
@@ -419,13 +420,17 @@ func checkForFloor():
 func processJump():
 	if GameState.inputdisabled == false:
 		if Input.is_action_just_pressed("jump") && direction.y != -1:
-			velocity.y = JUMP_VELOCITY
-			currentState = STATES.JUMP
+			if !is_on_floor() and currentState == STATES.SLIDE:
+				currentState = STATES.FALL
+			else:
+				velocity.y = JUMP_VELOCITY
+				currentState = STATES.JUMP
+				$Audio/Jump.play()
+				
 			slide_timer.stop()
 			$hurtboxArea/mainHurtbox.set_disabled(false)
 			$mainCollision.disabled = false
 			JumpHeight = 0
-			$Audio/Jump.play()
 
 func processDamage():
 	#Process the Invul Frames first!
@@ -588,6 +593,7 @@ func slideProcess():
 			$Audio/Slide.play()
 	
 func sliding(delta):
+	velocity.y = 0
 	if !on_ice:
 		if GameState.upgrades_enabled[8]:
 			velocity.x = 300 * sprite.scale.x
@@ -606,7 +612,7 @@ func sliding(delta):
 			else:
 				slide_timer.start(0.001)
 	
-	if !is_on_floor():
+	if !is_on_floor() and GameState.ultimate == false:
 		velocity.x = 0
 		currentState = STATES.FALL
 	if Input.is_action_just_pressed("jump"):
@@ -615,7 +621,7 @@ func sliding(delta):
 		$hurtboxArea/mainHurtbox.set_disabled(true)
 		
 func _on_slide_timer_timeout() -> void:
-	if $ceilCheck.is_colliding():
+	if $ceilCheck.is_colliding() and is_on_floor():
 		print("keep sliding")
 		slide_timer.start(0.1)
 	else:

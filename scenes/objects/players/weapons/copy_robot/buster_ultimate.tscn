@@ -1,0 +1,76 @@
+[gd_scene load_steps=12 format=3 uid="uid://g4qlbfcwq71b"]
+
+[ext_resource type="Script" uid="uid://c6e67nmcmv06l" path="res://scenes/objects/players/weapons/copy_robot/buster_ultimate.gd" id="1_4unmw"]
+[ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_4jgoc"]
+[ext_resource type="Texture2D" uid="uid://c7nnqe1dq7ft5" path="res://sprites/players/copy_robot/weapons/BusterUlt.png" id="3_4unmw"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="5_p7fxq"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="6_r2lbi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4u3xc"]
+shader = ExtResource("2_4jgoc")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0bayk"]
+atlas = ExtResource("3_4unmw")
+region = Rect2(0, 0, 61, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jgoc"]
+atlas = ExtResource("3_4unmw")
+region = Rect2(0, 29, 61, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o16xg"]
+atlas = ExtResource("3_4unmw")
+region = Rect2(0, 58, 61, 29)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ajdgy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0bayk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jgoc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o16xg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4unmw"]
+size = Vector2(39, 29)
+
+[node name="UltimateShot" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_4unmw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_4u3xc")
+sprite_frames = SubResource("SpriteFrames_ajdgy")
+autoplay = "default"
+frame_progress = 0.835899
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-1.78814e-07, -1.49012e-07)
+scale = Vector2(2, 1.2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(9.5, 0.5)
+shape = SubResource("RectangleShape2D_4unmw")
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_p7fxq")
+volume_db = -4.0
+bus = &"SFX"
+
+[node name="ReflectSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_r2lbi")
+bus = &"SFX"
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
