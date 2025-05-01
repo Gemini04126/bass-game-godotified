@@ -78,16 +78,17 @@ func _physics_process(_delta):
 	else:
 		$CollisionShape2D.set_deferred("disabled", false)
 	
-	if theta < 68:
-		if GameState.character_selected == 2:
-			theta += 3
-		else:
-			theta += 3.5
+	if theta > 6.283185:
+		theta -= 6.283185
+	
+	if GameState.character_selected == 2:
+		theta += (0.35 * (1 -(radius * 0.020)))
+		
 	else:
-		theta = 0
-		if wet == false:
-			if $AmbientSound.finished:
-				$AmbientSound.play()
+		theta += 0.20
+	if wet == false:
+		if $AmbientSound.finished:
+			$AmbientSound.play()
 		
 	
 	if fired == true && GameState.character_selected != 2: # Bass version
@@ -124,8 +125,8 @@ func _physics_process(_delta):
 		baseposx = GameState.player.position.x
 		baseposy = GameState.player.position.y
 	
-	position.x = dist + baseposx + cos(theta*0.09)*radius
-	position.y = baseposy + sin(theta*0.09)*radius
+	position.x = dist + baseposx + cos(theta)*radius
+	position.y = baseposy + sin(theta)*radius
 	
 	if ($MainSprite.animation != "Wet"):
 		if (durability > 2):

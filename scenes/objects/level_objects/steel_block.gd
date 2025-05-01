@@ -21,7 +21,7 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_1] = 1
 	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_2] = 2
 	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_3] = 4
-	Dmg_Vals[GameState.DMGTYPE.CR_BLAZE] = 0
+	Dmg_Vals[GameState.DMGTYPE.CR_BLAZE] = 0.75
 	Dmg_Vals[GameState.DMGTYPE.CR_SHARK1] = 4
 	Dmg_Vals[GameState.DMGTYPE.CR_SHARK2] = 4
 	Dmg_Vals[GameState.DMGTYPE.CR_ARROW] = 4
@@ -32,7 +32,7 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.CR_QUINT2] = 1
 	
 	Dmg_Vals[GameState.DMGTYPE.BS_BUSTER] = 1
-	Dmg_Vals[GameState.DMGTYPE.BS_BLAZE] = 0
+	Dmg_Vals[GameState.DMGTYPE.BS_BLAZE] = 0.75
 	Dmg_Vals[GameState.DMGTYPE.BS_SHARK] = 4
 	Dmg_Vals[GameState.DMGTYPE.BS_TREBLE] = 1
 	

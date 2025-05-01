@@ -88,6 +88,7 @@ tile_map_data = PackedByteArray("AAAqABgAAAAAAAUAAAAqABkAAAABAAEAAAAqABoAAAABAAA
 tile_set = ExtResource("2_cu0lw")
 
 [node name="Water" type="Area2D" parent="." groups=["splash"]]
+process_mode = 3
 collision_layer = 14
 collision_mask = 14
 gravity_space_override = 3
@@ -113,6 +114,7 @@ offset_bottom = 1282.0
 color = Color(0.192157, 0.592157, 0.862745, 1)
 
 [node name="Ice" type="Area2D" parent="."]
+process_mode = 3
 collision_mask = 3
 
 [node name="Ice" type="CollisionShape2D" parent="Ice"]
@@ -132,6 +134,7 @@ position = Vector2(-248, 803)
 shape = SubResource("RectangleShape2D_dvfi8")
 
 [node name="SplashZone" type="Area2D" parent="."]
+process_mode = 3
 position = Vector2(-256, -178)
 collision_layer = 14
 collision_mask = 14
@@ -210,6 +213,7 @@ position = Vector2(1144, 296)
 position = Vector2(-480, 472)
 
 [node name="Breakable Blocks" type="Node2D" parent="Level Objects"]
+process_mode = 1
 
 [node name="BreakableBlock" parent="Level Objects/Breakable Blocks" instance=ExtResource("8_ugwe1")]
 position = Vector2(304, 175)
@@ -324,6 +328,7 @@ position = Vector2(-16, 552)
 style = 0
 
 [node name="Ladders" type="Node2D" parent="Level Objects"]
+process_mode = 3
 
 [node name="LadderHitbox" parent="Level Objects/Ladders" instance=ExtResource("11_n5yro")]
 position = Vector2(792, 336)
@@ -351,6 +356,7 @@ position = Vector2(1392, 512)
 scale = Vector2(2, 8)
 
 [node name="Spikes" type="Node2D" parent="Level Objects"]
+process_mode = 3
 
 [node name="Spike" parent="Level Objects/Spikes" instance=ExtResource("12_1njev")]
 position = Vector2(352, 584)
@@ -373,6 +379,7 @@ scale = Vector2(6, 1)
 damage = 80
 
 [node name="Items" type="Node2D" parent="Level Objects"]
+process_mode = 3
 
 [node name="Item" parent="Level Objects/Items" instance=ExtResource("15_bvxqh")]
 position = Vector2(24, 328)
@@ -459,6 +466,7 @@ scrollY1 = -500
 scrollY2 = 500
 
 [node name="Wind" parent="." instance=ExtResource("22_hgj2p")]
+process_mode = 3
 position = Vector2(288, 819.42)
 scale = Vector2(30, 16.33)
 push = 50

@@ -114,6 +114,9 @@ var onscreen_sp_bullets : int
 var onscreen_track2s : int
 var machinecharge : int = 0
 var smogcharge : int = 0
+var freezeframe : bool = false
+var freezedelay : int = 0
+var freezeticks : int = 0
 
 var galeforce : float # converted from int to float
 
@@ -332,3 +335,28 @@ func load_custom() -> void:
 
 func _ready() -> void:
 	load_custom()
+
+func _physics_process(delta: float) -> void:
+	if freezeframe == true and freezedelay > 0:
+		freezedelay -= 1
+	if freezeframe == true and freezedelay == 0:
+		freezedelay -= 1
+		if player != null:
+			player.process_mode = Node.PROCESS_MODE_ALWAYS
+		get_tree().paused = true
+		
+	if freezeframe == true and freezedelay < 0:
+		freezeticks += 1
+		if freezeticks == 15:
+			GameState.weapon_energy[GameState.WEAPONS.VIDEO] -= 1
+			freezeticks = 0
+	
+	if freezeframe == false:
+		get_tree().paused = false
+		if player != null:
+			player.process_mode = Node.PROCESS_MODE_INHERIT
+		
+	if GameState.weapon_energy[GameState.WEAPONS.VIDEO] <= 0:
+		freezeframe = false
+	
+	

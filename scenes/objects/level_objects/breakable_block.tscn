@@ -135,6 +135,7 @@ size = Vector2(16, 16)
 size = Vector2(16, 16)
 
 [node name="BreakableBlock" type="StaticBody2D"]
+process_mode = 3
 collision_layer = 16
 collision_mask = 17
 script = ExtResource("1_qx6ad")
@@ -144,7 +145,7 @@ position = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_o6h4x")
 animation = &"Test"
 autoplay = "Test"
-frame_progress = 0.855686
+frame_progress = 0.240836
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 visible = false

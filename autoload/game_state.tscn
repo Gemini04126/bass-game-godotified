@@ -47,6 +47,7 @@ pitch = 1.0
 streams = Array[AudioStream]([ExtResource("14_h8glo")])
 
 [node name="GameState" type="CanvasLayer"]
+process_mode = 3
 layer = 128
 script = ExtResource("3_yyrqa")
 

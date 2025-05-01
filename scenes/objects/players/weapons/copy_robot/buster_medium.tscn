@@ -71,6 +71,7 @@ animations = [{
 size = Vector2(16, 16)
 
 [node name="BusterMedium" type="CharacterBody2D"]
+process_mode = 1
 z_index = 1
 material = SubResource("ShaderMaterial_ditjs")
 collision_layer = 8

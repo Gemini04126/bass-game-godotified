@@ -237,6 +237,8 @@ func _physics_process(delta: float) -> void:
 	direction = Vector2(sign(direction.x), sign(direction.y))
 	$states.text = "[center]%s[/center]" % STATES.keys()[currentState]
 	if !transing:
+			
+			
 		match currentState:
 			STATES.TELEPORT, STATES.TELEPORT_LANDING:
 				teleporting()
@@ -319,7 +321,8 @@ func _physics_process(delta: float) -> void:
 				applyGrav(delta)
 			STATES.DEAD:
 				dead()
-		position.x += wind_push
+		if GameState.freezeframe == false:
+			position.x += wind_push
 		animationMatching()
 		switchWeapons()
 		if currentState != STATES.DEAD:
@@ -754,6 +757,9 @@ func processShoot():
 			WEAPONS.BLAZE:
 				#the animation match stuff is within the actual weapon since its a two parter
 				weapon_blaze()
+			WEAPONS.VIDEO:
+				shieldAnimMatch()
+				weapon_video()
 			WEAPONS.SMOG:
 				busterAnimMatch()
 				weapon_smog()
@@ -827,6 +833,8 @@ func weapon_buster():
 		GameState.onscreen_bullets += 1
 		projectile = projectile_scenes[0].instantiate()
 		get_parent().add_child(projectile)
+		if GameState.freezeframe == true:
+			projectile.process_mode = Node.PROCESS_MODE_ALWAYS
 		projectile.position.x = position.x + (sprite.scale.x * 18)
 		projectile.position.y = position.y + 4
 		projectile.velocity.x = sprite.scale.x * 350
@@ -836,7 +844,7 @@ func weapon_buster():
 
 func weapon_blaze():
 	if Input.is_action_just_pressed("shoot") and !transing:
-		var space : int = 18
+		var space : float = 1.570796
 		if shield == null && shield2 == null && shield3 == null && shield4 == null && (GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 1 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets == 0:
 			shot_type = 3
 			anim.seek(0)
@@ -899,6 +907,14 @@ func weapon_blaze():
 				shield2 = null
 				shield3 = null
 				shield4 = null
+
+func weapon_video():
+	if Input.is_action_just_pressed("shoot") and !transing and GameState.freezeframe == false:
+		GameState.freezeframe = true
+		GameState.freezedelay = 4
+	else:
+		GameState.freezeframe = false
+
 
 func weapon_smog():
 	if Input.is_action_just_pressed("shoot") && (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and GameState.onscreen_sp_bullets < 1:
@@ -1255,6 +1271,7 @@ func weapon_quint():
 
 func switchWeapons():
 	if Input.is_action_just_pressed("switch_right"):
+			GameState.freezeframe = false
 			if (currentState != STATES.TELEPORT and currentState != STATES.DEAD):
 				GameState.old_weapon = GameState.current_weapon
 				if (GameState.current_weapon == GameState.WEAPONS.QUINT):
@@ -1268,6 +1285,7 @@ func switchWeapons():
 							else:
 								GameState.current_weapon += 1
 	if Input.is_action_just_pressed("switch_left"):
+			GameState.freezeframe = false
 			if (currentState != STATES.TELEPORT and currentState != STATES.DEAD):
 				GameState.old_weapon = GameState.current_weapon
 				if (GameState.current_weapon == GameState.WEAPONS.BUSTER):

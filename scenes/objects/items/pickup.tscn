@@ -228,6 +228,7 @@ size = Vector2(16, 16)
 size = Vector2(8, 8)
 
 [node name="Item" type="CharacterBody2D"]
+process_mode = 3
 collision_layer = 64
 script = ExtResource("1_6kmgf")
 
@@ -242,13 +243,15 @@ material = SubResource("ShaderMaterial_3l2vc")
 sprite_frames = SubResource("SpriteFrames_pfpbr")
 animation = &"SmHP"
 autoplay = "SmHP"
-frame_progress = 0.724487
+frame_progress = 0.963276
 
 [node name="Touch" type="Area2D" parent="."]
+process_mode = 3
 collision_layer = 4
 collision_mask = 2
 
 [node name="Hitbox" type="CollisionShape2D" parent="Touch"]
+process_mode = 3
 shape = SubResource("RectangleShape2D_r4kx5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
