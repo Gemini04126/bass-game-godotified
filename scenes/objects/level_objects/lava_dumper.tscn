@@ -52,9 +52,8 @@ animations = [{
 [node name="Lava Dumper" type="AnimatedSprite2D"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_a3oey")
-animation = &"idle"
+animation = &"warning"
 autoplay = "idle"
-frame_progress = 0.0381616
 script = ExtResource("2_2b0ny")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]

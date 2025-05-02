@@ -45,6 +45,20 @@ func _ready():
 	$Sprite2D.texture = load(styles[_style])
 
 func _physics_process(_delta):
+	if !Engine.is_editor_hint():
+		if !GameState.freezeframe:
+			timer.paused = false
+			if $AnimationPlayer.current_animation != "":
+				$AnimationPlayer.play()
+			process_yoku()
+		else:
+			timer.paused = true
+			$AnimationPlayer.pause()
+	else:
+		process_yoku()
+
+func process_yoku():
+	# G: TODO: sound is desynched after a freeze
 	if timer.is_stopped(): # interval * 60
 		if not Engine.is_editor_hint():
 			var players = get_tree().get_nodes_in_group("player")
