@@ -58,9 +58,16 @@ func _physics_process(_delta):
 				else:
 					scale.x = 1
 		
-		timer = timer -1
-		if timer > 300:
-			timer = 300
+		if GameState.freezeframe == false:
+			timer = timer -1
+			if timer > 300:
+				timer = 300
+				
+		if GameState.freezeframe == true:
+			$Sprite.pause()
+		else:
+			if !$Sprite.is_playing():
+				$Sprite.play()
 		
 		if timer < 0 && $Sprite.animation == \"Idle\":
 			$Sprite.play(\"SwitchAtk\")
@@ -160,6 +167,15 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_eb16r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eb16r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eb16r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eb16r")
 }],
 "loop": false,
 "name": &"Attack",
@@ -234,7 +250,7 @@ script = SubResource("GDScript_k5bra")
 material = SubResource("ShaderMaterial_3u8v0")
 position = Vector2(0, -3)
 sprite_frames = SubResource("SpriteFrames_62nvj")
-animation = &"Idle"
+animation = &"Attack"
 autoplay = "Idle"
 
 [node name="reflect" type="Area2D" parent="."]

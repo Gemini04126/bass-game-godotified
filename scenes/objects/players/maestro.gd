@@ -833,8 +833,7 @@ func weapon_buster():
 		GameState.onscreen_bullets += 1
 		projectile = projectile_scenes[0].instantiate()
 		get_parent().add_child(projectile)
-		if GameState.freezeframe == true:
-			projectile.process_mode = Node.PROCESS_MODE_ALWAYS
+		projectile.process_mode = Node.PROCESS_MODE_ALWAYS
 		projectile.position.x = position.x + (sprite.scale.x * 18)
 		projectile.position.y = position.y + 4
 		projectile.velocity.x = sprite.scale.x * 350
@@ -910,7 +909,6 @@ func weapon_blaze():
 
 func weapon_video():
 	if Input.is_action_just_pressed("shoot") and !transing and GameState.freezeframe == false:
-		GameState.freezeframe = true
 		GameState.freezedelay = 4
 	else:
 		GameState.freezeframe = false

@@ -105,6 +105,12 @@ func _physics_process(delta: float) -> void:
 			$AnimatedSprite2D.material.set_shader_parameter("palette", GameState.player.get_node("Sprite2D").material.get_shader_parameter("palette"))
 			$Sprite2D.material.set_shader_parameter("palette", GameState.player.get_node("Sprite2D").material.get_shader_parameter("palette"))
 			
+		if GameState.freezeframe == true:
+			$AnimatedSprite2D.pause()
+		else:
+			if !$AnimatedSprite2D.is_playing():
+				$AnimatedSprite2D.play()
+			
 	if has_gravity == true:
 		if not Engine.is_editor_hint():
 			# Add the gravity.

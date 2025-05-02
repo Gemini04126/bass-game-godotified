@@ -337,24 +337,17 @@ func _ready() -> void:
 	load_custom()
 
 func _physics_process(delta: float) -> void:
-	if freezeframe == true and freezedelay > 0:
+	if freezedelay > 0:
 		freezedelay -= 1
-	if freezeframe == true and freezedelay == 0:
+	if freezedelay == 0:
 		freezedelay -= 1
-		if player != null:
-			player.process_mode = Node.PROCESS_MODE_ALWAYS
-		get_tree().paused = true
+		freezeframe = true
 		
 	if freezeframe == true and freezedelay < 0:
 		freezeticks += 1
 		if freezeticks == 15:
 			GameState.weapon_energy[GameState.WEAPONS.VIDEO] -= 1
 			freezeticks = 0
-	
-	if freezeframe == false:
-		get_tree().paused = false
-		if player != null:
-			player.process_mode = Node.PROCESS_MODE_INHERIT
 		
 	if GameState.weapon_energy[GameState.WEAPONS.VIDEO] <= 0:
 		freezeframe = false

@@ -121,5 +121,5 @@ one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_yg0oj")
+&"": SubResource("AnimationLibrary_yg0oj")
 }

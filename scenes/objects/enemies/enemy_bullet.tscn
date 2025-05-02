@@ -27,9 +27,16 @@ func _physics_process(delta):
 		if sound == 0:
 			$SpawnSound.play()
 		firsttick = false
-	if gravity != 0:
+	if gravity != 0 and GameState.freezeframe == false:
 		velocity.y += gravity * delta
-	move_and_slide()
+	if GameState.freezeframe == false:
+		move_and_slide()
+	
+	if GameState.freezeframe == true:
+		$AnimatedSprite2D.pause()
+	else:
+		if !$AnimatedSprite2D.is_playing():
+			$AnimatedSprite2D.play()
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()

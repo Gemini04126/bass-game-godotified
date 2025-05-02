@@ -56,7 +56,13 @@ func _ready():
 	Cur_HP = 2
 
 func _physics_process(_delta):
-	if blown == false:
+	if GameState.freezeframe == true:
+		$Sprite.pause()
+	else:
+		if !$Sprite.is_playing():
+			$Sprite.play()
+	
+	if blown == false and GameState.freezeframe == false:
 		if $Timer.is_stopped() and position != null:
 			if stun < 1:
 				position.x += direction * 1
@@ -76,7 +82,6 @@ func _physics_process(_delta):
 						position.x += direction * 2
 						if $Sprite.animation != \"Fast\" or !$Sprite.is_playing():
 							$Sprite.play(\"Fast\")
-							$Sprite.set_frame_and_progress(0,0)
 				else:
 					if stun > 1:
 						$Timer.start(0.01)
@@ -242,7 +247,7 @@ size = Vector2(16, 16)
 [node name="Gabyoall" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_gtk0d")
 collision_layer = 0
-collision_mask = 19
+collision_mask = 17
 script = SubResource("GDScript_7o8ee")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]

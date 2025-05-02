@@ -6,6 +6,8 @@ var amplitude = 0.15
 var v = Vector2(0, 25)
 var level
 
+var scroll1 = Vector2(0,0)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GameState.camposy = 0
@@ -16,12 +18,14 @@ func _ready():
 func _physics_process(_delta):
 	if GameState.camposy < 300:
 		if $Timer.is_stopped():
-			timer += 1
-			$Timer.start(0.02)
-
-		v.y = (cos(timer * freq) * amplitude)
+			if GameState.freezeframe == false:
+				timer += 1
+				$Timer.start(0.02)
+		
+		if GameState.freezeframe == false:
+			v.y = (cos(timer * freq) * amplitude)
 	
-		position.y += v.y
+			position.y += v.y
 	
 	level = position.y + 3
 	

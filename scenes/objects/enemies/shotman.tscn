@@ -17,6 +17,7 @@ class_name ShotMan
 @onready var timer = $Timer
 
 var attacks : int
+var frozen : bool = false
 
 func _ready():
 	basedmg()
@@ -52,7 +53,14 @@ func _physics_process(_delta):
 	else:
 		$Sprite.visible = true
 	
-	if blown == false:
+	if GameState.freezeframe == true:
+		$Sprite.pause()
+		frozen = true
+	else:
+		if !$Sprite.is_playing() and frozen == true:
+			$Sprite.play()
+	
+	if blown == false and GameState.freezeframe == false:
 		if $Sprite.animation == \"Idle-1\":
 			$Timer.start(0.2)
 			$Sprite.play(\"Attack-1\")
@@ -180,6 +188,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5fkk7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fkk7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fkk7")
 }],
 "loop": false,
 "name": &"Attack-1",
@@ -188,6 +202,12 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f7f5l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wa7hw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wa7hw")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wa7hw")
@@ -275,7 +295,7 @@ script = SubResource("GDScript_uangd")
 material = SubResource("ShaderMaterial_3u8v0")
 position = Vector2(0, -3)
 sprite_frames = SubResource("SpriteFrames_62nvj")
-animation = &"Switch-2"
+animation = &"Attack-2"
 autoplay = "Idle-1"
 
 [node name="hitable" type="Area2D" parent="."]
