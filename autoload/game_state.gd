@@ -115,7 +115,7 @@ var onscreen_track2s : int
 var machinecharge : int = 0
 var smogcharge : int = 0
 var freezeframe : bool = false
-var freezedelay : int = 0
+var freezedelay : int = -5
 var freezeticks : int = 0
 
 var galeforce : float # converted from int to float
@@ -156,7 +156,7 @@ var bolts = 0
 var ETanks = 0
 var WTanks = 0
 var STanks = 0
-var max_HP = 28 # G: upgradeable # M: not upgradable anymore # G: yeah but mod characters :)) #M: what mod characters? #it's upgradeable again
+var max_HP = 28 # G: upgradeable # M: not upgradable anymore # G: yeah but mod characters :)) # M: what mod characters? # M: it's upgradeable again
 var max_WE = 28 
 var healamt = 0
 var ammoamt = 0
@@ -346,10 +346,11 @@ func _physics_process(delta: float) -> void:
 	if freezeframe == true and freezedelay < 0:
 		freezeticks += 1
 		if freezeticks == 15:
-			GameState.weapon_energy[GameState.WEAPONS.VIDEO] -= 1
+			if !infinite_ammo:
+				GameState.weapon_energy[GameState.WEAPONS.VIDEO] -= 1
 			freezeticks = 0
 		
-	if GameState.weapon_energy[GameState.WEAPONS.VIDEO] <= 0:
+	if GameState.weapon_energy[GameState.WEAPONS.VIDEO] <= 0 and !infinite_ammo:
 		freezeframe = false
 	
 	

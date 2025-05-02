@@ -1,6 +1,7 @@
-[gd_scene load_steps=25 format=3 uid="uid://bdurhvklic0ac"]
+[gd_scene load_steps=30 format=3 uid="uid://bdurhvklic0ac"]
 
 [ext_resource type="PackedScene" uid="uid://b0opfnom6gmbo" path="res://scenes/module_tester.tscn" id="1_kxric"]
+[ext_resource type="Texture2D" uid="uid://1acv8saa7myi" path="res://sprites/hud/freezeframe.png" id="1_qkknv"]
 [ext_resource type="Theme" uid="uid://c1bun7kn776g1" path="res://themes/ui_theme.tres" id="2_15wwj"]
 [ext_resource type="Texture2D" uid="uid://bgqo6j6piqevr" path="res://sprites/players/maestro/palettes/Maestro Buster.png" id="4_2rvml"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="4_7y70l"]
@@ -50,7 +51,6 @@ func _process(_delta: float) -> void:
 	process_refills()
 	# Weapon bar
 	if GameState.max_weapon_energy[GameState.current_weapon] == 0:
-		
 		$WeaponBar.visible = false
 		$WeaponBar2.visible = false
 		
@@ -60,7 +60,7 @@ func _process(_delta: float) -> void:
 			if GameState.infinite_ammo == false:
 				$WeaponBar2.frame = clamp(GameState.weapon_energy[GameState.current_weapon], 0, 36)
 			else:
-				$WeaponBar2.frame = 38 # Infinity
+				$WeaponBar2.frame = 37 # Infinity
 		else:
 			$WeaponBar.visible = true
 			if GameState.infinite_ammo == false:
@@ -282,6 +282,56 @@ func _do_ready_thing() -> void:
 	queue_free()
 "
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxdf7"]
+atlas = ExtResource("1_qkknv")
+region = Rect2(0, 0, 22, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5357l"]
+atlas = ExtResource("1_qkknv")
+region = Rect2(0, 20, 22, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iypfu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"Empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxdf7")
+}],
+"loop": true,
+"name": &"Pause",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5357l")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"Play",
+"speed": 1.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_qkknv"]
+script/source = "extends AnimatedSprite2D
+
+func _process(delta: float) -> void:
+	# Freeze Frame pause thing
+	if GameState.freezeframe:
+		play(\"Pause\")
+	else:
+		if (get_animation() != \"Empty\") and (get_animation() != \"Play\"):
+			play(\"Play\")
+"
+
 [node name="HUD" type="CanvasLayer"]
 process_mode = 3
 
@@ -413,6 +463,13 @@ position = Vector2(192, 108)
 sprite_frames = SubResource("SpriteFrames_tirtj")
 animation = &"SCENE"
 script = SubResource("GDScript_ntikk")
+
+[node name="FreezeFrame" type="AnimatedSprite2D" parent="."]
+position = Vector2(14, 14)
+sprite_frames = SubResource("SpriteFrames_iypfu")
+animation = &"Play"
+autoplay = "Empty"
+script = SubResource("GDScript_qkknv")
 
 [node name="StartTimer" type="Timer" parent="."]
 wait_time = 0.75
