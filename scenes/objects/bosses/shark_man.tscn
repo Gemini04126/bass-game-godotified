@@ -137,179 +137,188 @@ func _ready():
 	basedmg()
 
 func _physics_process(_delta):
-	if !is_on_floor():
-		if Cur_HP <= 28:
-			velocity.y += 15
-		else:
-			velocity.y += 9
+	
+	if GameState.freezeframe == false:
+	
+		if !is_on_floor():
+			if Cur_HP <= 28:
+				velocity.y += 15
+			else:
+				velocity.y += 9
+				
+		$Overlay.scale.x = $Sprite.scale.x
 			
-	$Overlay.scale.x = $Sprite.scale.x
+		if Input.is_action_pressed(\"jump\"):
+			attackpick += 1
 		
-	if Input.is_action_pressed(\"jump\"):
-		attackpick += 1
-	
-	move_and_slide()
-	
-	if attackpick < 5:
-		attackpick += 1
-	else:
-		attackpick = 0 
-	
-	if state == null:
-		velocity.y = 80
-		if is_on_floor():
-			state = STATES.INTRO
-			$Sprite.play(\"Intro\")
+		move_and_slide()
+		
+		if attackpick < 5:
+			attackpick += 1
+		else:
+			attackpick = 0 
+		
+		if state == null:
+			velocity.y = 80
+			if is_on_floor():
+				state = STATES.INTRO
+				$Sprite.play(\"Intro\")
+				
+		if state == STATES.INTRO:
+			if $Sprite.frame == 3:
+				if Cur_HP == Max_HP:
+					state = STATES.IDLE
+					statetimer = 80
+				else:
+					Cur_HP += 1
+					$Audio/HPFill.play()
+		
+		if state == STATES.IDLE:
+			if GameState.player.position.x < position.x:
+				$Sprite.scale.x = 1
+			else:
+				$Sprite.scale.x = -1
+			$Sprite.play(\"Idle\")
+			statetimer -= 1
+			if statetimer <= 0:
+				if attackpick < 2 and lastattack != 1:
+					if GameState.droptimer > 3 and Cur_HP <= 28:
+						attacks = 5
+					elif GameState.droptimer > 3 or Cur_HP <= 28:
+						attacks = 4
+					else:
+						attacks = 3
+					state = STATES.ATTACK1
+					$Sprite.play(\"FinShredder\")
+				
+				elif (attackpick == 2 or (attackpick > 3 and (GameState.player.position.x < position.x + 200 or GameState.player.position.x > position.x - 200))) and lastattack != 2:
+					state = STATES.ATTACK2
+					$Sprite.play(\"Crouch\")
+					
+				elif (attackpick == 3 or (attackpick > 3 and (GameState.player.position.x > position.x + 200 or GameState.player.position.x < position.x - 200))) and lastattack != 3:
+					state = STATES.ATTACK3
+					$Sprite.play(\"FinShredder\")
 			
-	if state == STATES.INTRO:
-		if $Sprite.frame == 3:
-			if Cur_HP == Max_HP:
+		if state == STATES.ATTACK1:
+			statetimer += 1
+			lastattack = 1
+			if (statetimer < 10 or statetimer > 65) and Cur_HP <= 28:
+				if GameState.player.position.x < position.x:
+					$Sprite.scale.x = 1
+				else:
+					$Sprite.scale.x = -1
+				
+			if statetimer == 10:
+				projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x + ($Sprite.scale.x * 9)
+				projectile.position.y = position.y - 20
+				projectile.scale.x = -$Sprite.scale.x
+				projectile.velocity.x = $Sprite.scale.x * -210
+			if statetimer == 80 or (statetimer == 65 and Cur_HP <= 28):
+				attacks -= 1
+				if attacks == 0:
+					state = STATES.IDLE
+				else:
+					statetimer = 0
+					$Sprite.play(\"FinShredder\")
+					
+		if state == STATES.ATTACK2:
+			statetimer += 1
+			lastattack = 2
+			if statetimer == 10:
+				$Sprite.play(\"Jump\")
+				velocity.x = (position.x - GameState.player.position.x) * -1
+				velocity.y = -280
+				if Cur_HP <= 28:
+					$Overlay.play(\"Jump\")
+					velocity.x = (position.x - GameState.player.position.x) * -1.12
+					velocity.y = -315
+			if statetimer > 15 and  statetimer < 2000 and is_on_floor():
+				$Sprite.play(\"RagingStorm\")
+				if Cur_HP <= 28:
+					$Sprite.play(\"RagingStorm\")
+					$Overlay.play(\"RagingStorm\")
+					
+					projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
+					get_parent().add_child(projectile)
+					projectile.position.x = position.x + 32
+					projectile.position.y = position.y + 8
+					projectile.scale.x = -1
+				
+					projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
+					get_parent().add_child(projectile)
+					projectile.position.x = position.x - 32
+					projectile.position.y = position.y + 8
+					projectile.scale.x = 1
+					
+				velocity.x = 0
+				if Cur_HP <= 28:
+					statetimer = 2010
+				else:
+					statetimer = 2000
+			if statetimer > 2050:
 				state = STATES.IDLE
 				statetimer = 80
-			else:
-				Cur_HP += 1
-				$Audio/HPFill.play()
-	
-	if state == STATES.IDLE:
-		if GameState.player.position.x < position.x:
-			$Sprite.scale.x = 1
-		else:
-			$Sprite.scale.x = -1
-		$Sprite.play(\"Idle\")
-		statetimer -= 1
-		if statetimer <= 0:
-			if attackpick < 2 and lastattack != 1:
-				if GameState.droptimer > 3 and Cur_HP <= 28:
-					attacks = 5
-				elif GameState.droptimer > 3 or Cur_HP <= 28:
-					attacks = 4
-				else:
-					attacks = 3
-				state = STATES.ATTACK1
-				$Sprite.play(\"FinShredder\")
-			
-			elif (attackpick == 2 or (attackpick > 3 and (GameState.player.position.x < position.x + 200 or GameState.player.position.x > position.x - 200))) and lastattack != 2:
-				state = STATES.ATTACK2
-				$Sprite.play(\"Crouch\")
 				
-			elif (attackpick == 3 or (attackpick > 3 and (GameState.player.position.x > position.x + 200 or GameState.player.position.x < position.x - 200))) and lastattack != 3:
-				state = STATES.ATTACK3
-				$Sprite.play(\"FinShredder\")
 			
-	if state == STATES.ATTACK1:
-		statetimer += 1
-		lastattack = 1
-		if statetimer == 10:
-			projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
-			get_parent().add_child(projectile)
-			projectile.position.x = position.x + ($Sprite.scale.x * 9)
-			projectile.position.y = position.y - 20
-			projectile.scale.x = -$Sprite.scale.x
-			projectile.velocity.x = $Sprite.scale.x * -210
-		if statetimer == 80 or (statetimer == 65 and Cur_HP <= 28):
-			attacks -= 1
-			if attacks == 0:
+		if state == STATES.ATTACK3:
+			lastattack = 3
+			statetimer += 1
+			if statetimer == 10:
+				projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x + ($Sprite.scale.x * -28)
+				projectile.position.y = position.y - 20
+				projectile.scale.x = -$Sprite.scale.x
+				projectile.velocity.x = $Sprite.scale.x * -15
+			if (statetimer == 30 and Cur_HP > 28) or (statetimer == 10 and Cur_HP <= 28):
+				$Sprite.stop()
+				$Sprite.play(\"FinShredder\")
+					
+			if (statetimer == 70 and Cur_HP > 28) or (statetimer == 50 and Cur_HP <= 28):
+				projectile.queue_free()
+				projectile = preload(\"res://scenes/objects/bosses/shark_shredder2.tscn\").instantiate()
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x + ($Sprite.scale.x * 32)
+				projectile.position.y = position.y + 3
+				projectile.scale.x = -$Sprite.scale.x
+				projectile.velocity.x = $Sprite.scale.x * -300
+			
+			if statetimer == 90 or (statetimer == 80 and Cur_HP <= 28):
 				state = STATES.IDLE
-			else:
-				statetimer = 0
-				$Sprite.play(\"FinShredder\")
-				
-	if state == STATES.ATTACK2:
-		statetimer += 1
-		lastattack = 2
-		if statetimer == 10:
-			$Sprite.play(\"Jump\")
-			velocity.x = (position.x - GameState.player.position.x) * -1
-			velocity.y = -280
-			if Cur_HP <= 28:
-				$Overlay.play(\"Jump\")
-				velocity.x = (position.x - GameState.player.position.x) * -1.12
-				velocity.y = -315
-		if statetimer > 15 and  statetimer < 2000 and is_on_floor():
-			$Sprite.play(\"RagingStorm\")
-			if Cur_HP <= 28:
-				$Sprite.play(\"RagingStorm\")
-				$Overlay.play(\"RagingStorm\")
-				
-				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
-				get_parent().add_child(projectile)
-				projectile.position.x = position.x + 32
-				projectile.position.y = position.y + 8
-				projectile.scale.x = -1
-				
-				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
-				get_parent().add_child(projectile)
-				projectile.position.x = position.x - 32
-				projectile.position.y = position.y + 8
-				projectile.scale.x = 1
-				
-			velocity.x = 0
-			if Cur_HP <= 28:
-				statetimer = 2010
-			else:
-				statetimer = 2000
-		if statetimer > 2050:
-			state = STATES.IDLE
-			statetimer = 80
+				statetimer = 80
 			
+		if state == STATES.DEAD:
+			velocity.x = scale.x * -15
+			if deadtick == null:
+				deadtick = true
+				projectile = preload(\"res://scenes/objects/bosses/boss_death.tscn\").instantiate()
+				get_parent().add_child(projectile)
+				projectile.position = position
+			
+			if $Sprite.frame == 6:
+				if !exploded:
+					$Audio/Death.play()
+					for i in 12:
+						projectile = preload(\"res://scenes/objects/explosion_player.tscn\").instantiate()
+						get_parent().add_child(projectile)
+						projectile.position = position
+						projectile.velocity = EXPLOSION_SPEEDS[i]
+						GameState.bosses.erase(self)
+					exploded = true
+				else:
+					$Sprite.visible = false
+					$hitable/MainHitbox.disabled = true
+					$hurt/Hurtbox.disabled = true
+					await $Audio/Death.finished
+					queue_free()
 		
-	if state == STATES.ATTACK3:
-		lastattack = 3
-		statetimer += 1
-		if statetimer == 10:
-			projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
-			get_parent().add_child(projectile)
-			projectile.position.x = position.x + ($Sprite.scale.x * -28)
-			projectile.position.y = position.y - 20
-			projectile.scale.x = -$Sprite.scale.x
-			projectile.velocity.x = $Sprite.scale.x * -15
-		if (statetimer == 30 and Cur_HP > 28) or (statetimer == 10 and Cur_HP <= 28):
-			$Sprite.stop()
-			$Sprite.play(\"FinShredder\")
-				
-		if (statetimer == 70 and Cur_HP > 28) or (statetimer == 50 and Cur_HP <= 28):
-			projectile.queue_free()
-			projectile = preload(\"res://scenes/objects/bosses/shark_shredder2.tscn\").instantiate()
-			get_parent().add_child(projectile)
-			projectile.position.x = position.x + ($Sprite.scale.x * 32)
-			projectile.position.y = position.y + 3
-			projectile.scale.x = -$Sprite.scale.x
-			projectile.velocity.x = $Sprite.scale.x * -300
-		
-		if statetimer == 90 or (statetimer == 80 and Cur_HP <= 28):
-			state = STATES.IDLE
-			statetimer = 80
-		
-	if state == STATES.DEAD:
-		velocity.x = scale.x * -15
-		if deadtick == null:
-			deadtick = true
-			projectile = preload(\"res://scenes/objects/bosses/boss_death.tscn\").instantiate()
-			get_parent().add_child(projectile)
-			projectile.position = position
-		
-		if $Sprite.frame == 6:
-			if !exploded:
-				$Audio/Death.play()
-				for i in 12:
-					projectile = preload(\"res://scenes/objects/explosion_player.tscn\").instantiate()
-					get_parent().add_child(projectile)
-					projectile.position = position
-					projectile.velocity = EXPLOSION_SPEEDS[i]
-				GameState.bosses.erase(self)
-				exploded = true
-			else:
-				$Sprite.visible = false
-				$hitable/MainHitbox.disabled = true
-				$hurt/Hurtbox.disabled = true
-				await $Audio/Death.finished
-				queue_free()
-	
 	if flash == true:
 		flash = false
 	else:
 		flash = true
-	
+		
 	if !$InvulTimer.is_stopped():
 		$Sprite.visible = flash
 	else:
@@ -349,7 +358,10 @@ func _on_hitable_body_entered(weapon): # needs to be redefined because damage va
 					quickhits += 1
 				#Look up the damage type and do damage according to it.
 				Cur_HP -= Dmg_Vals[weapon.W_Type]
-				$InvulTimer.start(Inv_Vals[weapon.W_Type])
+				if weapon.freezeframed != null:
+					$InvulTimer.start(Inv_Vals[weapon.W_Type] * 2)
+				else:
+					$InvulTimer.start(Inv_Vals[weapon.W_Type])
 				$Audio/Damage.play()
 				
 	

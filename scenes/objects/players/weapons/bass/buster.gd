@@ -4,7 +4,7 @@ var W_Type = GameState.DMGTYPE.BS_BUSTER
 var dead : bool
 var speeded : bool
 var frames : int
-
+var freezeframed
 var charged : bool
 
 func _ready():
@@ -52,6 +52,11 @@ func _physics_process(delta):
 		frames = 1
 	else:
 		frames += 1
+	
+	
+	if GameState.freezeframe == true:
+		freezeframed = true
+		W_Type == GameState.DMGTYPE.BS_BUSTER
 	
 	if move_and_slide() == true:
 		dead = true

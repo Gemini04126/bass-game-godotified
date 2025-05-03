@@ -104,7 +104,6 @@ tile_map_data = PackedByteArray("AADW/xkAAAAFAAQAAADX/xkAAAAGAAQAAADY/xkAAAAHAAQ
 tile_set = ExtResource("2_cu0lw")
 
 [node name="Shade" type="ColorRect" parent="Water"]
-visible = false
 z_index = 2
 material = SubResource("CanvasItemMaterial_ten43")
 offset_left = -2265.0

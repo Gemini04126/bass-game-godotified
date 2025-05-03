@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=4 uid="uid://cs8f1cfciw7mk"]
+[gd_scene load_steps=76 format=4 uid="uid://cs8f1cfciw7mk"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_kfbs7"]
 [ext_resource type="TileSet" uid="uid://u7uxnx7lf5p3" path="res://tilesets/shark.tres" id="2_nfhkc"]
@@ -10,12 +10,15 @@
 [ext_resource type="PackedScene" uid="uid://bobtsvomowe28" path="res://scenes/objects/items/pickup.tscn" id="6_wepat"]
 [ext_resource type="Texture2D" uid="uid://csbra2a8d08oe" path="res://shaders/palettes/water/shark.png" id="6_wisqg"]
 [ext_resource type="Texture2D" uid="uid://c0y41m5w7nbwe" path="res://shaders/palettes/water/shark2.png" id="7_fkwms"]
+[ext_resource type="Texture2D" uid="uid://cghj0mh0yeiiu" path="res://sprites/water/wavesshark.png" id="8_htks6"]
+[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://music/Boss Battle.mp3" id="9_0ixp5"]
 [ext_resource type="PackedScene" uid="uid://mi0hw7tknuco" path="res://scenes/objects/level_objects/spike.tscn" id="10_xpgq4"]
 [ext_resource type="PackedScene" uid="uid://el66rgn1gkh3" path="res://scenes/objects/level_objects/teleporter.tscn" id="12_41205"]
 [ext_resource type="TileSet" uid="uid://bp0hrrsh7jne5" path="res://tilesets/layout.tres" id="12_sg45s"]
 [ext_resource type="PackedScene" uid="uid://cumiv05286vqn" path="res://scenes/objects/level_objects/enemy_spawner.tscn" id="13_3iom0"]
 [ext_resource type="PackedScene" uid="uid://de6y2454v43to" path="res://scenes/objects/level_objects/screentrigger.tscn" id="14_l15w7"]
 [ext_resource type="PackedScene" uid="uid://trkgtebh8rbb" path="res://scenes/objects/level_objects/boss_door_h.tscn" id="16_sl10l"]
+[ext_resource type="PackedScene" uid="uid://gp63stnmpat1" path="res://scenes/objects/bosses/boss_spawner.tscn" id="17_6r7wm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l3773"]
 size = Vector2(7503.75, 2364.08)
@@ -69,6 +72,28 @@ shader_parameter/swapPalette = ExtResource("7_fkwms")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rchuu"]
 size = Vector2(20, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cdcwl"]
+atlas = ExtResource("8_htks6")
+region = Rect2(0, 0, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvgjc"]
+atlas = ExtResource("8_htks6")
+region = Rect2(0, 16, 128, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pg82x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cdcwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvgjc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 60.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5dyb"]
 size = Vector2(4650, 1779.13)
@@ -355,7 +380,7 @@ tile_set = ExtResource("2_nfhkc")
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="Background/BossRoomBG"]
 position = Vector2(380, 8)
-tile_map_data = PackedByteArray("AABqASsAAAAMAAEAAABqASwAAAAMAAIAAABqAS0AAAAMAAMAAABrASsAAAAMAAEAAABrASwAAAAMAAIAAABrAS0AAAAMAAMAAABsASsAAAAMAAEAAABsASwAAAAMAAIAAABsAS0AAAAMAAMAAABtASsAAAAMAAEAAABtASwAAAAMAAIAAABtAS0AAAAMAAMAAABuASsAAAAMAAEAAABuASwAAAAMAAIAAABuAS0AAAAMAAMAAABvASsAAAAMAAEAAABvASwAAAAMAAIAAABvAS0AAAAMAAMAAABwASsAAAAMAAEAAABwASwAAAAMAAIAAABwAS0AAAAMAAMAAABxASsAAAAMAAEAAABxASwAAAAMAAIAAABxAS0AAAAMAAMAAAByASsAAAAMAAEAAAByASwAAAAMAAIAAAByAS0AAAAMAAMAAABzASsAAAAMAAEAAABzASwAAAAMAAIAAABzAS0AAAAMAAMAAAB0ASsAAAAMAAEAAAB0ASwAAAAMAAIAAAB0AS0AAAAMAAMAAAB1ASsAAAAMAAEAAAB1ASwAAAAMAAIAAAB1AS0AAAAMAAMAAAB2ASsAAAAMAAEAAAB2ASwAAAAMAAIAAAB2AS0AAAAMAAMAAAB3ASsAAAAMAAEAAAB3ASwAAAAMAAIAAAB3AS0AAAAMAAMAAAB4ASsAAAAMAAEAAAB4ASwAAAAMAAIAAAB4AS0AAAAMAAMAAAB5ASsAAAAMAAEAAAB5ASwAAAAMAAIAAAB5AS0AAAAMAAMAAAB6ASsAAAAMAAEAAAB6ASwAAAAMAAIAAAB6AS0AAAAMAAMAAAB7ASsAAAAMAAEAAAB7ASwAAAAMAAIAAAB7AS0AAAAMAAMAAAB8ASsAAAAMAAEAAAB8ASwAAAAMAAIAAAB8AS0AAAAMAAMAAAB9ASsAAAAMAAEAAAB9ASwAAAAMAAIAAAB9AS0AAAAMAAMAAAB+ASsAAAAMAAEAAAB+ASwAAAAMAAIAAAB+AS0AAAAMAAMAAAB/ASsAAAAMAAEAAAB/ASwAAAAMAAIAAAB/AS0AAAAMAAMAAABpASsAAAAMAAEAAABpASwAAAAMAAIAAABpAS0AAAAMAAMAAAA=")
+tile_map_data = PackedByteArray("AABqASsAAAAMAAEAAABqAS0AAAAPAAIAAABrASsAAAAMAAEAAABrAS0AAAAPAAIAAABsASsAAAAMAAEAAABsAS0AAAAPAAIAAABtASsAAAAMAAEAAABtAS0AAAAPAAIAAABuASsAAAAMAAEAAABuAS0AAAAPAAIAAABvASsAAAAMAAEAAABvAS0AAAAPAAIAAABwASsAAAAMAAEAAABwAS0AAAAPAAIAAABxASsAAAAMAAEAAABxAS0AAAAPAAIAAAByASsAAAAMAAEAAAByAS0AAAAPAAIAAABzASsAAAAMAAEAAABzAS0AAAAPAAIAAAB0ASsAAAAMAAEAAAB0AS0AAAAPAAIAAAB1ASsAAAAMAAEAAAB1AS0AAAAPAAIAAAB2ASsAAAAMAAEAAAB2AS0AAAAPAAIAAAB3ASsAAAAMAAEAAAB3AS0AAAAPAAIAAAB4ASsAAAAMAAEAAAB4AS0AAAAPAAIAAAB5ASsAAAAMAAEAAAB5AS0AAAAPAAIAAAB6ASsAAAAMAAEAAAB6AS0AAAAPAAIAAAB7ASsAAAAMAAEAAAB7AS0AAAAPAAIAAAB8ASsAAAAMAAEAAAB8AS0AAAAPAAIAAAB9ASsAAAAMAAEAAAB9AS0AAAAPAAIAAAB+ASsAAAAMAAEAAAB+AS0AAAAPAAIAAAB/ASsAAAAMAAEAAAB/AS0AAAAPAAIAAABpASsAAAAMAAEAAABpAS0AAAAPAAIAAABpASwAAAAPAAEAAABqASwAAAAPAAEAAABrASwAAAAPAAEAAABsASwAAAAPAAEAAABtASwAAAAPAAEAAABuASwAAAAPAAEAAABvASwAAAAPAAEAAABwASwAAAAPAAEAAABxASwAAAAPAAEAAAByASwAAAAPAAEAAABzASwAAAAPAAEAAAB0ASwAAAAPAAEAAAB1ASwAAAAPAAEAAAB2ASwAAAAPAAEAAAB3ASwAAAAPAAEAAAB4ASwAAAAPAAEAAAB5ASwAAAAPAAEAAAB6ASwAAAAPAAEAAAB7ASwAAAAPAAEAAAB8ASwAAAAPAAEAAAB9ASwAAAAPAAEAAAB+ASwAAAAPAAEAAAB/ASwAAAAPAAEAAABoASwAAAAPAAEAAABoAS0AAAAPAAIAAAA=")
 tile_set = ExtResource("2_nfhkc")
 
 [node name="Background1" type="Node2D" parent="Background"]
@@ -544,7 +569,7 @@ tile_set = ExtResource("2_nfhkc")
 z_index = 1
 texture_filter = 1
 use_parent_material = true
-tile_map_data = PackedByteArray("AACHATgAAAAWAAAAAACIATgAAAAAAAQAAACJATgAAAAAAAQAAACOATgAAAAAAAQAAACPATgAAAAAAAQAAACQATgAAAAAAAQAAACHAUUAAAAAAAMAAACHATYAAAAWAAEAAACIATYAAAAWAAEAAACJATYAAAAWAAEAAACOATYAAAAWAAEAAACPATYAAAAWAAEAAACQATYAAAAWAAEAAACJATcAAAAWAAEAAACOATcAAAAVAAAAAACPATcAAAAVAAAAAACHATcAAAAVAAAAAACQATcAAAAVAAAAAACIATcAAAAVAAAAAACOAUUAAAAAAAMAAACOAUYAAAAAAAQAAACPAUUAAAAAAAMAAACPAUYAAAAAAAQAAACQAUUAAAAAAAMAAACQAUYAAAAAAAQAAACJAUUAAAAAAAMAAACJAUYAAAAAAAQAAACIAUUAAAAAAAMAAACIAUYAAAAAAAQAAACHAUYAAAAAAAQAAACHAUQAAAADAAIAAACIAUQAAAADAAIAAACJAUQAAAADAAIAAACOAUQAAAADAAIAAACPAUQAAAADAAIAAACQAUQAAAADAAIAAAA=")
+tile_map_data = PackedByteArray("AACHATgAAAAWAAAAAACIATgAAAAAAAQAAACJATgAAAAAAAQAAACOATgAAAAAAAQAAACPATgAAAAAAAQAAACQATgAAAAAAAQAAACHAUUAAAAAAAMAAACHATYAAAAWAAEAAACIATYAAAAWAAEAAACJATYAAAAWAAEAAACOATYAAAAWAAEAAACPATYAAAAWAAEAAACQATYAAAAWAAEAAACJATcAAAAWAAEAAACOATcAAAAVAAAAAACPATcAAAAVAAAAAACHATcAAAAVAAAAAACQATcAAAAVAAAAAACIATcAAAAVAAAAAACOAUUAAAAAAAMAAACOAUYAAAAAAAQAAACPAUUAAAAAAAMAAACPAUYAAAAAAAQAAACQAUUAAAAAAAMAAACQAUYAAAAAAAQAAACJAUUAAAAAAAMAAACJAUYAAAAAAAQAAACIAUUAAAAAAAMAAACIAUYAAAAAAAQAAACHAUYAAAAAAAQAAACHAUQAAAADAAIAAACIAUQAAAADAAIAAACJAUQAAAADAAIAAACOAUQAAAADAAIAAACPAUQAAAADAAIAAACQAUQAAAADAAIAAACAATYAAAAVAAAAAACAATcAAAAVAAAAAACBATYAAAAWAAEAAACBATcAAAAWAAAAAACCATYAAAAWAAEAAACCATcAAAAVAAEAAACDATYAAAAWAAEAAACDATcAAAAWAAAAAACEATYAAAAWAAEAAACEATcAAAAVAAAAAACFATYAAAAWAAEAAACFATcAAAAVAAAAAACGATYAAAAWAAEAAACGATcAAAAVAAAAAACRATYAAAAWAAEAAACRATcAAAAVAAAAAACSATYAAAAWAAEAAACSATcAAAAWAAEAAACTATYAAAAWAAEAAACTATcAAAAVAAAAAACUATYAAAAWAAEAAACUATcAAAAVAAAAAACVATYAAAAWAAEAAACVATcAAAAVAAAAAACWATYAAAAWAAEAAACWATcAAAAWAAEAAACXATYAAAAVAAAAAACXATcAAAAWAAEAAACAAS4AAAAVAAAAAACAAS8AAAAVAAAAAACAATAAAAAVAAAAAACAATEAAAAVAAAAAACAATIAAAAVAAAAAACAATMAAAAVAAAAAACAATQAAAAVAAAAAACAATUAAAAVAAAAAACXAS4AAAAVAAAAAACXAS8AAAAVAAAAAACXATAAAAAVAAAAAACXATEAAAAVAAAAAACXATIAAAAVAAAAAACXATMAAAAVAAAAAACXATQAAAAVAAAAAACXATUAAAAVAAAAAAA=")
 tile_set = ExtResource("2_nfhkc")
 
 [node name="Trigger" type="Node2D" parent="."]
@@ -581,6 +606,26 @@ collision_mask = 14
 gravity_space_override = 3
 gravity = 400.0
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Water"]
+z_index = 3
+position = Vector2(3952, 1172)
+sprite_frames = SubResource("SpriteFrames_pg82x")
+frame_progress = 1.0
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Water"]
+z_index = 3
+position = Vector2(4080, 1172)
+sprite_frames = SubResource("SpriteFrames_pg82x")
+autoplay = "default"
+frame_progress = 1.0
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="Water"]
+z_index = 3
+position = Vector2(4208, 1172)
+sprite_frames = SubResource("SpriteFrames_pg82x")
+autoplay = "default"
+frame_progress = 1.0
+
 [node name="Water" type="CollisionShape2D" parent="Water"]
 visible = false
 position = Vector2(53, 1549)
@@ -593,11 +638,6 @@ position = Vector2(3332.5, 1814.45)
 shape = SubResource("RectangleShape2D_efet8")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
-[node name="Waves" type="TileMapLayer" parent="Water"]
-z_index = 3
-tile_map_data = PackedByteArray("AAD0AEkAAAAKAAgAAAD1AEkAAAAKAAgAAADyAEkAAAAKAAgAAADzAEkAAAAKAAgAAAD2AEkAAAAKAAgAAAD3AEkAAAAKAAgAAAD4AEkAAAAKAAgAAAD5AEkAAAAKAAgAAAD6AEkAAAAKAAgAAAD7AEkAAAAKAAgAAAD8AEkAAAAKAAgAAAD9AEkAAAAKAAgAAAD+AEkAAAAKAAgAAAD/AEkAAAAKAAgAAAAAAUkAAAAKAAgAAAABAUkAAAAKAAgAAAACAUkAAAAKAAgAAAADAUkAAAAKAAgAAAAEAUkAAAAKAAgAAAAFAUkAAAAKAAgAAAAGAUkAAAAKAAgAAAAHAUkAAAAKAAgAAAAIAUkAAAAKAAgAAAAJAUkAAAAKAAgAAAAKAUkAAAAKAAgAAAALAUkAAAAKAAgAAAA=")
-tile_set = ExtResource("2_nfhkc")
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(128, 112)
 limit_left = 0
@@ -607,6 +647,12 @@ limit_bottom = 9000000
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_e10ll")
 bus = &"Music"
+
+[node name="BossMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_0ixp5")
+volume_db = -5.0
+bus = &"Music"
+parameters/looping = true
 
 [node name="Level Objects" type="Node2D" parent="."]
 
@@ -1106,7 +1152,7 @@ position = Vector2(0, -16)
 tile_map_data = PackedByteArray("AAAMAAAAAAAAAAUAAAAAAAAAAAADAAQAAAAHAAIAAAABAAQAAAALAAAAAAACAAQAAAADAAIAAAAAAAQAAAADAAAAAAABAAQAAAAKAAQAAAAAAAQAAAAQAAMAAAAAAAQAAAAQAAQAAAABAAQAAAA=")
 tile_set = ExtResource("12_sg45s")
 
-[node name="SplashZone" type="Area2D" parent="."]
+[node name="SplashZone" type="Area2D" parent="." groups=["splash"]]
 position = Vector2(2000, -608)
 collision_layer = 14
 collision_mask = 14
@@ -1222,6 +1268,10 @@ scrollX2 = 16
 scrollY1 = 3
 scrollY2 = 3
 direction = 4
+
+[node name="BossSpawner" parent="." instance=ExtResource("17_6r7wm")]
+position = Vector2(6459, 758)
+type = 1
 
 [connection signal="body_entered" from="Background/Water/SplashZone" to="." method="_on_splash_zone_body_entered"]
 [connection signal="body_entered" from="Water" to="." method="_on_water_body_entered"]

@@ -80,6 +80,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if GameState.bossfightstatus == 0:
+		if GameState.freezeframe == true:
+			$Music.stream_paused = true
+		else:
+			if $Music.stream_paused == true:
+				$Music.stream_paused = false
+	
 	if GameState.bossfightstatus == 1:
 		$Music.stop()
 		$BossMusic.play()
@@ -89,6 +96,13 @@ func _process(_delta):
 	if GameState.bossfightstatus == 2 && (GameState.bosses[0] == null or GameState.bosses[0].Cur_HP == GameState.bosses[0].Max_HP):
 		GameState.bossfightstatus = 3
 		GameState.inputdisabled = false
+		
+	if GameState.bossfightstatus == 3:
+		if GameState.freezeframe == true:
+			$BossMusic.stream_paused = true
+		else:
+			if $BossMusic.stream_paused == true:
+				$BossMusic.stream_paused = false
 	process_camera()
 
 func _physics_process(_delta: float):

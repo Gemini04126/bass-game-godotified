@@ -318,6 +318,8 @@ func processShoot():
 			WEAPONS.BLAZE:
 				#the animation match stuff is within the actual weapon since its a two parter
 				weapon_blaze()
+			WEAPONS.VIDEO:
+				weapon_video()
 			WEAPONS.SMOG:
 				busterAnimMatch()
 				weapon_smog()

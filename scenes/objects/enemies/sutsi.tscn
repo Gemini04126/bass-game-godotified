@@ -15,7 +15,7 @@ var dir : float
 
 func _ready():
 	basedmg()
-	Cur_HP = 6
+	Cur_HP = 4
 	velocity.x = -scale.x * SPEED
 
 func _physics_process(_delta):
@@ -45,7 +45,13 @@ func _physics_process(_delta):
 	else:
 		$Sprite.visible = true
 		
-	if blown == false:
+	if GameState.freezeframe == true:
+		$Sprite.stop()
+	else:
+		if !$Sprite.is_playing():
+			$Sprite.play()
+		
+	if blown == false and GameState.freezeframe == false:
 		if state == 0:
 			if GameState.player != null:
 				if position.x < abs(GameState.player.position.x) + 100 and position.x > abs(GameState.player.position.x) - 100:

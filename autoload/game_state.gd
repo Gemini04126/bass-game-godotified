@@ -345,7 +345,7 @@ func _physics_process(delta: float) -> void:
 		
 	if freezeframe == true and freezedelay < 0:
 		freezeticks += 1
-		if freezeticks == 15:
+		if (character_selected == 1 and freezeticks == 15) or freezeticks == 20:
 			if !infinite_ammo:
 				GameState.weapon_energy[GameState.WEAPONS.VIDEO] -= 1
 			freezeticks = 0

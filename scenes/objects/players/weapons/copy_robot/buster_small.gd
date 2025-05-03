@@ -1,9 +1,12 @@
 extends CharacterBody2D
 
 const W_Type = GameState.DMGTYPE.CR_BUSTER_1
+var freezeframed
 
 func _physics_process(_delta):
 	move_and_slide()
+	if GameState.freezeframe == true:
+		freezeframed = true
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	GameState.onscreen_bullets -= 1
