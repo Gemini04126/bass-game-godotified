@@ -18,7 +18,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
 
 func destroy():
-	$CollisionShape2D.set_deferred("disabled", true)
+	$CollisionShape2D.queue_free()
 	$HitSound.play()
 	velocity.x = 0
 	velocity.y = 0
@@ -29,7 +29,13 @@ func destroy():
 
 func reflect():
 	$ReflectSound.play()
-	destroy()
+	$CollisionShape2D.queue_free()
+	velocity.x *= 0.125
+	velocity.y = 0
+	$AnimatedSprite2D.play("reflect")
+	await $AnimatedSprite2D.animation_finished
+	GameState.onscreen_bullets -= 1
+	queue_free()
 
 func kill():
 	pass

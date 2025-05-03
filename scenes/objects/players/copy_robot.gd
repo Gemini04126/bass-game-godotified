@@ -375,7 +375,7 @@ func weapon_cbuster():
 					
 					if GameState.ultimate == false:
 						projectile = projectile_scenes[2].instantiate()
-						$Audio/Buster2.play()
+						$Audio/Buster3.play()
 					else:
 						projectile = projectile_scenes[9].instantiate()
 						$Audio/Buster3.play()

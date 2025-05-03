@@ -10,6 +10,7 @@ var surface
 var attached : bool
 var time = 0
 var blasts = 16
+var speed : int = 150
 
 enum DIRECTION {
 	NONE, 
@@ -59,8 +60,8 @@ func spawn():
 			$Point.rotation -= deg_to_rad(90)
 	
 	if surface == 1:
-		velocity.x = direction * (cos($Point.rotation) * 125)
-		velocity.y = sin($Point.rotation) * 125
+		velocity.x = direction * (cos($Point.rotation) * speed)
+		velocity.y = sin($Point.rotation) * speed
 		if !$Point/FrontEnd.is_colliding() and !$Point/BackEnd.is_colliding() and ($Point/TurnCorner.is_colliding() or $Point/TurnCorner2.is_colliding() or $Point/TurnCorner3.is_colliding()):
 			$Point.rotation += deg_to_rad(90)
 			
@@ -68,8 +69,8 @@ func spawn():
 			$Point.rotation -= deg_to_rad(90)
 			
 		if !$Point/FrontEnd.is_colliding() and !$Point/BackEnd.is_colliding() and !$Point/TurnCorner.is_colliding() and !$Point/TurnCorner2.is_colliding() and !$Point/TurnCorner3.is_colliding():
-			velocity.x -= direction * sin($Point.rotation) * 125
-			velocity.y += cos($Point.rotation) * 125
+			velocity.x -= direction * sin($Point.rotation) * speed
+			velocity.y += cos($Point.rotation) * speed
 			
 func blast():
 	if $Timer.is_stopped():

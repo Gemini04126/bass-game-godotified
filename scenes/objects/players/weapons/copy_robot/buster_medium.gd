@@ -31,6 +31,7 @@ func destroy():
 func reflect():
 	$ReflectSound.play()
 	$CollisionShape2D.set_deferred("disabled", true)
+	$AnimatedSprite2D.play("reflect")
 	velocity.x = -velocity.x
 	velocity.y = -180
 

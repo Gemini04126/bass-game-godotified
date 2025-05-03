@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://d3rkbjrn2bgl7"]
+[gd_scene load_steps=23 format=3 uid="uid://d3rkbjrn2bgl7"]
 
 [ext_resource type="Texture2D" uid="uid://c8sv8718ps0on" path="res://sprites/players/copy_robot/weapons/BusterLarge.png" id="1_7bo6j"]
 [ext_resource type="Script" uid="uid://ddyt8hs82gnug" path="res://scenes/objects/players/weapons/copy_robot/buster_large.gd" id="1_nh5ni"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_421jd"]
-[ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="2_bf1pf"]
+[ext_resource type="Texture2D" uid="uid://dpcendcgrteye" path="res://sprites/players/copy_robot/weapons/BusterDie2.png" id="4_r84im"]
+[ext_resource type="Texture2D" uid="uid://b2a6clmnuk0xd" path="res://sprites/players/copy_robot/weapons/bustermedium2.png" id="4_udoeo"]
 [ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="5_gqv0c"]
 [ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="6_7bgpv"]
 
@@ -29,17 +30,37 @@ region = Rect2(80, 0, 40, 24)
 atlas = ExtResource("1_7bo6j")
 region = Rect2(120, 0, 40, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_e08mh"]
-atlas = ExtResource("2_bf1pf")
-region = Rect2(16, 0, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_pnl65"]
+atlas = ExtResource("4_udoeo")
+region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fp8dl"]
-atlas = ExtResource("2_bf1pf")
-region = Rect2(32, 0, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4sqw"]
+atlas = ExtResource("4_udoeo")
+region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rhj74"]
-atlas = ExtResource("2_bf1pf")
-region = Rect2(48, 0, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_trcnc"]
+atlas = ExtResource("4_udoeo")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gkinq"]
+atlas = ExtResource("4_udoeo")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udoeo"]
+atlas = ExtResource("4_r84im")
+region = Rect2(0, 0, 40, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcjjw"]
+atlas = ExtResource("4_r84im")
+region = Rect2(40, 0, 40, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqf15"]
+atlas = ExtResource("4_r84im")
+region = Rect2(80, 0, 40, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r84im"]
+atlas = ExtResource("4_r84im")
+region = Rect2(120, 0, 40, 36)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tmmfq"]
 animations = [{
@@ -62,17 +83,43 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_e08mh")
+"texture": SubResource("AtlasTexture_pnl65")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fp8dl")
+"texture": SubResource("AtlasTexture_m4sqw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rhj74")
+"texture": SubResource("AtlasTexture_trcnc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gkinq")
+}, {
+"duration": 1.0,
+"texture": null
 }],
 "loop": false,
 "name": &"hit",
-"speed": 10.0
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udoeo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wcjjw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqf15")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r84im")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"reflect",
+"speed": 15.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p0hn2"]
@@ -88,6 +135,7 @@ script = ExtResource("1_nh5ni")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_4u3xc")
 sprite_frames = SubResource("SpriteFrames_tmmfq")
+animation = &"reflect"
 autoplay = "default"
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

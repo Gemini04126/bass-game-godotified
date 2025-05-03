@@ -15,16 +15,17 @@ func _ready():
 	$SpawnSound.play()
 		
 func _physics_process(delta):
-	if $Timer.is_stopped():
-		if time < 8:
-			position.y -= 8
-		else:
-			position.y += 8
-			
-		if time > 18:
-			queue_free()
-		time += 1
-		$Timer.start(0.02)
+	if GameState.freezeframe == false:
+		if $Timer.is_stopped():
+			if time < 8:
+				position.y -= 8
+			else:
+				position.y += 8
+				
+			if time > 18:
+				queue_free()
+			time += 1
+			$Timer.start(0.02)
 		
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()

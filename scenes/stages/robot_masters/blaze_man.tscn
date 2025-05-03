@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=4 uid="uid://c1ixcvieoro3x"]
+[gd_scene load_steps=18 format=4 uid="uid://c1ixcvieoro3x"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_eg6rr"]
 [ext_resource type="TileSet" uid="uid://clttejdjtwxdo" path="res://tilesets/blaze.tres" id="2_88tt2"]
 [ext_resource type="AudioStream" uid="uid://duondd8cgl7qr" path="res://music/Blaze Stage.mp3" id="4_bkhak"]
+[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://music/Boss Battle.mp3" id="4_jeagx"]
 [ext_resource type="PackedScene" uid="uid://ba1usu2a5isjc" path="res://scenes/objects/level_objects/breakable_block.tscn" id="5_6g85i"]
 [ext_resource type="PackedScene" uid="uid://dmulyeg8hg6yt" path="res://scenes/objects/enemies/sniper_joe.tscn" id="5_vsgpg"]
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="7_kik4n"]
@@ -145,6 +146,12 @@ polygon = PackedVector2Array(0, 240, 2816, 240, 2816, 248, 0, 248)
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_bkhak")
 volume_db = -5.622
+bus = &"Music"
+parameters/looping = true
+
+[node name="BossMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_jeagx")
+volume_db = -5.0
 bus = &"Music"
 parameters/looping = true
 

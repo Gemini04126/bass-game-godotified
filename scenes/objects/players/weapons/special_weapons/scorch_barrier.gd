@@ -23,6 +23,8 @@ var DmgQueue : int # make the game not crash when you touch an enemy
 
 var speed : int
 
+var freezeframed : bool = false
+
 var wet : bool
 var fired : bool
 var left : bool

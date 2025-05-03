@@ -1,9 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://byypg6wqsdppo"]
+[gd_scene load_steps=19 format=3 uid="uid://byypg6wqsdppo"]
 
-[ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="1_6vcoq"]
 [ext_resource type="Script" uid="uid://bi5nag46c6k02" path="res://scenes/objects/players/weapons/copy_robot/buster_medium.gd" id="1_8dcat"]
 [ext_resource type="Texture2D" uid="uid://bwnmnn0441jru" path="res://sprites/players/copy_robot/weapons/BusterMedium.png" id="1_dl824"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xpas8"]
+[ext_resource type="Texture2D" uid="uid://b2a6clmnuk0xd" path="res://sprites/players/copy_robot/weapons/bustermedium2.png" id="4_jk530"]
 [ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="5_pu124"]
 [ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="6_7byil"]
 
@@ -27,17 +27,29 @@ region = Rect2(0, 0, 16, 16)
 atlas = ExtResource("1_dl824")
 region = Rect2(16, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_e08mh"]
-atlas = ExtResource("1_6vcoq")
-region = Rect2(16, 0, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vxdt"]
+atlas = ExtResource("4_jk530")
+region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fp8dl"]
-atlas = ExtResource("1_6vcoq")
-region = Rect2(32, 0, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ua0oo"]
+atlas = ExtResource("4_jk530")
+region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rhj74"]
-atlas = ExtResource("1_6vcoq")
-region = Rect2(48, 0, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_tw0ys"]
+atlas = ExtResource("4_jk530")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr34b"]
+atlas = ExtResource("4_jk530")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jk530"]
+atlas = ExtResource("4_jk530")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71wj8"]
+atlas = ExtResource("4_jk530")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tmmfq"]
 animations = [{
@@ -54,17 +66,31 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_e08mh")
+"texture": SubResource("AtlasTexture_6vxdt")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fp8dl")
+"texture": SubResource("AtlasTexture_ua0oo")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rhj74")
+"texture": SubResource("AtlasTexture_tw0ys")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wr34b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jk530")
 }],
 "loop": false,
 "name": &"hit",
-"speed": 10.0
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71wj8")
+}],
+"loop": true,
+"name": &"reflect",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0fvlc"]
@@ -81,7 +107,10 @@ script = ExtResource("1_8dcat")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_uf7xu")
 sprite_frames = SubResource("SpriteFrames_tmmfq")
+animation = &"hit"
 autoplay = "default"
+frame = 4
+frame_progress = 1.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(1.19209e-07, 4.17233e-07)

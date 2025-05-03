@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://cjnw7w724yfff"]
+[gd_scene load_steps=10 format=4 uid="uid://cjnw7w724yfff"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_jhd4h"]
 [ext_resource type="TileSet" uid="uid://cdpb0nep4t1x8" path="res://tilesets/gale.tres" id="2_d6oeb"]
 [ext_resource type="PackedScene" uid="uid://cwqbm80i7pv6x" path="res://scenes/objects/level_objects/ladder_hitbox.tscn" id="3_x8krw"]
 [ext_resource type="AudioStream" uid="uid://cvc3u3vsgfwx3" path="res://music/Gale Stage.mp3" id="4_f0hss"]
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="5_6e181"]
+[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://music/Boss Battle.mp3" id="5_7lpi6"]
 [ext_resource type="TileSet" uid="uid://bp0hrrsh7jne5" path="res://tilesets/layout.tres" id="5_muxqw"]
 [ext_resource type="PackedScene" uid="uid://de6y2454v43to" path="res://scenes/objects/level_objects/screentrigger.tscn" id="6_8vnka"]
 
@@ -87,6 +88,12 @@ limit_bottom = 90000040
 stream = ExtResource("4_f0hss")
 volume_db = -10.0
 bus = &"Music"
+
+[node name="BossMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_7lpi6")
+volume_db = -5.0
+bus = &"Music"
+parameters/looping = true
 
 [node name="Level Objects" type="Node2D" parent="."]
 

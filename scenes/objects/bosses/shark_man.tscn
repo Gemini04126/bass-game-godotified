@@ -47,7 +47,8 @@ enum STATES
 	ATTACK3,
 	ATTACK4,
 	ATTACK5,
-	DEAD
+	DEAD,
+	WEAKNESS
 }
 
 const EXPLOSION_SPEEDS : Array[Vector2] = [ #G: Hey look, I can actually pretty much just copy what I had for the Genesis version...
@@ -64,11 +65,11 @@ const EXPLOSION_SPEEDS : Array[Vector2] = [ #G: Hey look, I can actually pretty 
 func basedmg():
 	#region Damage
 	Dmg_Vals[GameState.DMGTYPE.CB_SMOG] = 1
-	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] = 3
-	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 5
+	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 3
 	Dmg_Vals[GameState.DMGTYPE.CB_GALE] = 3
 	Dmg_Vals[GameState.DMGTYPE.CB_ORIGAMI] = 1
-	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 0.25
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_1] = 2
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_2] = 3
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_3] = 5
@@ -103,7 +104,7 @@ func basedmg():
 	Inv_Vals[GameState.DMGTYPE.CB_REAPER_2] = 0.75
 	Inv_Vals[GameState.DMGTYPE.CB_GALE] = 0.75
 	Inv_Vals[GameState.DMGTYPE.CB_ORIGAMI] = 0.75
-	Inv_Vals[GameState.DMGTYPE.CB_GUERILLA] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CB_GUERILLA] = 0.01
 	Inv_Vals[GameState.DMGTYPE.CB_PROTO_1] = 0.75
 	Inv_Vals[GameState.DMGTYPE.CB_PROTO_2] = 0.75
 	Inv_Vals[GameState.DMGTYPE.CB_PROTO_3] = 0.75
@@ -136,15 +137,22 @@ func basedmg():
 func _ready():
 	basedmg()
 
+func turntoplayer():
+		if GameState.player.position.x < position.x:
+			$Sprite.scale.x = 1
+		else:
+			$Sprite.scale.x = -1
+
 func _physics_process(_delta):
 	
 	if GameState.freezeframe == false:
 	
 		if !is_on_floor():
-			if Cur_HP <= 28:
-				velocity.y += 15
-			else:
-				velocity.y += 9
+			if Cur_HP > 0:
+				if Cur_HP <= 28:
+					velocity.y += 15
+				else:
+					velocity.y += 9
 				
 		$Overlay.scale.x = $Sprite.scale.x
 			
@@ -164,20 +172,38 @@ func _physics_process(_delta):
 				state = STATES.INTRO
 				$Sprite.play(\"Intro\")
 				
+		if state == STATES.WEAKNESS:
+			if statetimer == 0:
+				$Sprite.play(\"Dead\")
+			if statetimer <= 8:
+				statetimer += 1
+			if statetimer == 8:
+				velocity.y = -650
+			if statetimer == 9:
+				if $CeilingDetector.is_colliding():
+					statetimer += 1
+					Cur_HP -= 5
+					$Audio/Damage.play()
+					$InvulTimer.start(5)
+			if statetimer > 9:
+				statetimer += 1
+					
+			if statetimer >= 27:
+				if is_on_floor():
+					state = STATES.IDLE
+					
+				
 		if state == STATES.INTRO:
 			if $Sprite.frame == 3:
 				if Cur_HP == Max_HP:
 					state = STATES.IDLE
-					statetimer = 80
+					statetimer = 50
 				else:
 					Cur_HP += 1
 					$Audio/HPFill.play()
 		
 		if state == STATES.IDLE:
-			if GameState.player.position.x < position.x:
-				$Sprite.scale.x = 1
-			else:
-				$Sprite.scale.x = -1
+			turntoplayer()
 			$Sprite.play(\"Idle\")
 			statetimer -= 1
 			if statetimer <= 0:
@@ -202,11 +228,8 @@ func _physics_process(_delta):
 		if state == STATES.ATTACK1:
 			statetimer += 1
 			lastattack = 1
-			if (statetimer < 10 or statetimer > 65) and Cur_HP <= 28:
-				if GameState.player.position.x < position.x:
-					$Sprite.scale.x = 1
-				else:
-					$Sprite.scale.x = -1
+			if (statetimer < 10 or statetimer > 65):
+				turntoplayer()
 				
 			if statetimer == 10:
 				projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
@@ -221,45 +244,85 @@ func _physics_process(_delta):
 					state = STATES.IDLE
 				else:
 					statetimer = 0
+					if Cur_HP <= 28 and GameState.droptimer == 3:
+						state = STATES.ATTACK2
+					if Cur_HP <= 28 and GameState.droptimer == 4:
+						state = STATES.ATTACK3
 					$Sprite.play(\"FinShredder\")
 					
 		if state == STATES.ATTACK2:
 			statetimer += 1
+			if statetimer < 10:
+				turntoplayer()
 			lastattack = 2
 			if statetimer == 10:
 				$Sprite.play(\"Jump\")
+				$Overlay.play(\"Jump\")
 				velocity.x = (position.x - GameState.player.position.x) * -1
 				velocity.y = -280
 				if Cur_HP <= 28:
-					$Overlay.play(\"Jump\")
 					velocity.x = (position.x - GameState.player.position.x) * -1.12
 					velocity.y = -315
 			if statetimer > 15 and  statetimer < 2000 and is_on_floor():
 				$Sprite.play(\"RagingStorm\")
-				if Cur_HP <= 28:
-					$Sprite.play(\"RagingStorm\")
-					$Overlay.play(\"RagingStorm\")
+				$Overlay.play(\"RagingStorm\")
 					
-					projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
-					get_parent().add_child(projectile)
-					projectile.position.x = position.x + 32
+				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x + 32
+				if Cur_HP <= 28:
 					projectile.position.y = position.y + 8
-					projectile.scale.x = -1
+				else:
+					projectile.position.y = position.y + 16
+				projectile.scale.x = -1
+				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
 				
-					projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
-					get_parent().add_child(projectile)
-					projectile.position.x = position.x - 32
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x - 32
+				if Cur_HP <= 28:
 					projectile.position.y = position.y + 8
-					projectile.scale.x = 1
+				else:
+					projectile.position.y = position.y + 16
+				projectile.scale.x = 1
 					
 				velocity.x = 0
 				if Cur_HP <= 28:
 					statetimer = 2010
 				else:
-					statetimer = 2000
+					statetimer = 2030
+					
+			if statetimer == 2030 and Cur_HP <= 28:
+				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x + 50
+				projectile.position.y = position.y + 16
+				projectile.scale.x = -1
+				
+				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x - 50
+				projectile.position.y = position.y + 16
+				projectile.scale.x = 1
+				
+			if statetimer == 2050 and Cur_HP <= 28:
+				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x + 68
+				projectile.position.y = position.y + 24
+				projectile.scale.x = -1
+				
+				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
+				get_parent().add_child(projectile)
+				projectile.position.x = position.x - 68
+				projectile.position.y = position.y + 24
+				projectile.scale.x = 1
+				
 			if statetimer > 2050:
 				state = STATES.IDLE
-				statetimer = 80
+				if Cur_HP > 28:
+					statetimer = 50
+				else:
+					statetimer = 30
 				
 			
 		if state == STATES.ATTACK3:
@@ -287,7 +350,10 @@ func _physics_process(_delta):
 			
 			if statetimer == 90 or (statetimer == 80 and Cur_HP <= 28):
 				state = STATES.IDLE
-				statetimer = 80
+				if Cur_HP > 28:
+					statetimer = 30
+				else:
+					statetimer = 10
 			
 		if state == STATES.DEAD:
 			velocity.x = scale.x * -15
@@ -358,11 +424,15 @@ func _on_hitable_body_entered(weapon): # needs to be redefined because damage va
 					quickhits += 1
 				#Look up the damage type and do damage according to it.
 				Cur_HP -= Dmg_Vals[weapon.W_Type]
-				if weapon.freezeframed != null:
-					$InvulTimer.start(Inv_Vals[weapon.W_Type] * 2)
-				else:
-					$InvulTimer.start(Inv_Vals[weapon.W_Type])
+				$InvulTimer.start(Inv_Vals[weapon.W_Type])
+				if weapon.W_Type == GameState.DMGTYPE.CR_BUSTER_1 or weapon.W_Type == GameState.DMGTYPE.CR_BUSTER_2 or weapon.W_Type == GameState.DMGTYPE.CR_BUSTER_3 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2 or weapon.W_Type == GameState.DMGTYPE.BS_BUSTER:
+					if weapon.freezeframed != null:
+						$InvulTimer.start(Inv_Vals[weapon.W_Type] * 2)
 				$Audio/Damage.play()
+				if weapon.W_Type == GameState.DMGTYPE.CB_GUERILLA and Cur_HP >= 0 and state != STATES.WEAKNESS:
+					state = STATES.WEAKNESS
+					$Sprite.play(\"Dead\")
+					statetimer = 0
 				
 	
 				
@@ -374,7 +444,8 @@ func _on_hitable_body_entered(weapon): # needs to be redefined because damage va
 	
 	if Cur_HP <= 0:
 		$Sprite.play(\"Dead\")
-		state = STATES.DEAD		
+		state = STATES.DEAD	
+		velocity.y = 0
 
 func _on_hurt_body_entered(body):
 	body.DmgQueue = Atk_Dmg
@@ -654,6 +725,10 @@ stream = ExtResource("4_jw8de")
 stream = ExtResource("5_8obg6")
 volume_db = -16.0
 bus = &"SFX"
+
+[node name="CeilingDetector" type="RayCast2D" parent="."]
+position = Vector2(0, -19)
+target_position = Vector2(0, -3)
 
 [connection signal="body_entered" from="hitable" to="." method="_on_hitable_body_entered"]
 [connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]

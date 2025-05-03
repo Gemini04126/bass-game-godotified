@@ -1060,9 +1060,9 @@ func weapon_gale():
 			return
 
 func weapon_guerilla():
-	if Input.is_action_just_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.GUERRILLA] >= 2 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets <= 2:
+	if Input.is_action_just_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.GUERRILLA] >= 3 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets <= 2:
 		if GameState.infinite_ammo == false:
-			GameState.weapon_energy[GameState.WEAPONS.GUERRILLA] -= 2
+			GameState.weapon_energy[GameState.WEAPONS.GUERRILLA] -= 3
 		anim.seek(0)
 		shot_type = 1
 		attack_timer.start(0.3)
