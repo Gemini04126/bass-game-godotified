@@ -231,18 +231,18 @@ size = Vector2(8, 8)
 collision_layer = 64
 script = ExtResource("1_6kmgf")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="LifeSprite" type="Sprite2D" parent="."]
 visible = false
 material = SubResource("ShaderMaterial_58gkl")
 texture = ExtResource("4_o72oi")
 hframes = 2
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="ItemSprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_3l2vc")
 sprite_frames = SubResource("SpriteFrames_pfpbr")
 animation = &"SmHP"
 autoplay = "SmHP"
-frame_progress = 0.929225
+frame_progress = 0.920969
 
 [node name="Touch" type="Area2D" parent="."]
 process_mode = 3

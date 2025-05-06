@@ -413,7 +413,7 @@ func weapon_cbuster():
 				$Audio/Charge1.stop()
 				$Audio/Charge2.play()
 				$Audio/Charge2.volume_linear = 1
-			if bustercharge > 108:
+			if bustercharge > 108 and $Audio/Charge2.volume_linear >= 0:
 				$Audio/Charge2.volume_linear -= 0.01
 		else:
 			bustercharge = 110

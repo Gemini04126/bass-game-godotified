@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bdurhvklic0ac"]
+[gd_scene load_steps=31 format=3 uid="uid://bdurhvklic0ac"]
 
 [ext_resource type="PackedScene" uid="uid://b0opfnom6gmbo" path="res://scenes/module_tester.tscn" id="1_kxric"]
 [ext_resource type="Texture2D" uid="uid://1acv8saa7myi" path="res://sprites/hud/freezeframe.png" id="1_qkknv"]
@@ -99,41 +99,49 @@ func _process(_delta: float) -> void:
 	if GameState.bosses.size() >= 1:
 		$BossBars/BossBar1.frame = clamp(GameState.bosses[0].Cur_HP, 0, 56)
 		$BossBars/BossBar1.visible = true
+		$BossBars/BossBar1.material.set_shader_parameter(\"palette\", GameState.bosses[0].barPalette)
 	else:
 		$BossBars/BossBar1.visible = false
 	if GameState.bosses.size() >= 2:
 		$BossBars/BossBar2.frame = clamp(GameState.bosses[1].Cur_HP, 0, 56)
 		$BossBars/BossBar2.visible = true
+		$BossBars/BossBar2.material.set_shader_parameter(\"palette\", GameState.bosses[1].barPalette)
 	else:
 		$BossBars/BossBar2.visible = false
 	if GameState.bosses.size() >= 3:
 		$BossBars/BossBar3.frame = clamp(GameState.bosses[2].Cur_HP, 0, 56)
 		$BossBars/BossBar3.visible = true
+		$BossBars/BossBar3.material.set_shader_parameter(\"palette\", GameState.bosses[2].barPalette)
 	else:
 		$BossBars/BossBar3.visible = false
 	if GameState.bosses.size() >= 4:
 		$BossBars/BossBar4.frame = clamp(GameState.bosses[3].Cur_HP, 0, 56)
 		$BossBars/BossBar4.visible = true
+		$BossBars/BossBar4.material.set_shader_parameter(\"palette\", GameState.bosses[3].barPalette)
 	else:
 		$BossBars/BossBar4.visible = false
 	if GameState.bosses.size() >= 5:
 		$BossBars/BossBar5.frame = clamp(GameState.bosses[4].Cur_HP, 0, 56)
 		$BossBars/BossBar5.visible = true
+		$BossBars/BossBar5.material.set_shader_parameter(\"palette\", GameState.bosses[4].barPalette)
 	else:
 		$BossBars/BossBar5.visible = false
 	if GameState.bosses.size() >= 6:
 		$BossBars/BossBar6.frame = clamp(GameState.bosses[5].Cur_HP, 0, 56)
 		$BossBars/BossBar6.visible = true
+		$BossBars/BossBar6.material.set_shader_parameter(\"palette\", GameState.bosses[5].barPalette)
 	else:
 		$BossBars/BossBar6.visible = false
 	if GameState.bosses.size() >= 7:
 		$BossBars/BossBar7.frame = clamp(GameState.bosses[6].Cur_HP, 0, 56)
 		$BossBars/BossBar7.visible = true
+		$BossBars/BossBar7.material.set_shader_parameter(\"palette\", GameState.bosses[6].barPalette)
 	else:
 		$BossBars/BossBar7.visible = false
 	if GameState.bosses.size() >= 8:
 		$BossBars/BossBar8.frame = clamp(GameState.bosses[7].Cur_HP, 0, 56)
 		$BossBars/BossBar8.visible = true
+		$BossBars/BossBar8.material.set_shader_parameter(\"palette\", GameState.bosses[7].barPalette)
 	else:
 		$BossBars/BossBar8.visible = false
 
@@ -170,6 +178,12 @@ shader_parameter/fps = 6.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o6d4v"]
 shader = ExtResource("4_7y70l")
 shader_parameter/palette = ExtResource("5_nk4r6")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qkknv"]
+shader = ExtResource("4_7y70l")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
@@ -410,48 +424,56 @@ one_shot = true
 
 [node name="BossBar1" type="Sprite2D" parent="Bars/BossBars"]
 visible = false
+material = SubResource("ShaderMaterial_qkknv")
 position = Vector2(44, 64)
 texture = ExtResource("8_0v72v")
 hframes = 57
 
 [node name="BossBar2" type="Sprite2D" parent="Bars/BossBars"]
 visible = false
+material = SubResource("ShaderMaterial_qkknv")
 position = Vector2(52, 64)
 texture = ExtResource("8_0v72v")
 hframes = 57
 
 [node name="BossBar3" type="Sprite2D" parent="Bars/BossBars"]
 visible = false
+material = SubResource("ShaderMaterial_qkknv")
 position = Vector2(60, 64)
 texture = ExtResource("8_0v72v")
 hframes = 57
 
 [node name="BossBar4" type="Sprite2D" parent="Bars/BossBars"]
 visible = false
+material = SubResource("ShaderMaterial_qkknv")
 position = Vector2(68, 64)
 texture = ExtResource("8_0v72v")
 hframes = 57
 
 [node name="BossBar5" type="Sprite2D" parent="Bars/BossBars"]
 visible = false
+material = SubResource("ShaderMaterial_qkknv")
 position = Vector2(76, 64)
 texture = ExtResource("8_0v72v")
 hframes = 57
 
 [node name="BossBar6" type="Sprite2D" parent="Bars/BossBars"]
 visible = false
+material = SubResource("ShaderMaterial_qkknv")
 position = Vector2(84, 64)
 texture = ExtResource("8_0v72v")
 hframes = 57
 
 [node name="BossBar7" type="Sprite2D" parent="Bars/BossBars"]
 visible = false
+material = SubResource("ShaderMaterial_qkknv")
 position = Vector2(92, 64)
 texture = ExtResource("8_0v72v")
 hframes = 57
 
 [node name="BossBar8" type="Sprite2D" parent="Bars/BossBars"]
 visible = false
+material = SubResource("ShaderMaterial_qkknv")
 position = Vector2(100, 64)
 texture = ExtResource("8_0v72v")
 hframes = 57

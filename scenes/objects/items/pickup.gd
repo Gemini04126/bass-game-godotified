@@ -45,18 +45,18 @@ func _ready():
 		0: #HP Item
 			match item_size:
 				0:
-					$AnimatedSprite2D.play("SmHP")
+					$ItemSprite.play("SmHP")
 				1:
-					$AnimatedSprite2D.play("LgHP")
+					$ItemSprite.play("LgHP")
 					if not Engine.is_editor_hint():
 						$CollisionShape2D.scale.x = 2
 						$CollisionShape2D.scale.y = 2
 		1: #WE Item
 			match item_size:
 				0:
-					$AnimatedSprite2D.play("SmWE")
+					$ItemSprite.play("SmWE")
 				1:
-					$AnimatedSprite2D.play("LgWE")
+					$ItemSprite.play("LgWE")
 					if not Engine.is_editor_hint():
 						$CollisionShape2D.scale.x = 2
 						$CollisionShape2D.scale.y = 1.8
@@ -64,9 +64,9 @@ func _ready():
 		2: #Bolts
 			match item_size:
 				0:
-					$AnimatedSprite2D.play("SmBT")
+					$ItemSprite.play("SmBT")
 				1:
-					$AnimatedSprite2D.play("LgBT")
+					$ItemSprite.play("LgBT")
 					if not Engine.is_editor_hint():
 						$CollisionShape2D.scale.x = 2
 						$CollisionShape2D.scale.y = 1.8
@@ -77,9 +77,9 @@ func _ready():
 				$CollisionShape2D.scale.y = 2
 			match item_size:
 				0:
-					$AnimatedSprite2D.play("ETnk")
+					$ItemSprite.play("ETnk")
 				1:
-					$AnimatedSprite2D.play("WTnk")
+					$ItemSprite.play("WTnk")
 					
 		4: #1Up and S tank
 			if not Engine.is_editor_hint():
@@ -87,14 +87,14 @@ func _ready():
 				$CollisionShape2D.scale.y = 2
 			match item_size:
 				0:
-					$AnimatedSprite2D.hide()
+					$ItemSprite.hide()
 					if not Engine.is_editor_hint():
-						$Sprite2D.texture = load(GameState.lifeIcons[GameState.character_selected])
+						$LifeSprite.texture = load(GameState.lifeIcons[GameState.character_selected])
 					else:
-						$Sprite2D.texture = load("res://sprites/players/bass/life.png")
-					$Sprite2D.show()
+						$LifeSprite.texture = load("res://sprites/players/bass/life.png")
+					$LifeSprite.show()
 				1:
-					$AnimatedSprite2D.play("STnk")
+					$ItemSprite.play("STnk")
 
 func _physics_process(delta: float) -> void:
 	if not Engine.is_editor_hint():
@@ -102,14 +102,14 @@ func _physics_process(delta: float) -> void:
 			queue_free()
 				
 		if GameState.player != null:
-			$AnimatedSprite2D.material.set_shader_parameter("palette", GameState.player.get_node("Sprite2D").material.get_shader_parameter("palette"))
-			$Sprite2D.material.set_shader_parameter("palette", GameState.player.get_node("Sprite2D").material.get_shader_parameter("palette"))
+			$ItemSprite.material.set_shader_parameter("palette", GameState.player.get_node("LifeSprite").material.get_shader_parameter("palette"))
+			$LifeSprite.material.set_shader_parameter("palette", GameState.player.get_node("LifeSprite").material.get_shader_parameter("palette"))
 			
 		if GameState.freezeframe == true:
-			$AnimatedSprite2D.pause()
+			$ItemSprite.pause()
 		else:
-			if !$AnimatedSprite2D.is_playing():
-				$AnimatedSprite2D.play()
+			if !$ItemSprite.is_playing():
+				$ItemSprite.play()
 			
 	if has_gravity == true:
 		if not Engine.is_editor_hint():
