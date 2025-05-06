@@ -240,7 +240,7 @@ func _physics_process(_delta):
 				projectile.position.y = position.y - 20
 				projectile.scale.x = -$Sprite.scale.x
 				projectile.velocity.x = $Sprite.scale.x * -210
-			if statetimer == 80 or (statetimer == 65 and Cur_HP <= 28):
+			if statetimer == 80 or (statetimer == 70 and Cur_HP <= 28):
 				attacks -= 1
 				if attacks == 0:
 					state = STATES.IDLE
@@ -263,8 +263,8 @@ func _physics_process(_delta):
 				velocity.x = (position.x - GameState.player.position.x) * -1
 				velocity.y = -280
 				if Cur_HP <= 28:
-					velocity.x = (position.x - GameState.player.position.x) * -1.12
-					velocity.y = -315
+					velocity.x = (position.x - GameState.player.position.x) * -0.995
+					velocity.y = -365
 			if statetimer > 15 and  statetimer < 2000 and is_on_floor():
 				$Sprite.play(\"RagingStorm\")
 				$Overlay.play(\"RagingStorm\")
@@ -319,12 +319,12 @@ func _physics_process(_delta):
 				projectile.position.y = position.y + 24
 				projectile.scale.x = 1
 				
-			if statetimer > 2050:
+			if statetimer > 2075:
 				state = STATES.IDLE
 				if Cur_HP > 28:
-					statetimer = 50
+					statetimer = 60
 				else:
-					statetimer = 30
+					statetimer = 40
 				
 			
 		if state == STATES.ATTACK3:
@@ -341,21 +341,21 @@ func _physics_process(_delta):
 				$Sprite.stop()
 				$Sprite.play(\"FinShredder\")
 					
-			if (statetimer == 70 and Cur_HP > 28) or (statetimer == 50 and Cur_HP <= 28):
+			if (statetimer == 50 and Cur_HP > 28) or (statetimer == 40 and Cur_HP <= 28):
 				projectile.queue_free()
 				projectile = preload(\"res://scenes/objects/bosses/shark_shredder2.tscn\").instantiate()
 				get_parent().add_child(projectile)
 				projectile.position.x = position.x + ($Sprite.scale.x * 32)
-				projectile.position.y = position.y + 3
+				projectile.position.y = position.y + 6
 				projectile.scale.x = -$Sprite.scale.x
 				projectile.velocity.x = $Sprite.scale.x * -300
 			
-			if statetimer == 90 or (statetimer == 80 and Cur_HP <= 28):
+			if statetimer == 110 or (statetimer == 90 and Cur_HP <= 28):
 				state = STATES.IDLE
 				if Cur_HP > 28:
 					statetimer = 30
 				else:
-					statetimer = 10
+					statetimer = 30
 			
 		if state == STATES.DEAD:
 			velocity.x = scale.x * -15
