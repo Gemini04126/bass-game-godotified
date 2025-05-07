@@ -102,8 +102,8 @@ func _physics_process(delta: float) -> void:
 			queue_free()
 				
 		if GameState.player != null:
-			$ItemSprite.material.set_shader_parameter("palette", GameState.player.get_node("LifeSprite").material.get_shader_parameter("palette"))
-			$LifeSprite.material.set_shader_parameter("palette", GameState.player.get_node("LifeSprite").material.get_shader_parameter("palette"))
+			$ItemSprite.material.set_shader_parameter("palette", GameState.player.get_node("Sprite2D").material.get_shader_parameter("palette"))
+			$LifeSprite.material.set_shader_parameter("palette", GameState.player.get_node("Sprite2D").material.get_shader_parameter("palette"))
 			
 		if GameState.freezeframe == true:
 			$ItemSprite.pause()
