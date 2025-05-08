@@ -255,8 +255,23 @@ func checkForFloor():
 		hovering = false
 		airdashed = false
 
+func processJump():
+	if GameState.inputdisabled == false:
+		if Input.is_action_just_pressed("jump"): # G: Down+Jump restriction removed... AGAIN
+			if !is_on_floor() and currentState == STATES.SLIDE:
+				currentState = STATES.FALL
+			else:
+				velocity.y = JUMP_VELOCITY
+				currentState = STATES.JUMP
+				$Audio/Jump.play()
+				
+			slide_timer.stop()
+			$hurtboxArea/mainHurtbox.set_disabled(false)
+			$mainCollision.disabled = false
+			JumpHeight = 0
+
 func dashProcess():
-	if Input.is_action_just_pressed("dash"):
+	if Input.is_action_just_pressed("dash") && direction.y != 1: # G: Up+Dash restriction added... AGAIN
 		if on_ice != true:
 			velocity.x = 175 * sprite.scale.x
 		currentState = STATES.DASH
@@ -524,7 +539,7 @@ func module_blaze() -> void:
 		projectile.velocity.y = 280
 
 func module_video():
-	if Input.is_action_just_pressed("jump") && Input.is_action_pressed("move_down") && (GameState.onscreen_track2s == 0) && (GameState.modules_enabled[WEAPONS.VIDEO] == true):
+	if Input.is_action_just_pressed("dash") && Input.is_action_pressed("move_up") && (GameState.onscreen_track2s == 0) && (GameState.modules_enabled[WEAPONS.VIDEO] == true):
 		$Audio/BlastJump.play()
 		projectile = projectile_scenes[2].instantiate()
 		get_parent().add_child(projectile)
