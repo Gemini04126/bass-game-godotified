@@ -143,12 +143,15 @@ var scrollX4
 var scrollY3
 var scrollY4
 
+#screen transition flags
 var screentransiton : int
 var bossdoor : bool
 var transdir : int
 
 var checkpoint
+var doorprogress : int = 0
 
+#player variables
 var current_weapon : int
 var old_weapon : int
 var current_hp = 28

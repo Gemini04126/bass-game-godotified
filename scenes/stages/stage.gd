@@ -181,7 +181,7 @@ func process_camera():
 				
 
 				if GameState.transdir == 0:
-					if player.position.x > (384*GameState.scrollX1) + 192 and player.position.x < (384*GameState.scrollX2) + 192:
+					if player.position.x > (384*GameState.scrollX1) + 192 and player.position.x < (384*GameState.scrollX2) + 192 and player.warping == 0:
 						if player.position.x > $Camera2D.position.x + 8:
 							$Camera2D.position.x += 8
 						elif player.position.x < $Camera2D.position.x - 8:
@@ -190,19 +190,22 @@ func process_camera():
 							$Camera2D.position.x = player.position.x
 					
 					
-					if (player.position.y > (224*GameState.scrollY1) + 104 + 8):
+					if (player.position.y > (224*GameState.scrollY1) + 104 + 8) and player.warping == 0:
 						if (player.position.y > $Camera2D.position.y) and player.standing == true:
 							$Camera2D.position.y += 3
 
 						if (player.position.y > $Camera2D.position.y + 25 ) and player.standing == false:
 							$Camera2D.position.y = player.position.y - 25
 
-					if (player.position.y < (224*GameState.scrollY2) + 104 + 8):
+					if (player.position.y < (224*GameState.scrollY2) + 104 + 8) and player.warping == 0:
 						if (player.position.y < $Camera2D.position.y) and player.standing == true:
 							$Camera2D.position.y -= 3
 								
-						if (player.position.y < $Camera2D.position.y - 25 ) and player.standing == false:
+						if (player.position.y < $Camera2D.position.y - 25 ) and player.standing != true:
 							$Camera2D.position.y = player.position.y + 25
+						
+					if player.warping > 0:
+						$Camera2D.position = player.position
 						
 					if $Camera2D.position.y < (224*GameState.scrollY1) + 104  + 8:
 						$Camera2D.position.y = (224*GameState.scrollY1) + 104  + 8
@@ -212,6 +215,9 @@ func process_camera():
 						$Camera2D.position.x = (384*GameState.scrollX1) + 192
 					if $Camera2D.position.x > (384*GameState.scrollX2) + 192:
 						$Camera2D.position.x = (384*GameState.scrollX2) + 192
+					
+					
+				
 						
 			if player.position.y > $Camera2D.position.y + 120	:
 				GameState.current_hp = 0

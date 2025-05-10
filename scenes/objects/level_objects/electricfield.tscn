@@ -1,0 +1,93 @@
+[gd_scene load_steps=10 format=3 uid="uid://dtabrx8yljl4w"]
+
+[ext_resource type="Script" uid="uid://ceqx7b6yjrksp" path="res://scenes/objects/level_objects/electricfield.gd" id="1_k3ygp"]
+[ext_resource type="Texture2D" uid="uid://c1t6k8my48oef" path="res://sprites/objects/electricfieldfx.png" id="2_5f1t8"]
+[ext_resource type="Texture2D" uid="uid://b1nereqyjuv2" path="res://sprites/objects/electricfield.png" id="3_xr6ti"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3ygp"]
+atlas = ExtResource("2_5f1t8")
+region = Rect2(0, 0, 8, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5f1t8"]
+atlas = ExtResource("2_5f1t8")
+region = Rect2(8, 0, 8, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yg1tf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3ygp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5f1t8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qkgg4"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5f1t8"]
+size = Vector2(14, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k3ygp"]
+size = Vector2(16, 64)
+
+[node name="Electricfield" type="StaticBody2D"]
+script = ExtResource("1_k3ygp")
+
+[node name="Electricity" type="Node2D" parent="."]
+position = Vector2(8, 80)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Electricity"]
+position = Vector2(-4, -32)
+sprite_frames = SubResource("SpriteFrames_yg1tf")
+autoplay = "default"
+frame_progress = 0.558668
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Electricity"]
+position = Vector2(4, -32)
+sprite_frames = SubResource("SpriteFrames_yg1tf")
+autoplay = "default"
+frame_progress = 0.902222
+
+[node name="Top" type="Sprite2D" parent="."]
+position = Vector2(8, 8)
+texture = ExtResource("3_xr6ti")
+hframes = 5
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 16)
+
+[node name="Bottom" type="Sprite2D" parent="."]
+position = Vector2(8, 88)
+texture = ExtResource("3_xr6ti")
+hframes = 5
+region_enabled = true
+region_rect = Rect2(0, 16, 80, 16)
+
+[node name="TopCollision" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_qkgg4")
+debug_color = Color(0, 0.619608, 1, 0.419608)
+
+[node name="BottomCollision" type="CollisionShape2D" parent="."]
+position = Vector2(8, 88)
+shape = SubResource("RectangleShape2D_qkgg4")
+debug_color = Color(0, 0.619608, 1, 0.419608)
+
+[node name="ElectricWall" type="CollisionShape2D" parent="."]
+position = Vector2(8, 48)
+shape = SubResource("RectangleShape2D_5f1t8")
+debug_color = Color(0, 0.619608, 1, 0.419608)
+
+[node name="Hurt" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="OUCH!" type="CollisionShape2D" parent="Hurt"]
+position = Vector2(8, 48)
+shape = SubResource("RectangleShape2D_k3ygp")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[connection signal="body_entered" from="Hurt" to="." method="_on_hurt_body_entered"]

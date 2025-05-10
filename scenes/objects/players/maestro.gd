@@ -52,7 +52,8 @@ enum STATES {
 	JUMP_FIN_SHREDDER,
 	JUMP_DOUBLE_FIN_SHREDDER,
 	FALL_FIN_SHREDDER,
-	FALL_DOUBLE_FIN_SHREDDER
+	WARPING, #Using a teleporter
+	WARP2 #Leaving a teleporter
 }
 
 enum WEAPONS {BUSTER, BLAZE, VIDEO, SMOG, SHARK, ORIGAMI, GALE, GUERRILLA, REAPER, PROTO, TREBLE, CARRY, ARROW, ENKER, PUNK, BALLADE, QUINT}
@@ -61,6 +62,7 @@ enum WEAPONS {BUSTER, BLAZE, VIDEO, SMOG, SHARK, ORIGAMI, GALE, GUERRILLA, REAPE
 
 # state related
 var invincible = false
+var warping : int = 0
 var standing
 var currentState := STATES.TELEPORT
 var currentWeapon := WEAPONS.BUSTER
@@ -317,6 +319,16 @@ func _physics_process(delta: float) -> void:
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
+		if currentState != STATES.WARPING and warping == 1:
+			velocity.x = 0
+			velocity.y = 0
+			currentState = STATES.WARPING
+		elif currentState != STATES.WARP2 and warping == 2:
+			currentState = STATES.WARP2
+			$Timers/StateTimer.start(0.35)
+		elif currentState == STATES.WARP2 and $Timers/StateTimer.is_stopped():
+			warping = 0
+			currentState = STATES.IDLE
 		if is_on_floor():
 			standing = true
 		else:
