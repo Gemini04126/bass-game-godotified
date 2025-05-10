@@ -5,10 +5,14 @@ static var static_audio_player : AudioStreamPlayer2D
 
 @export var state : int
 
-@export var scrollX1 : int ##Left bounds of the current room
-@export var scrollX2 : int ##Right bounds of the current room
-@export var scrollY1 : int ##Top bounds of the current room
-@export var scrollY2 : int ##Bottom bounds of the current room
+## Left bounds of the next room
+@export var scrollX1 : int 
+## Right bounds of the next room
+@export var scrollX2 : int 
+## Top bounds of the next room
+@export var scrollY1 : int 
+## Bottom bounds of the next room
+@export var scrollY2 : int 
 
 var closing 
 var opening : bool
@@ -23,8 +27,11 @@ var oldposy
 var oldscalex
 var oldscaley
 
-@export var direction : int ##right = 1 down = 2 left = 3 up = 4
-@export var way : int ## 0: Up, 1: Down,
+## right = 1 down = 2 left = 3 up = 4
+@export var direction : int 
+
+## 0: Right, 1: Left,
+@export var way : int 
 
 @export var screenmode : int
 

@@ -102,7 +102,7 @@ func _physics_process(delta: float) -> void:
 				if GameState.ultimate == true:
 					sprite.material.set_shader_parameter("palette", weapon_palette[21])
 				teleporting()
-				applyGrav(delta)
+				$mistCollision.disabled = true
 			STATES.IDLE:
 				idle(delta)
 				dashProcess()
@@ -121,6 +121,8 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				processDamage()
 				module_video()
+				if on_ice == true:
+					velocity.x = lerpf(velocity.x, 0, delta * ICE_FLOOR_WEIGHT)
 			STATES.IDLE_SHIELD, STATES.PAPER_CUT:
 				checkForFloor()
 				processShoot()
@@ -174,19 +176,6 @@ func _physics_process(delta: float) -> void:
 				module_blaze()
 				module_reaper()
 				module_video()
-			STATES.FALL_START, STATES.FALL, STATES.FALL_SHOOT, STATES.FALL_THROW, STATES.FALL_SHIELD, STATES.FALL_AIM, STATES.FALL_AIM_UP, STATES.FALL_AIM_DIAG, STATES.FALL_AIM_DOWN:
-				fall(delta)
-				applyGrav(delta)
-				allowLeftRight(delta)
-				processShoot()
-				processBuster()
-				processCharge()
-				ladderCheck()
-				processDamage()
-				module_blaze()
-				module_gale()
-				module_reaper()
-				module_video()
 			STATES.AIR_DASH:
 				module_reaper()
 				processDamage()
@@ -228,6 +217,10 @@ func _physics_process(delta: float) -> void:
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
+		if is_on_floor():
+			standing = true
+		else:
+			standing = false
 		
 		if GameState.modules_enabled[WEAPONS.SMOG] == true:
 			if currentState != STATES.SLIDE:
@@ -245,7 +238,7 @@ func _physics_process(delta: float) -> void:
 
 func checkForFloor():
 	if !is_on_floor():
-		currentState = STATES.FALL_START
+		currentState = STATES.JUMP
 		$mainCollision.disabled = false
 	else:
 		if airactiontaken == true:
@@ -259,7 +252,7 @@ func processJump():
 	if GameState.inputdisabled == false:
 		if Input.is_action_just_pressed("jump"): # G: Down+Jump restriction removed... AGAIN
 			if !is_on_floor() and currentState == STATES.SLIDE:
-				currentState = STATES.FALL
+				currentState = STATES.JUMP
 			else:
 				velocity.y = JUMP_VELOCITY
 				currentState = STATES.JUMP
@@ -301,7 +294,7 @@ func dashing(delta):
 	
 	if !is_on_floor():
 		velocity.x = 0
-		currentState = STATES.FALL
+		currentState = STATES.JUMP
 		
 	if Input.is_action_just_pressed("jump") or !is_on_floor():
 		dashdir = sprite.scale.x
@@ -385,24 +378,15 @@ func aimAnimMatch():
 			currentState = STATES.JUMP_AIM_DIAG
 		else:
 			currentState = STATES.JUMP_AIM
-	elif STATES.keys()[currentState].contains("FALL"):
-		if direction.y == -1:
-			currentState = STATES.FALL_AIM_DOWN
-		elif direction.y == 1 and direction.x == 0:
-			currentState = STATES.FALL_AIM_UP
-		elif direction.y == 1:
-			currentState = STATES.FALL_AIM_DIAG
-		else:
-			currentState = STATES.FALL_AIM
 			
 func busterAnimMatch():
 	shoot_timer.start()
-	if currentState == STATES.IDLE or currentState == STATES.STEP or currentState == STATES.WALK:
+	if currentState != STATES.DASH and is_on_floor():
+		if on_ice == false:
+			velocity.x = 0
 		currentState = STATES.IDLE_SHOOT
 	elif currentState == STATES.JUMP:
 		currentState = STATES.JUMP_SHOOT
-	elif currentState == STATES.FALL or currentState == STATES.FALL_START:
-		currentState = STATES.FALL_SHOOT
 
 func processBuster():
 	if Input.is_action_pressed("buster") or (GameState.current_weapon == WEAPONS.BUSTER and Input.is_action_pressed("shoot")):
@@ -621,7 +605,7 @@ func module_reaper() -> void:
 		if airactiontaken == true && (Input.is_action_just_released("dash") or airdashtime == 0):
 			airdashed = true
 			airdashtime = -5
-			currentState = STATES.FALL_START
+			currentState = STATES.JUMP
 
 func dash_jump(direction, delta):
 	if direction.x:

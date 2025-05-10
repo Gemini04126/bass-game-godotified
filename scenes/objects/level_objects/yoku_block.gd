@@ -1,4 +1,4 @@
-@tool
+
 class_name YokuBlock
 extends StaticBody2D
 var time : float
@@ -32,8 +32,12 @@ func _ready():
 	if !static_audio_player:
 		static_audio_player = $YokuSound
 	$Sprite2D.texture = load(styles[_style])
-
+	$AnimationPlayer.play("RESET")
 func _physics_process(delta: float):
+		if $RayCast2D.is_colliding():
+			$Shadow.visible = false
+		else:
+			$Shadow.visible = true
 		if get_parent().interval == get_parent().get_parent().interval and $Timer.is_stopped():
 			$AnimationPlayer.play("appear")
 			$Timer.start(get_parent().duration)

@@ -46,14 +46,13 @@ func _ready():
 
 func _on_hitable_body_entered(weapon):
 	Cur_HP -= Dmg_Vals[weapon.W_Type]
-	if weapon.W_Type == GameState.DMGTYPE.CR_BUSTER_3:
-		weapon.destroy()
+	
 	
 	if Dmg_Vals[weapon.W_Type] == 0:	
 		weapon.reflect()
 		#Cool, it does damage!!
 	else:
-		if (weapon.W_Type == GameState.DMGTYPE.BS_SHARK or GameState.DMGTYPE.CR_SHARK1 or GameState.DMGTYPE.CR_SHARK2):
+		if (weapon.W_Type == GameState.DMGTYPE.BS_SHARK or weapon.W_Type == GameState.DMGTYPE.CR_SHARK1 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2):
 			weapon.kill()
 		else:
 			weapon.destroy()

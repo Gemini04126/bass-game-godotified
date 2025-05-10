@@ -108,12 +108,11 @@ way = 1
 
 [node name="LayoutMap" type="Node2D" parent="."]
 visible = false
-position = Vector2(0, 224)
 scale = Vector2(24, 14)
 
 [node name="Layout" type="TileMapLayer" parent="LayoutMap"]
 position = Vector2(0, -16)
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAAAAAMAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAA=")
 tile_set = ExtResource("9_oywgw")
 
 [node name="Layout2" type="TileMapLayer" parent="LayoutMap"]

@@ -103,7 +103,6 @@ func _physics_process(delta: float) -> void:
 				if GameState.ultimate == true:
 					sprite.material.set_shader_parameter("palette", weapon_palette[23])
 				teleporting()
-				applyGrav(delta)
 			STATES.IDLE, STATES.IDLE_SHOOT:
 				idle(delta)
 				slideProcess()
@@ -146,19 +145,8 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.JUMP, STATES.JUMP_SHOOT, STATES.JUMP_THROW, STATES.JUMP_SHIELD, STATES.JUMP_FIN_SHREDDER, STATES.FALL_FIN_SHREDDER:
+			STATES.JUMP, STATES.JUMP_SHOOT, STATES.JUMP_THROW, STATES.JUMP_SHIELD, STATES.JUMP_FIN_SHREDDER:
 				Jump(delta)
-				applyGrav(delta)
-				allowLeftRight(delta)
-				processShoot()
-				if GameState.ultimate == true:
-					slideProcess()
-				#processBuster()
-				processCharge()
-				ladderCheck()
-				processDamage()
-			STATES.FALL_START, STATES.FALL, STATES.FALL_SHOOT, STATES.FALL_THROW, STATES.FALL_SHIELD, STATES.JUMP_DOUBLE_FIN_SHREDDER, STATES.FALL_DOUBLE_FIN_SHREDDER:
-				fall(delta)
 				applyGrav(delta)
 				allowLeftRight(delta)
 				processShoot()
@@ -191,6 +179,10 @@ func _physics_process(delta: float) -> void:
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
+		if is_on_floor():
+			standing = true
+		else:
+			standing = false
 		
 func processShoot():
 	if Input.is_action_just_pressed("shoot") && !transing && GameState.inputdisabled == false:
@@ -532,7 +524,5 @@ func _on_shoot_timer_timeout() -> void:
 		anim.seek(getFrame)
 	elif STATES.keys()[currentState].contains("JUMP"):
 		currentState = STATES.JUMP
-	elif STATES.keys()[currentState].contains("FALL"):
-		currentState = STATES.FALL_START
 	elif currentState == STATES.IDLE_THROW:
 		currentState = STATES.IDLE

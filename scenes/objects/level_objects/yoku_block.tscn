@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://blmlnutul2hyu"]
+[gd_scene load_steps=10 format=3 uid="uid://blmlnutul2hyu"]
 
 [ext_resource type="Script" uid="uid://cxdfvnhix1m6l" path="res://scenes/objects/level_objects/yoku_block.gd" id="1_jphyu"]
 [ext_resource type="Texture2D" uid="uid://lgywvb01j6qj" path="res://sprites/objects/yoku_blocks/Test.png" id="2_vhyso"]
+[ext_resource type="Texture2D" uid="uid://bhd11waqmcviy" path="res://sprites/objects/yoku_blocks/yoku_shadow.png" id="3_o0o1l"]
 [ext_resource type="AudioStream" uid="uid://xgre6yptpa2v" path="res://sounds/yoku.wav" id="3_y5jt4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vdur6"]
@@ -45,6 +46,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shadow:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
 
 [sub_resource type="Animation" id="Animation_f24ot"]
 resource_name = "appear"
@@ -87,6 +100,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shadow:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.0833333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
 
 [sub_resource type="Animation" id="Animation_er7ii"]
 resource_name = "disappear"
@@ -112,7 +137,7 @@ tracks/1/path = NodePath("Sprite2D:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.08333),
+"times": PackedFloat32Array(0.0833),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
@@ -128,6 +153,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shadow:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.0833333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yg0oj"]
@@ -146,6 +183,17 @@ position = Vector2(-8, -8)
 texture = ExtResource("2_vhyso")
 centered = false
 hframes = 2
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(-8, 8)
+texture = ExtResource("3_o0o1l")
+centered = false
+hframes = 3
+frame = 2
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0, 6)
+target_position = Vector2(0, 8)
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_vdur6")

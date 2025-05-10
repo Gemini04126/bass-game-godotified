@@ -68,13 +68,10 @@ func _ready():
 	)
 	player = player_scene.instantiate()
 	add_child(player)
-	if player.has_method("teleport"):
-		player.position.x = $StartPosition.position.x
-		player.position.y = $StartPosition.position.y - 230
-		player.targetpos = $StartPosition.position.y
-		await player.teleported
-	else:
-		player.position = $StartPosition.position
+	player.position.y = GameState.camposy - 130
+	player.position.x = $StartPosition.position.x
+	player.targetpos = $StartPosition.position.y
+		
 	if player.has_method("play_start_sound"): # G: Finally, a foolproof method to do this...
 		player.play_start_sound()
 
@@ -129,7 +126,7 @@ func process_camera():
 			
 	if GameState.transdir == 1 && ($Camera2D.position.x < (384*GameState.scrollX1) + 192):
 		if GameState.screentransiton == 0:
-			$Camera2D.position.x += 6
+			$Camera2D.position.x += 8
 		if player != null:
 			if GameState.screentransiton == 0:
 				if GameState.bossdoor == true:
@@ -140,7 +137,7 @@ func process_camera():
 		
 	elif GameState.transdir == 2 && ($Camera2D.position.y < (224*GameState.scrollY1)+108 + 8):
 		if GameState.screentransiton == 0:
-			$Camera2D.position.y += 8
+			$Camera2D.position.y += 6
 		if player != null:
 			if GameState.screentransiton == 0:
 				if GameState.bossdoor == true:
@@ -151,7 +148,7 @@ func process_camera():
 		
 	elif GameState.transdir == 3 && ($Camera2D.position.x > (384*GameState.scrollX2) + 192):
 		if GameState.screentransiton == 0:
-			$Camera2D.position.x -= 6
+			$Camera2D.position.x -= 8
 		if player != null:
 			if GameState.screentransiton == 0:
 				if GameState.bossdoor == true:
@@ -192,28 +189,29 @@ func process_camera():
 						else:
 							$Camera2D.position.x = player.position.x
 					
-					if (player.position.y > (224*GameState.scrollY1) + 104 + 8) && (player.position.y < (224*GameState.scrollY2) + 108 + 8):
-						if GameState.playerstate == 7:
-							$Camera2D.position.y = player.position.y
 					
 					if (player.position.y > (224*GameState.scrollY1) + 104 + 8):
-						if (player.position.y > $Camera2D.position.y) and player.velocity.y == 0:
+						if (player.position.y > $Camera2D.position.y) and player.standing == true:
 							$Camera2D.position.y += 3
 
-						if (player.position.y > $Camera2D.position.y + 25 ) and player.velocity.y != 0:
+						if (player.position.y > $Camera2D.position.y + 25 ) and player.standing == false:
 							$Camera2D.position.y = player.position.y - 25
 
 					if (player.position.y < (224*GameState.scrollY2) + 104 + 8):
-						if (player.position.y < $Camera2D.position.y) and player.velocity.y == 0:
+						if (player.position.y < $Camera2D.position.y) and player.standing == true:
 							$Camera2D.position.y -= 3
 								
-						if (player.position.y < $Camera2D.position.y - 25 ) and player.velocity.y != 0:
+						if (player.position.y < $Camera2D.position.y - 25 ) and player.standing == false:
 							$Camera2D.position.y = player.position.y + 25
 						
 					if $Camera2D.position.y < (224*GameState.scrollY1) + 104  + 8:
 						$Camera2D.position.y = (224*GameState.scrollY1) + 104  + 8
 					if $Camera2D.position.y > (224*GameState.scrollY2) + 104  + 8:
 						$Camera2D.position.y = (224*GameState.scrollY2) + 104  + 8
+					if $Camera2D.position.x < (384*GameState.scrollX1) + 192:
+						$Camera2D.position.x = (384*GameState.scrollX1) + 192
+					if $Camera2D.position.x > (384*GameState.scrollX2) + 192:
+						$Camera2D.position.x = (384*GameState.scrollX2) + 192
 						
 			if player.position.y > $Camera2D.position.y + 120	:
 				GameState.current_hp = 0

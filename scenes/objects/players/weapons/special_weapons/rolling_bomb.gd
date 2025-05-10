@@ -90,6 +90,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 func destroy():
 	$CollisionShape2D.set_deferred("disabled", true)
 	$HitSound.play()
+	$Explode.play()
 	state = STATES.DIE
 	velocity.x = 0
 	velocity.y = 0

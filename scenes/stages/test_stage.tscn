@@ -172,8 +172,9 @@ shape = SubResource("WorldBoundaryShape2D_yu73q")
 
 [node name="Yoku Blocks" type="Node2D" parent="Level Objects"]
 script = ExtResource("4_p2rgk")
-intervals = 4
-interval3 = 0.1
+intervals = 5
+interval4 = 0.9
+interval5 = 0.1
 
 [node name="Timer" type="Timer" parent="Level Objects/Yoku Blocks"]
 one_shot = true
@@ -183,27 +184,34 @@ tile_map_data = PackedByteArray("AAD//xIAAAAAAAAAAQD+/xIAAAAAAAAAAQD9/xIAAAAAAAA
 tile_set = SubResource("TileSet_68o5h")
 script = ExtResource("6_68o5h")
 interval = 1
-duration = 1.0
+duration = 2.0
 
 [node name="Int2" type="TileMapLayer" parent="Level Objects/Yoku Blocks"]
 tile_map_data = PackedByteArray("AAD6/xAAAAAAAAAAAQD5/xAAAAAAAAAAAQARABUAAAAAAAAAAQAQABUAAAAAAAAAAQAPABUAAAAAAAAAAQARAA8AAAAAAAAAAQAWAA8AAAAAAAAAAQA=")
 tile_set = SubResource("TileSet_68o5h")
 script = ExtResource("6_68o5h")
 interval = 2
-duration = 1.0
+duration = 2.0
 
 [node name="Int3" type="TileMapLayer" parent="Level Objects/Yoku Blocks"]
-tile_map_data = PackedByteArray("AAASAA8AAAAAAAAAAQAVAA8AAAAAAAAAAQA=")
+tile_map_data = PackedByteArray("AAASAA8AAAAAAAAAAQAVAA8AAAAAAAAAAQD4/w4AAAAAAAAAAQD4/w8AAAAAAAAAAQD4/xAAAAAAAAAAAQD7/xAAAAAAAAAAAQD7/w8AAAAAAAAAAQD7/w4AAAAAAAAAAQA=")
 tile_set = SubResource("TileSet_68o5h")
 script = ExtResource("6_68o5h")
 interval = 3
-duration = 1.0
+duration = 2.0
 
 [node name="Int4" type="TileMapLayer" parent="Level Objects/Yoku Blocks"]
-tile_map_data = PackedByteArray("AAATAA8AAAAAAAAAAQAUAA8AAAAAAAAAAQA=")
+tile_map_data = PackedByteArray("AAATAA8AAAAAAAAAAQAUAA8AAAAAAAAAAQD8/w4AAAAAAAAAAQD9/w4AAAAAAAAAAQD+/w4AAAAAAAAAAQD//w4AAAAAAAAAAQD9/wwAAAAAAAAAAQD+/wwAAAAAAAAAAQD//wwAAAAAAAAAAQAAAA4AAAAAAAAAAQABAA4AAAAAAAAAAQA=")
 tile_set = SubResource("TileSet_68o5h")
 script = ExtResource("6_68o5h")
 interval = 4
+duration = 2.0
+
+[node name="Int5" type="TileMapLayer" parent="Level Objects/Yoku Blocks"]
+tile_map_data = PackedByteArray("AAASABcAAAAAAAAAAQATABcAAAAAAAAAAQAUABcAAAAAAAAAAQAVABcAAAAAAAAAAQA=")
+tile_set = SubResource("TileSet_68o5h")
+script = ExtResource("6_68o5h")
+interval = 5
 duration = 1.0
 
 [node name="Enemies" type="Node2D" parent="Level Objects"]

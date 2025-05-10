@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://csa620pihkaf"]
+[gd_scene load_steps=16 format=3 uid="uid://csa620pihkaf"]
 
 [ext_resource type="Script" uid="uid://cop6nhsceqgc6" path="res://scenes/objects/players/weapons/special_weapons/rolling_bomb.gd" id="1_kvwvl"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_g81d7"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="3_7ylgb"]
 [ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="4_qabuy"]
 [ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="5_tb2vm"]
+[ext_resource type="AudioStream" uid="uid://b7177bks7ua6" path="res://sounds/explode2.wav" id="7_abts6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v4vdm"]
 size = Vector2(12, 12)
@@ -97,6 +98,9 @@ bus = &"SFX"
 [node name="ReflectSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_tb2vm")
 bus = &"SFX"
+
+[node name="Explode" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_abts6")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.05
