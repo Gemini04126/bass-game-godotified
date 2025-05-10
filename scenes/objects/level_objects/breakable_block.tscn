@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://ba1usu2a5isjc"]
+[gd_scene load_steps=17 format=3 uid="uid://ba1usu2a5isjc"]
 
 [ext_resource type="Script" uid="uid://buucu5ollbx2l" path="res://scenes/objects/level_objects/breakable_block.gd" id="1_qx6ad"]
 [ext_resource type="Texture2D" uid="uid://qmvendq018cq" path="res://sprites/objects/breakables/Test.png" id="2_kephd"]
 [ext_resource type="Texture2D" uid="uid://dsd6tnm8cvo7f" path="res://sprites/objects/breakables/Blaze.png" id="3_jtltb"]
 [ext_resource type="Texture2D" uid="uid://dgiwcwe0dt077" path="res://sprites/explosion.png" id="4_putgt"]
+[ext_resource type="Texture2D" uid="uid://c7unhe6eto8pq" path="res://sprites/objects/breakables/Video1.png" id="5_th0rs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3v033"]
 atlas = ExtResource("3_jtltb")
@@ -31,6 +32,10 @@ region = Rect2(96, 0, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pm42s"]
 atlas = ExtResource("2_kephd")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehww3"]
+atlas = ExtResource("5_th0rs")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_o6h4x"]
@@ -121,7 +126,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pm42s")
+"texture": SubResource("AtlasTexture_ehww3")
 }],
 "loop": true,
 "name": &"Video",
@@ -143,9 +148,9 @@ script = ExtResource("1_qx6ad")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_o6h4x")
-animation = &"Test"
+animation = &"Video"
 autoplay = "Test"
-frame_progress = 0.240836
+frame_progress = 0.479142
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 visible = false

@@ -1,0 +1,110 @@
+[gd_scene load_steps=10 format=3 uid="uid://dff7hvj5lxpjw"]
+
+[ext_resource type="Texture2D" uid="uid://bun2cvm3cepy3" path="res://sprites/enemies/MovieBreakMan.png" id="2_ae1cm"]
+
+[sub_resource type="GDScript" id="GDScript_oucvi"]
+script/source = "extends Enemy_Template
+
+class_name BrokenManTeaser
+@onready var projectile
+var triggered : bool = false
+@export var action : int
+var timer : int
+
+func _physics_process(_delta):
+	if GameState.player.position.x > position.x - 120 and triggered == false:
+		triggered = true
+		scale.x = -1
+		
+	if triggered == true:
+		move_and_slide()
+		timer += 1
+		if timer == 1:
+			velocity.x = 210
+			$Sprite.play(\"Dash\")
+		if timer == 20 and action == 1:
+			velocity.y = -200
+			$Sprite.play(\"Jump\")
+		if timer > 20 and action == 1:
+			velocity.y += 1
+		if timer == 50 and action == 1:
+			queue_free()
+		if timer == 150:
+			queue_free()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5ju4"]
+atlas = ExtResource("2_ae1cm")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ae1cm"]
+atlas = ExtResource("2_ae1cm")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5jppy"]
+atlas = ExtResource("2_ae1cm")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uam2a"]
+atlas = ExtResource("2_ae1cm")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lumgk"]
+atlas = ExtResource("2_ae1cm")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_62nvj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5ju4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ae1cm")
+}],
+"loop": true,
+"name": &"Dash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5jppy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uam2a")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lumgk")
+}],
+"loop": true,
+"name": &"Jump",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lumgk"]
+size = Vector2(20, 24)
+
+[node name="FakeBrokenman" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = SubResource("GDScript_oucvi")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -24)
+sprite_frames = SubResource("SpriteFrames_62nvj")
+animation = &"Jump"
+autoplay = "Idle"
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_lumgk")
+debug_color = Color(0, 1, 0.0705882, 0.419608)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(1, -15)
+scale = Vector2(10, 1.5)
