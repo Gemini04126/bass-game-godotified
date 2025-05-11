@@ -5,7 +5,7 @@ extends StaticBody2D
 
 var deactivated : bool = false
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	$Top.frame = clamp(requirement - GameState.doorprogress, 0, 7)
 	$Bottom.frame = clamp(requirement - GameState.doorprogress, 0, 7)
 	

@@ -65,7 +65,7 @@ var invincible = false
 var warping : int = 0
 var standing
 var currentState := STATES.TELEPORT
-var currentWeapon := WEAPONS.BUSTER
+var currentWeapon : int = WEAPONS.BUSTER
 var swapState := STATES.NONE
 var numberOfTimesToRunStates := 0
 var isFirstFrameOfState := false
@@ -78,7 +78,7 @@ var canLadder : bool
 var ladderArea
 var underRoof : bool
 var weaponflashtimer : int = 0
-var dashdir : int
+var dashdir : float # technically only ever uses ints but godot complains anyway
 var dashjumped = false
 var slideused = false
 #input related
@@ -378,7 +378,7 @@ func idle(delta):
 	else:
 		velocity.x = 0
 
-func step(delta):
+func step(_delta):
 	StepTime += 1
 	if direction.x == 0 or GameState.inputdisabled == true:
 		currentState = STATES.IDLE

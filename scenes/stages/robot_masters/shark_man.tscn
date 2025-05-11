@@ -859,6 +859,7 @@ shape = SubResource("RectangleShape2D_itthr")
 [node name="Screen Trigger8" parent="Triggers" instance=ExtResource("14_l15w7")]
 position = Vector2(-5184, -616)
 scrollX1 = 3
+scrollX2 = 3
 direction = 1
 screenmode = 3
 

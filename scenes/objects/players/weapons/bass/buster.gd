@@ -18,7 +18,7 @@ func _ready():
 		#$SpawnSound.play()
 	
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 	if GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true && !dead:
 		if charged == true:
@@ -56,7 +56,7 @@ func _physics_process(delta):
 	
 	if GameState.freezeframe == true:
 		freezeframed = true
-		W_Type == GameState.DMGTYPE.BS_BUSTER
+		W_Type = GameState.DMGTYPE.BS_BUSTER
 	
 	if move_and_slide() == true:
 		dead = true

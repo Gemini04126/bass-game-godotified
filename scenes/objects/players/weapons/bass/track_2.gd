@@ -17,7 +17,7 @@ var aim : int
 func _ready():
 	$SpawnSound.play()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	timer += 2
 	if timer <= 850:
 		handle_buster()

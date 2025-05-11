@@ -337,7 +337,7 @@ animations = [{
 [sub_resource type="GDScript" id="GDScript_qkknv"]
 script/source = "extends AnimatedSprite2D
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Freeze Frame pause thing
 	if GameState.freezeframe:
 		play(\"Pause\")

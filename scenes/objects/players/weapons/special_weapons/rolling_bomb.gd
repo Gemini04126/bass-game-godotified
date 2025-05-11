@@ -32,7 +32,7 @@ func _ready():
 	direction = scale.x
 	$SpawnSound.play()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if GameState.player != null:
 		$AnimatedSprite2D.material.set_shader_parameter("palette", GameState.player.get_node("Sprite2D").material.get_shader_parameter("palette"))
 	
@@ -77,8 +77,7 @@ func blast():
 		blasts -= 1
 		$Timer.start(0.05)
 		if blasts > 0:
-			var exp = explosion.instantiate()
-			add_child(exp)
+			add_child(explosion.instantiate())
 		if blasts == -50:
 			queue_free()
 

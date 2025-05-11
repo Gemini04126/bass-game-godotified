@@ -18,7 +18,7 @@ var num
 
 var interval = 0
 
-func _physics_process(delta: float):
+func _physics_process(_delta: float):
 	if $Timer.is_stopped():
 		interval += 1
 		print("bwoop")

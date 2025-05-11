@@ -60,15 +60,6 @@ enum DMGTYPE
 
 #endregion
 
-#region Schemas
-var modSchema = Z.schema({
-	"name": Z.string().non_empty(),
-	"author": Z.string().non_empty(),
-	"version": Z.string().non_empty(),
-	"characterName": Z.string().non_empty(),
-})
-#endregion
-
 #region Variables
 ## List of characters. Mods can add to this to add their own characters.
 var characters : Array[String] = [
@@ -294,52 +285,7 @@ func refill_ammo() -> void:
 	for n in weapon_energy.size():
 		weapon_energy[n] = max_WE # Reset WE
 
-func load_custom() -> void:
-	var file_names: Array[String]
-	var dir = DirAccess.open("res://custom")
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if not dir.current_is_dir() and file_name.ends_with(".pck"):
-				print("Found custom file: " + file_name)
-				file_names.append(file_name)
-			file_name = dir.get_next()
-	else:
-		if OS.is_debug_build():
-			push_warning("No custom folder found")
-
-	for file in file_names:
-		var resource_loaded = ProjectSettings.load_resource_pack(str("res://custom/", file))
-
-		if resource_loaded:
-			print(file + " loaded as resource")
-			var mod_config = FileAccess.open("res://mod.json", FileAccess.READ)
-			var json = JSON.new()
-			var data = json.parse(mod_config.get_as_text())
-
-			if data == OK:
-				var result = modSchema.parse(json.data)
-				if result.ok():
-					# TODO: Add proper schema validation instead assuming JSON data is correct just because it's an array
-					
-					characters.append(str("res://scenes/objects/players/", result.data.characterName, '/', result.data.characterName, ".tscn" ))
-					lifeIcons.append(str("res://sprites/players/", result.data.characterName, "/life.png"))
-					stageSelectPlayerPortraits.append(str("res://sprites/players/", result.data.characterName, "/stageselect.png"))
-					stageSelectColorTranslations.append(str("res://sprites/players/", result.data.characterName, "/stageseltrans.png"))
-					maxCharacterID = characters.size() - 1
-					print("Added character '", result.data.name, "' by '", result.data.author, '\'')
-				else:
-					push_error("mod.json is malformed: ", result.error)
-			else:
-				push_error("JSON parse Error: ", json.get_error_message(), " in ", mod_config, " at line ", json.get_error_line())
-		else:
-			push_error("Failed to load " + file + " as custom")
-
-func _ready() -> void:
-	load_custom()
-
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if freezedelay > 0:
 		freezedelay -= 1
 	if freezedelay == 0:

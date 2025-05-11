@@ -35,7 +35,7 @@ func _ready():
 	if way == 1:
 		$OpenTrigger/OpenBottom.queue_free()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if GameState.screentransiton > 0 and GameState.screentransiton < 40 and opening == true:
 		if $Top.position.x >= -48:
 			$Top.position.x -= 2
@@ -75,5 +75,5 @@ func _on_open_trigger_body_entered(body):
 
 
 
-func _on_close_trigger_body_entered(body):
+func _on_close_trigger_body_entered(_body):
 	closing = true

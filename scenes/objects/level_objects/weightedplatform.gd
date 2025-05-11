@@ -9,7 +9,7 @@ extends StaticBody2D
 var ticks : int = 0
 var roll : int = 0
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if GameState.freezeframe == false:
 		if weighted == -1:
 			if distance > 0:
@@ -47,12 +47,12 @@ func _physics_process(delta):
 			
 
 
-func _on_trigger_body_entered(body):
+func _on_trigger_body_entered(_body):
 	ticks = 0
 	weighted = 1
 
 
-func _on_trigger_body_exited(body):
+func _on_trigger_body_exited(_body):
 	if GameState.freezeframe == false or weighted == 1:
 		ticks = 0
 		weighted = -1
