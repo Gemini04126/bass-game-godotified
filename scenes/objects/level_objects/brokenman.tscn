@@ -23,10 +23,10 @@ func _physics_process(_delta):
 			velocity.x = 210
 			$Sprite.play(\"Dash\")
 		if timer == 20 and action == 1:
-			velocity.y = -200
+			velocity.y = -250
 			$Sprite.play(\"Jump\")
 		if timer > 20 and action == 1:
-			velocity.y += 1
+			velocity.y += 4
 		if timer == 50 and action == 1:
 			queue_free()
 		if timer == 150:

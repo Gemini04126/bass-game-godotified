@@ -1,0 +1,176 @@
+[gd_scene load_steps=11 format=3 uid="uid://b0ehqhwdu53sk"]
+
+[ext_resource type="Texture2D" uid="uid://bpi6lxhwfo1g1" path="res://sprites/enemies/skater_guy.png" id="1_x7oon"]
+[ext_resource type="AudioStream" uid="uid://d2oevy2xek073" path="res://sounds/jump.wav" id="2_0m7vk"]
+[ext_resource type="AudioStream" uid="uid://djvqj0ndwgcyb" path="res://sounds/damage.wav" id="3_oyupe"]
+
+[sub_resource type="GDScript" id="GDScript_gwqdi"]
+script/source = "extends Enemy_Template
+
+class_name Jumbro
+@onready var projectile
+@onready var timer: Timer = $Timer
+@onready var sprite: AnimatedSprite2D = $Sprite
+
+var hops : int = 0
+var HopToPos = 0.00
+#this is used so he doesnt track the player in mid air and instead only picks his jump direction when he jumps -lynnv
+
+
+func _ready():
+	basedmg()
+	Atk_Dmg = 4
+	Cur_HP = 4
+
+func _physics_process(delta):
+	if Cur_HP <= 0:
+		projectile = preload(\"res://scenes/objects/explosion_1.tscn\").instantiate()
+		get_parent().add_child(projectile)
+		projectile.position = position
+		if GameState.droptimer < 3:
+			projectile = preload(\"res://scenes/objects/items/pickup.tscn\").instantiate()
+			get_parent().add_child(projectile)
+			projectile.position = position
+			projectile.dropped = true
+		queue_free()
+	
+	
+	if !is_on_floor():
+		velocity += get_gravity() * delta
+		velocity.x = HopToPos
+		timer.start(0.01) #change this to change how long he waits before hopping again -lynnv
+	else:
+		velocity.x = 0
+		if timer.is_stopped():
+			if GameState.player != null:
+				HopToPos = sign(GameState.player.position.x - position.x) * 40
+				if sign(HopToPos) != 0: #dont turn invisible dumbass -lynnv
+					if sign(HopToPos) < 0: #turn around bb -lynnv
+						sprite.flip_h = 0
+					else:
+						sprite.flip_h = 1
+			if hops > 3:
+				$JumpSound.play()
+				$Sprite.play(\"Jump\")
+				velocity.y =  -400
+				hops = 0
+			else:
+				$HopSound.play()
+				$Sprite.play(\"Hop\")
+				velocity.y =  -250
+				hops += 1
+	move_and_slide()
+	
+	if blown == true:
+		position.x += GameState.galeforce*0.015
+		
+	if Cur_Inv > 0:
+		Cur_Inv -= 1
+		if Cur_Inv % 2 == 0:
+			$Sprite.visible = false
+		else:
+			$Sprite.visible = true
+	else:
+		$Sprite.visible = true
+
+func _on_hurt_body_entered(body):
+	body.DmgQueue = Atk_Dmg
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0m7vk"]
+atlas = ExtResource("1_x7oon")
+region = Rect2(0, 30, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyupe"]
+atlas = ExtResource("1_x7oon")
+region = Rect2(0, 38, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_py8i0"]
+atlas = ExtResource("1_x7oon")
+region = Rect2(64, 30, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8ubr"]
+atlas = ExtResource("1_x7oon")
+region = Rect2(96, 30, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_62nvj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0m7vk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyupe")
+}],
+"loop": true,
+"name": &"Ride",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_py8i0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i8ubr")
+}],
+"loop": true,
+"name": &"Turn",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lqhdo"]
+size = Vector2(30, 8)
+
+[node name="Jumbro" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 17
+script = SubResource("GDScript_gwqdi")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_62nvj")
+animation = &"Ride"
+autoplay = "Ride"
+frame_progress = 0.655147
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_lqhdo")
+debug_color = Color(0, 1, 0.0705882, 0.419608)
+
+[node name="hitable" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+
+[node name="Collision" type="CollisionShape2D" parent="hitable"]
+shape = SubResource("RectangleShape2D_lqhdo")
+debug_color = Color(0, 0, 1, 0.419608)
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="hurt"]
+shape = SubResource("RectangleShape2D_lqhdo")
+debug_color = Color(1, 0, 0.0705882, 0.419608)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="HopSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_0m7vk")
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_oyupe")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -9.53674e-07)
+scale = Vector2(1.6, 0.4)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(2.86102e-06, 0)
+scale = Vector2(3.9, 2.1)
+enable_node_path = NodePath("../VisibleOnScreenNotifier2D")
+
+[connection signal="body_entered" from="hitable" to="." method="_on_hitable_body_entered"]
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
