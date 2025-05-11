@@ -32,13 +32,13 @@ func _physics_process(_delta):
 	
 	if Cur_HP <= 0:
 		projectile = preload(\"res://scenes/objects/explosion_1.tscn\").instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x
 		projectile.position.y = position.y
 		print(\"yeouch!\")
 		if GameState.droptimer < 3:
 			projectile = preload(\"res://scenes/objects/items/pickup.tscn\").instantiate()
-			get_parent().add_child(projectile)
+			add_sibling(projectile)
 			projectile.position = position
 			projectile.dropped = true
 		queue_free()
@@ -76,7 +76,7 @@ func _physics_process(_delta):
 			elif $Sprite.animation == \"Attack\":
 				velocity.y = -110
 				projectile = preload(\"res://scenes/objects/enemies/tosser_attack.tscn\").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.type = subtype
 				projectile.position.x = position.x
 				projectile.position.y = position.y - 6

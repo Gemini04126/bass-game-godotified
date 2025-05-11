@@ -28,7 +28,9 @@ func _physics_process(_delta: float) -> void:
 			2: # Shoot, then reset to 1
 				$Sprite.play(\"drop\")
 				await $Sprite.animation_finished
-			# drop projectile, add later
+				var fireball = preload(\"res://scenes/objects/enemies/fire_telly_drop.tscn\").instantiate()
+				add_sibling(fireball)
+				fireball.position = self.position + Vector2(0, 9)
 				currentState = 1
 				$Timer.start()
 	if blown == true:
@@ -44,13 +46,13 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 func health_check():
 	if Cur_HP <= 0:
 		var projectile = preload(\"res://scenes/objects/explosion_1.tscn\").instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x
 		projectile.position.y = position.y
 		print(\"yeouch!\")
 		if GameState.droptimer < 3:
 			projectile = preload(\"res://scenes/objects/items/pickup.tscn\").instantiate()
-			get_parent().add_child(projectile)
+			add_sibling(projectile)
 			projectile.position.x = position.x
 			projectile.position.y = position.y
 			projectile.dropped = true
@@ -116,7 +118,7 @@ animations = [{
 size = Vector2(15, 21.875)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n4pww"]
-size = Vector2(15.5, 22.25)
+size = Vector2(15, 22)
 
 [node name="Fire Telly" type="CharacterBody2D"]
 collision_layer = 0
@@ -125,7 +127,10 @@ script = SubResource("GDScript_rwxhq")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vxmxb")
+animation = &"drop"
 autoplay = "default"
+frame = 1
+frame_progress = 1.0
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ynicy")
@@ -143,7 +148,6 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurt"]
-position = Vector2(0.25, -0.125)
 shape = SubResource("RectangleShape2D_n4pww")
 debug_color = Color(1, 0, 0, 0.623529)
 

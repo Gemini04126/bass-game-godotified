@@ -22,12 +22,12 @@ func _ready():
 func _physics_process(_delta):
 	if Cur_HP <= 0:
 		projectile = preload(\"res://scenes/objects/explosion_1.tscn\").instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x
 		projectile.position.y = position.y
 		if GameState.droptimer < 4:
 			projectile = preload(\"res://scenes/objects/items/pickup.tscn\").instantiate()
-			get_parent().add_child(projectile)
+			add_sibling(projectile)
 			projectile.position.x = position.x
 			projectile.position.y = position.y
 			projectile.dropped = true

@@ -154,7 +154,7 @@ func _physics_process(_delta):
 				$Audio/Death.play()
 				for i in 12:
 					projectile = preload(\"res://scenes/objects/explosion_player.tscn\").instantiate()
-					get_parent().add_child(projectile)
+					add_sibling(projectile)
 					projectile.position = position
 					projectile.velocity = EXPLOSION_SPEEDS[i]
 				GameState.bosses.erase(self)
@@ -395,7 +395,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8am6b"]
 size = Vector2(24, 30)
 
-[node name="TestBossGuy5" type="CharacterBody2D"]
+[node name="TestBossGuy6" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_gtk0d")
 collision_layer = 0
 script = SubResource("GDScript_k5bra")

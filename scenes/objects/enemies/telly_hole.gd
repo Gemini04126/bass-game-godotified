@@ -6,7 +6,7 @@ static var num_tellies: int
 func _physics_process(_delta):
 	if $Timer.is_stopped() && num_tellies < 6:
 		var projectile = preload("res://scenes/objects/enemies/telly.tscn").instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x
 		projectile.position.y = position.y
 		projectile.telly_hole = self

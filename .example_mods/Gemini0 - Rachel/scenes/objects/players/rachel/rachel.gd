@@ -131,7 +131,7 @@ func weapon_pharaoh():
 			GameState.weapon_energy[WEAPONS.PHARAOH] -= 1.75
 			GameState.onscreen_sp_bullets += 2
 			projectile = weapon_scenes[0].instantiate()
-			get_parent().add_child(projectile)
+			add_sibling(projectile)
 
 			projectile.position.x = position.x + 5
 			projectile.position.y = position.y
@@ -139,7 +139,7 @@ func weapon_pharaoh():
 			projectile.scale.x = 1
 
 			projectile = weapon_scenes[0].instantiate()
-			get_parent().add_child(projectile)
+			add_sibling(projectile)
 
 			projectile.position.x = position.x - 5
 			projectile.position.y = position.y
@@ -176,7 +176,7 @@ func weapon_balloon():
 		attack_timer.start(0.3)
 		GameState.onscreen_sp_bullets += 1
 		projectile = projectile_scenes[1].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 
 		projectile.position.y = position.y
 		projectile.position.x = position.x + sprite.scale.x * 30
