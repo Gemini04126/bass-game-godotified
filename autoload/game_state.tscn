@@ -1,17 +1,12 @@
-[gd_scene load_steps=19 format=3 uid="uid://c47mx5wylf3tx"]
+[gd_scene load_steps=11 format=3 uid="uid://c47mx5wylf3tx"]
 
 [ext_resource type="Shader" uid="uid://bh213f2y03xtb" path="res://shaders/adapt-to-palette.gdshader" id="1_pa1af"]
 [ext_resource type="Texture2D" uid="uid://by5c77ukdjdng" path="res://shaders/palettes/megadrive.png" id="3_dsie5"]
 [ext_resource type="Script" uid="uid://drnh7p755oxgc" path="res://autoload/game_state.gd" id="3_yyrqa"]
-[ext_resource type="Script" uid="uid://cssuixyxxvnir" path="res://addons/resonate/sound_manager/sound_bank.gd" id="4_xeyqw"]
-[ext_resource type="Script" uid="uid://cqvdhcbrf3nwt" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="5_smetb"]
 [ext_resource type="AudioStream" uid="uid://ctstbffrq85ky" path="res://sounds/bar_fill.wav" id="6_rwifi"]
 [ext_resource type="Script" uid="uid://dm1veicb4u1yc" path="res://autoload/input.gd" id="10_3txlf"]
 [ext_resource type="Texture2D" uid="uid://bdhcvmcjxgcck" path="res://sprites/hud/InputDisplay.png" id="11_jx0bj"]
 [ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://music/Boss Battle.mp3" id="12_jx0bj"]
-[ext_resource type="AudioStream" uid="uid://rm3ckgibk0u5" path="res://sounds/charge1.wav" id="13_j2a7b"]
-[ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="14_h8glo"]
-[ext_resource type="AudioStream" uid="uid://dnnvv4semeufh" path="res://sounds/charge2.ogg" id="14_mhalj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8gmku"]
 shader = ExtResource("1_pa1af")
@@ -22,30 +17,6 @@ size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pvs5e"]
 size = Vector2(56, 56)
-
-[sub_resource type="Resource" id="Resource_u7f0v"]
-script = ExtResource("5_smetb")
-name = "charge1"
-bus = ""
-volume = 0.0
-pitch = 1.0
-streams = Array[AudioStream]([ExtResource("13_j2a7b")])
-
-[sub_resource type="Resource" id="Resource_x8sw4"]
-script = ExtResource("5_smetb")
-name = "charge2"
-bus = ""
-volume = 0.0
-pitch = 1.0
-streams = Array[AudioStream]([ExtResource("14_mhalj")])
-
-[sub_resource type="Resource" id="Resource_4yx0t"]
-script = ExtResource("5_smetb")
-name = "death"
-bus = ""
-volume = -16.0
-pitch = 1.0
-streams = Array[AudioStream]([ExtResource("14_h8glo")])
 
 [node name="GameState" type="CanvasLayer"]
 process_mode = 3
@@ -145,12 +116,6 @@ action = "jump"
 visibility_mode = 1
 
 [node name="Audio" type="Node" parent="."]
-
-[node name="Player" type="Node" parent="Audio"]
-script = ExtResource("4_xeyqw")
-label = "player"
-bus = "Sound"
-events = Array[ExtResource("5_smetb")]([SubResource("Resource_u7f0v"), SubResource("Resource_x8sw4"), SubResource("Resource_4yx0t")])
 
 [node name="BarFill" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("6_rwifi")

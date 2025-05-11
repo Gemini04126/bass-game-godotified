@@ -29,7 +29,7 @@ var oldposy
 var oldscalex
 var oldscaley
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	$Trigger/Trigger.disabled = disabled
 	
 	if teleporting == true and $Timer.is_stopped():
@@ -44,7 +44,7 @@ func _physics_process(delta):
 		teleporting = false
 		GameState.player.warping = 2 
 
-func _on_trigger_body_entered(body: Node2D) -> void:
+func _on_trigger_body_entered(_body: Node2D) -> void:
 	disabled = true
 	teleporting = true
 	GameState.player.warping = 1 

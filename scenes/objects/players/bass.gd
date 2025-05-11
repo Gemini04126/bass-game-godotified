@@ -607,17 +607,6 @@ func module_reaper() -> void:
 			airdashtime = -5
 			currentState = STATES.JUMP
 
-func dash_jump(direction, delta):
-	if direction.x:
-		sprite.scale.x = sign(direction.x)
-		if direction.x == dashdir:
-			velocity.x = sprite.scale.x * DASH_SPEED
-		else:
-			velocity.x = sprite.scale.x * MAXSPEED * 0.75
-	else:
-		velocity.x = 0
-
-
 func play_start_sound() -> void:
 	pass#$Audio/Start.play()
 

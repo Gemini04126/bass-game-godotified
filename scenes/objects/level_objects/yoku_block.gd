@@ -33,7 +33,7 @@ func _ready():
 		static_audio_player = $YokuSound
 	$Sprite2D.texture = load(styles[_style])
 	$AnimationPlayer.play("RESET")
-func _physics_process(delta: float):
+func _physics_process(_delta: float):
 		if $RayCast2D.is_colliding():
 			$Shadow.visible = false
 		else:

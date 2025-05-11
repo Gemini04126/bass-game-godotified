@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 const W_Type = GameState.DMGTYPE.MD_BLAZE
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if move_and_slide() == true:
 		destroy()
 

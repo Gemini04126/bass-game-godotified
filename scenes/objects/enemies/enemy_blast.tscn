@@ -15,7 +15,7 @@ var firsttick = true
 func _ready():
 	$SpawnSound.play()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if timer > 0:
 		timer -= 1
 	else:

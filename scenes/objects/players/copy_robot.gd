@@ -507,11 +507,11 @@ func play_start_sound() -> void:
 	pass#$Audio/Start.play() #M: Why the fuck did you do this one man
 
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	pass # Replace with function body.
 
 
-func _on_hurtbox_area_area_entered(area: Area2D) -> void:
+func _on_hurtbox_area_area_entered(_area: Area2D) -> void:
 	pass # Replace with function body.
 
 

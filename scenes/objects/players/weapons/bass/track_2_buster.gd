@@ -7,7 +7,7 @@ var frames : int
 
 var charged : bool
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if frames == 2:
 		frames = 1
 	else:
