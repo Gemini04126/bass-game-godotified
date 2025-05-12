@@ -34,7 +34,7 @@ func _physics_process(_delta):
 			$AnimatedSprite2D.show()
 	if timer > 900:
 		projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		
 		projectile.position = position
 		die()
@@ -88,7 +88,7 @@ func handle_buster():
 	if buster_timer > 10:
 		$Buster.play()
 		projectile = preload("res://scenes/objects/players/weapons/bass/track_2_buster.tscn").instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		
 		projectile.position.x = position.x
 		projectile.position.y = position.y

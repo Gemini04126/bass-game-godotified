@@ -18,7 +18,7 @@ func _physics_process(_delta):
 			
 		if $Timer.is_stopped() && wait >= interval:
 			projectile = preload("res://scenes/objects/level_objects/lava_dump.tscn").instantiate()
-			get_parent().add_child(projectile)
+			add_sibling(projectile)
 			projectile.position.x = position.x
 			projectile.position.y = position.y
 			projectile.velocity.y = 40

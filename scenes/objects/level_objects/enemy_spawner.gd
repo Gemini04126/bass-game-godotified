@@ -30,7 +30,7 @@ func _on_visible_on_screen_notifier_2d_screen_entered():
 			queue_free()
 		if baby == null:
 			baby = enemytype[type].instantiate()
-			get_parent().add_child(baby)
+			add_sibling(baby)
 			baby.subtype = subtype
 			baby.position = position
 			if direction == 1: 
@@ -48,7 +48,7 @@ func _process(_delta):
 		
 		if baby == null:
 			baby = enemytype[type].instantiate()
-			get_parent().add_child(baby)
+			add_sibling(baby)
 			baby.position = position
 			baby.subtype = subtype
 			if direction == 1: 

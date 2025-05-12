@@ -133,7 +133,7 @@ func _physics_process(_delta):
 	if ($MainSprite.animation != "Wet"):
 		if (durability > 2):
 			trail = trailscn.instantiate()
-			get_parent().add_child(trail)
+			add_sibling(trail)
 			trail.position = position
 			trail.set_frame_and_progress(6-durability,0)
 		

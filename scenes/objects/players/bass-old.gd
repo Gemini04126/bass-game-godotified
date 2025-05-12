@@ -515,7 +515,7 @@ func blastjump():
 	blast_jumped = true
 	dash_timer = 0
 	projectile = projectile_scenes[1].instantiate()
-	get_parent().add_child(projectile)
+	add_sibling(projectile)
 	projectile.owner = self
 	projectile.position.x = position.x
 	projectile.position.y = position.y
@@ -526,7 +526,7 @@ func track2():
 	current_jump_type = JumpType.GROUND
 	is_dashing = false
 	projectile = projectile_scenes[2].instantiate()
-	get_parent().add_child(projectile)
+	add_sibling(projectile)
 	if $AnimatedSprite2D.flip_h:
 		projectile.scale.x = -1
 	projectile.position.x = position.x
@@ -560,7 +560,7 @@ func dash():
 	if is_dashing == false and is_feet_on_ground():
 		$Audio/DashSound.play()
 		FX = preload("res://scenes/objects/players/dash_trail.tscn").instantiate()
-		get_parent().add_child(FX)
+		add_sibling(FX)
 		if $AnimatedSprite2D.flip_h:
 			FX.scale.x = -1
 			FX.position.x = position.x + 15
@@ -791,7 +791,7 @@ func weapon_buster():
 			shot_type = 0
 			shoot_delay = 13
 			projectile = projectile_scenes[0].instantiate()
-			get_parent().add_child(projectile)
+			add_sibling(projectile)
 			projectile.position.x = position.x
 			projectile.position.y = position.y
 			if $AnimatedSprite2D.flip_h:
@@ -836,19 +836,19 @@ func weapon_blaze():
 			shot_type = 3
 			shoot_delay = 26
 			shield = weapon_scenes[2].instantiate()
-			get_parent().add_child(shield)
+			add_sibling(shield)
 			shield.theta = 0*space
 			
 			shield2 = weapon_scenes[2].instantiate()
-			get_parent().add_child(shield2)
+			add_sibling(shield2)
 			shield2.theta = 1*space
 			
 			shield3 = weapon_scenes[2].instantiate()
-			get_parent().add_child(shield3)
+			add_sibling(shield3)
 			shield3.theta = 2*space
 			
 			shield4 = weapon_scenes[2].instantiate()
-			get_parent().add_child(shield4)
+			add_sibling(shield4)
 			shield4.theta = 3*space
 		else:
 			shot_type = 2
@@ -890,7 +890,7 @@ func weapon_smog():
 		shot_type = 1
 		shoot_delay = 13
 		projectile = weapon_scenes[1].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		if $AnimatedSprite2D.flip_h:
 			projectile.position.x = position.x - 14
 		else:
@@ -921,7 +921,7 @@ func weapon_shark():
 		shot_type = 4
 		shoot_delay = 26
 		projectile = weapon_scenes[3].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		if $AnimatedSprite2D.flip_h:
 			projectile.position.x = position.x - 14
 		else:
@@ -952,7 +952,7 @@ func weapon_origami():
 		shot_type = 2
 		shoot_delay = 13
 		projectile = weapon_scenes[0].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x
 		projectile.position.y = position.y
 		if $AnimatedSprite2D.flip_h:
@@ -964,7 +964,7 @@ func weapon_origami():
 			projectile.velocity.x = 350
 				
 		projectile = weapon_scenes[0].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x
 		projectile.position.y = position.y
 		if $AnimatedSprite2D.flip_h:
@@ -974,7 +974,7 @@ func weapon_origami():
 		projectile.velocity.y = -155
 				
 		projectile = weapon_scenes[0].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x
 		projectile.position.y = position.y
 		if $AnimatedSprite2D.flip_h:
@@ -1006,7 +1006,7 @@ func weapon_gale():
 		shot_type = 3
 		shoot_delay = 26
 		projectile = weapon_scenes[4].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x
 		projectile.position.y = position.y
 		
@@ -1025,7 +1025,7 @@ func weapon_proto():
 			shot_type = 1
 			shoot_delay = 13
 			projectile = projectile_scenes[3].instantiate()
-			get_parent().add_child(projectile)
+			add_sibling(projectile)
 			projectile.position.x = position.x
 			projectile.position.y = position.y
 			$AnimatedSprite2D.material.set_shader_parameter("palette",weapon_palette[GameState.current_weapon])
@@ -1045,7 +1045,7 @@ func weapon_proto():
 				shot_type = 1
 				shoot_delay = 13
 				projectile = projectile_scenes[4].instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x
 				projectile.position.y = position.y
 				$AnimatedSprite2D.material.set_shader_parameter("palette",weapon_palette[GameState.current_weapon])
@@ -1060,7 +1060,7 @@ func weapon_proto():
 				shot_type = 1
 				shoot_delay = 13
 				projectile = projectile_scenes[5].instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x
 				projectile.position.y = position.y
 				$AnimatedSprite2D.material.set_shader_parameter("palette",weapon_palette[GameState.current_weapon])

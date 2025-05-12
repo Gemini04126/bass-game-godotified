@@ -26,7 +26,7 @@ func _process(_delta):
 		if GameState.transdir == 0 && readied == true:
 			GameState.bossfightstatus = 1
 			baby = enemytype[type].instantiate()
-			get_parent().add_child(baby)
+			add_sibling(baby)
 			baby.position = position
 			GameState.bosses.append(baby)
 			print(GameState.bosses)
@@ -34,7 +34,7 @@ func _process(_delta):
 	if Engine.is_editor_hint():
 		if baby == null:
 			baby = enemytype[type].instantiate()
-			get_parent().add_child(baby)
+			add_sibling(baby)
 			baby.position = position
 			
 		if baby != null:

@@ -8,14 +8,14 @@ var fx
 
 func _ready():
 	fx = explosion.instantiate()
-	get_parent().add_child(fx)
+	add_sibling(fx)
 	fx.position = position
 	fx.muted = true
 	fx.position.x += randfn(0,18)
 	fx.position.y += randfn(0,8)
 	
 	fx = explosion.instantiate()
-	get_parent().add_child(fx)
+	add_sibling(fx)
 	fx.position = position
 	fx.muted = true
 	fx.position.x += randfn(0,8)

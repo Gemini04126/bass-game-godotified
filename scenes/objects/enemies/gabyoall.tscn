@@ -107,7 +107,7 @@ func _physics_process(_delta):
 		
 	if Cur_HP <= 0:
 		projectile = preload(\"res://scenes/objects/explosion_1.tscn\").instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x
 		projectile.position.y = position.y
 		queue_free()

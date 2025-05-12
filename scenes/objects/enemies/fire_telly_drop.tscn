@@ -1,0 +1,142 @@
+[gd_scene load_steps=13 format=3 uid="uid://b8l4ummfdhr57"]
+
+[ext_resource type="Texture2D" uid="uid://bky886bw7f0vy" path="res://sprites/enemies/fire_telly.png" id="1_qgihi"]
+
+[sub_resource type="GDScript" id="GDScript_yc2p0"]
+script/source = "extends CharacterBody2D
+
+var Atk_Dmg = 4
+
+func _physics_process(delta: float) -> void:
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	move_and_slide() # honestly shouldn't need any particular movement code?
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	$AnimatedSprite2D.play(\"explode\")
+	await $AnimatedSprite2D.animation_finished
+	$AnimatedSprite2D.play(\"burn\")
+	$Timer.start()
+
+
+func _on_hurt_body_entered(body: Node2D) -> void:
+	body.DmgQueue = Atk_Dmg
+
+
+func _on_timer_timeout() -> void:
+	queue_free()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2kj4i"]
+atlas = ExtResource("1_qgihi")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jraid"]
+atlas = ExtResource("1_qgihi")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ykcei"]
+atlas = ExtResource("1_qgihi")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yglpj"]
+atlas = ExtResource("1_qgihi")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h51xl"]
+atlas = ExtResource("1_qgihi")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcte7"]
+atlas = ExtResource("1_qgihi")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lb50m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2kj4i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jraid")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ykcei")
+}],
+"loop": true,
+"name": &"burn",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yglpj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h51xl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcte7")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2kj4i"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yc2p0"]
+size = Vector2(16, 16.125)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qgihi"]
+size = Vector2(16, 16.5039)
+
+[node name="Fire Telly Drop" type="CharacterBody2D"]
+collision_layer = 32
+script = SubResource("GDScript_yc2p0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_lb50m")
+animation = &"explode"
+autoplay = "default"
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2kj4i")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_yc2p0")
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurt"]
+shape = SubResource("RectangleShape2D_qgihi")
+debug_color = Color(1, 0, 0, 0.623529)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -4)
+scale = Vector2(0.8, 1.2)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

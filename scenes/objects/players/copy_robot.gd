@@ -311,7 +311,7 @@ func weapon_cbuster():
 					projectile = projectile_scenes[1].instantiate()
 					$Audio/Buster2.play()
 				
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x + (sprite.scale.x * 18)
 				projectile.position.y = position.y + 2
 				projectile.velocity.x = sprite.scale.x * 350
@@ -340,7 +340,7 @@ func weapon_cbuster():
 					else:
 						projectile = projectile_scenes[2].instantiate()
 						$Audio/Buster3.play()
-					get_parent().add_child(projectile)
+					add_sibling(projectile)
 					
 					if GameState.ultimate == true and direction.y != 0:
 						projectile.velocity.x = sprite.scale.x * 280
@@ -371,7 +371,7 @@ func weapon_cbuster():
 					else:
 						projectile = projectile_scenes[9].instantiate()
 						$Audio/Buster3.play()
-					get_parent().add_child(projectile)
+					add_sibling(projectile)
 					projectile.position.x = position.x + (sprite.scale.x * 18)
 					projectile.position.y = position.y + 2
 					
@@ -383,7 +383,7 @@ func weapon_cbuster():
 					projectile.scale.x = sprite.scale.x
 					
 					projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
-					get_parent().add_child(projectile)
+					add_sibling(projectile)
 					projectile.position.x = position.x + (sprite.scale.x * 18)
 					projectile.position.y = position.y + 2
 					recoil = -sprite.scale.x * 4
@@ -426,7 +426,7 @@ func weapon_shark():
 				shot_type = 4
 				GameState.onscreen_sp_bullets += 1
 				projectile = weapon_scenes[4].instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				shoot_timer.start(0.65)
 				velocity.x = 0
 				currentState = STATES.IDLE_FIN_SHREDDER
@@ -461,7 +461,7 @@ func weapon_shark():
 				attack_timer.start(0.51)
 				GameState.onscreen_sp_bullets += 1
 				projectile = projectile_scenes[7].instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 
 				projectile.position.x = position.x + sprite.scale.x * 35
 				projectile.position.y = position.y + 2
@@ -496,7 +496,7 @@ func weapon_quint():
 	if Input.is_action_just_pressed("shoot") and GameState.onscreen_sp_bullets < 1 and (GameState.weapon_energy[GameState.WEAPONS.QUINT] > 1 or GameState.infinite_ammo == true):
 		GameState.onscreen_sp_bullets += 1
 		projectile = projectile_scenes[8].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x + (sprite.scale.x * 18)
 		projectile.position.y = position.y - 40
 		projectile.scale.x = sprite.scale.x

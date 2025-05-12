@@ -45,25 +45,25 @@ func _physics_process(delta):
 		if $LogoM != null:
 			if $Projectile2.position.x > $LogoM.position.x:
 				projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position = $LogoM.position
 				$LogoM.queue_free()
 		if $LogoE != null:
 			if $Projectile2.position.x > $LogoE.position.x:
 				projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position = $LogoE.position
 				$LogoE.queue_free()
 		if $LogoG != null:
 			if $Projectile2.position.x > $LogoG.position.x:
 				projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position = $LogoG.position
 				$LogoG.queue_free()
 		if $LogoA != null:
 			if $Projectile2.position.x > $LogoA.position.x:
 				projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position = $LogoA.position
 				$LogoA.queue_free()
 				
@@ -93,7 +93,7 @@ func _physics_process(delta):
 		if Action > 3 && Action < 10:
 			$BusterSound.play()
 			projectile = preload("res://scenes/objects/players/weapons/bass/buster.tscn").instantiate()
-			get_parent().add_child(projectile)
+			add_sibling(projectile)
 			projectile.position = $Bass.position
 			projectile.velocity.x = -250
 			$Timer.start(0.15)

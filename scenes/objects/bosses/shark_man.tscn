@@ -235,7 +235,7 @@ func _physics_process(_delta):
 				
 			if statetimer == 10:
 				projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x + ($Sprite.scale.x * 9)
 				projectile.position.y = position.y - 20
 				projectile.scale.x = -$Sprite.scale.x
@@ -270,7 +270,7 @@ func _physics_process(_delta):
 				$Overlay.play(\"RagingStorm\")
 					
 				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x + 32
 				if Cur_HP <= 28:
 					projectile.position.y = position.y + 8
@@ -279,7 +279,7 @@ func _physics_process(_delta):
 				projectile.scale.x = -1
 				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
 				
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x - 32
 				if Cur_HP <= 28:
 					projectile.position.y = position.y + 8
@@ -295,26 +295,26 @@ func _physics_process(_delta):
 					
 			if statetimer == 2030 and Cur_HP <= 28:
 				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x + 50
 				projectile.position.y = position.y + 16
 				projectile.scale.x = -1
 				
 				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x - 50
 				projectile.position.y = position.y + 16
 				projectile.scale.x = 1
 				
 			if statetimer == 2050 and Cur_HP <= 28:
 				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x + 68
 				projectile.position.y = position.y + 24
 				projectile.scale.x = -1
 				
 				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x - 68
 				projectile.position.y = position.y + 24
 				projectile.scale.x = 1
@@ -332,7 +332,7 @@ func _physics_process(_delta):
 			statetimer += 1
 			if statetimer == 10:
 				projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x + ($Sprite.scale.x * -28)
 				projectile.position.y = position.y - 20
 				projectile.scale.x = -$Sprite.scale.x
@@ -344,7 +344,7 @@ func _physics_process(_delta):
 			if (statetimer == 50 and Cur_HP > 28) or (statetimer == 40 and Cur_HP <= 28):
 				projectile.queue_free()
 				projectile = preload(\"res://scenes/objects/bosses/shark_shredder2.tscn\").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position.x = position.x + ($Sprite.scale.x * 32)
 				projectile.position.y = position.y + 6
 				projectile.scale.x = -$Sprite.scale.x
@@ -362,7 +362,7 @@ func _physics_process(_delta):
 			if deadtick == null:
 				deadtick = true
 				projectile = preload(\"res://scenes/objects/bosses/boss_death.tscn\").instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.position = position
 			
 			if $Sprite.frame == 6:
@@ -370,7 +370,7 @@ func _physics_process(_delta):
 					$Audio/Death.play()
 					for i in 12:
 						projectile = preload(\"res://scenes/objects/explosion_player.tscn\").instantiate()
-						get_parent().add_child(projectile)
+						add_sibling(projectile)
 						projectile.position = position
 						projectile.velocity = EXPLOSION_SPEEDS[i]
 						GameState.bosses.erase(self)

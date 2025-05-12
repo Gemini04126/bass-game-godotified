@@ -7,7 +7,7 @@ class_name Item
 ## Defines what type of item this node is.
 @export var item_type : int
 ## Defines what size of item this node is.
-@export var item_size : int 
+@export var item_size : int
 
 ## How much this item gives.
 var amount : int

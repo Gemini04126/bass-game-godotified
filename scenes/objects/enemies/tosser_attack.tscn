@@ -33,7 +33,7 @@ func destroy():
 	velocity.y = 0
 	if type == 0:
 		projectile = preload(\"res://scenes/objects/enemies/enemy_bullet.tscn\").instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.skin = 1
 		projectile.sound = 2
 		projectile.position = position
@@ -41,7 +41,7 @@ func destroy():
 		projectile.velocity.y = 210
 		
 		projectile = preload(\"res://scenes/objects/enemies/enemy_bullet.tscn\").instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.skin = 1
 		projectile.sound = 2
 		projectile.position = position
@@ -50,7 +50,7 @@ func destroy():
 	if type == 1:
 		$BoomSound.play()
 		projectile = preload(\"res://scenes/objects/enemies/enemy_blast.tscn\").instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position = position
 	queue_free()
 

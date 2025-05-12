@@ -271,7 +271,7 @@ func dashProcess():
 		currentState = STATES.DASH
 		slide_timer.start(0.4)
 		FX = preload("res://scenes/objects/players/dash_trail.tscn").instantiate()
-		get_parent().add_child(FX)
+		add_sibling(FX)
 		if sprite.scale.x == -1:
 			FX.scale.x = -1
 			FX.position.x = position.x + 15
@@ -413,7 +413,7 @@ func weapon_buster():
 				GameState.onscreen_bullets += 1
 				attack_timer.start(0.4)
 				projectile = projectile_scenes[0].instantiate()
-				get_parent().add_child(projectile)
+				add_sibling(projectile)
 				projectile.scale.x = sprite.scale.x
 				if GameState.machinecharge > 0:
 					projectile.charged = true
@@ -462,14 +462,14 @@ func weapon_origami():
 		GameState.onscreen_sp_bullets += 4
 		
 		projectile = weapon_scenes[0].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x + (sprite.scale.x * 9)
 		projectile.position.y = position.y + 2
 		projectile.scale.x = -sprite.scale.x
 		projectile.velocity.x = sprite.scale.x * ORIGAMI_SPEEDB
 		
 		projectile = weapon_scenes[0].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x + (sprite.scale.x * 9)
 		projectile.position.y = position.y + 2
 		projectile.scale.x = -sprite.scale.x
@@ -477,7 +477,7 @@ func weapon_origami():
 		projectile.velocity.y =  ORIGAMI_SPEEDB * 0.4
 		
 		projectile = weapon_scenes[0].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x + (sprite.scale.x * 9)
 		projectile.position.y = position.y + 2
 		projectile.scale.x = -sprite.scale.x
@@ -485,7 +485,7 @@ func weapon_origami():
 		projectile.velocity.y =  -ORIGAMI_SPEEDB * 0.4
 		
 		projectile = weapon_scenes[0].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x + (sprite.scale.x * 9)
 		projectile.position.y = position.y + 2
 		projectile.scale.x = -sprite.scale.x
@@ -493,7 +493,7 @@ func weapon_origami():
 		projectile.velocity.y = -ORIGAMI_SPEEDB * 0.2
 		
 		projectile = weapon_scenes[0].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x + (sprite.scale.x * 9)
 		projectile.position.y = position.y + 2
 		projectile.scale.x = -sprite.scale.x
@@ -518,7 +518,7 @@ func module_blaze() -> void:
 		ice_jump = false
 		currentState = STATES.JUMP
 		projectile = projectile_scenes[1].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.position.x = position.x
 		projectile.position.y = position.y
 		projectile.velocity.y = 280
@@ -527,7 +527,7 @@ func module_video():
 	if Input.is_action_just_pressed("dash") && Input.is_action_pressed("move_up") && (GameState.onscreen_track2s == 0) && (GameState.modules_enabled[WEAPONS.VIDEO] == true):
 		$Audio/BlastJump.play()
 		projectile = projectile_scenes[2].instantiate()
-		get_parent().add_child(projectile)
+		add_sibling(projectile)
 		projectile.sprite.scale.x = sprite.scale.x
 		projectile.position.x = position.x
 		projectile.position.y = position.y+2
@@ -551,7 +551,7 @@ func module_origami() -> void:
 			
 			
 			projectile = projectile_scenes[3].instantiate()
-			get_parent().add_child(projectile)
+			add_sibling(projectile)
 			projectile.position.y = position.y
 			projectile.position.x = position.x + sprite.scale.x * 12
 			projectile.velocity.x = sprite.scale.x * 70
@@ -597,7 +597,7 @@ func module_reaper() -> void:
 			velocity.x = sprite.scale.x * DASH_SPEED
 			if airdashtime % 5 == 0:
 				FX = preload("res://scenes/objects/players/weapons/bass/reaper_dash.tscn").instantiate()
-				get_parent().add_child(FX)
+				add_sibling(FX)
 				FX.position = position
 				if sprite.scale.x == -1:
 					FX.flip_h = true
