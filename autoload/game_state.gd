@@ -97,6 +97,8 @@ var player # absolute path to player node
 var player_lives : int = 3
 var bossfightstatus : int = 0
 
+var pausescreen
+
 var bosses : Array[Node2D]
 
 # TODO: Could be improved using object pooling
@@ -262,6 +264,7 @@ var modules_enabled = [
 	false, # Machine Buster
 	false, # Spirit Dash
 	false, # Proto Shield
+	false, # CMON TREBLE!
 ]
 
 var upgrades_enabled = [
@@ -286,6 +289,13 @@ func refill_ammo() -> void:
 		weapon_energy[n] = max_WE # Reset WE
 
 func _physics_process(_delta: float) -> void:
+	if pausescreen == null and Input.is_action_just_pressed("start") and player != null:
+		pausescreen = preload("res://scenes/menus/pause.tscn").instantiate()
+		add_child(pausescreen)
+		get_tree().paused = true
+		freezeframe = false
+
+	
 	if freezedelay > 0:
 		freezedelay -= 1
 	if freezedelay == 0:

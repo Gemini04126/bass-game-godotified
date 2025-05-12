@@ -409,11 +409,13 @@ limit_left = 0
 limit_bottom = 80000
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("4_waymo")
 volume_db = -10.0
 bus = &"Music"
 
 [node name="BossMusic" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("5_bi60d")
 volume_db = -5.0
 bus = &"Music"

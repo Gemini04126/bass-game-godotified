@@ -443,6 +443,7 @@ autoscroll = Vector2(-6, 0)
 repeat_times = 2
 
 [node name="TileMapLayer" type="TileMapLayer" parent="Background/Water/Layer6"]
+process_mode = 3
 tile_map_data = PackedByteArray("AAAAAAkAAAANAAUAAAABAAkAAAAOAAUAAAACAAkAAAAPAAUAAAADAAkAAAANAAUAAAAEAAkAAAAOAAUAAAAFAAkAAAAPAAUAAAAGAAkAAAANAAUAAAAHAAkAAAAOAAUAAAAIAAkAAAAPAAUAAAAJAAkAAAANAAUAAAAKAAkAAAAOAAUAAAALAAkAAAAPAAUAAAAMAAkAAAANAAUAAAANAAkAAAAOAAUAAAAOAAkAAAAPAAUAAAAPAAkAAAANAAUAAAAQAAkAAAAOAAUAAAARAAkAAAAPAAUAAAASAAkAAAANAAUAAAATAAkAAAAOAAUAAAAUAAkAAAAPAAUAAAAVAAkAAAANAAUAAAAWAAkAAAAOAAUAAAAXAAkAAAAPAAUAAAA=")
 tile_set = ExtResource("2_nfhkc")
 
@@ -526,7 +527,7 @@ one_shot = true
 autostart = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Background/Water"]
-layer = 127
+layer = 40
 
 [node name="Shade2" type="ColorRect" parent="Background/Water/CanvasLayer"]
 visible = false
@@ -645,10 +646,12 @@ limit_top = -20
 limit_bottom = 9000000
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("5_e10ll")
 bus = &"Music"
 
 [node name="BossMusic" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("9_0ixp5")
 volume_db = -5.0
 bus = &"Music"

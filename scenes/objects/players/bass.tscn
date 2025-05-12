@@ -961,6 +961,8 @@ material = SubResource("ShaderMaterial_u1bed")
 position = Vector2(0, -20)
 texture = ExtResource("23_o8ixe")
 hframes = 12
+region_enabled = true
+region_rect = Rect2(0, 0, 192, 16)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1

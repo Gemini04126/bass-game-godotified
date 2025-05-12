@@ -1,0 +1,81 @@
+[gd_scene load_steps=9 format=3 uid="uid://c4lnujglc2j60"]
+
+[ext_resource type="Script" uid="uid://co2mtob3j13uf" path="res://scenes/menus/weapon_selector.gd" id="1_op2oe"]
+[ext_resource type="Texture2D" uid="uid://b8cjlluipu7u3" path="res://sprites/hud/weapons_menu_icons.png" id="2_5fvbm"]
+[ext_resource type="Texture2D" uid="uid://cau6vfnef7e7f" path="res://sprites/hud/bass_modules.png" id="3_5fvbm"]
+[ext_resource type="Texture2D" uid="uid://dneg3i57lletf" path="res://sprites/hud/menu_bar.png" id="3_6k7oi"]
+[ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="3_xltel"]
+[ext_resource type="Texture2D" uid="uid://nqwuaw71xka6" path="res://sprites/hud/menu_bar2.png" id="4_xkjft"]
+[ext_resource type="AudioStream" uid="uid://1ujjh0m4lfmf" path="res://sounds/menumove.wav" id="8_hgtbf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5fvbm"]
+shader = ExtResource("3_xltel")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[node name="WeaponSelector" type="CenterContainer"]
+script = ExtResource("1_op2oe")
+item = 1
+
+[node name="Text" type="Node2D" parent="."]
+
+[node name="ModName" type="Label" parent="Text"]
+visible = false
+offset_left = 17.0
+offset_right = 100.0
+offset_bottom = 16.0
+text = "MODULE!"
+
+[node name="WepName" type="Label" parent="Text"]
+visible = false
+offset_left = 17.0
+offset_right = 100.0
+offset_bottom = 16.0
+text = "W.EAPON"
+
+[node name="ModHelp" type="Label" parent="Text"]
+visible = false
+offset_left = 17.0
+offset_right = 100.0
+offset_bottom = 16.0
+text = "ASSPOOP!!"
+vertical_alignment = 2
+
+[node name="IconW" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(8, 8)
+texture = ExtResource("2_5fvbm")
+vframes = 2
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 32)
+
+[node name="IconM" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(8, 8)
+texture = ExtResource("3_5fvbm")
+vframes = 2
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 32)
+
+[node name="Bar" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_5fvbm")
+position = Vector2(53, 12)
+texture = ExtResource("3_6k7oi")
+vframes = 29
+region_enabled = true
+region_rect = Rect2(0, 0, 72, 232)
+
+[node name="Bar2" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(61, 12)
+texture = ExtResource("4_xkjft")
+vframes = 37
+
+[node name="SelectSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_hgtbf")
+bus = &"SFX"
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

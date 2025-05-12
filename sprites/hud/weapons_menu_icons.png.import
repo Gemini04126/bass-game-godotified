@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qrxs5hgt7qka"
-path="res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex"
+uid="uid://b8cjlluipu7u3"
+path="res://.godot/imported/weapons_menu_icons.png-c3276aabac027bce1317279620a3b4e8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://icon.png"
-dest_files=["res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex"]
+source_file="res://sprites/hud/weapons_menu_icons.png"
+dest_files=["res://.godot/imported/weapons_menu_icons.png-c3276aabac027bce1317279620a3b4e8.ctex"]
 
 [params]
 

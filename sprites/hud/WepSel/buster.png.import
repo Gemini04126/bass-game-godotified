@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qrxs5hgt7qka"
-path="res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex"
+uid="uid://17pn3am405kf"
+path="res://.godot/imported/buster.png-52fde6c513566fa6179a5bb673d9e0e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://icon.png"
-dest_files=["res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex"]
+source_file="res://sprites/hud/WepSel/buster.png"
+dest_files=["res://.godot/imported/buster.png-52fde6c513566fa6179a5bb673d9e0e4.ctex"]
 
 [params]
 

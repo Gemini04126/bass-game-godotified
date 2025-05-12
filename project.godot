@@ -68,8 +68,8 @@ hurts="hurts the player and does damage!"
 
 [gui]
 
-theme/custom="res://themes/ui_theme.tres"
-theme/custom_font="res://fonts/m5x7.ttf"
+theme/custom="uid://c1bun7kn776g1"
+theme/custom_font="uid://btnhlkeo0mjc0"
 theme/default_font_hinting=2
 
 [input]

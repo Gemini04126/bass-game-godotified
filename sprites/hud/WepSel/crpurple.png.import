@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qrxs5hgt7qka"
-path="res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex"
+uid="uid://bu3ttfex6ejcy"
+path="res://.godot/imported/crpurple.png-39cf5c54c9ba2c396b7c2a74952273cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://icon.png"
-dest_files=["res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex"]
+source_file="res://sprites/hud/WepSel/crpurple.png"
+dest_files=["res://.godot/imported/crpurple.png-39cf5c54c9ba2c396b7c2a74952273cc.ctex"]
 
 [params]
 

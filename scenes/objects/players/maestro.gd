@@ -1286,13 +1286,13 @@ func switchWeapons():
 					GameState.current_weapon -= 1
 	if GameState.old_weapon != GameState.current_weapon:
 		GameState.onscreen_sp_bullets = 0
-		$Audio/Switch.play()
-		$Audio/Switch.play()
-		$Timers/SwitchTimer.start(2)
-		$WeaponIcon.visible = true
-		$WeaponIcon.frame = GameState.current_weapon
-		if (GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true and GameState.current_weapon == GameState.WEAPONS.BUSTER):
-			$WeaponIcon.frame = 11
+		if !Input.is_action_just_pressed("start"):
+			$Audio/Switch.play()
+			$Timers/SwitchTimer.start(2)
+			$WeaponIcon.visible = true
+			$WeaponIcon.frame = GameState.current_weapon
+			if (GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true and GameState.current_weapon == GameState.WEAPONS.BUSTER):
+				$WeaponIcon.frame = 11
 		
 		GameState.old_weapon = GameState.current_weapon
 		set_current_weapon_palette()

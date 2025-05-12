@@ -173,6 +173,7 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
+				module_gale()
 				module_blaze()
 				module_reaper()
 				module_video()
