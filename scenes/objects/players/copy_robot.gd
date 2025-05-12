@@ -189,36 +189,36 @@ func processShoot():
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 				#buster stuff doesn't go here now
-			WEAPONS.BLAZE:
+			GameState.WEAPONS.BLAZE:
 				#the animation match stuff is within the actual weapon since its a two parter
 				weapon_blaze()
-			WEAPONS.VIDEO:
+			GameState.WEAPONS.VIDEO:
 				weapon_video()
-			WEAPONS.SMOG:
+			GameState.WEAPONS.SMOG:
 				busterAnimMatch()
 				weapon_smog()
-			WEAPONS.ORIGAMI:
+			GameState.WEAPONS.ORIGAMI:
 				throwAnimMatch()
 				weapon_origami()
-			WEAPONS.GALE:
+			GameState.WEAPONS.GALE:
 				shieldAnimMatch()
 				weapon_gale()
-			WEAPONS.GUERRILLA:
+			GameState.WEAPONS.GUERRILLA:
 				busterAnimMatch()
 				weapon_guerilla()
-			WEAPONS.CARRY:
+			GameState.WEAPONS.CARRY:
 				throwAnimMatch()
 				weapon_carry()
-			WEAPONS.ARROW:
+			GameState.WEAPONS.ARROW:
 				busterAnimMatch()
 				weapon_arrow()
-			WEAPONS.PUNK:
+			GameState.WEAPONS.PUNK:
 				throwAnimMatch()
 				weapon_punk()
-			WEAPONS.BALLADE:
+			GameState.WEAPONS.BALLADE:
 				throwAnimMatch()
 				weapon_ballade()
-			WEAPONS.QUINT:
+			GameState.WEAPONS.QUINT:
 				weapon_quint()
 
 func processCharge():
@@ -243,7 +243,7 @@ func processCharge():
 			sprite.material.set_shader_parameter("palette", weapon_palette[18])
 		
 			
-	if currentWeapon == WEAPONS.REAPER:
+	if currentWeapon == GameState.WEAPONS.REAPER:
 		if ScytheCharge > 19:
 			if weaponflashtimer == 1:
 				sprite.material.set_shader_parameter("palette", weapon_palette[19])
@@ -254,7 +254,7 @@ func processCharge():
 				sprite.material.set_shader_parameter("palette", weapon_palette[20])
 		if ScytheCharge == 0:
 			set_current_weapon_palette()
-	elif currentWeapon == WEAPONS.SHARK:
+	elif currentWeapon == GameState.WEAPONS.SHARK:
 		if sharkcharge > 0:
 			if weaponflashtimer == 1:
 				sprite.material.set_shader_parameter("palette", weapon_palette[21])
@@ -269,27 +269,27 @@ func processCharge():
 	if Input.is_action_pressed("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
-			WEAPONS.REAPER:
+			GameState.WEAPONS.REAPER:
 				weapon_reaper()
-			WEAPONS.SHARK:
+			GameState.WEAPONS.SHARK:
 				weapon_shark()
 				
 	elif Input.is_action_just_released("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
-			WEAPONS.REAPER:
+			GameState.WEAPONS.REAPER:
 				throwAnimMatch()
 				weapon_reaper()
-			WEAPONS.SHARK:
+			GameState.WEAPONS.SHARK:
 				weapon_shark()
 				
 	if (Input.is_action_pressed("shoot") or Input.is_action_pressed("buster")) && !transing:
 		currentWeapon = GameState.current_weapon
-		if currentWeapon == WEAPONS.BUSTER or Input.is_action_pressed("buster"):
+		if currentWeapon == GameState.WEAPONS.BUSTER or Input.is_action_pressed("buster"):
 			weapon_cbuster()
 	elif (Input.is_action_just_released("shoot") or Input.is_action_just_released("buster")) && !transing:
 		currentWeapon = GameState.current_weapon
-		if currentWeapon == WEAPONS.BUSTER or Input.is_action_just_released("buster"):
+		if currentWeapon == GameState.WEAPONS.BUSTER or Input.is_action_just_released("buster"):
 			if GameState.inputdisabled == false:
 				busterAnimMatch()
 			weapon_cbuster()

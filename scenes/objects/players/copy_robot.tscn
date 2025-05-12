@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=3 uid="uid://cnpcm2juvcutu"]
+[gd_scene load_steps=71 format=3 uid="uid://cnpcm2juvcutu"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_hk0hv"]
 [ext_resource type="Script" uid="uid://cdp8cckqtq8nw" path="res://scenes/objects/players/copy_robot.gd" id="2_we56i"]
@@ -47,18 +47,6 @@ shader_parameter/palette = ExtResource("3_ipvlp")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
-
-[sub_resource type="Animation" id="Animation_yvrgq"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_gfxrd"]
-resource_name = "regular"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_pkaf2"]
-_data = {
-&"RESET": SubResource("Animation_yvrgq"),
-&"regular": SubResource("Animation_gfxrd")
-}
 
 [sub_resource type="Animation" id="Animation_p42vu"]
 resource_name = "DEAD"
@@ -452,6 +440,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_73g7h"]
+resource_name = "LADDER_UP"
 length = 0.2
 loop_mode = 1
 tracks/0/type = "value"
@@ -740,7 +729,7 @@ _data = {
 &"LADDER": SubResource("Animation_fspq0"),
 &"LADDER_SHOOT": SubResource("Animation_padrw"),
 &"LADDER_THROW": SubResource("Animation_674xt"),
-&"Ladder-Up": SubResource("Animation_73g7h"),
+&"LADDER_UP": SubResource("Animation_73g7h"),
 &"RESET": SubResource("Animation_p32gw"),
 &"SLIDE": SubResource("Animation_h6n08"),
 &"STEP": SubResource("Animation_33c1p"),
@@ -850,13 +839,7 @@ z_index = 1
 material = SubResource("ShaderMaterial_7773x")
 texture = ExtResource("5_a7tix")
 hframes = 73
-frame = 42
-
-[node name="shifter" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Sprite2D")
-libraries = {
-&"": SubResource("AnimationLibrary_pkaf2")
-}
+frame = 12
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -879,6 +862,15 @@ autoplay = "new_animation"
 visible = false
 position = Vector2(1.48619e-06, -17)
 sprite_frames = SubResource("SpriteFrames_ya8ic")
+
+[node name="states" type="RichTextLabel" parent="."]
+offset_left = -36.0
+offset_top = -29.0
+offset_right = 43.0
+offset_bottom = 11.0
+bbcode_enabled = true
+text = "state
+goes here"
 
 [node name="mainCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
@@ -907,15 +899,6 @@ collide_with_bodies = false
 [node name="ceilCheck" type="RayCast2D" parent="."]
 position = Vector2(0, 2)
 target_position = Vector2(0, -7)
-
-[node name="states" type="RichTextLabel" parent="."]
-offset_left = -36.0
-offset_top = -29.0
-offset_right = 43.0
-offset_bottom = 11.0
-bbcode_enabled = true
-text = "state
-goes here"
 
 [node name="waterCheck" type="Area2D" parent="."]
 position = Vector2(0, 1)
@@ -1026,6 +1009,8 @@ bus = &"SFX"
 
 [connection signal="area_entered" from="hurtboxArea" to="." method="_on_hurtbox_area_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="area_entered" from="waterCheck" to="." method="_on_water_check"]
+[connection signal="area_exited" from="waterCheck" to="." method="_on_water_check"]
 [connection signal="timeout" from="Timers/SwitchTimer" to="." method="_on_switch_timer_timeout"]
 [connection signal="timeout" from="Timers/SlideTimer" to="." method="_on_slide_timer_timeout"]
 [connection signal="timeout" from="Timers/ShootTimer" to="." method="_on_shoot_timer_timeout"]

@@ -66,28 +66,36 @@ var characters : Array[String] = [
 	"res://scenes/objects/players/maestro.tscn",
 	"res://scenes/objects/players/bass.tscn",
 	"res://scenes/objects/players/copy_robot.tscn",
-	"res://scenes/objects/players/maestro.tscn" # Megaman
+	"res://scenes/objects/players/maestro.tscn", # Megaman
+	"res://scenes/objects/players/maestro.tscn", # Protoman
+	"res://scenes/objects/players/rachel/rachel.tscn" # Rachel gets her own folder because she has an ENTIRELY different weapon set
 ]
 ## List of life icon PNGs.
 var lifeIcons : Array[String] = [
 	"res://sprites/players/maestro/life.png",
 	"res://sprites/players/bass/life.png",
 	"res://sprites/players/copy_robot/life.png",
-	"res://sprites/players/megaman/life.png"
+	"res://sprites/players/megaman/life.png",
+	"res://sprites/players/protoman/life.png",
+	"res://sprites/players/rachel/life.png"
 ]
 ## List of stage select portrait PNGs.
 var stageSelectPlayerPortraits : Array[String] = [
 	"res://sprites/players/maestro/stageselect.png",
 	"res://sprites/players/bass/stageselect.png",
 	"res://sprites/players/copy_robot/stageselect.png",
-	"res://sprites/players/megaman/stageselect.png"
+	"res://sprites/players/megaman/stageselect.png",
+	"res://sprites/players/protoman/stageselect.png",
+	"res://sprites/players/rachel/stageselect.png"
 ]
 ## List of stage select color translations. G: ...I couldn't make this pick Maestro's by default.
 var stageSelectColorTranslations : Array[String] = [
 	"res://sprites/players/maestro/stageseltrans.png",
 	"res://sprites/players/bass/stageseltrans.png",
 	"res://sprites/players/copy_robot/stageseltrans.png",
-	"res://sprites/players/megaman/stageseltrans.png"
+	"res://sprites/players/megaman/stageseltrans.png",
+	"res://sprites/players/protoman/stageseltrans.png",
+	"res://sprites/players/rachel/stageseltrans.png"
 ]
 
 

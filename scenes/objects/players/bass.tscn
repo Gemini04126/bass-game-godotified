@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=3 uid="uid://bsy7vba3t8awq"]
+[gd_scene load_steps=78 format=3 uid="uid://bsy7vba3t8awq"]
 
 [ext_resource type="Script" uid="uid://bsxw7au27mfj5" path="res://scenes/objects/players/bass.gd" id="1_lug7r"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_m015p"]
@@ -29,6 +29,12 @@ shader = ExtResource("2_m015p")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5lim"]
+size = Vector2(12, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bkdc0"]
+size = Vector2(14, 8)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u1bed"]
 shader = ExtResource("2_m015p")
@@ -110,107 +116,6 @@ tracks/0/keys = {
 "values": [31, 32]
 }
 
-[sub_resource type="Animation" id="Animation_nafqf"]
-resource_name = "FALL_AIM"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [39]
-}
-
-[sub_resource type="Animation" id="Animation_f8yl7"]
-resource_name = "FALL_AIM_DIAG"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [38]
-}
-
-[sub_resource type="Animation" id="Animation_deyoo"]
-resource_name = "FALL_AIM_DOWN"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [40]
-}
-
-[sub_resource type="Animation" id="Animation_dte03"]
-resource_name = "FALL_AIM_UP"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [37]
-}
-
-[sub_resource type="Animation" id="Animation_o8ixe"]
-resource_name = "FALL_SHIELD"
-length = 0.533333
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [50, 51, 52]
-}
-
-[sub_resource type="Animation" id="Animation_m0k0y"]
-resource_name = "FALL_SHOOT"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [39]
-}
-
 [sub_resource type="Animation" id="Animation_a5vmh"]
 resource_name = "FALL_START"
 length = 0.116686
@@ -225,22 +130,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [31]
-}
-
-[sub_resource type="Animation" id="Animation_u1bed"]
-resource_name = "FALL_THROW"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [44, 45, 46]
 }
 
 [sub_resource type="Animation" id="Animation_edvn7"]
@@ -559,6 +448,74 @@ tracks/0/keys = {
 "values": [70, 71, 72, 73, 72, 71]
 }
 
+[sub_resource type="Animation" id="Animation_o8ixe"]
+resource_name = "LADDER_AIM"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [77]
+}
+
+[sub_resource type="Animation" id="Animation_kwtfk"]
+resource_name = "LADDER_AIM_DIAG"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [76]
+}
+
+[sub_resource type="Animation" id="Animation_pnkuv"]
+resource_name = "LADDER_AIM_DOWN"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [78]
+}
+
+[sub_resource type="Animation" id="Animation_h6dsx"]
+resource_name = "LADDER_AIM_UP"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [75]
+}
+
 [sub_resource type="Animation" id="Animation_a5pwf"]
 resource_name = "LADDER_SHOOT"
 length = 0.8
@@ -607,57 +564,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [74]
-}
-
-[sub_resource type="Animation" id="Animation_kwtfk"]
-resource_name = "Ladder-Shoot Diagonal"
-length = 0.8
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [76]
-}
-
-[sub_resource type="Animation" id="Animation_pnkuv"]
-resource_name = "Ladder-Shoot Down"
-length = 0.8
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [78]
-}
-
-[sub_resource type="Animation" id="Animation_h6dsx"]
-resource_name = "Ladder-Shoot Up"
-length = 0.8
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [75]
 }
 
 [sub_resource type="Animation" id="Animation_xc18w"]
@@ -834,14 +740,7 @@ _data = {
 &"DASH": SubResource("Animation_rlpjp"),
 &"DEAD": SubResource("Animation_uc8dv"),
 &"FALL": SubResource("Animation_ibabb"),
-&"FALL_AIM": SubResource("Animation_nafqf"),
-&"FALL_AIM_DIAG": SubResource("Animation_f8yl7"),
-&"FALL_AIM_DOWN": SubResource("Animation_deyoo"),
-&"FALL_AIM_UP": SubResource("Animation_dte03"),
-&"FALL_SHIELD": SubResource("Animation_o8ixe"),
-&"FALL_SHOOT": SubResource("Animation_m0k0y"),
 &"FALL_START": SubResource("Animation_a5vmh"),
-&"FALL_THROW": SubResource("Animation_u1bed"),
 &"HURT": SubResource("Animation_edvn7"),
 &"IDLE": SubResource("Animation_8pco5"),
 &"IDLE_AIM": SubResource("Animation_17qx0"),
@@ -861,12 +760,13 @@ _data = {
 &"JUMP_SHOOT": SubResource("Animation_n5jw4"),
 &"JUMP_THROW": SubResource("Animation_uwqs6"),
 &"LADDER": SubResource("Animation_rc3eo"),
+&"LADDER_AIM": SubResource("Animation_o8ixe"),
+&"LADDER_AIM_DIAG": SubResource("Animation_kwtfk"),
+&"LADDER_AIM_DOWN": SubResource("Animation_pnkuv"),
+&"LADDER_AIM_UP": SubResource("Animation_h6dsx"),
 &"LADDER_SHOOT": SubResource("Animation_a5pwf"),
 &"LADDER_THROW": SubResource("Animation_7hbn4"),
 &"LADDER_UP": SubResource("Animation_lauva"),
-&"Ladder-Shoot Diagonal": SubResource("Animation_kwtfk"),
-&"Ladder-Shoot Down": SubResource("Animation_pnkuv"),
-&"Ladder-Shoot Up": SubResource("Animation_h6dsx"),
 &"PAPER_CUT": SubResource("Animation_xc18w"),
 &"RESET": SubResource("Animation_15kij"),
 &"SLIDE": SubResource("Animation_lyowt"),
@@ -932,12 +832,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5lim"]
-size = Vector2(12, 26)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bkdc0"]
-size = Vector2(14, 8)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cb33"]
 size = Vector2(14, 25)
 
@@ -953,6 +847,19 @@ collision_layer = 2
 collision_mask = 17
 floor_snap_length = 5.0
 script = ExtResource("1_lug7r")
+
+[node name="hurtboxArea" type="Area2D" parent="." groups=["player"]]
+collision_layer = 36
+collision_mask = 2
+
+[node name="mainHurtbox" type="CollisionShape2D" parent="hurtboxArea"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_v5lim")
+debug_color = Color(1, 0.85, 0, 0.419608)
+
+[node name="slideHurtbox" type="CollisionShape2D" parent="hurtboxArea"]
+position = Vector2(0, 12)
+shape = SubResource("RectangleShape2D_bkdc0")
 
 [node name="WeaponIcon" type="Sprite2D" parent="."]
 visible = false
@@ -1000,19 +907,6 @@ offset_bottom = 11.0
 bbcode_enabled = true
 text = "state
 goes here"
-
-[node name="hurtboxArea" type="Area2D" parent="." groups=["player"]]
-collision_layer = 36
-collision_mask = 2
-
-[node name="mainHurtbox" type="CollisionShape2D" parent="hurtboxArea"]
-position = Vector2(0, 3)
-shape = SubResource("RectangleShape2D_v5lim")
-debug_color = Color(1, 0.85, 0, 0.419608)
-
-[node name="slideHurtbox" type="CollisionShape2D" parent="hurtboxArea"]
-position = Vector2(0, 12)
-shape = SubResource("RectangleShape2D_bkdc0")
 
 [node name="mainCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)

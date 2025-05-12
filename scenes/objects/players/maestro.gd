@@ -16,9 +16,6 @@ enum STATES {
 	WALK,
 	SLIDE,
 	JUMP,
-	FALL_START,
-	FALL,
-	FALL_SHOOT,
 	LADDER,
 	HURT,
 	IDLE_SHOOT,
@@ -27,10 +24,8 @@ enum STATES {
 	JUMP_SHOOT,
 	IDLE_THROW,
 	JUMP_THROW,
-	FALL_THROW,
 	IDLE_SHIELD,
 	JUMP_SHIELD,
-	FALL_SHIELD,
 	DEAD,
 	DASH,
 	IDLE_AIM,
@@ -41,23 +36,15 @@ enum STATES {
 	JUMP_AIM_DOWN,
 	JUMP_AIM_DIAG,
 	JUMP_AIM_UP,
-	FALL_AIM,
-	FALL_AIM_DOWN,
-	FALL_AIM_DIAG,
-	FALL_AIM_UP,
 	AIR_DASH,
 	PAPER_CUT,
 	IDLE_FIN_SHREDDER,
 	IDLE_DOUBLE_FIN_SHREDDER,
 	JUMP_FIN_SHREDDER,
 	JUMP_DOUBLE_FIN_SHREDDER,
-	FALL_FIN_SHREDDER,
 	WARPING, #Using a teleporter
 	WARP2 #Leaving a teleporter
 }
-
-enum WEAPONS {BUSTER, BLAZE, VIDEO, SMOG, SHARK, ORIGAMI, GALE, GUERRILLA, REAPER, PROTO, TREBLE, CARRY, ARROW, ENKER, PUNK, BALLADE, QUINT}
-
 #endregion
 
 # state related
@@ -65,7 +52,7 @@ var invincible = false
 var warping : int = 0
 var standing
 var currentState := STATES.TELEPORT
-var currentWeapon : int = WEAPONS.BUSTER
+var currentWeapon : int = GameState.WEAPONS.BUSTER
 var swapState := STATES.NONE
 var numberOfTimesToRunStates := 0
 var isFirstFrameOfState := false
@@ -743,43 +730,43 @@ func processShoot():
 	if Input.is_action_just_pressed("shoot") && !transing && GameState.inputdisabled == false:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
-			WEAPONS.BUSTER:
+			GameState.WEAPONS.BUSTER:
 				busterAnimMatch()
 				weapon_buster()
-			WEAPONS.BLAZE:
+			GameState.WEAPONS.BLAZE:
 				#the animation match stuff is within the actual weapon since its a two parter
 				weapon_blaze()
-			WEAPONS.VIDEO:
+			GameState.WEAPONS.VIDEO:
 				shieldAnimMatch()
 				weapon_video()
-			WEAPONS.SMOG:
+			GameState.WEAPONS.SMOG:
 				busterAnimMatch()
 				weapon_smog()
-			WEAPONS.SHARK:
+			GameState.WEAPONS.SHARK:
 				#throwAnimMatch()
 				weapon_shark()
-			WEAPONS.ORIGAMI:
+			GameState.WEAPONS.ORIGAMI:
 				throwAnimMatch()
 				weapon_origami()
-			WEAPONS.GALE:
+			GameState.WEAPONS.GALE:
 				shieldAnimMatch()
 				weapon_gale()
-			WEAPONS.GUERRILLA:
+			GameState.WEAPONS.GUERRILLA:
 				busterAnimMatch()
 				weapon_guerilla()
-			WEAPONS.CARRY:
+			GameState.WEAPONS.CARRY:
 				throwAnimMatch()
 				weapon_carry()
-			WEAPONS.ARROW:
+			GameState.WEAPONS.ARROW:
 				busterAnimMatch()
 				weapon_arrow()
-			WEAPONS.PUNK:
+			GameState.WEAPONS.PUNK:
 				throwAnimMatch()
 				weapon_punk()
-			WEAPONS.BALLADE:
+			GameState.WEAPONS.BALLADE:
 				throwAnimMatch()
 				weapon_ballade()
-			WEAPONS.QUINT:
+			GameState.WEAPONS.QUINT:
 				weapon_quint()
 #i dunno where the purple goes
 
@@ -789,7 +776,7 @@ func processCharge():
 	else:
 		weaponflashtimer = 0
 	
-	if currentWeapon == WEAPONS.REAPER:
+	if currentWeapon == GameState.WEAPONS.REAPER:
 		if ScytheCharge > 19:
 			if weaponflashtimer == 1:
 				sprite.material.set_shader_parameter("palette", weapon_palette[19])
@@ -804,12 +791,12 @@ func processCharge():
 	if Input.is_action_pressed("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
-			WEAPONS.REAPER:
+			GameState.WEAPONS.REAPER:
 				weapon_reaper()
 	elif Input.is_action_just_released("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
-			WEAPONS.REAPER:
+			GameState.WEAPONS.REAPER:
 				throwAnimMatch()
 				weapon_reaper()
 
@@ -870,7 +857,7 @@ func weapon_blaze():
 				shield4.position = position
 				
 			if GameState.infinite_ammo == false:
-				GameState.weapon_energy[WEAPONS.BLAZE] -= 4
+				GameState.weapon_energy[GameState.WEAPONS.BLAZE] -= 4
 			#print(get_children())
 		else:
 			if shield or shield2 or shield3 or shield4:

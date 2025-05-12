@@ -17,6 +17,7 @@ shader_parameter/fps = 6.0
 [node name="WeaponSelector" type="CenterContainer"]
 script = ExtResource("1_op2oe")
 item = 1
+row = null
 
 [node name="Text" type="Node2D" parent="."]
 
@@ -28,7 +29,6 @@ offset_bottom = 16.0
 text = "MODULE!"
 
 [node name="WepName" type="Label" parent="Text"]
-visible = false
 offset_left = 17.0
 offset_right = 100.0
 offset_bottom = 16.0
@@ -43,12 +43,11 @@ text = "ASSPOOP!!"
 vertical_alignment = 2
 
 [node name="IconW" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(8, 8)
 texture = ExtResource("2_5fvbm")
 vframes = 2
 region_enabled = true
-region_rect = Rect2(0, 0, 16, 32)
+region_rect = Rect2(16, 0, 16, 32)
 
 [node name="IconM" type="Sprite2D" parent="."]
 visible = false
@@ -67,7 +66,6 @@ region_enabled = true
 region_rect = Rect2(0, 0, 72, 232)
 
 [node name="Bar2" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(61, 12)
 texture = ExtResource("4_xkjft")
 vframes = 37

@@ -1,7 +1,10 @@
 @tool
 class_name WeaponSelector extends CenterContainer
 
-@export var item : int
+## Current item on the row
+@export_range (0, 16) var item : int
+## Current row the item is on
+@export_range (0, 9) var row : int
 var firsttick : bool = true
 
 var selected: bool
@@ -20,8 +23,6 @@ var BWEAPONS = [
 	"P.STRIKE",
 	"T.ASSIST"
 ]
-
-
 var MODULES = [
 	"B.BUSTER",
 	"BLAST J.",
@@ -40,7 +41,6 @@ var MODULES = [
 	"",
 	""
 ]
-
 var CWEAPONS = [
 	"C.BUSTER",
 	"SCORCH B.",
@@ -61,7 +61,6 @@ var CWEAPONS = [
 	"SAKUGARNE"
 	
 ]
-
 var MWEAPONS = [
 	"M.BUSTER",
 	"SCORCH B.",
@@ -73,7 +72,6 @@ var MWEAPONS = [
 	"ROLLING B.",
 	"B.SCYTHE"
 ]
-
 var PWEAPONS = [
 	"P.BUSTER",
 	"SCORCH B.",
@@ -94,8 +92,25 @@ var PWEAPONS = [
 	"SAKUGARNE"
 	
 ]
-
-
+var RWEAPONS = [
+	"R.BUSTER",   # Rachel Buster
+	"B.HOLE BOMB",# Black Hole Bomb
+	"TOP SPIN",   # Top Spin
+	"GEMINI L.",  # Gemini Laser
+	"FLASH BOMB", # Flash Bomb
+	"Y. SPEAR",   # Yamato Spear
+	"M. BAZOOKA", # Magma Bazooka
+	"PHARAOH W.", # Pharaoh Wave
+	"CHILL SPIKE",# Chill Spike
+	"WIRE A.",    # Wire Adaptor
+	"BALLOON A.", # Balloon Adaptor
+	"MAGNET B.",  # Magnet Beam
+	"S. CHASER",  # Spark Chaser
+	"GRAB BUSTER",# Grab Buster
+	"P. MISSILE", # Photon Missile
+	"BREAK DASH", # Break Dash
+	"PIKO HAMMER"  # Piko Hammer
+]
 var MOD2 = [
 	"",
 	"^+JUMP (AIR)",
@@ -108,15 +123,14 @@ var MOD2 = [
 	"DASH (AIR)",
 	"STAY STILL",
 	"DOGGY!!! COOL!"
-	
 ]
-
 var CHAR = [
 	"M.BUSTER",
 	"B.BUSTER",
 	"C.BUSTER",
 	"M.BUSTER",
-	"P.BUSTER"
+	"P.BUSTER",
+	"R.BUSTER"
 ]
 
 var BASSCOL = [
@@ -133,7 +147,6 @@ var BASSCOL = [
 	preload("res://sprites/hud/WepSel/purple.png") #Treble
 	
 ]
-
 var COPYCOL = [
 	preload("res://sprites/hud/WepSel/buster.png"), #BUSTER
 	preload("res://sprites/hud/WepSel/crpurple.png"), #BLAZE
@@ -154,7 +167,6 @@ var COPYCOL = [
 	preload("res://sprites/hud/WepSel/red.png") #QUINT
 	
 ]
-
 var MEGACOL = [
 	preload("res://sprites/hud/WepSel/buster.png"), #BUSTER
 	preload("res://sprites/hud/WepSel/orange.png"), #BLAZE
@@ -167,7 +179,6 @@ var MEGACOL = [
 	preload("res://sprites/hud/WepSel/orange.png") #REAPER
 	
 ]
-
 var PROTCOL = [
 	preload("res://sprites/hud/WepSel/buster.png"), #BUSTER
 	preload("res://sprites/hud/WepSel/orange.png"), #BLAZE
@@ -178,6 +189,25 @@ var PROTCOL = [
 	preload("res://sprites/hud/WepSel/purple.png"), #GALE
 	preload("res://sprites/hud/WepSel/green.png"), #GUERRILLA
 	preload("res://sprites/hud/WepSel/orange.png") #REAPER
+]
+var RACHCOL = [
+	preload("res://sprites/hud/WepSel/buster.png"),    #BUSTER
+	preload("res://sprites/hud/WepSel/crpurple.png"),  #GALAXY
+	preload("res://sprites/hud/WepSel/orange.png"),    #TOP
+	preload("res://sprites/hud/WepSel/shredbass.png"), #GEMINI
+	preload("res://sprites/hud/WepSel/crshred.png"),   #GRENADE
+	preload("res://sprites/hud/WepSel/purple.png"),    #YAMATO
+	preload("res://sprites/hud/WepSel/red.png"),       #MAGMA
+	preload("res://sprites/hud/WepSel/orange.png"),    #PHARAOH
+	preload("res://sprites/hud/WepSel/shredbass.png"), #CHILL
+	preload("res://sprites/hud/WepSel/red.png"),       #WIRE
+	preload("res://sprites/hud/WepSel/red.png"),       #BALLOON
+	preload("res://sprites/hud/WepSel/darkblue.png"),  #MAGNET
+	preload("res://sprites/hud/WepSel/green.png"),     #TERRA
+	preload("res://sprites/hud/WepSel/purple.png"),    #MERCURY
+	preload("res://sprites/hud/WepSel/darkblue.png"),  #MARS
+	preload("res://sprites/hud/WepSel/crpurple.png"),  #PLUTO
+	preload("res://sprites/hud/WepSel/red.png")        #ROSE
 	
 ]
 
@@ -189,8 +219,8 @@ func _process(_delta):
 			selected = true
 			firsttick = false
 		
-	$IconM.region_rect = Rect2 ((item-1)*16 , 0, 16, 32)
-	$IconW.region_rect = Rect2 (item*16 , 0, 16, 32)
+	$IconM.region_rect = Rect2 ((item-1)*16, row*16, 16, 32)
+	$IconW.region_rect = Rect2 (item*16, row*16, 16, 32)
 	
 	if not Engine.is_editor_hint():
 		$IconW.region_rect = Rect2 (item*16 , GameState.character_selected*32 - 32, 16, 32)
@@ -208,6 +238,8 @@ func _process(_delta):
 				$Bar.material.set_shader_parameter("palette", MEGACOL[item])
 			if GameState.character_selected == 4:
 				$Bar.material.set_shader_parameter("palette", PROTCOL[item])
+			if GameState.character_selected == 5:
+				$Bar.material.set_shader_parameter("palette", RACHCOL[item])
 			
 		else:
 			$IconW.frame = 1
@@ -222,6 +254,8 @@ func _process(_delta):
 			$Text/WepName.text = "%s" % MWEAPONS[item]
 		if GameState.character_selected == 4:
 			$Text/WepName.text = "%s" % PWEAPONS[item]
+		if GameState.character_selected == 5:
+			$Text/WepName.text = "%s" % RWEAPONS[item]
 
 		
 		if item == 0:

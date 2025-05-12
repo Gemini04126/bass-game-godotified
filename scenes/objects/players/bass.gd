@@ -223,14 +223,14 @@ func _physics_process(delta: float) -> void:
 		else:
 			standing = false
 		
-		if GameState.modules_enabled[WEAPONS.SMOG] == true:
+		if GameState.modules_enabled[GameState.WEAPONS.SMOG] == true:
 			if currentState != STATES.SLIDE:
 				if smogchargetimer < 5 and GameState.smogcharge < 18:
 					smogchargetimer += 1
 				if smogchargetimer == 5:
 					smogchargetimer = 0
 					GameState.smogcharge += 1
-		if GameState.modules_enabled[WEAPONS.GUERRILLA] == true:
+		if GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true:
 			if machinechargetimer > 0 and GameState.machinecharge < 5:
 				machinechargetimer -= 1
 			if machinechargetimer == 0:
@@ -324,39 +324,39 @@ func processShoot():
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 				#buster dont go here lol
-			WEAPONS.BLAZE:
+			GameState.WEAPONS.BLAZE:
 				#the animation match stuff is within the actual weapon since its a two parter
 				weapon_blaze()
-			WEAPONS.VIDEO:
+			GameState.WEAPONS.VIDEO:
 				weapon_video()
-			WEAPONS.SMOG:
+			GameState.WEAPONS.SMOG:
 				busterAnimMatch()
 				weapon_smog()
-			WEAPONS.SHARK:
+			GameState.WEAPONS.SHARK:
 				#throwAnimMatch()
 				weapon_shark()
-			WEAPONS.ORIGAMI:
+			GameState.WEAPONS.ORIGAMI:
 				throwAnimMatch()
 				weapon_origami()
-			WEAPONS.GALE:
+			GameState.WEAPONS.GALE:
 				shieldAnimMatch()
 				weapon_gale()
-			WEAPONS.GUERRILLA:
+			GameState.WEAPONS.GUERRILLA:
 				busterAnimMatch()
 				weapon_guerilla()
-			WEAPONS.CARRY:
+			GameState.WEAPONS.CARRY:
 				throwAnimMatch()
 				weapon_carry()
-			WEAPONS.ARROW:
+			GameState.WEAPONS.ARROW:
 				busterAnimMatch()
 				weapon_arrow()
-			WEAPONS.PUNK:
+			GameState.WEAPONS.PUNK:
 				throwAnimMatch()
 				weapon_punk()
-			WEAPONS.BALLADE:
+			GameState.WEAPONS.BALLADE:
 				throwAnimMatch()
 				weapon_ballade()
-			WEAPONS.QUINT:
+			GameState.WEAPONS.QUINT:
 				weapon_quint()
 
 func aimAnimMatch():
@@ -390,7 +390,7 @@ func busterAnimMatch():
 		currentState = STATES.JUMP_SHOOT
 
 func processBuster():
-	if Input.is_action_pressed("buster") or (GameState.current_weapon == WEAPONS.BUSTER and Input.is_action_pressed("shoot")):
+	if Input.is_action_pressed("buster") or (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_pressed("shoot")):
 		aimAnimMatch()
 		weapon_buster()
 
@@ -421,7 +421,7 @@ func weapon_buster():
 					machinechargetimer = 60
 					$Audio/Machine.play()
 				else:
-					if GameState.modules_enabled[WEAPONS.GUERRILLA] == true:
+					if GameState.modules_enabled[GameState.WEAPONS.GUERRILLA] == true:
 						$Audio/Machine2.play()
 					else:
 						$Audio/Buster.play()
@@ -508,7 +508,7 @@ func weapon_origami():
 # ================
 
 func module_blaze() -> void:
-	if (airactiontaken == false) && Input.is_action_just_pressed("jump") && Input.is_action_pressed("move_up") && (GameState.modules_enabled[WEAPONS.BLAZE] == true):
+	if (airactiontaken == false) && Input.is_action_just_pressed("jump") && Input.is_action_pressed("move_up") && (GameState.modules_enabled[GameState.WEAPONS.BLAZE] == true):
 		$Audio/BlastJump.play()
 		velocity.y = -275
 		slide_timer.stop()
@@ -524,7 +524,7 @@ func module_blaze() -> void:
 		projectile.velocity.y = 280
 
 func module_video():
-	if Input.is_action_just_pressed("dash") && Input.is_action_pressed("move_up") && (GameState.onscreen_track2s == 0) && (GameState.modules_enabled[WEAPONS.VIDEO] == true):
+	if Input.is_action_just_pressed("dash") && Input.is_action_pressed("move_up") && (GameState.onscreen_track2s == 0) && (GameState.modules_enabled[GameState.WEAPONS.VIDEO] == true):
 		$Audio/BlastJump.play()
 		projectile = projectile_scenes[2].instantiate()
 		add_sibling(projectile)
@@ -535,7 +535,7 @@ func module_video():
 		print(GameState.onscreen_track2s)
 
 func module_smog() -> void:
-	if Input.is_action_pressed("move_down") and GameState.modules_enabled[WEAPONS.SMOG] == true:
+	if Input.is_action_pressed("move_down") and GameState.modules_enabled[GameState.WEAPONS.SMOG] == true:
 		if GameState.smogcharge == 18:
 			currentState = STATES.SLIDE
 			GameState.smogcharge = 0
@@ -544,7 +544,7 @@ func module_smog() -> void:
 		
 	
 func module_origami() -> void:
-	if GameState.modules_enabled[WEAPONS.ORIGAMI] == true:
+	if GameState.modules_enabled[GameState.WEAPONS.ORIGAMI] == true:
 		if Input.is_action_just_pressed("shoot"):
 			velocity.x = 0
 			$Audio/ReaperDash.play()
@@ -560,7 +560,7 @@ func module_origami() -> void:
 			currentState = STATES.PAPER_CUT
 
 func module_gale() -> void:
-	if GameState.modules_enabled[WEAPONS.GALE] == true:
+	if GameState.modules_enabled[GameState.WEAPONS.GALE] == true:
 		if (airactiontaken == false) && (hovered == false) && (hovering == false) && Input.is_action_just_pressed("jump") && !Input.is_action_pressed("move_up"):
 			airactiontaken = true
 			hovering = true
@@ -582,7 +582,7 @@ func module_gale() -> void:
 			
 
 func module_reaper() -> void:
-	if GameState.modules_enabled[WEAPONS.REAPER] == true:
+	if GameState.modules_enabled[GameState.WEAPONS.REAPER] == true:
 		if (airactiontaken == false) && (airdashed == false) && Input.is_action_just_pressed("dash"):
 			airactiontaken = true
 			slowed = true

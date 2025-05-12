@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://bksinirshmwgf"]
+[gd_scene load_steps=59 format=3 uid="uid://bksinirshmwgf"]
 
 [ext_resource type="Script" uid="uid://bmoeo1pjk4r87" path="res://scenes/objects/players/maestro.gd" id="1_ct76e"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_lnglj"]
@@ -32,24 +32,19 @@ size = Vector2(12, 26)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7k36u"]
 size = Vector2(14, 8)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o4erw"]
+shader = ExtResource("1_lnglj")
+shader_parameter/palette = ExtResource("16_gi8v7")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dtetj"]
 shader = ExtResource("1_lnglj")
 shader_parameter/palette = ExtResource("4_sovti")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
-
-[sub_resource type="Animation" id="Animation_yvrgq"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_gfxrd"]
-resource_name = "regular"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_pkaf2"]
-_data = {
-&"RESET": SubResource("Animation_yvrgq"),
-&"regular": SubResource("Animation_gfxrd")
-}
 
 [sub_resource type="Animation" id="Animation_kvtkx"]
 resource_name = "DEAD"
@@ -83,22 +78,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [6, 7, 8]
-}
-
-[sub_resource type="Animation" id="Animation_mno6c"]
-resource_name = "FALL_THROW"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.125),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [23, 24]
 }
 
 [sub_resource type="Animation" id="Animation_1pvat"]
@@ -300,38 +279,6 @@ tracks/0/keys = {
 "values": [10, 11]
 }
 
-[sub_resource type="Animation" id="Animation_3ovpa"]
-length = 0.4
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [19, 20]
-}
-
-[sub_resource type="Animation" id="Animation_mei8y"]
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [12]
-}
-
 [sub_resource type="Animation" id="Animation_5p383"]
 resource_name = "RESET"
 tracks/0/type = "value"
@@ -503,11 +450,44 @@ tracks/0/keys = {
 "values": [34, 28, 27, 26]
 }
 
+[sub_resource type="Animation" id="Animation_3ovpa"]
+resource_name = "LADDER_SHOOT"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [19, 20]
+}
+
+[sub_resource type="Animation" id="Animation_mei8y"]
+resource_name = "LADDER_UP"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [12]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_atfpo"]
 _data = {
 &"DEAD": SubResource("Animation_kvtkx"),
 &"FALL": SubResource("Animation_sun07"),
-&"FALL_THROW": SubResource("Animation_mno6c"),
 &"HURT": SubResource("Animation_1pvat"),
 &"IDLE": SubResource("Animation_srkdc"),
 &"IDLE_DOUBLE_FIN_SHREDDER": SubResource("Animation_u3nua"),
@@ -520,8 +500,8 @@ _data = {
 &"JUMP_SHOOT": SubResource("Animation_pye4t"),
 &"JUMP_THROW": SubResource("Animation_udgb2"),
 &"LADDER": SubResource("Animation_q4t3d"),
-&"Ladder-Shoot": SubResource("Animation_3ovpa"),
-&"Ladder-Up": SubResource("Animation_mei8y"),
+&"LADDER_SHOOT": SubResource("Animation_3ovpa"),
+&"LADDER_UP": SubResource("Animation_mei8y"),
 &"RESET": SubResource("Animation_5p383"),
 &"SLIDE": SubResource("Animation_ybh4h"),
 &"STEP": SubResource("Animation_awquw"),
@@ -597,13 +577,6 @@ size = Vector2(14, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r35an"]
 size = Vector2(1, 0)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_o4erw"]
-shader = ExtResource("1_lnglj")
-shader_parameter/palette = ExtResource("16_gi8v7")
-shader_parameter/skip_first_row = true
-shader_parameter/use_palette_alpha = false
-shader_parameter/fps = 6.0
-
 [node name="Maestro" type="CharacterBody2D" groups=["player", "splash"]]
 editor_description = "Maestro, the base class for every character."
 material = SubResource("ShaderMaterial_u81pt")
@@ -625,18 +598,20 @@ debug_color = Color(1, 0.85, 0, 0.419608)
 position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_7k36u")
 
+[node name="WeaponIcon" type="Sprite2D" parent="."]
+visible = false
+z_index = 6
+material = SubResource("ShaderMaterial_o4erw")
+position = Vector2(0, -20)
+texture = ExtResource("17_6rfa2")
+hframes = 17
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
 material = SubResource("ShaderMaterial_dtetj")
 texture = ExtResource("4_w3lef")
 hframes = 35
 frame = 26
-
-[node name="shifter" type="AnimationPlayer" parent="."]
-root_node = NodePath("../hurtboxArea")
-libraries = {
-&"": SubResource("AnimationLibrary_pkaf2")
-}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -661,6 +636,15 @@ visible = false
 position = Vector2(1.48619e-06, -17)
 sprite_frames = SubResource("SpriteFrames_dkj8m")
 animation = &"active"
+
+[node name="states" type="RichTextLabel" parent="."]
+offset_left = -36.0
+offset_top = -44.0
+offset_right = 43.0
+offset_bottom = -4.0
+bbcode_enabled = true
+text = "state
+goes here"
 
 [node name="mainCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
@@ -690,15 +674,6 @@ collide_with_bodies = false
 position = Vector2(0, 2)
 target_position = Vector2(0, -7)
 
-[node name="states" type="RichTextLabel" parent="."]
-offset_left = -36.0
-offset_top = -44.0
-offset_right = 43.0
-offset_bottom = -4.0
-bbcode_enabled = true
-text = "state
-goes here"
-
 [node name="waterCheck" type="Area2D" parent="."]
 position = Vector2(0, 1)
 collision_layer = 4
@@ -708,6 +683,46 @@ collision_mask = 2
 position = Vector2(0, 7.5)
 shape = SubResource("RectangleShape2D_r35an")
 debug_color = Color(0.969991, 0, 0.457701, 0.42)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="StateTimer" type="Timer" parent="Timers"]
+process_callback = 0
+one_shot = true
+autostart = true
+
+[node name="SwitchTimer" type="Timer" parent="Timers"]
+process_callback = 0
+
+[node name="InvulTimer" type="Timer" parent="Timers"]
+process_callback = 0
+one_shot = true
+autostart = true
+
+[node name="PainTimer" type="Timer" parent="Timers"]
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="SlideTimer" type="Timer" parent="Timers"]
+process_callback = 0
+wait_time = 0.4
+one_shot = true
+
+[node name="FireDelay" type="Timer" parent="Timers"]
+process_callback = 0
+wait_time = 0.4
+one_shot = true
+
+[node name="DeathTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+
+[node name="ShootTimer" type="Timer" parent="Timers"]
+process_callback = 0
+wait_time = 0.35
+one_shot = true
 
 [node name="Audio" type="Node" parent="."]
 
@@ -752,54 +767,6 @@ bus = &"SFX"
 [node name="Buster1" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("16_6rfa2")
 bus = &"SFX"
-
-[node name="Timers" type="Node" parent="."]
-
-[node name="StateTimer" type="Timer" parent="Timers"]
-process_callback = 0
-one_shot = true
-autostart = true
-
-[node name="SwitchTimer" type="Timer" parent="Timers"]
-process_callback = 0
-
-[node name="InvulTimer" type="Timer" parent="Timers"]
-process_callback = 0
-one_shot = true
-autostart = true
-
-[node name="PainTimer" type="Timer" parent="Timers"]
-process_callback = 0
-wait_time = 0.5
-one_shot = true
-autostart = true
-
-[node name="SlideTimer" type="Timer" parent="Timers"]
-process_callback = 0
-wait_time = 0.4
-one_shot = true
-
-[node name="FireDelay" type="Timer" parent="Timers"]
-process_callback = 0
-wait_time = 0.4
-one_shot = true
-
-[node name="DeathTimer" type="Timer" parent="Timers"]
-wait_time = 5.0
-one_shot = true
-
-[node name="ShootTimer" type="Timer" parent="Timers"]
-process_callback = 0
-wait_time = 0.35
-one_shot = true
-
-[node name="WeaponIcon" type="Sprite2D" parent="."]
-visible = false
-z_index = 6
-material = SubResource("ShaderMaterial_o4erw")
-position = Vector2(0, -20)
-texture = ExtResource("17_6rfa2")
-hframes = 17
 
 [connection signal="area_entered" from="hurtboxArea" to="." method="_on_hurtbox_area_area_entered"]
 [connection signal="body_entered" from="hurtboxArea" to="." method="_on_hurtbox_area_body_entered"]
