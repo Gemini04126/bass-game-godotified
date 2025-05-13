@@ -1,5 +1,5 @@
 # General credits
-CAPCOM:
+## CAPCOM:
 - Mega Man / Rockman (series)
 - Mega Man: The Wily Wars / Rockman Mega World
 - Mega Man 7 / Rockman 7: Shukumei no Taiketsu! (Showdown of Destiny!)
@@ -8,27 +8,44 @@ CAPCOM:
 - Mega Man: Dr. Wily's Revenge / Rockman World
 - Mega Man II, III, IV / Rockman World 2, 3, 4
 
-Gemini0:
+## SNK:
+- Fatal Fury
+- King of Fighters
+
+# The Team
+## Gemini0:
 - Co-leader, programming, sprites, planning
-Mengo:
+## Mengo:
 - Co-leader, programming, sprites, planning
-Poly:
+## Poly:
 - Programming, cleanup
-LynnV:
+## LynnV:
 - Programming, much-needed assistance with programming and understanding Godot
-Machi/Marblecheese:
+## Nemisune:
+- Programming, player rework #2
+## Machi/Marblecheese:
 - Enemy and player damage code
-
-Raendom/RandomName:
+## A2LAN:
+- Sprites
+## MetalWario64:
+- Large sprites (weapon get, title screen, etc...)
+## Rabbid4240:
+- Logos, maybe some other sprites, I don't know yet
+## _kps:
+- Music
+## Raendom/RandomName:
 - Godot help, the push to move to Godot from the Genesis/Mega Drive
-
-Tera/O'Ter:
+## Tera/O'Ter:
 - Feedback, testing, Robot Master concepts
-KCEXE:
-- Feedback, testing, sound design
-jrm10071322:
+## KCEXE:
+- Feedback, testing, sound design, sprites
+## jrm10071322, Bayopepper, DanielGGK912, MaddsaneSRB2, Cross;Tech:
 - Feedback, testing
 
 # Resources used
-hansungkee, WarnerBuilders64, mike1967-now, Red Flash, Yiey20, Team MM8BDM: // I have no idea who made Maestro's original sprites.
+## hansungkee, WarnerBuilders64, mike1967-now, Red Flash, Yiey20, Team MM8BDM: // I have no idea who made Maestro's original sprites.
 - Maestro sprites
+## Sequel Wars Team:
+- Projectile sprites (mostly used for Rachel)
+## Napst:
+- Proto Man sprites

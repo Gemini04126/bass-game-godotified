@@ -102,7 +102,6 @@ func _physics_process(delta: float) -> void:
 				if GameState.ultimate == true:
 					sprite.material.set_shader_parameter("palette", weapon_palette[21])
 				teleporting()
-				$mistCollision.disabled = true
 			STATES.IDLE:
 				idle(delta)
 				dashProcess()
@@ -193,6 +192,7 @@ func _physics_process(delta: float) -> void:
 				module_video()
 			STATES.SLIDE:
 				$mainCollision.set_disabled(true)
+				$slideCollision.set_disabled(false)
 				dashing(delta)
 				processJump()
 				processCharge()

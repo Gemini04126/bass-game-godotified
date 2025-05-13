@@ -3,6 +3,9 @@ extends MaestroPlayer
 # Enums
 enum WEAPONS {BUSTER, GALAXY, TOP, GEMINI, GRENADE, YAMATO, MAGMA, PHARAOH, CHILL, WIRE, BALLOON, MAGNET, TERRA, MERCURY, MARS, PLUTO, ROSE}
 
+# References
+@onready var rapid_timer = $Timers/RapidTimer
+
 func _init() -> void:
 	weapon_palette = [
 		preload("res://sprites/players/rachel/palettes/Rachel Buster.png"),
@@ -29,7 +32,7 @@ func _init() -> void:
 	]
 
 	projectile_scenes = [
-		preload("res://scenes/objects/players/weapons/copy_robot/buster_small.tscn"),
+		preload("res://scenes/objects/players/rachel/weapons/buster.tscn"),
 		preload("res://scenes/objects/players/rachel/weapons/balloon_adaptor.tscn")
 	]
 
@@ -38,66 +41,106 @@ func _init() -> void:
 	]
 
 #region Weapon Shit
+func processBuster():
+	if Input.is_action_pressed("buster"):
+		busterAnimMatch()
+		weapon_buster()
+		
 func processShoot():
-	if Input.is_action_just_pressed("shoot") && !transing && GameState.inputdisabled == false:
+	if !transing && GameState.inputdisabled == false:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
 			WEAPONS.BUSTER:
-				busterAnimMatch()
-				weapon_buster()
+				if Input.is_action_pressed("shoot"): # add the rapid-fire thing here
+					busterAnimMatch()
+					weapon_buster()
 			WEAPONS.GALAXY:
-				#the animation match stuff is within the actual weapon since its a two parter
-				weapon_galaxy()
+				if Input.is_action_just_pressed("shoot"):
+					#the animation match stuff is within the actual weapon since its a two parter
+					weapon_galaxy()
 			WEAPONS.TOP:
-				#the animation match stuff is within the actual weapon since its a special state
-				weapon_top()
+				if Input.is_action_just_pressed("shoot"):
+					#the animation match stuff is within the actual weapon since its a special state
+					weapon_top()
 			WEAPONS.GEMINI:
-				busterAnimMatch()
-				weapon_gemini()
+				if Input.is_action_just_pressed("shoot"):
+					busterAnimMatch()
+					weapon_gemini()
 			WEAPONS.GRENADE:
-				busterAnimMatch()
-				weapon_grenade()
+				if Input.is_action_just_pressed("shoot"):
+					busterAnimMatch()
+					weapon_grenade()
 			WEAPONS.YAMATO:
-				weapon_yamato()
+				if Input.is_action_pressed("shoot"):
+					busterAnimMatch()
+					weapon_yamato()
 			WEAPONS.MAGMA:
-				busterAnimMatch()
-				weapon_magma()
+				if Input.is_action_just_pressed("shoot"):
+					busterAnimMatch()
+					weapon_magma()
 			WEAPONS.PHARAOH:
-				throwAnimMatch()
-				weapon_pharaoh()
+				if Input.is_action_just_pressed("shoot"):
+					throwAnimMatch()
+					weapon_pharaoh()
 			WEAPONS.CHILL:
-				busterAnimMatch()
-				weapon_chill()
+				if Input.is_action_just_pressed("shoot"):
+					busterAnimMatch()
+					weapon_chill()
 			WEAPONS.WIRE:
-				#the animation match stuff is within the actual weapon since its a special state
-				weapon_wire()
+				if Input.is_action_just_pressed("shoot"):
+					#the animation match stuff is within the actual weapon since its a special state
+					weapon_wire()
 			WEAPONS.BALLOON:
-				throwAnimMatch()
-				weapon_balloon()
+				if Input.is_action_just_pressed("shoot"):
+					throwAnimMatch()
+					weapon_balloon()
 			WEAPONS.MAGNET:
-				busterAnimMatch()
-				weapon_magnet()
+				if Input.is_action_pressed("shoot"):
+					busterAnimMatch()
+					weapon_magnet()
 			WEAPONS.TERRA:
-				busterAnimMatch()
-				weapon_terra()
+				if Input.is_action_just_pressed("shoot"):
+					busterAnimMatch()
+					weapon_terra()
 			WEAPONS.MERCURY:
-				busterAnimMatch()
-				weapon_mercury()
+				if Input.is_action_just_pressed("shoot"):
+					busterAnimMatch()
+					weapon_mercury()
 			WEAPONS.MARS:
-				busterAnimMatch()
-				weapon_mars()
+				if Input.is_action_pressed("shoot"):
+					busterAnimMatch()
+					weapon_mars()
 			WEAPONS.PLUTO:
-				#the animation match stuff is within the actual weapon since its a special state AND a two-parter
-				weapon_pluto()
+				if Input.is_action_pressed("shoot"):
+					#the animation match stuff is within the actual weapon since its a special state AND a two-parter
+					weapon_pluto()
 			WEAPONS.ROSE:
-				# holy shit this one's gonna be complex
-				weapon_rose()
+				if Input.is_action_just_pressed("shoot"):
+					# holy shit this one's gonna be complex
+					weapon_rose()
 
 # ================
 # WEAPON FUNCTIONS
 # ================
 
-# See, there's a problem... We can't do anything involving weapon damage until we rework the weapon damage system!
+## Rachel Buster
+## Your default weapon. Deals 2 damage per hit?
+##
+func weapon_buster():
+	if rapid_timer.is_stopped() and GameState.onscreen_bullets < 4:
+		rapid_timer.start(0.15)
+		shot_type = 0
+		attack_timer.start(0.3)
+		GameState.onscreen_bullets += 1
+		projectile = projectile_scenes[0].instantiate()
+		add_sibling(projectile)
+		projectile.process_mode = Node.PROCESS_MODE_ALWAYS
+		projectile.position.x = position.x + (sprite.scale.x * 18)
+		projectile.position.y = position.y + 4
+		projectile.velocity.x = sprite.scale.x * 350
+		projectile.scale.x = sprite.scale.x
+		Charge = 0
+		$Audio/Buster1.play()
 
 ## Black Hole Bomb
 ## Uses 4 WE, and deals 1 damage per hit.
@@ -176,9 +219,10 @@ func weapon_wire():
 ## Uses 2 WE, and deals no damage.
 ## Creates a balloon platform in front of you that slowly rises up and squishes when you stand on it.
 func weapon_balloon():
-	if Input.is_action_just_pressed("shoot") && GameState.weapon_energy[WEAPONS.BALLOON] >= 2 && GameState.onscreen_sp_bullets < 3:
+	if Input.is_action_just_pressed("shoot") && (GameState.infinite_ammo || GameState.weapon_energy[WEAPONS.BALLOON] >= 2) && GameState.onscreen_sp_bullets < 3:
 		anim.seek(0)
-		GameState.weapon_energy[WEAPONS.BALLOON] -= 2
+		if !GameState.infinite_ammo:
+			GameState.weapon_energy[WEAPONS.BALLOON] -= 2
 		shot_type = 2
 		attack_timer.start(0.3)
 		GameState.onscreen_sp_bullets += 1

@@ -833,10 +833,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cb33"]
-size = Vector2(14, 25)
+size = Vector2(14, 26)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lw0ta"]
-size = Vector2(14, 10)
+size = Vector2(14, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vxmyy"]
 size = Vector2(1, 0)
@@ -909,15 +909,11 @@ text = "state
 goes here"
 
 [node name="mainCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_3cb33")
 
-[node name="mistCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 9)
-shape = SubResource("RectangleShape2D_lw0ta")
-
 [node name="slideCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 7)
+position = Vector2(0, 10)
 shape = SubResource("RectangleShape2D_lw0ta")
 
 [node name="upLadder" type="RayCast2D" parent="."]
@@ -953,6 +949,7 @@ debug_color = Color(0.969991, 0, 0.457701, 0.42)
 [node name="Timers" type="Node" parent="."]
 
 [node name="StateTimer" type="Timer" parent="Timers"]
+process_callback = 0
 one_shot = true
 autostart = true
 
@@ -960,27 +957,33 @@ autostart = true
 process_callback = 0
 
 [node name="InvulTimer" type="Timer" parent="Timers"]
+process_callback = 0
 one_shot = true
 autostart = true
 
 [node name="PainTimer" type="Timer" parent="Timers"]
+process_callback = 0
 one_shot = true
 autostart = true
 
 [node name="SlideTimer" type="Timer" parent="Timers"]
+process_callback = 0
 wait_time = 0.4
 one_shot = true
 
 [node name="RapidTimer" type="Timer" parent="Timers"]
+process_callback = 0
 wait_time = 0.15
 one_shot = true
 autostart = true
 
 [node name="FireDelay" type="Timer" parent="Timers"]
+process_callback = 0
 wait_time = 0.4
 one_shot = true
 
 [node name="DeathTimer" type="Timer" parent="Timers"]
+process_callback = 0
 wait_time = 2.5
 one_shot = true
 

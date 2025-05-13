@@ -879,6 +879,7 @@ shape = SubResource("RectangleShape2D_gv3ns")
 [node name="slideCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)
 shape = SubResource("RectangleShape2D_ada6q")
+disabled = true
 
 [node name="upLadder" type="RayCast2D" parent="."]
 position = Vector2(0, 15.67)
@@ -942,6 +943,7 @@ wait_time = 0.4
 one_shot = true
 
 [node name="DeathTimer" type="Timer" parent="Timers"]
+process_callback = 0
 wait_time = 2.5
 one_shot = true
 

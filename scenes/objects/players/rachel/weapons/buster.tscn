@@ -1,0 +1,128 @@
+[gd_scene load_steps=14 format=3 uid="uid://wiwvbihm8oq7"]
+
+[ext_resource type="Texture2D" uid="uid://c05yeeic5gxdt" path="res://sprites/players/rachel/weapons/Buster.png" id="1_bol3u"]
+[ext_resource type="Texture2D" uid="uid://dgiwcwe0dt077" path="res://sprites/explosion.png" id="2_gqwnw"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="3_lcvpa"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="4_ttiku"]
+
+[sub_resource type="GDScript" id="GDScript_qxaat"]
+script/source = "extends CharacterBody2D
+
+const W_Type = GameState.DMGTYPE.CR_BUSTER_1
+var freezeframed
+
+func _physics_process(_delta):
+	if move_and_slide():
+		destroy()
+	if GameState.freezeframe == true:
+		freezeframed = true
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	GameState.onscreen_bullets -= 1
+	queue_free()
+
+func destroy():
+	$CollisionShape2D.set_deferred(\"disabled\", true)
+	$HitSound.play()
+	velocity.x = 0
+	velocity.y = 0
+	$AnimatedSprite2D.play(\"explode\")
+	await $AnimatedSprite2D.animation_finished
+	GameState.onscreen_bullets -= 1
+	queue_free()
+
+func kill():
+	destroy()
+
+func reflect():
+	$ReflectSound.play()
+	destroy()
+
+func _on_timer_timeout() -> void:
+	destroy()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lcvpa"]
+atlas = ExtResource("1_bol3u")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttiku"]
+atlas = ExtResource("1_bol3u")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxaat"]
+atlas = ExtResource("2_gqwnw")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ktwi"]
+atlas = ExtResource("2_gqwnw")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbeuf"]
+atlas = ExtResource("2_gqwnw")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4j0g"]
+atlas = ExtResource("2_gqwnw")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rmt74"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lcvpa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ttiku")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxaat")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ktwi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dbeuf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4j0g")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bol3u"]
+size = Vector2(8, 8)
+
+[node name="Buster" type="CharacterBody2D"]
+collision_layer = 8
+script = SubResource("GDScript_qxaat")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_rmt74")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bol3u")
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_lcvpa")
+volume_db = -4.0
+bus = &"SFX"
+
+[node name="ReflectSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ttiku")
+bus = &"SFX"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
