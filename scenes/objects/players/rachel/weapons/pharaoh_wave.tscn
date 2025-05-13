@@ -7,7 +7,7 @@
 [sub_resource type="GDScript" id="GDScript_s6ggb"]
 script/source = "extends CharacterBody2D
 
-const W_Type = 7	# This is Fin Shredder. G: Um, ackshuwally, it's Pharaoh Wave...
+const W_Type = GameState.DMGTYPE.RA_PHARAOH
 
 #func _ready():
 #	$SpawnSound.play()

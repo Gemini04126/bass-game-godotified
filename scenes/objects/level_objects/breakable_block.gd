@@ -41,13 +41,12 @@ var Dmg_Vals = [
 
 var _style : int = 0
 ## Breakable Block sprite set to display
-@export var style : int :
+@export_enum ("Test", "Blaze", "Video", "Smog", "Shark", "Origami", "Gale", "Guerrilla", "Reaper") var style : int :
 	get:
 		return _style
 	set(value):
-		if (value < styles.size()) && (value >= 0):
-			_style = value;
-			$AnimatedSprite2D.play(styles[style])
+		_style = value;
+		$AnimatedSprite2D.play(styles[style])
 
 func _ready():
 	$AnimatedSprite2D.play(styles[style])

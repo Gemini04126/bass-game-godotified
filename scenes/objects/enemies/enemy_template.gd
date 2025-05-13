@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 class_name Enemy_Template
 
-var Dmg_Vals = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37]
+var Dmg_Vals : Array[int]
 var Atk_Dmg = 4
 var Cur_Inv = 0
 var Max_HP = 3
@@ -11,6 +11,7 @@ var blown : bool = false
 var subtype = 0
 
 func basedmg():
+	Dmg_Vals.resize(GameState.DMGTYPE.size())
 	Dmg_Vals[GameState.DMGTYPE.CB_SMOG] = 1
 	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] = 3
 	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 5
@@ -44,6 +45,24 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 4
 	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 0.85
 	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 1.25
+	
+	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_GALAXY] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_TOP] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_GEMINI] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_GRENADE] = 0.5
+	Dmg_Vals[GameState.DMGTYPE.RA_YAMATO] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA2] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_PHARAOH] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL2] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_WIRE] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_TERRA] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MERCURY] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MARS] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_PLUTO] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2 # Maybe?
 	
 func _ready():
 	basedmg()

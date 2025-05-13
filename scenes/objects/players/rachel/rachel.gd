@@ -167,7 +167,7 @@ func weapon_grenade():
 	return
 
 ## Yamato Spear
-## Uses 1 WE, and deals ? damage.
+## Uses 1 WE, and deals 2 damage.
 ## Fires a piercing projectile that either moves up or down depending on which direction it went last.
 func weapon_yamato():
 	return
@@ -188,7 +188,6 @@ func weapon_pharaoh():
 			GameState.onscreen_sp_bullets += 2
 			projectile = weapon_scenes[0].instantiate()
 			add_sibling(projectile)
-
 			projectile.position.x = position.x + 5
 			projectile.position.y = position.y
 			projectile.velocity.x = 200
@@ -196,7 +195,6 @@ func weapon_pharaoh():
 
 			projectile = weapon_scenes[0].instantiate()
 			add_sibling(projectile)
-
 			projectile.position.x = position.x - 5
 			projectile.position.y = position.y
 			projectile.velocity.x = -200

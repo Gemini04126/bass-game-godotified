@@ -53,6 +53,23 @@ enum DMGTYPE
 	#ProtoMan Weapons (PM)
 	
 	#Rachel Weapons (RA)
+	RA_BUSTER,
+	RA_GALAXY,
+	RA_TOP,
+	RA_GEMINI,
+	RA_GRENADE,
+	RA_YAMATO,
+	RA_MAGMA,
+	RA_MAGMA2,
+	RA_PHARAOH,
+	RA_CHILL,
+	RA_CHILL2,
+	RA_WIRE,
+	RA_TERRA,
+	RA_MERCURY,
+	RA_MARS,
+	RA_PLUTO,
+	RA_ROSE,
 	
 	#Instant Kill (KILL)
 	KILL
