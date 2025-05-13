@@ -8,7 +8,6 @@
 script/source = "extends CharacterBody2D
 
 const Atk_Dmg = 4
-var timer : int = 90
 
 var firsttick = true
 
@@ -16,12 +15,8 @@ func _ready():
 	$SpawnSound.play()
 
 func _physics_process(_delta):
-	if timer > 0:
-		timer -= 1
-	else:
-		queue_free()
-	if timer == 45:
-		$hurt.queue_free()
+	await $AnimatedSprite2D.animation_finished
+	queue_free()
 
 func _on_hurt_body_entered(body):
 	body.DmgQueue = Atk_Dmg
@@ -144,8 +139,6 @@ script = SubResource("GDScript_7e10n")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tmmfq")
 autoplay = "default"
-frame = 8
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_eg0en")

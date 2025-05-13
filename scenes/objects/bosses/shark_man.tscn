@@ -20,8 +20,8 @@ class_name Shark_Man
 @onready var projectile
 @export var slot : int
 @export var barPalette : CompressedTexture2D
-var Dmg_Vals = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37]
-var Inv_Vals = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37]
+var Dmg_Vals : Array[int]
+var Inv_Vals : Array[int]
 var Atk_Dmg = 4
 var flash : bool
 var exploded : bool
@@ -66,6 +66,7 @@ const EXPLOSION_SPEEDS : Array[Vector2] = [ #G: Hey look, I can actually pretty 
 
 func basedmg():
 	#region Damage
+	Dmg_Vals.resize(GameState.DMGTYPE.size())
 	Dmg_Vals[GameState.DMGTYPE.CB_SMOG] = 1
 	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] = 2
 	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 3
@@ -99,8 +100,27 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 3
 	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 1
 	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 1
+	
+	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_GALAXY] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_TOP] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_GEMINI] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_GRENADE] = 0.5
+	Dmg_Vals[GameState.DMGTYPE.RA_YAMATO] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA2] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_PHARAOH] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL2] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_WIRE] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_TERRA] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MERCURY] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MARS] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_PLUTO] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2 # Maybe?
 	#endregion
 	#region Invul
+	Inv_Vals.resize(GameState.DMGTYPE.size())
 	Inv_Vals[GameState.DMGTYPE.CB_SMOG] = 0.75
 	Inv_Vals[GameState.DMGTYPE.CB_REAPER_1] = 0.75
 	Inv_Vals[GameState.DMGTYPE.CB_REAPER_2] = 0.75
@@ -134,6 +154,24 @@ func basedmg():
 	Inv_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 0
 	Inv_Vals[GameState.DMGTYPE.MD_GUERILLA] = 0.65
 	Inv_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 0.65
+	
+	Inv_Vals[GameState.DMGTYPE.RA_BUSTER] = 0.35
+	Inv_Vals[GameState.DMGTYPE.RA_GALAXY] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_TOP] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_GEMINI] = 0.35
+	Inv_Vals[GameState.DMGTYPE.RA_GRENADE] = 0.15
+	Inv_Vals[GameState.DMGTYPE.RA_YAMATO] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_MAGMA] = 0.35
+	Inv_Vals[GameState.DMGTYPE.RA_MAGMA2] = 0.35
+	Inv_Vals[GameState.DMGTYPE.RA_PHARAOH] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_CHILL] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_CHILL2] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_WIRE] = 0 # it would be really funny to do this
+	Inv_Vals[GameState.DMGTYPE.RA_TERRA] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_MERCURY] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_MARS] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_PLUTO] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_ROSE] = 0.75 # Maybe?
 	#endregion
 
 func _ready():
