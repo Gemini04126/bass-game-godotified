@@ -809,7 +809,6 @@ scrollX1 = 3
 scrollX2 = 3
 scrollY1 = 2
 scrollY2 = 2
-direction = 1
 screenmode = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/Screen Trigger4"]
@@ -821,7 +820,6 @@ scrollX1 = 4
 scrollX2 = 6
 scrollY1 = 1
 scrollY2 = 2
-direction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/Screen Trigger5"]
 shape = SubResource("RectangleShape2D_rgsdf")
@@ -832,7 +830,6 @@ scrollX1 = 7
 scrollX2 = 9
 scrollY1 = 1
 scrollY2 = 2
-direction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/Screen Trigger6"]
 shape = SubResource("RectangleShape2D_blgyj")
@@ -863,7 +860,6 @@ shape = SubResource("RectangleShape2D_itthr")
 position = Vector2(-5184, -616)
 scrollX1 = 3
 scrollX2 = 3
-direction = 1
 screenmode = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/Screen Trigger8"]
@@ -873,7 +869,6 @@ shape = SubResource("RectangleShape2D_t82as")
 position = Vector2(-3268, -616)
 scrollX1 = 8
 scrollX2 = 10
-direction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/Screen Trigger11"]
 shape = SubResource("RectangleShape2D_t82as")
@@ -882,7 +877,6 @@ shape = SubResource("RectangleShape2D_t82as")
 position = Vector2(-4800, -616)
 scrollX1 = 4
 scrollX2 = 7
-direction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/Screen Trigger9"]
 shape = SubResource("RectangleShape2D_qo1cr")
@@ -893,7 +887,6 @@ scrollX1 = 10
 scrollX2 = 11
 scrollY1 = 1
 scrollY2 = 1
-direction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/Screen Trigger10"]
 shape = SubResource("RectangleShape2D_fj7wh")
@@ -926,7 +919,6 @@ scrollX1 = 16
 scrollX2 = 16
 scrollY1 = 5
 scrollY2 = 5
-direction = 1
 screenmode = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/Screen Trigger14"]
@@ -938,7 +930,6 @@ scrollX1 = 11
 scrollX2 = 15
 scrollY1 = 5
 scrollY2 = 6
-direction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/Screen Trigger15"]
 shape = SubResource("RectangleShape2D_mgnoy")

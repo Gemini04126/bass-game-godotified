@@ -44,9 +44,10 @@ func _physics_process(_delta):
 		teleporting = false
 		GameState.player.warping = 2 
 
-func _on_trigger_body_entered(_body: Node2D) -> void:
-	disabled = true
-	teleporting = true
-	GameState.player.warping = 1 
-	$Timer.start(0.35)
+func _on_trigger_body_entered(body):
+	if body.is_in_group("player"):
+		disabled = true
+		teleporting = true
+		GameState.player.warping = 1 
+		$Timer.start(0.35)
 	

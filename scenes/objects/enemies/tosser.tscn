@@ -83,7 +83,12 @@ func _physics_process(_delta):
 				if subtype ==1:
 					if GameState.player != null:
 						projectile.velocity.x = (position.x - GameState.player.position.x) * -1
-				projectile.velocity.y = -420
+						if position.y - GameState.player.position.y < 10:
+							projectile.velocity.y = ((position.y - GameState.player.position.y) * -1)-350
+						else:
+							projectile.velocity.y = -350
+					else:
+						projectile.velocity.y = -420
 				
 			elif $Sprite.animation == \"Jump\" && is_on_floor():
 				$Sprite.stop()

@@ -17,7 +17,6 @@ shader_parameter/fps = 6.0
 [node name="WeaponSelector" type="CenterContainer"]
 script = ExtResource("1_op2oe")
 item = 1
-row = null
 
 [node name="Text" type="Node2D" parent="."]
 

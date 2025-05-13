@@ -493,6 +493,9 @@ scrollX1 = -5000
 scrollX2 = 5000
 scrollY1 = -500
 scrollY2 = 500
+direction = 0
+ladder_only = null
+one_time_use = null
 
 [node name="Wind" parent="." instance=ExtResource("22_hgj2p")]
 process_mode = 3

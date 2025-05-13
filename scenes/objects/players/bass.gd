@@ -213,7 +213,8 @@ func _physics_process(delta: float) -> void:
 			STATES.DEAD:
 				dead()
 				
-		position.x += wind_push
+		if GameState.freezeframe == false:
+			position.x += wind_push
 		animationMatching()
 		switchWeapons()
 		if currentState != STATES.DEAD:

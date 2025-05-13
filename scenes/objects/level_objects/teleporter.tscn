@@ -148,7 +148,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ggomi"]
-size = Vector2(20, 32)
+size = Vector2(4, 2)
 
 [node name="Teleporter" type="StaticBody2D"]
 script = ExtResource("1_r3q2i")
@@ -189,6 +189,7 @@ one_shot = true
 collision_mask = 2
 
 [node name="Trigger" type="CollisionShape2D" parent="Trigger"]
+position = Vector2(0, 15)
 shape = SubResource("RectangleShape2D_ggomi")
 debug_color = Color(0, 0.588235, 0, 0.419608)
 

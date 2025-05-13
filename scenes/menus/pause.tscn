@@ -272,7 +272,6 @@ focus_neighbor_right = NodePath("../Treble")
 focus_neighbor_bottom = NodePath("../Scorch")
 focus_mode = 2
 item = 0
-row = 0
 
 [node name="Treble" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -284,7 +283,6 @@ focus_neighbor_left = NodePath("../Buster")
 focus_neighbor_bottom = NodePath("../Origami")
 focus_mode = 2
 item = 10
-row = 0
 
 [node name="Scorch" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -296,7 +294,6 @@ focus_neighbor_top = NodePath("../Buster")
 focus_neighbor_right = NodePath("../Origami")
 focus_neighbor_bottom = NodePath("../Frame")
 focus_mode = 2
-row = 0
 
 [node name="Frame" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -309,7 +306,6 @@ focus_neighbor_right = NodePath("../Gale")
 focus_neighbor_bottom = NodePath("../Smog")
 focus_mode = 2
 item = 2
-row = 0
 
 [node name="Smog" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -322,7 +318,6 @@ focus_neighbor_right = NodePath("../Bomb")
 focus_neighbor_bottom = NodePath("../Shark")
 focus_mode = 2
 item = 3
-row = 0
 
 [node name="Shark" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -335,7 +330,6 @@ focus_neighbor_right = NodePath("../Reaper")
 focus_neighbor_bottom = NodePath("../Proto")
 focus_mode = 2
 item = 4
-row = 0
 
 [node name="Origami" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -348,7 +342,6 @@ focus_neighbor_top = NodePath("../Treble")
 focus_neighbor_bottom = NodePath("../Gale")
 focus_mode = 2
 item = 5
-row = 0
 
 [node name="Gale" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -361,7 +354,6 @@ focus_neighbor_top = NodePath("../Origami")
 focus_neighbor_bottom = NodePath("../Bomb")
 focus_mode = 2
 item = 6
-row = 0
 
 [node name="Bomb" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -374,7 +366,6 @@ focus_neighbor_top = NodePath("../Gale")
 focus_neighbor_bottom = NodePath("../Reaper")
 focus_mode = 2
 item = 7
-row = 0
 
 [node name="Reaper" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -387,7 +378,6 @@ focus_neighbor_top = NodePath("../Bomb")
 focus_neighbor_bottom = NodePath("../Proto")
 focus_mode = 2
 item = 8
-row = 0
 
 [node name="Proto" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -400,7 +390,6 @@ focus_neighbor_top = NodePath("../Shark")
 focus_neighbor_right = NodePath("../Reaper")
 focus_mode = 2
 item = 9
-row = 0
 
 [node name="CopyWeps" type="Node2D" parent="."]
 visible = false

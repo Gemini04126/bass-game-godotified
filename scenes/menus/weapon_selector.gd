@@ -273,6 +273,7 @@ func _process(_delta):
 			$Bar2.frame = GameState.current_hp
 			if GameState.upgrades_enabled[1] == false:
 				$Bar.visible = true
+				$Bar2.visible = false
 			else:
 				$Bar2.visible = true
 				
@@ -288,6 +289,7 @@ func _process(_delta):
 					$IconM.visible = true
 					$IconW.visible = false
 					$Bar.visible = false
+					$Bar2.visible = false
 		
 			if GameState.weapons_unlocked[item] == true:
 				$Text/WepName.visible = true
@@ -298,13 +300,16 @@ func _process(_delta):
 				$Bar2.frame = GameState.weapon_energy[item]
 				if GameState.upgrades_enabled[2] == false:
 					$Bar.visible = true
+					$Bar2.visible = false
 				else:
 					$Bar2.visible = true
-				
+			
 			
 			else:
 				$Bar.visible = false
+				$Bar2.visible = false
 				$IconW.visible = false
+				$Text/WepName.visible = false
 				
 	if Engine.is_editor_hint():
 		$IconW.frame = 0
