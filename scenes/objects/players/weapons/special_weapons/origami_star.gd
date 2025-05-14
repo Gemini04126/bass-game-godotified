@@ -4,7 +4,7 @@ var W_Type = GameState.DMGTYPE.CB_ORIGAMI
 var broken
 
 func _ready():
-	$SpawnSound.play()
+	pass
 		
 func _physics_process(_delta):
 	if GameState.current_weapon != GameState.WEAPONS.ORIGAMI:

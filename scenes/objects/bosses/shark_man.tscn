@@ -20,8 +20,8 @@ class_name Shark_Man
 @onready var projectile
 @export var slot : int
 @export var barPalette : CompressedTexture2D
-var Dmg_Vals : Array[int]
-var Inv_Vals : Array[int]
+var Dmg_Vals : Array[float]
+var Inv_Vals : Array[float]
 var Atk_Dmg = 4
 var flash : bool
 var exploded : bool

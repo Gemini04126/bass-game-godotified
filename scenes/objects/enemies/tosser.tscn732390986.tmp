@@ -27,9 +27,6 @@ func _ready():
 	$Timer.start(1.5)
 	
 func _physics_process(_delta):
-	if GameState.transdir != 0:
-		queue_free()
-	
 	if subtype == 1:
 		$Sprite.material.set_shader_parameter(\"palette\", preload(\"res://sprites/enemies/object_trans/transb2.png\"))
 	

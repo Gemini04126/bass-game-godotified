@@ -10,6 +10,9 @@ class_name Fire_Telly
 var currentState : int = 0
 
 func _physics_process(_delta: float) -> void:
+	if GameState.transdir != 0:
+		queue_free()
+		
 	if blown == false:
 		health_check()
 		match currentState:

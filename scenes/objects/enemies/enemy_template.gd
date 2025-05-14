@@ -2,13 +2,12 @@ extends CharacterBody2D
 
 class_name Enemy_Template
 
-var Dmg_Vals : Array[int]
+var Dmg_Vals : Array[float]
 var Atk_Dmg = 4
 var Cur_Inv = 0
-var Max_HP = 3
-var Cur_HP = 3
+var Cur_HP : float = 3 
 var blown : bool = false
-var subtype = 0
+var subtype : int
 
 func basedmg():
 	Dmg_Vals.resize(GameState.DMGTYPE.size())
@@ -17,7 +16,7 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 5
 	Dmg_Vals[GameState.DMGTYPE.CB_GALE] = 8
 	Dmg_Vals[GameState.DMGTYPE.CB_ORIGAMI] = 2
-	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 0.8
+	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 0.75
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_1] = 2
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_2] = 3
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_3] = 5
@@ -43,8 +42,8 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.MD_BLAZE] = 3
 	Dmg_Vals[GameState.DMGTYPE.MD_VIDEO] = 2
 	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 4
-	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 0.85
-	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 1.25
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 0.95
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 1.5
 	
 	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 2
 	Dmg_Vals[GameState.DMGTYPE.RA_GALAXY] = 1
@@ -68,6 +67,9 @@ func _ready():
 	basedmg()
 
 func _physics_process(_delta):
+	if GameState.transdir != 0:
+		queue_free()
+		
 	if Cur_HP <= 0:
 		queue_free()
 	if Cur_Inv > 0:

@@ -15,6 +15,9 @@ func _ready():
 	$SpawnSound.play()
 
 func _physics_process(_delta):
+	if GameState.transdir != 0:
+		queue_free()
+		
 	await $AnimatedSprite2D.animation_finished
 	queue_free()
 

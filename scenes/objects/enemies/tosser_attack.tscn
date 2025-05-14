@@ -19,6 +19,9 @@ func _ready():
 	$SpawnSound.play()
 		
 func _physics_process(delta):
+	if GameState.transdir != 0:
+		queue_free()
+		
 	if type == 1:
 		$AnimatedSprite2D.play(\"Bomb\")
 		velocity.y += gravity * delta

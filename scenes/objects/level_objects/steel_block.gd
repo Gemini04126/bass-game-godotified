@@ -2,12 +2,13 @@
 class_name BreakableBlock
 extends StaticBody2D
 
-var Dmg_Vals = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37]
-var Atk_Dmg = 4
-var Cur_HP = 4
-var blown : bool = false
+var Dmg_Vals : Array[int]
+var Cur_HP : int = 3
+var subtype : int
 
 func basedmg():
+	Dmg_Vals.resize(GameState.DMGTYPE.size())
+	
 	Dmg_Vals[GameState.DMGTYPE.CB_SMOG] = 1
 	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] = 1
 	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 1
@@ -40,6 +41,24 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.MD_VIDEO] = 1
 	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 4
 	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 2
+	
+	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_GALAXY] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_TOP] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_GEMINI] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_GRENADE] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_YAMATO] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA2] = 4
+	Dmg_Vals[GameState.DMGTYPE.RA_PHARAOH] = 4
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL2] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_WIRE] = 0
+	Dmg_Vals[GameState.DMGTYPE.RA_TERRA] = 0
+	Dmg_Vals[GameState.DMGTYPE.RA_MERCURY] = 0
+	Dmg_Vals[GameState.DMGTYPE.RA_MARS] = 4
+	Dmg_Vals[GameState.DMGTYPE.RA_PLUTO] = 4
+	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2
 	
 func _ready():
 	basedmg()

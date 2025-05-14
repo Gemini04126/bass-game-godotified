@@ -24,4 +24,10 @@ offset_right = 20.0
 offset_bottom = -20.0
 text = "0"
 
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(1.90735e-06, 0.500002)
+scale = Vector2(4.8, 3.85)
+rect = Rect2(-25, -25, 50, 50)
+
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

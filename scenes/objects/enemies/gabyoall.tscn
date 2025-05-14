@@ -69,12 +69,19 @@ func _ready():
 	Dmg_Vals[GameState.DMGTYPE.RA_MARS] = 2
 	Dmg_Vals[GameState.DMGTYPE.RA_PLUTO] = 2 # yeah fuck you i'm stronger 💪😤
 	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2 # Maybe?
-	
-	direction = 1
+		
+	if GameState.player != null:
+		if GameState.player.position.x > position.x:
+			direction = 1
+		else:
+			direction = -1
 	Atk_Dmg = 4
 	Cur_HP = 2
 
 func _physics_process(_delta):
+	if GameState.transdir != 0:
+		queue_free()
+		
 	if GameState.freezeframe == true:
 		$Sprite.pause()
 	else:

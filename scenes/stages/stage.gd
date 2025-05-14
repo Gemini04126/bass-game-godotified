@@ -194,7 +194,7 @@ func process_camera():
 						if (player.position.y > $Camera2D.position.y) and player.standing == true:
 							$Camera2D.position.y += 3
 
-						if (player.position.y > $Camera2D.position.y + 25 ) and player.standing == false:
+						if (player.position.y > $Camera2D.position.y + 25 ) and player.standing != true:
 							$Camera2D.position.y = player.position.y - 25
 
 					if (player.position.y < (224*GameState.scrollY2) + 104 + 8) and player.warping == 0:
@@ -203,6 +203,9 @@ func process_camera():
 								
 						if (player.position.y < $Camera2D.position.y - 25 ) and player.standing != true:
 							$Camera2D.position.y = player.position.y + 25
+							
+					if (player.position.y > $Camera2D.position.y - 2) and (player.position.y < $Camera2D.position.y + 2) and player.standing == true and player.warping == 0:
+						$Camera2D.position.y = player.position.y
 						
 					if player.warping > 0:
 						$Camera2D.position = player.position

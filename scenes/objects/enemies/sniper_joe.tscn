@@ -24,6 +24,9 @@ func _ready():
 	timer = 200
 
 func _physics_process(_delta):
+	if GameState.transdir != 0:
+		queue_free()
+		
 	if Cur_HP <= 0:
 		projectile = preload(\"res://scenes/objects/explosion_1.tscn\").instantiate()
 		add_sibling(projectile)
@@ -240,7 +243,7 @@ size = Vector2(13, 24)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wp5vq"]
 size = Vector2(20, 28)
 
-[node name="Sniper Joe" type="CharacterBody2D"]
+[node name="Sniper Joe2" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_gtk0d")
 collision_layer = 0
 collision_mask = 3

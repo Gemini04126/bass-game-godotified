@@ -2,6 +2,9 @@
 class_name SteelBlock
 extends StaticBody2D
 
+var Dmg_Vals : Array[int]
+
+
 const styles = [
 	"Test",
 	"Blaze",
@@ -13,31 +16,61 @@ const styles = [
 	"Guerrilla",
 	"Reaper"
 ]
-var Dmg_Vals = [
-		1,	#0  Bass Buster 
-		1,	#1  Copy Buster
-		2,	#2  Copy Buster, medium shot
-		4,	#3  Copy Buster, charge shot
-		3,	#4  Scorch Barrier
-		0,	#5  Freeze Frame (if it does damage like Time Stopper on Quick Man)
-		1,	#6  Poison Cloud
-		6,	#7  Fin Shredder
-		2,	#8  Origami Star
-		10,	#9  Wild Gale
-		2,	#10 Rolling Bomb(?)
-		3,	#11 Boomerang Scythe
-		2,	#12 Proto Buster medium shot
-		4,	#13 Proto Buster charged shot
-		4,	#14 Super Arrow
-		1,	#15 Mirror Buster
-		2,	#16 Screw Crusher
-		4,	#17 Ballade Cracker
-		4,	#18 Sakugarne (Physical hit)
-		1,	#19 Sakugarne (Rock)
-		3,	#20 Blast jump
-		4,	#21 Paper Cut slice
-		0	# Whatever's next...
-]
+func _ready():
+	Dmg_Vals.resize(GameState.DMGTYPE.size())
+	Dmg_Vals[GameState.DMGTYPE.CB_SMOG] = 0
+	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] = 3
+	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 1
+	Dmg_Vals[GameState.DMGTYPE.CB_GALE] = 0
+	Dmg_Vals[GameState.DMGTYPE.CB_ORIGAMI] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_1] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_2] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_3] = 3
+	
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_1] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_2] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_3] = 3
+	Dmg_Vals[GameState.DMGTYPE.CR_BLAZE] = 0
+	Dmg_Vals[GameState.DMGTYPE.CR_SHARK1] = 3
+	Dmg_Vals[GameState.DMGTYPE.CR_SHARK2] = 3
+	Dmg_Vals[GameState.DMGTYPE.CR_ARROW] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_ENKER] = 1
+	Dmg_Vals[GameState.DMGTYPE.CR_PUNK] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_BALLADE] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_QUINT1] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_QUINT2] = 2
+	
+	Dmg_Vals[GameState.DMGTYPE.BS_BUSTER] = 2
+	Dmg_Vals[GameState.DMGTYPE.BS_BLAZE] = 0
+	Dmg_Vals[GameState.DMGTYPE.BS_SHARK] = 3
+	Dmg_Vals[GameState.DMGTYPE.BS_TREBLE] = 2
+	
+	Dmg_Vals[GameState.DMGTYPE.MD_BLAZE] = 2
+	Dmg_Vals[GameState.DMGTYPE.MD_VIDEO] = 2
+	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 3
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 2
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 2
+	
+	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_GALAXY] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_TOP] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_GEMINI] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_GRENADE] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_YAMATO] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA2] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_PHARAOH] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL2] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_WIRE] = 0
+	Dmg_Vals[GameState.DMGTYPE.RA_TERRA] = 0
+	Dmg_Vals[GameState.DMGTYPE.RA_MERCURY] = 0
+	Dmg_Vals[GameState.DMGTYPE.RA_MARS] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_PLUTO] = 3 # yeah fuck you i'm stronger 💪😤
+	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2 # Maybe?
+	
+	$AnimatedSprite2D.play(styles[style])
 
 var _style : int = 0
 ## Breakable Block sprite set to display
@@ -48,16 +81,21 @@ var _style : int = 0
 		_style = value;
 		$AnimatedSprite2D.play(styles[style])
 
-func _ready():
-	$AnimatedSprite2D.play(styles[style])
+	
 
 func _on_hitable_body_entered(weapon):
-	if weapon.W_Type == 3 or weapon.W_Type == 7 or weapon.W_Type == 13 or weapon.W_Type == 23 or weapon.W_Type == 24:
-		weapon.kill()
+	if Dmg_Vals[weapon.W_Type] == 0: #no interaction
+		weapon.reflect()
 	else:
-		weapon.destroy()
-	$Collision.queue_free()
-	$hitable.queue_free()
-	$AnimatedSprite2D.play("Explode")
-	await $AnimatedSprite2D.animation_finished
-	queue_free()
+		if Dmg_Vals[weapon.W_Type] == 1: #reflects off but still kills
+			weapon.reflect()
+		if Dmg_Vals[weapon.W_Type] == 2: #breaks one block
+			weapon.destroy()
+		if Dmg_Vals[weapon.W_Type] == 3: #goes right through
+			weapon.kill()
+		
+		$Collision.queue_free()
+		$hitable.queue_free()
+		$AnimatedSprite2D.play("Explode")
+		await $AnimatedSprite2D.animation_finished
+		queue_free()

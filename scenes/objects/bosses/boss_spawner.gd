@@ -9,7 +9,9 @@ var oldtype : int
 var olddirection: int
 var readied : bool
 
-@export var type : int ##The type of enemy.
+@export_enum ("Test Boss", "Shark Man") var type : int ##The type of enemy.
+
+
 @export var slot : int
 @onready var baby
 var enemytype = [

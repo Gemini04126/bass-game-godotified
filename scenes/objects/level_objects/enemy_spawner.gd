@@ -8,12 +8,14 @@ var oldposy
 var oldtype : int
 var oldsubtype : int
 var olddirection: int
+var readytospawn : bool = true
 
-@export var type : int ##The type of enemy.
+@export_enum ("Sniper Joe", "Gabyoall", "Shotman", "Wanaan Kai", "Commando Joe", "Sutsi", "Tosser") var type : int ##The type of enemy.
 @export var direction : int
 @export var subtype : int ##Variation on the enemy.
-@export var difficulty : int ##0: Easy, 1: Normal, 2:Hard, 3:V.H.
+@export_enum ("Easy", "Normal", "Hard", "Very Hard", "Mania") var difficulty : int ##0: Easy, 1: Normal, 2:Hard, 3:V.H.
 @onready var baby
+
 var enemytype = [
 	preload("res://scenes/objects/enemies/sniper_joe.tscn"),
 	preload("res://scenes/objects/enemies/gabyoall.tscn"),
@@ -23,18 +25,6 @@ var enemytype = [
 	preload("res://scenes/objects/enemies/sutsi.tscn"),
 	preload("res://scenes/objects/enemies/tosser.tscn")
 ]
-
-func _on_visible_on_screen_notifier_2d_screen_entered():
-	if not Engine.is_editor_hint():
-		if (GameState.difficulty == null) or (difficulty > GameState.difficulty):
-			queue_free()
-		if baby == null:
-			baby = enemytype[type].instantiate()
-			add_sibling(baby)
-			baby.subtype = subtype
-			baby.position = position
-			if direction == 1: 
-				baby.scale.x = -1
 			
 func _ready() -> void:
 	if not Engine.is_editor_hint():
@@ -42,7 +32,17 @@ func _ready() -> void:
 		
 func _process(_delta):
 	if not Engine.is_editor_hint():
-		return
+		if (GameState.difficulty == null) or (difficulty > GameState.difficulty):
+			queue_free()
+		if baby == null and GameState.transdir == 0 and readytospawn == true:
+			baby = enemytype[type].instantiate()
+			add_sibling(baby)
+			baby.subtype = subtype
+			baby.position = position
+			readytospawn = false
+			if direction == 1: 
+				baby.scale.x = -1
+				
 	if Engine.is_editor_hint():
 		$Info/SubType.text = "%s" % subtype
 		
@@ -50,7 +50,6 @@ func _process(_delta):
 			baby = enemytype[type].instantiate()
 			add_sibling(baby)
 			baby.position = position
-			baby.subtype = subtype
 			if direction == 1: 
 				baby.scale.x = -1
 			
@@ -60,8 +59,6 @@ func _process(_delta):
 			if oldposy != position.y:
 				baby.queue_free()
 			if oldtype != type:
-				baby.queue_free()
-			if oldsubtype != subtype:
 				baby.queue_free()
 			if olddirection != direction:
 				baby.queue_free()
@@ -74,3 +71,7 @@ func _process(_delta):
 	else:
 		pass
 		
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	readytospawn = true
