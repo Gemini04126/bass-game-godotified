@@ -605,10 +605,11 @@ func sliding(delta):
 	if !is_on_floor() and GameState.ultimate == false:
 		velocity.x = 0
 		currentState = STATES.JUMP
-	if Input.is_action_just_pressed("jump"):
-		$mainCollision.disabled = true
-		$slideCollision.disabled = false
-		$hurtboxArea/mainHurtbox.set_disabled(true)
+		
+	if Input.is_action_just_pressed("jump") and !$ceilCheck.is_colliding():
+		$mainCollision.disabled = false
+		$slideCollision.disabled = true
+		$hurtboxArea/mainHurtbox.set_disabled(false)
 		
 func _on_slide_timer_timeout() -> void:
 	if $ceilCheck.is_colliding() and is_on_floor():

@@ -201,7 +201,7 @@ func _physics_process(_delta):
 		
 		move_and_slide()
 		
-		if attackpick < 5:
+		if attackpick < 6:
 			attackpick += 1
 		else:
 			attackpick = 0 
@@ -257,11 +257,11 @@ func _physics_process(_delta):
 					state = STATES.ATTACK1
 					$Sprite.play(\"FinShredder\")
 				
-				elif (attackpick == 2 or (attackpick > 3 and (GameState.player.position.x < position.x + 200 or GameState.player.position.x > position.x - 200))) and lastattack != 2:
+				elif (attackpick == 2 or (attackpick == 6 and (GameState.player.position.x < position.x + 200 or GameState.player.position.x > position.x - 200))) and lastattack != 2:
 					state = STATES.ATTACK2
 					$Sprite.play(\"Crouch\")
 					
-				elif (attackpick == 3 or (attackpick > 3 and (GameState.player.position.x > position.x + 200 or GameState.player.position.x < position.x - 200))) and lastattack != 3:
+				elif (attackpick == 3 or (attackpick == 6 and (GameState.player.position.x > position.x + 200 or GameState.player.position.x < position.x - 200))) and lastattack != 3:
 					state = STATES.ATTACK3
 					$Sprite.play(\"FinShredder\")
 			

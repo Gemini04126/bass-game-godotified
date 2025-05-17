@@ -250,6 +250,7 @@ collision_mask = 3
 script = SubResource("GDScript_k5bra")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+z_index = 1
 material = SubResource("ShaderMaterial_3u8v0")
 position = Vector2(0, -3)
 sprite_frames = SubResource("SpriteFrames_62nvj")
