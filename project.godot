@@ -14,8 +14,9 @@ universal_fade/patterns_directory="res://addons/UniversalFade/Patterns"
 
 [application]
 
-config/name="Bass Game"
-config/version="0.2.7-alpha"
+config/name="BASSLINE: Mega Man's Last Stand"
+config/description="A Mega Man fangame starring Bass and Copy Robot."
+config/version="0.3-alpha"
 run/main_scene="res://scenes/menus/title_screen.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
