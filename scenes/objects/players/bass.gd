@@ -9,8 +9,9 @@ class_name BassPlayer
 
 
 const ORIGAMI_SPEEDB := 450
-const DASH_SPEED := 175
-
+var AIR_DASH_SPEED := 155
+var DASH_SPEED = 225
+	
 # Variables
 var buster_speed = 300
 var airactiontaken = false
@@ -283,7 +284,7 @@ func dashProcess():
 
 func dashing(delta):
 	if on_ice == false:
-		velocity.x = 250 * sprite.scale.x
+		velocity.x = DASH_SPEED * sprite.scale.x
 	else:
 		velocity.x = lerpf(velocity.x, sprite.scale.x * 260, delta * 4)
 	
@@ -595,7 +596,7 @@ func module_reaper() -> void:
 			
 		if (airdashtime > 0) && (airdashed == false) && Input.is_action_pressed("dash"):
 			velocity.y = 0
-			velocity.x = sprite.scale.x * DASH_SPEED
+			velocity.x = sprite.scale.x * AIR_DASH_SPEED
 			if airdashtime % 5 == 0:
 				FX = preload("res://scenes/objects/players/weapons/bass/reaper_dash.tscn").instantiate()
 				add_sibling(FX)

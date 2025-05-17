@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://lqyn4h036wty"]
+[gd_scene load_steps=15 format=3 uid="uid://lqyn4h036wty"]
 
 [ext_resource type="Texture2D" uid="uid://fwskan2g3m33" path="res://sprites/enemies/bosses/shark_storm.png" id="1_37pnc"]
-[ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="2_4p71a"]
 
 [sub_resource type="GDScript" id="GDScript_npklr"]
 script/source = "extends CharacterBody2D
@@ -12,7 +11,7 @@ var time = 0
 
 
 func _ready():
-	$SpawnSound.play()
+	pass
 		
 func _physics_process(_delta):
 	if GameState.freezeframe == false:
@@ -191,10 +190,6 @@ autoplay = "Ice"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 92)
 shape = SubResource("RectangleShape2D_0fvlc")
-
-[node name="SpawnSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_4p71a")
-bus = &"SFX"
 
 [node name="hurt" type="Area2D" parent="."]
 position = Vector2(-1, 1)

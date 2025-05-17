@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://ckdeuge1iatm5"]
+[gd_scene load_steps=30 format=3 uid="uid://ckdeuge1iatm5"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xo4wh"]
 [ext_resource type="Texture2D" uid="uid://2jtqdlu4xtk5" path="res://sprites/hud/bossbarpals/shark.png" id="2_l2mpc"]
@@ -6,9 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://xwoub3th7bmx" path="res://sprites/enemies/bosses/shark_man.png" id="3_l2mpc"]
 [ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/playerhurt.wav" id="4_jw8de"]
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="5_8obg6"]
-[ext_resource type="AudioStream" uid="uid://lap56ylqg4a6" path="res://sounds/scythe2.wav" id="7_5nqm8"]
-[ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="7_jw8de"]
-[ext_resource type="AudioStream" uid="uid://3orgt2y566i3" path="res://sounds/rm_step.wav" id="9_8obg6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
 shader = ExtResource("1_xo4wh")
@@ -42,7 +39,7 @@ var attackpick = 0
 
 var lastattack = 0
 var floating : bool = false
-var jumping : bool = false
+var dashing : bool = false
 
 enum STATES
 {
@@ -198,9 +195,6 @@ func _physics_process(_delta):
 					velocity.y += 15
 				else:
 					velocity.y += 9
-					
-		if is_on_floor() and jumping == false:
-			velocity.x *= 0.4
 				
 		$Overlay.scale.x = $Sprite.scale.x
 			
@@ -257,14 +251,13 @@ func _physics_process(_delta):
 			if statetimer <= 0:
 				if attackpick < 2 and lastattack != 1:
 					if GameState.droptimer > 3 and Cur_HP <= 28:
-						attacks = 4
+						attacks = 5
 					elif GameState.droptimer > 3 or Cur_HP <= 28:
-						attacks = 3
+						attacks = 4
 					else:
-						attacks = 2
+						attacks = 3
 					state = STATES.ATTACK1
 					$Sprite.play(\"FinShredder\")
-					$Overlay.play(\"FinShredder\")
 				
 				elif (attackpick == 2 or (attackpick == 6 and (GameState.player.position.x < position.x + 200 or GameState.player.position.x > position.x - 200))) and lastattack != 2:
 					state = STATES.ATTACK2
@@ -273,7 +266,6 @@ func _physics_process(_delta):
 				elif (attackpick == 3 or (attackpick == 6 and (GameState.player.position.x > position.x + 200 or GameState.player.position.x < position.x - 200))) and lastattack != 3:
 					state = STATES.ATTACK3
 					$Sprite.play(\"FinShredder\")
-					$Overlay.play(\"FinShredder\")
 				
 				elif (attackpick == 4) and lastattack != 4:
 					state = STATES.ATTACK4
@@ -286,7 +278,6 @@ func _physics_process(_delta):
 				turntoplayer()
 				
 			if statetimer == 10:
-				$Audio/Shredder.play()
 				projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
 				add_sibling(projectile)
 				projectile.position.x = position.x + ($Sprite.scale.x * 9)
@@ -299,23 +290,18 @@ func _physics_process(_delta):
 					state = STATES.IDLE
 				else:
 					statetimer = 0
-					$Sprite.play(\"FinShredder\")
-					$Overlay.play(\"FinShredder\")
-					
 					if Cur_HP <= 28 and GameState.droptimer == 3:
-						$Sprite.play(\"Crouch\")
 						state = STATES.ATTACK2
 					if Cur_HP <= 28 and GameState.droptimer == 4:
 						state = STATES.ATTACK3
-				
+					$Sprite.play(\"FinShredder\")
+					
 		if state == STATES.ATTACK2: #RAGING STORM
-			
 			statetimer += 1
 			if statetimer < 10:
 				turntoplayer()
 			lastattack = 2
 			if statetimer == 10:
-				jumping = true
 				$Sprite.play(\"Jump\")
 				$Overlay.play(\"Jump\")
 				velocity.x = (position.x - GameState.player.position.x) * -1
@@ -326,11 +312,7 @@ func _physics_process(_delta):
 			if statetimer > 15 and  statetimer < 2000 and is_on_floor():
 				$Sprite.play(\"RagingStorm\")
 				$Overlay.play(\"RagingStorm\")
-				
-				jumping = false
-				$Audio/Step.play()
 					
-				$Audio/Shredder.play()
 				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
 				add_sibling(projectile)
 				projectile.position.x = position.x + 32
@@ -349,13 +331,13 @@ func _physics_process(_delta):
 					projectile.position.y = position.y + 16
 				projectile.scale.x = 1
 					
+				velocity.x = 0
 				if Cur_HP <= 28:
 					statetimer = 2010
 				else:
 					statetimer = 2030
 					
 			if statetimer == 2030 and Cur_HP <= 28:
-				$Audio/Shredder.play()
 				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
 				add_sibling(projectile)
 				projectile.position.x = position.x + 50
@@ -369,7 +351,6 @@ func _physics_process(_delta):
 				projectile.scale.x = 1
 				
 			if statetimer == 2050 and Cur_HP <= 28:
-				$Audio/Shredder.play()
 				projectile = preload(\"res://scenes/objects/bosses/shark_ragingstorm.tscn\").instantiate()
 				add_sibling(projectile)
 				projectile.position.x = position.x + 68
@@ -394,7 +375,6 @@ func _physics_process(_delta):
 			lastattack = 3
 			statetimer += 1
 			if statetimer == 10:
-				$Audio/Shredder.play()
 				projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
 				add_sibling(projectile)
 				projectile.position.x = position.x + ($Sprite.scale.x * -28)
@@ -404,11 +384,9 @@ func _physics_process(_delta):
 			if (statetimer == 30 and Cur_HP > 28) or (statetimer == 10 and Cur_HP <= 28):
 				$Sprite.stop()
 				$Sprite.play(\"FinShredder\")
-				$Overlay.play(\"FinShredder\")
 					
 			if (statetimer == 50 and Cur_HP > 28) or (statetimer == 40 and Cur_HP <= 28):
 				projectile.queue_free()
-				$Audio/Shredder.play()
 				projectile = preload(\"res://scenes/objects/bosses/shark_shredder2.tscn\").instantiate()
 				add_sibling(projectile)
 				projectile.position.x = position.x + ($Sprite.scale.x * 32)
@@ -423,11 +401,10 @@ func _physics_process(_delta):
 				else:
 					statetimer = 30
 					
-		if state == STATES.ATTACK4: ##SHARK BOOMERANG
+		if state == STATES.ATTACK4: ##RAM
 			statetimer += 1
 			if statetimer < 7:
 				turntoplayer()
-				jumping = true
 			lastattack = 2
 			if statetimer == 7:
 				$Sprite.play(\"Jump\")
@@ -436,8 +413,6 @@ func _physics_process(_delta):
 				
 			if statetimer > 10 and  statetimer < 200 and is_on_floor():
 				$Sprite.play(\"Crouch\")
-				jumping = false
-				$Audio/Step.play()
 					
 				if Cur_HP <= 28:
 					statetimer = 210
@@ -446,70 +421,13 @@ func _physics_process(_delta):
 					
 			if statetimer == 220:
 				$Sprite.play(\"Jump\")
-				jumping = true
 				velocity.y = -280
 				floating = true
 				
-			if statetimer == 230:
-				$Sprite.play(\"PreBoomer\")
-				
-			if statetimer > 230 and statetimer < 290:
-				velocity.y *= 0.9
-				if velocity.x > -150 and velocity.x < 150:
+			if statetimer > 200:
+				velocity.y *= 0.8
+				if velocity.x > -500 and velocity.x < 500:
 					velocity.x += $Sprite.scale.x * -8 
-					
-			if statetimer == 245:
-				velocity.y = 0
-				
-				$Sprite.play(\"Boomerang\")
-				$Audio/Boomerang.play()
-				
-				projectile = preload(\"res://scenes/objects/bosses/shark_boomerang.tscn\").instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x
-				projectile.position.y = position.y
-				projectile.scale.x = -$Sprite.scale.x
-				projectile.velocity.x = -$Sprite.scale.x * 140
-				projectile.velocity.y = 100
-				
-				projectile = preload(\"res://scenes/objects/bosses/shark_boomerang.tscn\").instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x
-				projectile.position.y = position.y
-				projectile.scale.x = -$Sprite.scale.x
-				projectile.velocity.x = -$Sprite.scale.x * 140
-				projectile.velocity.y = 170
-					
-				
-			if statetimer == 258:
-				if velocity.x != 0:
-					velocity.x *= 0.6
-						
-			if statetimer == 310:
-				floating = false
-				if Cur_HP > 28:
-					$Sprite.play(\"Jump\")
-				else:
-					statetimer = 10
-					$Sprite.play(\"Jump\")
-					$Overlay.play(\"Jump\")
-					state = STATES.ATTACK2
-			
-			if statetimer > 300 and statetimer < 500 and is_on_floor():
-				jumping = false
-				$Audio/Step.play()
-				statetimer = 500
-				$Sprite.play(\"Crouch\")
-				
-			if statetimer > 510: 
-				state = STATES.IDLE
-				$Sprite.play(\"Idle\")
-				
-				if Cur_HP > 28:
-					statetimer = 60
-				else:
-					statetimer = 40
-				
 				
 				
 
@@ -614,25 +532,13 @@ func _on_hurt_body_entered(body):
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5nqm8"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jmdv5"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(128, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_amro4"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(192, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1u0mv"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(0, 128, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_kwo4k"]
 atlas = ExtResource("3_l2mpc")
 region = Rect2(0, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rc5qg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xo4wh"]
 atlas = ExtResource("3_l2mpc")
-region = Rect2(576, 576, 64, 64)
+region = Rect2(576, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jw8de"]
 atlas = ExtResource("3_l2mpc")
@@ -652,11 +558,7 @@ region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7t2eh"]
 atlas = ExtResource("3_l2mpc")
-region = Rect2(0, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_alwp2"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(64, 128, 64, 64)
+region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_apgux"]
 atlas = ExtResource("3_l2mpc")
@@ -674,40 +576,12 @@ region = Rect2(64, 64, 64, 64)
 atlas = ExtResource("3_l2mpc")
 region = Rect2(128, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_do33u"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(512, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o400k"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(576, 128, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_nbslf"]
 atlas = ExtResource("3_l2mpc")
 region = Rect2(512, 64, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kwo4k"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jmdv5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_amro4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_amro4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_amro4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1u0mv")
-}],
-"loop": false,
-"name": &"Boomerang",
-"speed": 15.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kwo4k")
@@ -718,25 +592,25 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rc5qg")
+"texture": SubResource("AtlasTexture_xo4wh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rc5qg")
+"texture": SubResource("AtlasTexture_xo4wh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rc5qg")
+"texture": SubResource("AtlasTexture_xo4wh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rc5qg")
+"texture": SubResource("AtlasTexture_xo4wh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rc5qg")
+"texture": SubResource("AtlasTexture_xo4wh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rc5qg")
+"texture": SubResource("AtlasTexture_xo4wh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rc5qg")
+"texture": SubResource("AtlasTexture_xo4wh")
 }],
 "loop": false,
 "name": &"Dead",
@@ -756,22 +630,11 @@ animations = [{
 "texture": SubResource("AtlasTexture_ksd4s")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ksd4s")
+"texture": SubResource("AtlasTexture_7t2eh")
 }],
 "loop": false,
 "name": &"FinShredder",
 "speed": 15.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7t2eh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_alwp2")
-}],
-"loop": true,
-"name": &"Float",
-"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -811,43 +674,12 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_do33u")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o400k")
-}],
-"loop": true,
-"name": &"PreBoomer",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_nbslf")
 }],
 "loop": false,
 "name": &"RagingStorm",
 "speed": 5.0
 }]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_oqya0"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(320, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ynsx1"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(384, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ee8ak"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(448, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uk023"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(512, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_x2koy"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(576, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7poo8"]
 atlas = ExtResource("3_l2mpc")
@@ -871,29 +703,6 @@ region = Rect2(448, 64, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kg6rs"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_oqya0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ynsx1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ee8ak")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uk023")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_x2koy")
-}, {
-"duration": 1.0,
-"texture": null
-}],
-"loop": false,
-"name": &"FinShredder",
-"speed": 15.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7poo8")
@@ -944,14 +753,14 @@ barPalette = ExtResource("2_l2mpc")
 material = SubResource("ShaderMaterial_5nqm8")
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_kwo4k")
-animation = &"PreBoomer"
+animation = &"Dead"
 autoplay = "Jump"
 
 [node name="Overlay" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_5nqm8")
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_kg6rs")
-animation = &"FinShredder"
+animation = &"None"
 autoplay = "None"
 
 [node name="hitable" type="Area2D" parent="."]
@@ -994,19 +803,6 @@ stream = ExtResource("4_jw8de")
 [node name="Death" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("5_8obg6")
 volume_db = -16.0
-bus = &"SFX"
-
-[node name="Shredder" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("7_jw8de")
-bus = &"SFX"
-
-[node name="Boomerang" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("7_5nqm8")
-volume_db = 2.5
-bus = &"SFX"
-
-[node name="Step" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("9_8obg6")
 bus = &"SFX"
 
 [node name="CeilingDetector" type="RayCast2D" parent="."]

@@ -5,18 +5,18 @@
 [sub_resource type="GDScript" id="GDScript_npklr"]
 script/source = "extends CharacterBody2D
 
-const Atk_Dmg = 5
+const Atk_Dmg = 2
 var projectile
 
 
 func _ready():
-	$SpawnSound.play()
 	if velocity.x < 0:
 		scale.x = -1
 		
 func _physics_process(_delta):
 	if GameState.freezeframe == false:
 		move_and_slide()
+		velocity.y -= 3
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()

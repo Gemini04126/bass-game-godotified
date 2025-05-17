@@ -1,8 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://w8y7aj32j53w"]
+[gd_scene load_steps=15 format=3 uid="uid://w8y7aj32j53w"]
 
 [ext_resource type="Texture2D" uid="uid://b0b56d52ticih" path="res://sprites/enemies/bosses/shark_twinshredder.png" id="1_7slg6"]
 [ext_resource type="Texture2D" uid="uid://birsolsp1t1mb" path="res://sprites/players/weapons/Shark3.png" id="2_3ea3k"]
-[ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="2_hlsj7"]
 
 [sub_resource type="GDScript" id="GDScript_npklr"]
 script/source = "extends CharacterBody2D
@@ -12,7 +11,6 @@ var projectile
 
 
 func _ready():
-	$SpawnSound.play()
 	if velocity.x < 0:
 		scale.x = -1
 		
@@ -150,10 +148,6 @@ autoplay = "Attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_0fvlc")
-
-[node name="SpawnSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_hlsj7")
-bus = &"SFX"
 
 [node name="hurt" type="Area2D" parent="."]
 collision_layer = 4

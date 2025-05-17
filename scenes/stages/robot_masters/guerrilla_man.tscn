@@ -305,7 +305,7 @@ collision_mask = 14
 gravity_space_override = 3
 gravity = 400.0
 
-[node name="Water" type="CollisionShape2D" parent="Water2/Water" groups=["splash"]]
+[node name="Water" type="CollisionShape2D" parent="Water2/Water"]
 position = Vector2(4388.75, 2038.36)
 shape = SubResource("RectangleShape2D_ry4bj")
 
