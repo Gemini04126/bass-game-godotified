@@ -49,12 +49,6 @@ func _on_hurt_body_entered(body):
 
 func _on_reflect_body_entered(weapon):
 	match weapon.W_Type:
-		GameState.DMGTYPE.CR_BUSTER_3:
-			# Do nothing
-			pass
-		GameState.DMGTYPE.MD_ORIGAMI:
-			# Do nothing
-			pass
 		GameState.DMGTYPE.CB_GALE:
 			# Do nothing
 			pass

@@ -14,10 +14,10 @@ static var static_audio_player : AudioStreamPlayer2D
 ## Bottom bounds of the next room
 @export var scrollY2 : int 
 
-## Teleport destination x
-@export var destinationx : int 
-## Teleport destination y
-@export var destinationy : int 
+## Blocks from X1's left edge to teleport to
+@export var destinationX : int 
+## Blocks from Y1's top edge to teleport to
+@export var destinationY : int 
 
 @export var disabled : bool 
 
@@ -38,8 +38,8 @@ func _physics_process(_delta):
 		GameState.scrollX2 = scrollX2
 		GameState.scrollY1 = scrollY1
 		GameState.scrollY2 = scrollY2
-		GameState.player.position.x = (destinationx * 16) + (GameState.scrollX1 * 384)
-		GameState.player.position.y = (destinationy * 16) + (GameState.scrollY1 * 216)
+		GameState.player.position.x = (destinationX * 16) + (GameState.scrollX1 * 384)
+		GameState.player.position.y = (destinationY * 16) + (GameState.scrollY1 * 216)
 		
 		teleporting = false
 		GameState.player.warping = 2 

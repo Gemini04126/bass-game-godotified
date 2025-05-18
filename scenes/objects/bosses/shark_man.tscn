@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://ckdeuge1iatm5"]
+[gd_scene load_steps=47 format=3 uid="uid://ckdeuge1iatm5"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xo4wh"]
 [ext_resource type="Texture2D" uid="uid://2jtqdlu4xtk5" path="res://sprites/hud/bossbarpals/shark.png" id="2_l2mpc"]
@@ -9,6 +9,10 @@
 [ext_resource type="AudioStream" uid="uid://lap56ylqg4a6" path="res://sounds/scythe2.wav" id="7_5nqm8"]
 [ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="7_jw8de"]
 [ext_resource type="AudioStream" uid="uid://3orgt2y566i3" path="res://sounds/rm_step.wav" id="9_8obg6"]
+[ext_resource type="AudioStream" uid="uid://dbqhptn2q0uk3" path="res://sounds/shark_g1.wav" id="10_u7p8t"]
+[ext_resource type="AudioStream" uid="uid://dwyvbh6cxvbmk" path="res://sounds/shark_g2.wav" id="11_kwo4k"]
+[ext_resource type="AudioStream" uid="uid://bjcjfg1xjw465" path="res://sounds/shark_g3.wav" id="12_nbslf"]
+[ext_resource type="AudioStream" uid="uid://q2a82o1m28d8" path="res://sounds/shark_g4.wav" id="13_kg6rs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
 shader = ExtResource("1_xo4wh")
@@ -23,6 +27,7 @@ class_name Shark_Man
 @onready var projectile
 @export var slot : int
 @export var barPalette : CompressedTexture2D
+var geese : bool = false
 var Dmg_Vals : Array[float]
 var Inv_Vals : Array[float]
 var Atk_Dmg = 4
@@ -100,13 +105,13 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.BS_SHARK] = 4
 	Dmg_Vals[GameState.DMGTYPE.BS_TREBLE] = 1
 	
-	Dmg_Vals[GameState.DMGTYPE.MD_BLAZE] = 1
+	Dmg_Vals[GameState.DMGTYPE.MD_BLAZE] = 3
 	Dmg_Vals[GameState.DMGTYPE.MD_VIDEO] = 1
 	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 3
 	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 1
 	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 1
 	
-	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 1
 	Dmg_Vals[GameState.DMGTYPE.RA_GALAXY] = 1
 	Dmg_Vals[GameState.DMGTYPE.RA_TOP] = 3
 	Dmg_Vals[GameState.DMGTYPE.RA_GEMINI] = 1
@@ -160,7 +165,7 @@ func basedmg():
 	Inv_Vals[GameState.DMGTYPE.MD_GUERILLA] = 0.65
 	Inv_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 0.65
 	
-	Inv_Vals[GameState.DMGTYPE.RA_BUSTER] = 0.35
+	Inv_Vals[GameState.DMGTYPE.RA_BUSTER] = 0.25
 	Inv_Vals[GameState.DMGTYPE.RA_GALAXY] = 0.75
 	Inv_Vals[GameState.DMGTYPE.RA_TOP] = 0.75
 	Inv_Vals[GameState.DMGTYPE.RA_GEMINI] = 0.35
@@ -244,6 +249,8 @@ func _physics_process(_delta):
 		if state == STATES.INTRO:
 			if $Sprite.frame == 3:
 				if Cur_HP == Max_HP:
+					if Input.is_action_pressed(\"dash\") and Input.is_action_pressed(\"jump\") and Input.is_action_pressed(\"move_left\") and GameState.current_hp >= 28:
+						geese = true
 					state = STATES.IDLE
 					statetimer = 50
 				else:
@@ -272,6 +279,8 @@ func _physics_process(_delta):
 					
 				elif (attackpick == 3 or (attackpick == 6 and (GameState.player.position.x > position.x + 200 or GameState.player.position.x < position.x - 200))) and lastattack != 3:
 					state = STATES.ATTACK3
+					if geese == true:
+						$Audio/DoubleReppuken.play()
 					$Sprite.play(\"FinShredder\")
 					$Overlay.play(\"FinShredder\")
 				
@@ -286,6 +295,8 @@ func _physics_process(_delta):
 				turntoplayer()
 				
 			if statetimer == 10:
+				if geese == true:
+					$Audio/Reppuken.play()
 				$Audio/Shredder.play()
 				projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
 				add_sibling(projectile)
@@ -326,7 +337,9 @@ func _physics_process(_delta):
 			if statetimer > 15 and  statetimer < 2000 and is_on_floor():
 				$Sprite.play(\"RagingStorm\")
 				$Overlay.play(\"RagingStorm\")
-				
+				if geese == true:
+					$Audio/RagingStorm.play()
+					
 				jumping = false
 				$Audio/Step.play()
 					
@@ -401,7 +414,7 @@ func _physics_process(_delta):
 				projectile.position.y = position.y - 20
 				projectile.scale.x = -$Sprite.scale.x
 				projectile.velocity.x = $Sprite.scale.x * -15
-			if (statetimer == 30 and Cur_HP > 28) or (statetimer == 10 and Cur_HP <= 28):
+			if (statetimer == 40 and Cur_HP > 28) or (statetimer == 20 and Cur_HP <= 28):
 				$Sprite.stop()
 				$Sprite.play(\"FinShredder\")
 				$Overlay.play(\"FinShredder\")
@@ -460,7 +473,9 @@ func _physics_process(_delta):
 					
 			if statetimer == 245:
 				velocity.y = 0
-				
+				if geese == true:
+					$Audio/Shippuken.play()
+					
 				$Sprite.play(\"Boomerang\")
 				$Audio/Boomerang.play()
 				
@@ -484,6 +499,29 @@ func _physics_process(_delta):
 			if statetimer == 258:
 				if velocity.x != 0:
 					velocity.x *= 0.6
+					
+			if statetimer == 310 and Cur_HP <= 28:
+				turntoplayer()
+				$Sprite.play(\"Boomerang\")
+				$Audio/Boomerang.play()
+				if geese == true:
+					$Audio/Shippuken.play()
+				
+				projectile = preload(\"res://scenes/objects/bosses/shark_boomerang.tscn\").instantiate()
+				add_sibling(projectile)
+				projectile.position.x = position.x
+				projectile.position.y = position.y
+				projectile.scale.x = -$Sprite.scale.x
+				projectile.velocity.x = -$Sprite.scale.x * 140
+				projectile.velocity.y = 100
+				
+				projectile = preload(\"res://scenes/objects/bosses/shark_boomerang.tscn\").instantiate()
+				add_sibling(projectile)
+				projectile.position.x = position.x
+				projectile.position.y = position.y
+				projectile.scale.x = -$Sprite.scale.x
+				projectile.velocity.x = -$Sprite.scale.x * 140
+				projectile.velocity.y = 170
 						
 			if statetimer == 310:
 				floating = false
@@ -670,10 +708,6 @@ region = Rect2(0, 64, 64, 64)
 atlas = ExtResource("3_l2mpc")
 region = Rect2(64, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4ckbm"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(128, 64, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_do33u"]
 atlas = ExtResource("3_l2mpc")
 region = Rect2(512, 128, 64, 64)
@@ -801,9 +835,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_l2mpc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4ckbm")
 }],
 "loop": true,
 "name": &"Jump",
@@ -944,7 +975,7 @@ barPalette = ExtResource("2_l2mpc")
 material = SubResource("ShaderMaterial_5nqm8")
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_kwo4k")
-animation = &"PreBoomer"
+animation = &"Jump"
 autoplay = "Jump"
 
 [node name="Overlay" type="AnimatedSprite2D" parent="."]
@@ -980,7 +1011,6 @@ debug_color = Color(0, 1, 0.0705882, 0.419608)
 
 [node name="InvulTimer" type="Timer" parent="."]
 one_shot = true
-autostart = true
 
 [node name="Audio" type="Node" parent="."]
 
@@ -1008,6 +1038,22 @@ bus = &"SFX"
 [node name="Step" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("9_8obg6")
 bus = &"SFX"
+
+[node name="Reppuken" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("10_u7p8t")
+volume_db = 2.8
+
+[node name="DoubleReppuken" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("11_kwo4k")
+volume_db = 2.8
+
+[node name="Shippuken" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("12_nbslf")
+volume_db = 2.8
+
+[node name="RagingStorm" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("13_kg6rs")
+volume_db = 2.8
 
 [node name="CeilingDetector" type="RayCast2D" parent="."]
 position = Vector2(0, -19)
