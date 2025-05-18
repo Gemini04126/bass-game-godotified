@@ -72,6 +72,8 @@ func set_current_weapon_palette() -> void:
 		sprite.material.set_shader_parameter("palette", weapon_palette[GameState.current_weapon])
 
 func _physics_process(delta: float) -> void:
+	$ChargeFX.material.set_shader_parameter("palette", sprite.material.get_shader_parameter("palette"))
+	
 	if recoil != 0:
 		if recoil < 0:
 			position.x -= 1
@@ -317,6 +319,7 @@ func weapon_cbuster():
 				projectile.velocity.x = sprite.scale.x * 350
 				projectile.scale.x = sprite.scale.x
 				bustercharge = 0
+				$ChargeFX.play("none")
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
 				set_current_weapon_palette()
@@ -326,6 +329,7 @@ func weapon_cbuster():
 		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3 or (GameState.upgrades_enabled[3] == true and GameState.onscreen_bullets < 5)):
 			if bustercharge < 32: # no Charge
 				bustercharge = 0
+				$ChargeFX.play("none")
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
 				set_current_weapon_palette()
@@ -352,6 +356,7 @@ func weapon_cbuster():
 					projectile.position.y = position.y + 2
 					projectile.scale.x = sprite.scale.x
 				bustercharge = 0
+				$ChargeFX.play("none")
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
 				set_current_weapon_palette()
@@ -388,6 +393,7 @@ func weapon_cbuster():
 					projectile.position.y = position.y + 2
 					recoil = -sprite.scale.x * 4
 					
+				$ChargeFX.play("none")
 				bustercharge = 0
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
@@ -400,8 +406,10 @@ func weapon_cbuster():
 			bustercharge += 1
 				
 			if bustercharge == 32:
+				$ChargeFX.play("charge1")
 				$Audio/Charge1.play()
 			if bustercharge == 108:
+				$ChargeFX.play("charge2")
 				$Audio/Charge1.stop()
 				$Audio/Charge2.play()
 				$Audio/Charge2.volume_linear = 1
@@ -411,6 +419,8 @@ func weapon_cbuster():
 			bustercharge = 110
 	else:
 		bustercharge = 0
+		$ChargeFX.play("none")
+				
 		$Audio/Charge1.stop()
 		$Audio/Charge2.stop()
 		set_current_weapon_palette()
