@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://dqmd0sycqay4"]
+[gd_scene load_steps=23 format=4 uid="uid://dqmd0sycqay4"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_hs2cl"]
 [ext_resource type="Script" uid="uid://f7bd7y4dfk0p" path="res://scenes/stages/robot_masters/videobgs.gd" id="2_7b04w"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cumiv05286vqn" path="res://scenes/objects/level_objects/enemy_spawner.tscn" id="14_h8rdd"]
 [ext_resource type="PackedScene" uid="uid://dff7hvj5lxpjw" path="res://scenes/objects/level_objects/brokenman.tscn" id="15_s0tyg"]
 [ext_resource type="PackedScene" uid="uid://ccb265wd4npkn" path="res://scenes/objects/level_objects/wind.tscn" id="16_j4ogg"]
+[ext_resource type="PackedScene" uid="uid://bbbfl5y8ljhaa" path="res://scenes/objects/level_objects/stageteleporter.tscn" id="17_63j56"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_70xkx"]
 texture = ExtResource("2_bi60d")
@@ -581,8 +582,8 @@ position = Vector2(896, 320)
 scrollX2 = 1
 scrollY1 = 4
 scrollY2 = 4
-destinationx = 6
-destinationy = 5
+destinationX = 5
+destinationY = 5
 
 [node name="Teleporter2" parent="Teleporters" instance=ExtResource("7_7xpcu")]
 position = Vector2(-256, 0)
@@ -594,7 +595,7 @@ position = Vector2(192, 0)
 position = Vector2(-448, 0)
 
 [node name="Electricfield" parent="." instance=ExtResource("10_546oa")]
-position = Vector2(416, 336)
+position = Vector2(468, 434)
 requirement = 4
 
 [node name="Electricfield2" parent="." instance=ExtResource("10_546oa")]
@@ -678,3 +679,7 @@ action = 1
 position = Vector2(2983, 1008)
 scale = Vector2(277, 14)
 push = -20
+
+[node name="Special Teleporter" parent="." instance=ExtResource("17_63j56")]
+position = Vector2(64, 401)
+destination = 1

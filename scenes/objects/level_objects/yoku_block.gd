@@ -13,12 +13,13 @@ const styles = [
 	"res://sprites/objects/yoku_blocks/Origami.png",
 	"res://sprites/objects/yoku_blocks/Gale.png",
 	"res://sprites/objects/yoku_blocks/Guerrilla.png",
-	"res://sprites/objects/yoku_blocks/Reaper.png"
+	"res://sprites/objects/yoku_blocks/Reaper.png",
+	"res://sprites/objects/yoku_blocks/Enker.png"
 ]
 
 var _style : int = 0
 ## Yoku Block sprite set to display
-@export var style : int :
+var style : int :
 	get:
 		return _style
 	set(value):
@@ -29,6 +30,7 @@ var _style : int = 0
 var state : bool = false # Off (in)
 
 func _ready():
+	style = get_parent().style
 	if !static_audio_player:
 		static_audio_player = $YokuSound
 	$Sprite2D.texture = load(styles[_style])

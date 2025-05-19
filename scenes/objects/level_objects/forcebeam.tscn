@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://bt8jssw5wcmm8"]
+
+[ext_resource type="Script" uid="uid://bwda7dnihc8uy" path="res://scenes/objects/level_objects/forcebeam.gd" id="1_0l044"]
+[ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_gofin"]
+[ext_resource type="Texture2D" uid="uid://cg8ry4jr41n1w" path="res://sprites/objects/forcebeam.png" id="2_gycsu"]
+[ext_resource type="AudioStream" uid="uid://gm5p36ys1f14" path="res://sounds/cr_chargeshot.wav" id="3_7lock"]
+[ext_resource type="Texture2D" uid="uid://b64kcux5nlw2r" path="res://sprites/tilesets/enker_trans.png" id="3_kh2hs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vk8e7"]
+size = Vector2(2, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_euuk7"]
+size = Vector2(2, 14)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l3i4h"]
+shader = ExtResource("2_gofin")
+shader_parameter/palette = ExtResource("3_kh2hs")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[node name="Force Beam" type="StaticBody2D"]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("1_0l044")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_vk8e7")
+debug_color = Color(0, 1, 0.0705882, 0.419608)
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurt"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_euuk7")
+debug_color = Color(1, 0, 0, 0.623529)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(2, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_l3i4h")
+position = Vector2(1, 0)
+texture = ExtResource("2_gycsu")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1, 0)
+scale = Vector2(0.1, 0.1)
+
+[node name="Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_7lock")
+
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
+[connection signal="body_exited" from="hurt" to="." method="_on_hurt_body_exited"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]

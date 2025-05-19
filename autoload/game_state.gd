@@ -83,7 +83,7 @@ var characters : Array[String] = [
 	"res://scenes/objects/players/maestro.tscn",
 	"res://scenes/objects/players/bass.tscn",
 	"res://scenes/objects/players/copy_robot.tscn",
-	"res://scenes/objects/players/maestro.tscn", # Megaman
+	"res://scenes/objects/players/mega_man.tscn",
 	"res://scenes/objects/players/maestro.tscn", # Protoman
 	"res://scenes/objects/players/rachel/rachel.tscn" # Rachel gets her own folder because she has an ENTIRELY different weapon set
 ]
@@ -183,6 +183,8 @@ var healamt = 0
 var ammoamt = 0
 var droptimer : int
 var itemtimer : int
+
+var damageticks : int
 
 var PROGRESSDICT = {
 	"BlazeDead": false,
@@ -334,7 +336,11 @@ func _physics_process(_delta: float) -> void:
 				GameState.weapon_energy[GameState.WEAPONS.VIDEO] -= 1
 			freezeticks = 0
 		
-	if GameState.weapon_energy[GameState.WEAPONS.VIDEO] <= 0 and !infinite_ammo:
-		freezeframe = false
+	if player != null:
+		if player.forcebeamed == true:
+			damageticks += 1
+		if damageticks == 3:
+			damageticks = 0
+			current_hp -= 1
 	
 	

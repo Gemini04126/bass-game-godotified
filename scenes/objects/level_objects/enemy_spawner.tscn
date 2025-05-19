@@ -25,6 +25,8 @@ offset_bottom = -20.0
 text = "0"
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+show_behind_parent = true
+z_index = -4096
 position = Vector2(1.90735e-06, 0.500002)
 scale = Vector2(4.8, 3.85)
 rect = Rect2(-25, -25, 50, 50)

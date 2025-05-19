@@ -68,6 +68,7 @@ var weaponflashtimer : int = 0
 var dashdir : float # technically only ever uses ints but godot complains anyway
 var dashjumped = false
 var slideused = false
+var forcebeamed : bool = false
 #input related
 
 

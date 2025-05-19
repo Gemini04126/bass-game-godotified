@@ -86,15 +86,6 @@ position = Vector2(128, 128)
 limit_left = 0
 limit_bottom = 240
 
-[node name="DeathPlane" type="Area2D" parent="."]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DeathPlane"]
-polygon = PackedVector2Array(0, 240, 2304, 240, 2304, 248, 0, 248)
-
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="DeathPlane"]
-position = Vector2(2304, 480)
-polygon = PackedVector2Array(0, 240, 2816, 240, 2816, 248, 0, 248)
-
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_7w14q")
 volume_db = -10.0
@@ -112,27 +103,21 @@ position = Vector2(368, 96)
 
 [node name="YokuBlock3" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(400, 96)
-interval = 1
 
 [node name="YokuBlock4" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(416, 96)
-interval = 1
 
 [node name="YokuBlock5" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(432, 96)
-interval = 2
 
 [node name="YokuBlock6" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(448, 96)
-interval = 2
 
 [node name="YokuBlock7" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(464, 96)
-interval = 3
 
 [node name="YokuBlock8" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(480, 96)
-interval = 3
 
 [node name="YokuBlock9" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(544, 64)
@@ -142,35 +127,27 @@ position = Vector2(560, 64)
 
 [node name="YokuBlock11" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(608, 80)
-interval = 1
 
 [node name="YokuBlock12" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(624, 80)
-interval = 1
 
 [node name="YokuBlock13" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(688, 80)
-interval = 2
 
 [node name="YokuBlock14" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(704, 80)
-interval = 2
 
 [node name="YokuBlock15" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(720, 80)
-interval = 2
 
 [node name="YokuBlock16" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(688, 32)
-interval = 3
 
 [node name="YokuBlock17" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(704, 32)
-interval = 3
 
 [node name="YokuBlock18" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(720, 32)
-interval = 3
 
 [node name="YokuBlock19" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(688, -16)
@@ -183,23 +160,18 @@ position = Vector2(704, -16)
 
 [node name="YokuBlock22" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(672, -48)
-interval = 1
 
 [node name="YokuBlock23" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(592, -48)
-interval = 2
 
 [node name="YokuBlock24" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(576, -48)
-interval = 2
 
 [node name="YokuBlock25" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(560, -48)
-interval = 2
 
 [node name="YokuBlock26" parent="Level Objects/Yoku Blocks" instance=ExtResource("4_8erq8")]
 position = Vector2(544, -48)
-interval = 2
 
 [node name="Enemies" type="Node2D" parent="Level Objects"]
 

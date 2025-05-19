@@ -54,12 +54,12 @@ normal = Vector2(1, 0)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_yu73q"]
 
-[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_x3vwo"]
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_68o5h"]
 resource_name = "Yoku Block"
 scenes/1/scene = ExtResource("7_iycjf")
 
 [sub_resource type="TileSet" id="TileSet_68o5h"]
-sources/0 = SubResource("TileSetScenesCollectionSource_x3vwo")
+sources/0 = SubResource("TileSetScenesCollectionSource_68o5h")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rpvm6"]
 shader = ExtResource("9_7wv41")

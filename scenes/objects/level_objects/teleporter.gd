@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name teleporter
+class_name secretteleporter
 
 static var static_audio_player : AudioStreamPlayer2D
 
