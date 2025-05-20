@@ -4,6 +4,7 @@
 
 [node name="BossSpawner" type="Node2D"]
 script = ExtResource("1_cyg6j")
+music = null
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 scale = Vector2(2, 2)

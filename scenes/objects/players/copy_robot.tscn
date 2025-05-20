@@ -1069,6 +1069,7 @@ stream = ExtResource("11_nehsi")
 bus = &"SFX"
 
 [node name="Hurt" type="AudioStreamPlayer" parent="Audio"]
+process_mode = 3
 stream = ExtResource("12_hy6ug")
 bus = &"SFX"
 

@@ -571,6 +571,7 @@ func _physics_process(_delta):
 						projectile.position = position
 						projectile.velocity = EXPLOSION_SPEEDS[i]
 						GameState.bosses.erase(self)
+							
 					exploded = true
 				else:
 					$Sprite.visible = false

@@ -69,6 +69,7 @@ var dashdir : float # technically only ever uses ints but godot complains anyway
 var dashjumped = false
 var slideused = false
 var forcebeamed : bool = false
+var deathtime : int = 0
 #input related
 
 
@@ -651,35 +652,36 @@ func hurt():
 
 func check_for_death():
 	if GameState.current_hp <= 0 && currentState != STATES.DEAD:
-		death_timer.start(10)
-		currentState = STATES.DEAD
+		death_timer.start()
+		pain_timer.start(1.5)
+		if !pain_timer.is_stopped() && !death_timer.is_stopped():
+			currentState = STATES.DEAD
 
 func dead():
 	$hurtboxArea/mainHurtbox.set_disabled(true)
 	$hurtboxArea/slideHurtbox.set_disabled(true)
-	state_timer.start(5.00)
+	deathtime += 1
 	velocity.y = 0
 	velocity.x = 0
-	if pain_timer.is_stopped():
+	if deathtime == 1:
+		GameState.hit_stop = 20
+		GameState.musicplaying = 0
+	if deathtime == 10:
 		$Audio/Death.play()
-		#scale = Vector2.ZERO
-		$Sprite2D.visible = false
+		sprite.visible = false
 		for i in 12:
 			projectile = preload("res://scenes/objects/explosion_player.tscn").instantiate()
 			add_child(projectile)
-			#projectile.position.x = position.x
-			#projectile.position.y = position.y
 			projectile.velocity = EXPLOSION_SPEEDS[i]
 		pain_timer.start(2550)
-	if death_timer.is_stopped():
-		sprite.visible = false
+	if deathtime == 80:
+		print("death")
 		Fade.fade_out()
-		#await Fade.fade_out().finished # G: Seems to not work
+	if deathtime == 120:
 		GameState.player_lives -= 1
-		#Reset the stage
 		reset(false)
 		get_tree().reload_current_scene()
-#endregion
+
 
 #STATES.keys()[currentState]
 

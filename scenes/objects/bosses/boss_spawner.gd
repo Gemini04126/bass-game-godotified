@@ -10,7 +10,8 @@ var olddirection: int
 var readied : bool
 
 @export_enum ("Test Boss", "Shark Man") var type : int ##The type of enemy.
-
+@export_enum ("Mute", "Stage", "Boss", "FortBoss", "Wily") var music : int ##Music to play
+@export var dontchangemusic : bool ##Check this if you don't want the music to change!
 
 @export var slot : int
 @onready var baby
@@ -32,6 +33,8 @@ func _process(_delta):
 			baby.position = position
 			GameState.bosses.append(baby)
 			print(GameState.bosses)
+			if dontchangemusic == false:
+				GameState.musicplaying = music
 			queue_free()
 	if Engine.is_editor_hint():
 		if baby == null:

@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://c47mx5wylf3tx"]
+[gd_scene load_steps=13 format=3 uid="uid://c47mx5wylf3tx"]
 
 [ext_resource type="Shader" uid="uid://bh213f2y03xtb" path="res://shaders/adapt-to-palette.gdshader" id="1_pa1af"]
 [ext_resource type="Texture2D" uid="uid://by5c77ukdjdng" path="res://shaders/palettes/megadrive.png" id="3_dsie5"]
 [ext_resource type="Script" uid="uid://drnh7p755oxgc" path="res://autoload/game_state.gd" id="3_yyrqa"]
 [ext_resource type="AudioStream" uid="uid://ctstbffrq85ky" path="res://sounds/bar_fill.wav" id="6_rwifi"]
+[ext_resource type="AudioStream" uid="uid://c80tsa2fn61wv" path="res://music/Fortress Boss.mp3" id="8_g00sw"]
+[ext_resource type="AudioStream" uid="uid://csa338wvdve07" path="res://music/Wily Boss.mp3" id="9_3vrus"]
 [ext_resource type="Script" uid="uid://dm1veicb4u1yc" path="res://autoload/input.gd" id="10_3txlf"]
 [ext_resource type="Texture2D" uid="uid://bdhcvmcjxgcck" path="res://sprites/hud/InputDisplay.png" id="11_jx0bj"]
 [ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://music/Boss Battle.mp3" id="12_jx0bj"]
@@ -263,8 +265,22 @@ texture = ExtResource("11_jx0bj")
 region_enabled = true
 region_rect = Rect2(4, 10, 4, 4)
 
-[node name="BossMusic" type="AudioStreamPlayer" parent="."]
+[node name="Music" type="Node2D" parent="."]
+
+[node name="BossMusic" type="AudioStreamPlayer" parent="Music"]
+process_mode = 3
 stream = ExtResource("12_jx0bj")
-volume_db = -5.0
+bus = &"Music"
+parameters/looping = true
+
+[node name="FortBossMusic" type="AudioStreamPlayer" parent="Music"]
+process_mode = 3
+stream = ExtResource("8_g00sw")
+bus = &"Music"
+parameters/looping = true
+
+[node name="WilyBossMusic" type="AudioStreamPlayer" parent="Music"]
+process_mode = 3
+stream = ExtResource("9_3vrus")
 bus = &"Music"
 parameters/looping = true

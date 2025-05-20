@@ -27,6 +27,8 @@ var refilltimer : int
 var voffset : int = 8
 
 func _ready():
+	GameState.musicplaying = 0
+	GameState.inputdisabled = false
 	var hud = preload("res://scenes/hud.tscn").instantiate()
 	add_child(hud)
 	GameState.galeforce = 0
@@ -58,6 +60,7 @@ func _ready():
 	
 		
 	await Fade.fade_in().finished
+	GameState.musicplaying = 1
 	$Music.play()
 	$HUD/READY._do_ready_thing()
 	await $HUD/READY.animation_finished
@@ -77,29 +80,34 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if GameState.bossfightstatus == 0:
+	if GameState.musicplaying == 1:
 		if GameState.freezeframe == true:
 			$Music.stream_paused = true
 		else:
 			if $Music.stream_paused == true:
 				$Music.stream_paused = false
-	
-	if GameState.bossfightstatus == 1:
+	else:
 		$Music.stop()
-		$BossMusic.play()
-		GameState.bossfightstatus = 2
+				
+	if GameState.bossfightstatus == 1:
 		GameState.inputdisabled = true
-		
-	if GameState.bossfightstatus == 2 && (GameState.bosses[0] == null or GameState.bosses[0].Cur_HP == GameState.bosses[0].Max_HP):
-		GameState.bossfightstatus = 3
+
+	if GameState.bossfightstatus == 1 && (GameState.bosses[0] == null or GameState.bosses[0].Cur_HP == GameState.bosses[0].Max_HP):
+		GameState.bossfightstatus = 2
 		GameState.inputdisabled = false
 		
-	if GameState.bossfightstatus == 3:
-		if GameState.freezeframe == true:
-			$BossMusic.stream_paused = true
-		else:
-			if $BossMusic.stream_paused == true:
-				$BossMusic.stream_paused = false
+	if GameState.bossfightstatus == 2 && GameState.bosses.size() == 0:
+		GameState.inputdisabled = true
+		GameState.bossfightstatus = 3
+		GameState.musicplaying = 0
+						
+		
+	#if GameState.bossfightstatus == 3:
+		#if GameState.freezeframe == true:
+			#$BossMusic.stream_paused = true
+		#else:
+			#if $BossMusic.stream_paused == true:
+				#$BossMusic.stream_paused = false
 	process_camera()
 
 func _physics_process(_delta: float):

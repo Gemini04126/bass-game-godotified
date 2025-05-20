@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c80tsa2fn61wv"
+path="res://.godot/imported/Fortress Boss.mp3-315dc02993b26eb0ff3928e6e632d241.mp3str"
+
+[deps]
+
+source_file="res://music/Fortress Boss.mp3"
+dest_files=["res://.godot/imported/Fortress Boss.mp3-315dc02993b26eb0ff3928e6e632d241.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

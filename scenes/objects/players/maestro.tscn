@@ -48,7 +48,6 @@ shader_parameter/fps = 6.0
 
 [sub_resource type="Animation" id="Animation_kvtkx"]
 resource_name = "DEAD"
-length = 0.2
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -611,7 +610,7 @@ z_index = 1
 material = SubResource("ShaderMaterial_dtetj")
 texture = ExtResource("4_w3lef")
 hframes = 35
-frame = 26
+frame = 13
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -750,6 +749,7 @@ stream = ExtResource("11_u3nua")
 bus = &"SFX"
 
 [node name="Hurt" type="AudioStreamPlayer" parent="Audio"]
+process_mode = 3
 stream = ExtResource("12_38jsf")
 bus = &"SFX"
 
@@ -777,4 +777,5 @@ bus = &"SFX"
 [connection signal="area_exited" from="waterCheck" to="." method="_on_water_check"]
 [connection signal="timeout" from="Timers/SwitchTimer" to="." method="_on_switch_timer_timeout"]
 [connection signal="timeout" from="Timers/SlideTimer" to="." method="_on_slide_timer_timeout"]
+[connection signal="timeout" from="Timers/DeathTimer" to="." method="_on_death_timer_timeout"]
 [connection signal="timeout" from="Timers/ShootTimer" to="." method="_on_shoot_timer_timeout"]

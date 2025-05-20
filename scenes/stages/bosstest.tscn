@@ -70,16 +70,20 @@ debug_color = Color(0, 0.6, 0.701961, 0.764706)
 
 [node name="Spawner" parent="." instance=ExtResource("6_2kp8o")]
 position = Vector2(692, 97)
+music = 0
 
 [node name="Spawner2" parent="." instance=ExtResource("6_2kp8o")]
 position = Vector2(579, 288)
+music = 0
 
 [node name="Spawner4" parent="." instance=ExtResource("6_2kp8o")]
 position = Vector2(307, 540)
 type = 1
+music = 0
 
 [node name="Spawner3" parent="." instance=ExtResource("6_2kp8o")]
 position = Vector2(341, 60)
+music = 0
 
 [node name="BossDoor" parent="." instance=ExtResource("8_6bsi3")]
 position = Vector2(384, 160)

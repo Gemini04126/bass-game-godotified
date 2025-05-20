@@ -872,10 +872,11 @@ region_enabled = true
 region_rect = Rect2(0, 0, 192, 16)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+process_mode = 3
 z_index = 1
 material = SubResource("ShaderMaterial_7773x")
 texture = ExtResource("3_gjpaj")
-hframes = 87
+hframes = 90
 frame = 25
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

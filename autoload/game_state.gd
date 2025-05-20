@@ -121,8 +121,16 @@ var character_selected : int
 var player # absolute path to player node
 var player_lives : int = 3
 var bossfightstatus : int = 0
+# 0: No fight.
+# 1: Intro
+# 2: FIGHT!
+# 3: You win!
+
+#0 : None. 1 : Stage. 2: Boss. 3:FortressBoss
+var musicplaying : int = 0 
 
 var pausescreen
+var hit_stop : int
 
 var bosses : Array[Node2D]
 
@@ -322,7 +330,6 @@ func _physics_process(_delta: float) -> void:
 		get_tree().paused = true
 		freezeframe = false
 
-	
 	if freezedelay > 0:
 		freezedelay -= 1
 	if freezedelay == 0:
@@ -335,6 +342,12 @@ func _physics_process(_delta: float) -> void:
 			if !infinite_ammo:
 				GameState.weapon_energy[GameState.WEAPONS.VIDEO] -= 1
 			freezeticks = 0
+			
+	if hit_stop > 0:
+		get_tree().paused = true
+		hit_stop -= 1
+		if hit_stop == 0:
+			get_tree().paused = false
 		
 	if player != null:
 		if player.forcebeamed == true:
@@ -342,5 +355,36 @@ func _physics_process(_delta: float) -> void:
 		if damageticks == 3:
 			damageticks = 0
 			current_hp -= 1
+	
+	if musicplaying == 2:
+		if $Music/BossMusic.get_stream_playback() == null:
+			$Music/BossMusic.play()
+		if freezeframe == true:
+			$Music/BossMusic.stream_paused = true
+		else:
+			$Music/BossMusic.stream_paused = false
+	elif musicplaying != 2:
+		$Music/BossMusic.stop()
+	
+	if musicplaying == 3:
+		if $Music/FortBossMusic.get_stream_playback() == null:
+			$Music/FortBossMusic.play()
+		if freezeframe == true:
+			$Music/FortBossMusic.stream_paused = true
+		else:
+			$Music/FortBossMusic.stream_paused = false
+	else:
+		$Music/FortBossMusic.stop()
+	
+	if musicplaying == 4:
+		if $Music/WilyBossMusic.get_stream_playback() == null:
+			$Music/WilyBossMusic.play()
+		if freezeframe == true:
+			$Music/WilyBossMusic.stream_paused = true
+		else:
+			$Music/WilyBossMusic.stream_paused = false
+	else:
+		$Music/WilyBossMusic.stop()
+			
 	
 	
