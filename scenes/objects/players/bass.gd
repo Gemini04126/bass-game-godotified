@@ -203,6 +203,7 @@ func _physics_process(delta: float) -> void:
 				
 			STATES.LADDER:
 				ladder()
+				#ladderAnimMatch()
 				processCharge()
 				processShoot()
 				processBuster()

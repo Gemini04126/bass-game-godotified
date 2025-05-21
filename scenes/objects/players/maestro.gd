@@ -23,8 +23,10 @@ enum STATES {
 	LADDER_SHOOT,
 	JUMP_SHOOT,
 	IDLE_THROW,
+	LADDER_THROW,
 	JUMP_THROW,
 	IDLE_SHIELD,
+	LADDER_SHIELD,
 	JUMP_SHIELD,
 	DEAD,
 	DASH,
@@ -293,6 +295,7 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 			STATES.LADDER:
 				ladder()
+				#ladderAnimMatch()
 				processCharge()
 				processShoot()
 				processBuster()
@@ -538,6 +541,7 @@ func ladderCheck():
 			position.x = ladderArea.position.x
 
 func ladder():
+	anim.speed_scale = direction.y
 	if direction.y != 0:
 		velocity.y = -MAXSPEED*direction.y
 	else:
@@ -545,12 +549,15 @@ func ladder():
 	if direction.y == 1 && $upLadder.is_colliding() == false:
 		currentState = STATES.IDLE
 		velocity.y = 0
+		anim.speed_scale = 1
 	if direction.y == -1 && is_on_floor():
 		velocity.y = 0
 		currentState = STATES.IDLE
+		anim.speed_scale = 1
 	if Input.is_action_just_pressed("jump") && is_on_floor() == false:
 		velocity.y = 0
 		currentState = STATES.JUMP
+		anim.speed_scale = 1
 
 
 func _on_collision_area_area_entered(area: Area2D) -> void:
@@ -718,6 +725,12 @@ func throwAnimMatch():
 		currentState = STATES.IDLE_THROW
 	elif currentState == STATES.JUMP:
 		currentState = STATES.JUMP_THROW
+
+func ladderAnimMatch():
+	if $topLadder.is_colliding() == false:
+		anim.play("LADDER_UP")
+	else:
+		anim.play("LADDER")
 
 func _on_shoot_timer_timeout() -> void:
 	if STATES.keys()[currentState].contains("IDLE"):

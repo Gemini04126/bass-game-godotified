@@ -654,6 +654,14 @@ position = Vector2(0, 9)
 shape = SubResource("RectangleShape2D_1cspv")
 disabled = true
 
+[node name="topLadder" type="RayCast2D" parent="."]
+position = Vector2(0, 6)
+target_position = Vector2(0, -10)
+collision_mask = 64
+hit_from_inside = true
+collide_with_areas = true
+collide_with_bodies = false
+
 [node name="upLadder" type="RayCast2D" parent="."]
 position = Vector2(0, 15.67)
 target_position = Vector2(0, -10)
@@ -663,7 +671,7 @@ collide_with_areas = true
 collide_with_bodies = false
 
 [node name="downLadder" type="RayCast2D" parent="."]
-position = Vector2(0, 17)
+position = Vector2(0, 16)
 target_position = Vector2(0, 4.665)
 collision_mask = 64
 hit_from_inside = true
