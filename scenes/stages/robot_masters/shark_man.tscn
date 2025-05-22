@@ -279,6 +279,7 @@ size = Vector2(384, 42.39)
 
 [node name="Shark Man" type="Node2D"]
 script = ExtResource("1_kfbs7")
+bosses = 1
 C1screenmode = 1
 C1scrollX2 = 2
 
@@ -770,7 +771,7 @@ type = 6
 difficulty = 1
 
 [node name="Spawner14" parent="Level Objects/Enemies" instance=ExtResource("13_3iom0")]
-position = Vector2(472, 187)
+position = Vector2(473, 185)
 type = 1
 
 [node name="Spawner3" parent="Level Objects/Enemies" instance=ExtResource("13_3iom0")]

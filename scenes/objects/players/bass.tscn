@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://bsy7vba3t8awq"]
+[gd_scene load_steps=90 format=3 uid="uid://bsy7vba3t8awq"]
 
 [ext_resource type="Script" uid="uid://bsxw7au27mfj5" path="res://scenes/objects/players/bass.gd" id="1_lug7r"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_m015p"]
@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://bot48w7086agv" path="res://sprites/players/HurtStar.png" id="4_pn11x"]
 [ext_resource type="Texture2D" uid="uid://8mdvvlmmrxfn" path="res://sprites/players/HurtSweat.png" id="5_sgfjj"]
 [ext_resource type="AudioStream" uid="uid://dr1p57c1kr6na" path="res://sounds/warp.wav" id="6_l0myn"]
+[ext_resource type="Texture2D" uid="uid://bjwiqdbq8sleh" path="res://sprites/players/weapons/scythechargefx1.png" id="6_u1bed"]
 [ext_resource type="AudioStream" uid="uid://d2oevy2xek073" path="res://sounds/jump.wav" id="7_fb25d"]
+[ext_resource type="Texture2D" uid="uid://dkbxpsk2vma6u" path="res://sprites/players/weapons/scythechargefx2.png" id="7_tah6h"]
 [ext_resource type="AudioStream" uid="uid://cgaetckoiu15m" path="res://sounds/land.wav" id="8_xc18w"]
 [ext_resource type="AudioStream" uid="uid://bgfwytu8kifqv" path="res://sounds/blastjump.wav" id="8_xq33u"]
 [ext_resource type="AudioStream" uid="uid://pk86bd6damih" path="res://sounds/start_bass.wav" id="9_e7if1"]
@@ -48,6 +50,89 @@ shader = ExtResource("2_m015p")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mrol0"]
+shader = ExtResource("2_m015p")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_suuhy"]
+atlas = ExtResource("6_u1bed")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f13dd"]
+atlas = ExtResource("6_u1bed")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7f34"]
+atlas = ExtResource("6_u1bed")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggowh"]
+atlas = ExtResource("6_u1bed")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7nog"]
+atlas = ExtResource("7_tah6h")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47ado"]
+atlas = ExtResource("7_tah6h")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7cba"]
+atlas = ExtResource("7_tah6h")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6jfx"]
+atlas = ExtResource("7_tah6h")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r0k5b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_suuhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f13dd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7f34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggowh")
+}],
+"loop": true,
+"name": &"charge1",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7nog")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_47ado")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7cba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a6jfx")
+}],
+"loop": true,
+"name": &"charge2",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"none",
+"speed": 5.0
+}]
 
 [sub_resource type="Animation" id="Animation_fb25d"]
 resource_name = "AIR_DASH"
@@ -878,6 +963,14 @@ material = SubResource("ShaderMaterial_7773x")
 texture = ExtResource("3_gjpaj")
 hframes = 90
 frame = 25
+
+[node name="ScytheChargeFX" type="AnimatedSprite2D" parent="."]
+z_index = 3
+material = SubResource("ShaderMaterial_mrol0")
+position = Vector2(0, 3)
+sprite_frames = SubResource("SpriteFrames_r0k5b")
+animation = &"none"
+autoplay = "none"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

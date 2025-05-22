@@ -4,6 +4,8 @@ extends Node2D
 @onready var player # kind of the same thing as GameState.player, but not really? This one's used to *instantiate* the player.
 @onready var splash  
 
+@export var bosses : int
+
 @export var C1screenmode : int
 @export var C1scrollX1 : int
 @export var C1scrollX2 : int
@@ -22,11 +24,15 @@ extends Node2D
 @export var C3scrollY1 : int
 @export var C3scrollY2 : int
 
+var postbossdelay : int = 120
+
 var refilltimer : int
 
 var voffset : int = 8
 
 func _ready():
+	if GameState.bossestokill == 0:
+		GameState.bossestokill = bosses 
 	GameState.musicplaying = 0
 	GameState.inputdisabled = false
 	var hud = preload("res://scenes/hud.tscn").instantiate()
@@ -99,8 +105,26 @@ func _process(_delta):
 	if GameState.bossfightstatus == 2 && GameState.bosses.size() == 0:
 		GameState.inputdisabled = true
 		GameState.bossfightstatus = 3
+		postbossdelay = 120
 		GameState.musicplaying = 0
-						
+	
+	if GameState.bossfightstatus == 3:
+		postbossdelay -= 1
+		
+	if GameState.bossfightstatus == 3 and postbossdelay <= 0:
+		if GameState.bossestokill == 0:
+			GameState.bossfightstatus = 4
+			postbossdelay = 220
+		
+		else:
+			GameState.bossfightstatus = 0
+			GameState.musicplaying = 1
+			GameState.inputdisabled = false
+		
+	if GameState.bossfightstatus == 5:
+		postbossdelay -= 1
+		if postbossdelay <= 0:
+			GameState.bossfightstatus = 6
 		
 	#if GameState.bossfightstatus == 3:
 		#if GameState.freezeframe == true:

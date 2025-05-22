@@ -40,6 +40,7 @@ var quickhits
 var state
 var track2hits : int
 var deadtick
+var bossesleft
 
 var statetimer
 var attacks

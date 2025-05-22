@@ -70,11 +70,13 @@ func _ready():
 	Dmg_Vals[GameState.DMGTYPE.RA_PLUTO] = 2 # yeah fuck you i'm stronger 💪😤
 	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2 # Maybe?
 		
-	if GameState.player != null:
-		if GameState.player.position.x > position.x:
+	if GameState.camposx != null:
+		if GameState.camposx > position.x:
 			direction = 1
 		else:
 			direction = -1
+	else:
+		direction = 1
 	Atk_Dmg = 4
 	Cur_HP = 2
 

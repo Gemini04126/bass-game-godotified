@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://dhdctp2xdimbk"]
+[gd_scene load_steps=17 format=3 uid="uid://dhdctp2xdimbk"]
 
 [ext_resource type="Texture2D" uid="uid://bs5dokmafjugl" path="res://sprites/players/bass/weapons/buster.png" id="1_qphi7"]
 [ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="2_jcmev"]
 [ext_resource type="Texture2D" uid="uid://ridy4qhly2ed" path="res://sprites/enemies/tosser.png" id="3_n106u"]
 [ext_resource type="AudioStream" uid="uid://cq4lw880ecl7v" path="res://sounds/enemyattack.wav" id="4_ewr1s"]
 [ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="5_dsg5k"]
+[ext_resource type="AudioStream" uid="uid://cdgq3h0fsnat3" path="res://sounds/glassbreak.wav" id="5_jcmev"]
 [ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="6_r88h7"]
 
 [sub_resource type="GDScript" id="GDScript_7e10n"]
@@ -26,6 +27,8 @@ func _physics_process(delta):
 			$AnimatedSprite2D.play(\"skin1\")
 		if sound == 0:
 			$SpawnSound.play()
+		if sound == 1:
+			$Shatter.play()
 		firsttick = false
 	if gravity != 0 and GameState.freezeframe == false:
 		velocity.y += gravity * delta
@@ -137,6 +140,10 @@ shape = SubResource("RectangleShape2D_0fvlc")
 
 [node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_ewr1s")
+bus = &"SFX"
+
+[node name="Shatter" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_jcmev")
 bus = &"SFX"
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]

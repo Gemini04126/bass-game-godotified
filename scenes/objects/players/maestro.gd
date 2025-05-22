@@ -51,6 +51,7 @@ enum STATES {
 
 # state related
 var invincible = false
+var victorydemo : int = false
 var warping : int = 0
 var standing
 var currentState := STATES.TELEPORT
@@ -235,8 +236,10 @@ func _physics_process(delta: float) -> void:
 		match currentState:
 			STATES.TELEPORT, STATES.TELEPORT_LANDING:
 				teleporting()
+				animationMatching()
 			STATES.IDLE, STATES.IDLE_SHOOT:
 				idle(delta)
+				animationMatching()
 				slideProcess()
 				checkForFloor()
 				processJump()
@@ -245,19 +248,22 @@ func _physics_process(delta: float) -> void:
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.IDLE_THROW, STATES.IDLE_FIN_SHREDDER, STATES.IDLE_DOUBLE_FIN_SHREDDER:
+			STATES.IDLE_THROW, STATES.IDLE_FIN_SHREDDER:
 				checkForFloor()
+				animationMatching()
 				processJump()
 				processShoot()
 				processCharge()
 				processDamage()
-			STATES.IDLE_SHIELD:
+			STATES.IDLE_SHIELD, STATES.IDLE_DOUBLE_FIN_SHREDDER:
 				checkForFloor()
+				animationMatching()
 				processShoot()
 				processDamage()
 				
 			STATES.STEP:
 				step(delta)
+				animationMatching()
 				checkForFloor()
 				slideProcess()
 				processJump()
@@ -268,6 +274,7 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 			STATES.WALK, STATES.WALKING_SHOOT:
 				walk()
+				animationMatching()
 				slideProcess()
 				checkForFloor()
 				processJump()
@@ -288,6 +295,7 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 			STATES.SLIDE:
 				sliding(delta)
+				animationMatching()
 				if !$ceilCheck.is_colliding():
 					processJump()
 				processCharge()
@@ -302,12 +310,14 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 			STATES.HURT:
 				hurt()
+				animationMatching()
 				applyGrav(delta)
 			STATES.DEAD:
 				dead()
+				animationMatching()
+				
 		if GameState.freezeframe == false:
 			position.x += wind_push
-		animationMatching()
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
@@ -518,8 +528,14 @@ func Jump(delta):
 	
 	if velocity.y > 0:
 		JumpHeight = 80
-		if currentState == STATES.JUMP:
+		
+	if currentState == STATES.JUMP and attack_timer.is_stopped():
+		if velocity.y > 0:
 			$AnimationPlayer.play("FALL")
+		else:
+			$AnimationPlayer.play("JUMP")
+	else:
+		animationMatching()
 			
 
 
@@ -696,7 +712,7 @@ func stopTeleportingFuckingIdiot():
 	currentState = STATES.IDLE
 
 func animationMatching():
-	if anim.current_animation != STATES.keys()[currentState] and (velocity.y <= 0 or !attack_timer.is_stopped()):
+	if anim.current_animation != STATES.keys()[currentState]:
 		anim.play(STATES.keys()[currentState])
 
 func busterAnimMatch():
@@ -794,6 +810,7 @@ func processCharge():
 		weaponflashtimer = 0
 	
 	if currentWeapon == GameState.WEAPONS.REAPER:
+		$ScytheChargeFX.material.set_shader_parameter("palette", sprite.material.get_shader_parameter("palette"))
 		if ScytheCharge > 19:
 			if weaponflashtimer == 1:
 				sprite.material.set_shader_parameter("palette", weapon_palette[19])
@@ -804,6 +821,7 @@ func processCharge():
 				sprite.material.set_shader_parameter("palette", weapon_palette[20])
 		if ScytheCharge == 0:
 			set_current_weapon_palette()
+			
 	
 	if Input.is_action_pressed("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
@@ -1075,7 +1093,15 @@ func weapon_guerilla():
 		projectile.position.y = position.y + 4
 
 func weapon_reaper():
+	if ScytheCharge == 0:
+		$ScytheChargeFX.play("none")
+	if ScytheCharge == 20:
+		$ScytheChargeFX.play("charge1")
+	if ScytheCharge == 70:
+		$ScytheChargeFX.play("charge2")
+	
 	if Input.is_action_just_released("shoot"):
+		$ScytheChargeFX.play("none")
 		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and GameState.onscreen_sp_bullets < 2 and (GameState.weapon_energy[GameState.WEAPONS.REAPER] > 0 or GameState.infinite_ammo == true):
 			anim.seek(0)
 			shot_type = 2
@@ -1102,7 +1128,9 @@ func weapon_reaper():
 
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.REAPER] -= 1
-
+			
+			
+			
 			if ScytheCharge >= 20 and ScytheCharge < 70:  #Mid charge. Throws 2 shots that curve back in opposite ways
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.REAPER] -= 2
@@ -1150,6 +1178,7 @@ func weapon_reaper():
 				projectile.direction = 1
 
 			ScytheCharge = 0
+			
 
 	if !Input.is_action_pressed("shoot"):
 		ScytheCharge = 0

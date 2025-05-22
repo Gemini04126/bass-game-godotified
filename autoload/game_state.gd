@@ -125,6 +125,7 @@ var bossfightstatus : int = 0
 # 1: Intro
 # 2: FIGHT!
 # 3: You win!
+var bossestokill : int = 0
 
 #0 : None. 1 : Stage. 2: Boss. 3:FortressBoss
 var musicplaying : int = 0 
@@ -386,5 +387,12 @@ func _physics_process(_delta: float) -> void:
 	else:
 		$Music/WilyBossMusic.stop()
 			
-	
+	if bossfightstatus == 4:
+		$Music/StageComplete.play()
+		bossfightstatus = 5
+		
+	if bossfightstatus == 6:
+		var middleroom : int = ((GameState.scrollX1 + 192) + (GameState.scrollX2 + 192))/2
+		if player != null:
+			player.victorydemo = true
 	

@@ -102,9 +102,11 @@ func _physics_process(delta: float) -> void:
 			STATES.TELEPORT, STATES.TELEPORT_LANDING:
 				if GameState.ultimate == true:
 					sprite.material.set_shader_parameter("palette", weapon_palette[21])
+				animationMatching()
 				teleporting()
 			STATES.IDLE:
 				idle(delta)
+				animationMatching()
 				dashProcess()
 				checkForFloor()
 				processJump()
@@ -116,6 +118,7 @@ func _physics_process(delta: float) -> void:
 				module_video()
 			STATES.IDLE_THROW, STATES.IDLE_SHOOT:
 				checkForFloor()
+				animationMatching()
 				processJump()
 				processShoot()
 				processCharge()
@@ -125,6 +128,7 @@ func _physics_process(delta: float) -> void:
 					velocity.x = lerpf(velocity.x, 0, delta * ICE_FLOOR_WEIGHT)
 			STATES.IDLE_SHIELD, STATES.PAPER_CUT:
 				checkForFloor()
+				animationMatching()
 				processShoot()
 				processDamage()
 				module_video()
@@ -135,6 +139,7 @@ func _physics_process(delta: float) -> void:
 				else:
 					velocity.x = lerpf(velocity.x, 0, delta * ICE_FLOOR_WEIGHT)
 				processBuster()
+				animationMatching()
 				checkForFloor()
 				processJump()
 				processShoot()
@@ -143,6 +148,7 @@ func _physics_process(delta: float) -> void:
 				
 			STATES.STEP:
 				step(delta)
+				animationMatching()
 				checkForFloor()
 				dashProcess()
 				processJump()
@@ -154,6 +160,7 @@ func _physics_process(delta: float) -> void:
 				module_video()
 			STATES.WALK:
 				walk()
+				animationMatching()
 				dashProcess()
 				checkForFloor()
 				processJump()
@@ -179,11 +186,13 @@ func _physics_process(delta: float) -> void:
 				module_video()
 			STATES.AIR_DASH:
 				module_reaper()
+				animationMatching()
 				processDamage()
 				module_origami()
 				module_video()
 			STATES.DASH:
 				dashing(delta)
+				animationMatching()
 				processJump()
 				processCharge()
 				ladderCheck()
@@ -194,6 +203,7 @@ func _physics_process(delta: float) -> void:
 			STATES.SLIDE:
 				$mainCollision.set_disabled(true)
 				$slideCollision.set_disabled(false)
+				animationMatching()
 				dashing(delta)
 				processJump()
 				processCharge()
@@ -211,13 +221,14 @@ func _physics_process(delta: float) -> void:
 				module_video()
 			STATES.HURT:
 				hurt()
+				animationMatching()
 				applyGrav(delta)
 			STATES.DEAD:
 				dead()
+				animationMatching()
 				
 		if GameState.freezeframe == false:
 			position.x += wind_push
-		animationMatching()
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()

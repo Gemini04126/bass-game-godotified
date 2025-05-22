@@ -4,7 +4,7 @@ class_name CopyRobotPlayer
 
 # Variables
 var recoil : int
-var busterflashtimer : int
+var busterflashtimer : int = 1
 var sharkcharge : int
 var bustercharge : int
 var sakugarne : bool = false
@@ -73,7 +73,9 @@ func set_current_weapon_palette() -> void:
 
 func _physics_process(delta: float) -> void:
 	$ChargeFX.material.set_shader_parameter("palette", sprite.material.get_shader_parameter("palette"))
-	
+	$SharkChargeFX.material.set_shader_parameter("palette", sprite.material.get_shader_parameter("palette"))
+	$ScytheChargeFX.material.set_shader_parameter("palette", sprite.material.get_shader_parameter("palette"))
+		
 	if recoil != 0:
 		if recoil < 0:
 			position.x -= 1
@@ -250,23 +252,24 @@ func processCharge():
 		if ScytheCharge > 19:
 			if weaponflashtimer == 1:
 				sprite.material.set_shader_parameter("palette", weapon_palette[19])
-			if weaponflashtimer != 1:
+			if weaponflashtimer != 1 and bustercharge < 32:
 				set_current_weapon_palette()
 		if ScytheCharge > 69:
 			if weaponflashtimer == 2:
 				sprite.material.set_shader_parameter("palette", weapon_palette[20])
-		if ScytheCharge == 0:
+		if ScytheCharge == 0 and bustercharge == 0:
 			set_current_weapon_palette()
-	elif currentWeapon == GameState.WEAPONS.SHARK:
+			
+	if currentWeapon == GameState.WEAPONS.SHARK:
 		if sharkcharge > 0:
 			if weaponflashtimer == 1:
 				sprite.material.set_shader_parameter("palette", weapon_palette[21])
-			if weaponflashtimer != 1:
+			if weaponflashtimer != 1 and bustercharge < 32:
 				set_current_weapon_palette()
 		if sharkcharge > 25:
 			if weaponflashtimer == 2:
 				sprite.material.set_shader_parameter("palette", weapon_palette[22])
-		if sharkcharge == 0:
+		if sharkcharge == 0 and bustercharge == 0:
 			set_current_weapon_palette()
 	
 	if Input.is_action_pressed("shoot") && !transing:
@@ -280,6 +283,7 @@ func processCharge():
 	elif Input.is_action_just_released("shoot") && !transing:
 		currentWeapon = GameState.current_weapon
 		match currentWeapon:
+			
 			GameState.WEAPONS.REAPER:
 				throwAnimMatch()
 				weapon_reaper()
@@ -287,15 +291,14 @@ func processCharge():
 				weapon_shark()
 				
 	if (Input.is_action_pressed("shoot") or Input.is_action_pressed("buster")) && !transing:
-		currentWeapon = GameState.current_weapon
 		if currentWeapon == GameState.WEAPONS.BUSTER or Input.is_action_pressed("buster"):
 			weapon_cbuster()
 	elif (Input.is_action_just_released("shoot") or Input.is_action_just_released("buster")) && !transing:
-		currentWeapon = GameState.current_weapon
-		if currentWeapon == GameState.WEAPONS.BUSTER or Input.is_action_just_released("buster"):
-			if GameState.inputdisabled == false:
-				busterAnimMatch()
 			weapon_cbuster()
+			
+	if Input.is_action_just_released("buster") && !transing:
+			weapon_cbuster()
+			
 
 # ================
 # WEAPON FUNCTIONS
@@ -345,6 +348,7 @@ func weapon_cbuster():
 					else:
 						projectile = projectile_scenes[2].instantiate()
 						$Audio/Buster3.play()
+					busterAnimMatch()
 					add_sibling(projectile)
 					
 					if GameState.ultimate == true and direction.y != 0:
@@ -377,6 +381,7 @@ func weapon_cbuster():
 					else:
 						projectile = projectile_scenes[9].instantiate()
 						$Audio/Buster3.play()
+					busterAnimMatch()
 					add_sibling(projectile)
 					projectile.position.x = position.x + (sprite.scale.x * 18)
 					projectile.position.y = position.y + 2
@@ -394,13 +399,14 @@ func weapon_cbuster():
 					projectile.position.y = position.y + 2
 					recoil = -sprite.scale.x * 4
 					
-				$ChargeFX.play("none")
 				bustercharge = 0
+				$ChargeFX.play("none")
+				
 				$Audio/Charge1.stop()
 				$Audio/Charge2.stop()
 				set_current_weapon_palette()
 				return
-	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_pressed("shoot")) or Input.is_action_pressed("buster"):
+	if ((GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_pressed("shoot")) or Input.is_action_pressed("buster")):
 		if bustercharge < 111:
 			if GameState.upgrades_enabled[7] and busterflashtimer == 2:
 				bustercharge += 1
@@ -430,6 +436,8 @@ func weapon_cbuster():
 func weapon_shark():
 	if Input.is_action_just_released("shoot"):
 		print("released")
+		$SharkChargeFX.play("none")
+				
 		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and GameState.onscreen_sp_bullets < 1 and (GameState.weapon_energy[GameState.WEAPONS.SHARK] > 3 or GameState.infinite_ammo == true):
 			if sharkcharge < 25: #Uncharged. Single Fin Shredder
 
@@ -490,14 +498,19 @@ func weapon_shark():
 
 	if Input.is_action_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.SHARK] > 0 or GameState.infinite_ammo == true):
 		print("pressed")
+		if sharkcharge == 1:
+			$SharkChargeFX.play("charge1")
+				
 		if sharkcharge < 78:
 			sharkcharge += 1
 			if sharkcharge == 26:
+				$SharkChargeFX.play("charge2")
 				$Audio/Charge1.play()
 		else:
 			sharkcharge = 77
 	else:
 		sharkcharge = 0
+		$SharkChargeFX.play("none")
 		$Audio/Charge1.stop()
 		$Audio/Charge2.stop()
 		set_current_weapon_palette()

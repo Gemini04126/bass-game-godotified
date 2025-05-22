@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://bksinirshmwgf"]
+[gd_scene load_steps=71 format=3 uid="uid://bksinirshmwgf"]
 
 [ext_resource type="Script" uid="uid://bmoeo1pjk4r87" path="res://scenes/objects/players/maestro.gd" id="1_ct76e"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_lnglj"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://bot48w7086agv" path="res://sprites/players/HurtStar.png" id="5_lg5go"]
 [ext_resource type="Texture2D" uid="uid://8mdvvlmmrxfn" path="res://sprites/players/HurtSweat.png" id="5_vvkba"]
 [ext_resource type="AudioStream" uid="uid://dr1p57c1kr6na" path="res://sounds/warp.wav" id="7_lkvls"]
+[ext_resource type="Texture2D" uid="uid://bjwiqdbq8sleh" path="res://sprites/players/weapons/scythechargefx1.png" id="7_uybrg"]
+[ext_resource type="Texture2D" uid="uid://dkbxpsk2vma6u" path="res://sprites/players/weapons/scythechargefx2.png" id="8_dmass"]
 [ext_resource type="AudioStream" uid="uid://d2oevy2xek073" path="res://sounds/jump.wav" id="8_jutwy"]
 [ext_resource type="AudioStream" uid="uid://cgaetckoiu15m" path="res://sounds/land.wav" id="9_3h8mb"]
 [ext_resource type="AudioStream" uid="uid://h87d8b65n30n" path="res://sounds/slide.wav" id="10_ubtaa"]
@@ -45,6 +47,89 @@ shader_parameter/palette = ExtResource("4_sovti")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0skwk"]
+shader = ExtResource("1_lnglj")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_suuhy"]
+atlas = ExtResource("7_uybrg")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f13dd"]
+atlas = ExtResource("7_uybrg")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7f34"]
+atlas = ExtResource("7_uybrg")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggowh"]
+atlas = ExtResource("7_uybrg")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7nog"]
+atlas = ExtResource("8_dmass")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47ado"]
+atlas = ExtResource("8_dmass")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7cba"]
+atlas = ExtResource("8_dmass")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6jfx"]
+atlas = ExtResource("8_dmass")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lm6ua"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_suuhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f13dd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7f34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggowh")
+}],
+"loop": true,
+"name": &"charge1",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7nog")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_47ado")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7cba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a6jfx")
+}],
+"loop": true,
+"name": &"charge2",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"none",
+"speed": 5.0
+}]
 
 [sub_resource type="Animation" id="Animation_kvtkx"]
 resource_name = "DEAD"
@@ -611,6 +696,14 @@ material = SubResource("ShaderMaterial_dtetj")
 texture = ExtResource("4_w3lef")
 hframes = 35
 frame = 13
+
+[node name="ScytheChargeFX" type="AnimatedSprite2D" parent="."]
+z_index = 3
+material = SubResource("ShaderMaterial_0skwk")
+position = Vector2(0, 3)
+sprite_frames = SubResource("SpriteFrames_lm6ua")
+animation = &"charge2"
+autoplay = "none"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
