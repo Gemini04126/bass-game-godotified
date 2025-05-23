@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=3 uid="uid://cnpcm2juvcutu"]
+[gd_scene load_steps=107 format=3 uid="uid://cnpcm2juvcutu"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_hk0hv"]
 [ext_resource type="Script" uid="uid://cdp8cckqtq8nw" path="res://scenes/objects/players/copy_robot.gd" id="2_we56i"]
@@ -392,10 +392,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
 "update": 1,
-"values": [37]
+"values": []
 }
 
 [sub_resource type="Animation" id="Animation_5l8y4"]
@@ -626,7 +626,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_fspq0"]
-resource_name = "LADDER"
+resource_name = "LADDER-1"
 length = 0.8
 loop_mode = 1
 tracks/0/type = "value"
@@ -636,10 +636,85 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [58, 59, 60, 61, 60, 59]
+"values": [58, 59, 60, 61]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer:current_animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"LADDER-1-IDLE"]
+}
+
+[sub_resource type="Animation" id="Animation_p60tr"]
+resource_name = "LADDER-1-IDLE"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [61]
+}
+
+[sub_resource type="Animation" id="Animation_uj5mc"]
+resource_name = "LADDER-2"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [61, 60, 59, 58]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer:current_animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"LADDER-2-IDLE"]
+}
+
+[sub_resource type="Animation" id="Animation_h7cfk"]
+resource_name = "LADDER-2-IDLE"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [58]
 }
 
 [sub_resource type="Animation" id="Animation_padrw"]
@@ -741,6 +816,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimationPlayer:current_animation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
 }
 
 [sub_resource type="Animation" id="Animation_h6n08"]
@@ -962,7 +1049,10 @@ _data = {
 &"JUMP_SHIELD": SubResource("Animation_c04vi"),
 &"JUMP_SHOOT": SubResource("Animation_j1aih"),
 &"JUMP_THROW": SubResource("Animation_rss1p"),
-&"LADDER": SubResource("Animation_fspq0"),
+&"LADDER-1": SubResource("Animation_fspq0"),
+&"LADDER-1-IDLE": SubResource("Animation_p60tr"),
+&"LADDER-2": SubResource("Animation_uj5mc"),
+&"LADDER-2-IDLE": SubResource("Animation_h7cfk"),
 &"LADDER_SHOOT": SubResource("Animation_padrw"),
 &"LADDER_THROW": SubResource("Animation_674xt"),
 &"LADDER_UP": SubResource("Animation_73g7h"),
@@ -1075,7 +1165,7 @@ z_index = 1
 material = SubResource("ShaderMaterial_7773x")
 texture = ExtResource("5_a7tix")
 hframes = 73
-frame = 12
+frame = 62
 
 [node name="ChargeFX" type="AnimatedSprite2D" parent="."]
 z_index = 3
@@ -1144,7 +1234,7 @@ shape = SubResource("RectangleShape2D_ada6q")
 disabled = true
 
 [node name="topLadder" type="RayCast2D" parent="."]
-position = Vector2(0, 21.67)
+position = Vector2(0, 4)
 target_position = Vector2(0, -10)
 collision_mask = 64
 hit_from_inside = true

@@ -104,64 +104,63 @@ func _physics_process(delta: float) -> void:
 	if !transing:
 		match currentState:
 			STATES.TELEPORT, STATES.TELEPORT_LANDING:
-				if GameState.ultimate == true:
-					sprite.material.set_shader_parameter("palette", weapon_palette[23])
 				teleporting()
+				animationMatching()
 			STATES.IDLE, STATES.IDLE_SHOOT:
 				idle(delta)
+				animationMatching()
 				slideProcess()
 				checkForFloor()
 				processJump()
 				processShoot()
-				#processBuster()
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.IDLE_THROW, STATES.IDLE_FIN_SHREDDER, STATES.IDLE_DOUBLE_FIN_SHREDDER:
+			STATES.IDLE_THROW, STATES.IDLE_FIN_SHREDDER:
 				checkForFloor()
+				animationMatching()
 				processJump()
 				processShoot()
 				processCharge()
 				processDamage()
-			STATES.IDLE_SHIELD:
+			STATES.IDLE_SHIELD, STATES.IDLE_DOUBLE_FIN_SHREDDER:
 				checkForFloor()
+				animationMatching()
 				processShoot()
 				processDamage()
 				
 			STATES.STEP:
 				step(delta)
+				animationMatching()
 				checkForFloor()
 				slideProcess()
 				processJump()
 				processShoot()
-				#processBuster()
 				processCharge()
 				ladderCheck()
 				processDamage()
 			STATES.WALK, STATES.WALKING_SHOOT:
 				walk()
+				animationMatching()
 				slideProcess()
 				checkForFloor()
 				processJump()
 				allowLeftRight(delta)
 				processShoot()
-				#processBuster()
 				processCharge()
 				ladderCheck()
 				processDamage()
-			STATES.JUMP, STATES.JUMP_SHOOT, STATES.JUMP_THROW, STATES.JUMP_SHIELD, STATES.JUMP_FIN_SHREDDER:
+			STATES.JUMP, STATES.JUMP_SHOOT, STATES.JUMP_THROW, STATES.JUMP_SHIELD:
 				Jump(delta)
 				applyGrav(delta)
 				allowLeftRight(delta)
 				processShoot()
-				if GameState.ultimate == true:
-					slideProcess()
-				#processBuster()
 				processCharge()
 				ladderCheck()
 				processDamage()
 			STATES.SLIDE:
 				sliding(delta)
+				animationMatching()
 				if !$ceilCheck.is_colliding():
 					processJump()
 				processCharge()
@@ -169,21 +168,41 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 			STATES.LADDER:
 				ladder()
-				#ladderAnimMatch()
+				ladderAnimate()
+				processCharge()
+				processBuster()
+				processDamage()
+			STATES.LADDER_SHOOT, STATES.LADDER_THROW, STATES.LADDER_SHIELD:
+				velocity.y = 0
 				processCharge()
 				processShoot()
-				#processBuster()
 				processDamage()
+				animationMatching()
 			STATES.HURT:
 				hurt()
+				animationMatching()
 				applyGrav(delta)
 			STATES.DEAD:
 				dead()
-		position.x += wind_push
-		animationMatching()
+				animationMatching()
+				
+		if GameState.freezeframe == false:
+			position.x += wind_push
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
+		if currentState != STATES.LADDER:
+			ladderticks = 0
+		if currentState != STATES.WARPING and warping == 1:
+			velocity.x = 0
+			velocity.y = 0
+			currentState = STATES.WARPING
+		elif currentState != STATES.WARP2 and warping == 2:
+			currentState = STATES.WARP2
+			$Timers/StateTimer.start(0.35)
+		elif currentState == STATES.WARP2 and $Timers/StateTimer.is_stopped():
+			warping = 0
+			currentState = STATES.IDLE
 		if is_on_floor():
 			standing = true
 		else:
@@ -198,6 +217,7 @@ func processShoot():
 				#the animation match stuff is within the actual weapon since its a two parter
 				weapon_blaze()
 			GameState.WEAPONS.VIDEO:
+				shieldAnimMatch()
 				weapon_video()
 			GameState.WEAPONS.SMOG:
 				busterAnimMatch()
@@ -548,5 +568,6 @@ func _on_shoot_timer_timeout() -> void:
 		anim.seek(getFrame)
 	elif STATES.keys()[currentState].contains("JUMP"):
 		currentState = STATES.JUMP
-	elif currentState == STATES.IDLE_THROW:
-		currentState = STATES.IDLE
+	elif STATES.keys()[currentState].contains("LADDER"):
+		$AnimationPlayer.play("LADDER-1-IDLE")
+		currentState = STATES.LADDER

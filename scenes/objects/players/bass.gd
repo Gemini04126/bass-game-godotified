@@ -213,12 +213,20 @@ func _physics_process(delta: float) -> void:
 				
 			STATES.LADDER:
 				ladder()
-				#ladderAnimMatch()
+				ladderAnimate()
 				processCharge()
 				processShoot()
 				processBuster()
 				processDamage()
 				module_video()
+			STATES.LADDER_SHOOT, STATES.LADDER_THROW, STATES.LADDER_SHIELD, STATES.LADDER_AIM, STATES.LADDER_AIM_DOWN, STATES.LADDER_AIM_DIAG, STATES.LADDER_AIM_UP:
+				velocity.y = 0
+				processCharge()
+				processShoot()
+				processBuster()
+				processDamage()
+				module_video()
+				animationMatching()
 			STATES.HURT:
 				hurt()
 				animationMatching()
@@ -232,6 +240,8 @@ func _physics_process(delta: float) -> void:
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
+		if currentState != STATES.LADDER:
+			ladderticks = 0
 		if is_on_floor():
 			standing = true
 		else:
@@ -342,6 +352,7 @@ func processShoot():
 				#the animation match stuff is within the actual weapon since its a two parter
 				weapon_blaze()
 			GameState.WEAPONS.VIDEO:
+				shieldAnimMatch()
 				weapon_video()
 			GameState.WEAPONS.SMOG:
 				busterAnimMatch()
@@ -393,6 +404,15 @@ func aimAnimMatch():
 			currentState = STATES.JUMP_AIM_DIAG
 		else:
 			currentState = STATES.JUMP_AIM
+	elif STATES.keys()[currentState].contains("LADDER"):
+		if direction.y == -1:
+			currentState = STATES.LADDER_AIM_DOWN
+		elif direction.y == 1 and direction.x == 0:
+			currentState = STATES.LADDER_AIM_UP
+		elif direction.y == 1:
+			currentState = STATES.LADDER_AIM_DIAG
+		else:
+			currentState = STATES.LADDER_AIM
 			
 func busterAnimMatch():
 	shoot_timer.start()
@@ -402,6 +422,8 @@ func busterAnimMatch():
 		currentState = STATES.IDLE_SHOOT
 	elif currentState == STATES.JUMP:
 		currentState = STATES.JUMP_SHOOT
+	elif currentState == STATES.LADDER:
+		currentState = STATES.LADDER_SHOOT
 
 func processBuster():
 	if Input.is_action_pressed("buster") or (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_pressed("shoot")):
