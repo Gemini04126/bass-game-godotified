@@ -34,6 +34,7 @@ func _ready():
 	if GameState.bossestokill == 0:
 		GameState.bossestokill = bosses 
 	GameState.musicplaying = 0
+	GameState.bossfightstatus = 0
 	GameState.inputdisabled = false
 	var hud = preload("res://scenes/hud.tscn").instantiate()
 	add_child(hud)
@@ -80,6 +81,10 @@ func _ready():
 	player.position.y = GameState.camposy - 130
 	player.position.x = $StartPosition.position.x
 	player.targetpos = $StartPosition.position.y
+	
+	if GameState.character_selected == 2:
+		GameState.weapons_unlocked[11]=GameState.upgrades_enabled[16]
+		GameState.weapons_unlocked[12]=GameState.upgrades_enabled[17]
 		
 	if player.has_method("play_start_sound"): # G: Finally, a foolproof method to do this...
 		player.play_start_sound()

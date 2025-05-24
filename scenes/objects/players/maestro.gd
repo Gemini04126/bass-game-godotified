@@ -47,7 +47,7 @@ enum STATES {
 	IDLE_FIN_SHREDDER,
 	IDLE_DOUBLE_FIN_SHREDDER,
 	JUMP_FIN_SHREDDER,
-	JUMP_DOUBLE_FIN_SHREDDER,
+	VICTORY,
 	WARPING, #Using a teleporter
 	WARP2 #Leaving a teleporter
 }
@@ -55,7 +55,8 @@ enum STATES {
 
 # state related
 var invincible = false
-var victorydemo : int = false
+var victorydemo : bool = false
+var leaving : int = 0
 var warping : int = 0
 var standing
 var currentState := STATES.TELEPORT
@@ -308,6 +309,7 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 			STATES.LADDER:
 				ladder()
+				ladderInput()
 				ladderAnimate()
 				processCharge()
 				processShoot()
@@ -315,6 +317,7 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 			STATES.LADDER_SHOOT, STATES.LADDER_THROW, STATES.LADDER_SHIELD:
 				velocity.y = 0
+				ladderInput()
 				processCharge()
 				processShoot()
 				processBuster()
@@ -327,12 +330,16 @@ func _physics_process(delta: float) -> void:
 			STATES.DEAD:
 				dead()
 				animationMatching()
+			STATES.VICTORY:
+				victory(delta)
 				
 		if GameState.freezeframe == false:
 			position.x += wind_push
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
+		if currentState != STATES.VICTORY and victorydemo == true:
+			currentState = STATES.VICTORY
 		if currentState != STATES.LADDER:
 			ladderticks = 0
 		if currentState != STATES.WARPING and warping == 1:
@@ -593,12 +600,19 @@ func ladder():
 		velocity.y = 0
 		currentState = STATES.IDLE
 		
+func ladderInput():
 	if Input.is_action_just_pressed("jump") && is_on_floor() == false:
 		velocity.y = 0
-		currentState = STATES.JUMP
+		if currentState == STATES.LADDER_SHOOT or currentState == STATES.LADDER_AIM or currentState == STATES.LADDER_AIM_DOWN or currentState == STATES.LADDER_AIM_DIAG or currentState == STATES.LADDER_AIM_UP:
+			currentState = STATES.JUMP_SHOOT
+		elif currentState == STATES.LADDER_THROW:
+			currentState = STATES.JUMP_THROW
+		else:
+			currentState = STATES.JUMP
 	
 	if Input.is_action_just_pressed("buster") or Input.is_action_just_pressed("shoot") and direction.x != 0:
 		sprite.scale.x = direction.x
+		
 		
 		
 func ladderAnimate():
@@ -627,7 +641,7 @@ func slideProcess():
 	if GameState.inputdisabled == false:
 		if direction.y == -1 && Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("dash"):
 			if !on_ice:
-				if GameState.upgrades_enabled[8]:
+				if GameState.upgrades_enabled[13]:
 					velocity.x = 300 * sprite.scale.x
 				else:
 					velocity.x = 200 * sprite.scale.x
@@ -649,12 +663,12 @@ func slideProcess():
 func sliding(delta):
 	velocity.y = 0
 	if !on_ice:
-		if GameState.upgrades_enabled[8]:
+		if GameState.upgrades_enabled[13]:
 			velocity.x = 300 * sprite.scale.x
 		else:
 			velocity.x = 200 * sprite.scale.x
 	else:
-		if GameState.upgrades_enabled[8]:
+		if GameState.upgrades_enabled[13]:
 			velocity.x = lerpf(velocity.x, sprite.scale.x * 375, delta * 4)
 		else:
 			velocity.x = lerpf(velocity.x, sprite.scale.x * 250, delta * 4)
@@ -1411,3 +1425,30 @@ func reset(everything: bool) -> void:
 
 func _on_switch_timer_timeout():
 	$WeaponIcon.visible = false
+
+func victory(delta):
+	if deathtime < 80 or deathtime > 81:
+		deathtime += 1
+	
+	if deathtime == 80:
+		$AnimationPlayer.play("WALK")
+		if position.x > GameState.middleroom:
+			sprite.scale.x = -1
+			velocity.x = MAXSPEED * -1
+		if position.x < GameState.middleroom:
+			sprite.scale.x = 1
+			velocity.x = MAXSPEED * 1
+		deathtime += 1
+	
+	if deathtime == 81 and (position.x > GameState.middleroom -1 and position.x < GameState.middleroom +1):
+		$AnimationPlayer.play("IDLE")
+		velocity.x = 0
+		deathtime += 1
+		
+	if deathtime == 120:
+		$AnimationPlayer.play("VICTORY_TELEPORT")
+		$Audio/Warp.play()
+		
+	if deathtime == 135:
+		velocity.y = -320
+		$mainCollision.disabled = true

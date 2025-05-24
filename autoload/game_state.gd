@@ -150,6 +150,7 @@ var galeforce : float # converted from int to float
 var playerposx
 var playerposy
 var playerstate
+var middleroom : int
 
 var inputdisabled : bool = false
 
@@ -303,17 +304,39 @@ var modules_enabled = [
 	false, # CMON TREBLE!
 ]
 
+var modules_boosted = [
+	true, # nothing lol
+	false, # Blast Jump
+	false, # Track 2
+	false, # Mist Dash
+	false, # Aqua Drive
+	false, # Paper Cut
+	false, # Aero Glide
+	false, # Machine Buster
+	false, # Spirit Dash
+	false, # Proto Shield
+	false, # CMON TREBLE!
+]
+
 var upgrades_enabled = [
 	false, # HP up
 	false, # WE up
-	false, # BL up
+	false, # Bullet up
 	false, # Super Heal
 	false, # Super Enrgy
+	false, # Energy Balancer
+	false, # Shock Absorber
+	false, # Step Booster
+	false, # Spike Protector
+	false, # Tank Up
+	false, # Chip Finder
 	false, # Wall Pierce / Angle Buster
-	false, # X / Hyper Charge
-	false, # Z / Hyper Slide
-	false, # ? / Slide Shot
-	false, # ? / ?
+	false, # Rapid Buster / Speed Charge
+	false, # Sprint Boost / Hyper Slide
+	false, # Jump Boost
+	false, # Mod1 / Speeding Buster
+	false, # Mod2 / F.Carry
+	false, # Mod3 / S.Arrow
 ]
 #endregion
 
@@ -392,7 +415,7 @@ func _physics_process(_delta: float) -> void:
 		bossfightstatus = 5
 		
 	if bossfightstatus == 6:
-		var middleroom : int = ((GameState.scrollX1 + 192) + (GameState.scrollX2 + 192))/2
+		middleroom = ((GameState.scrollX1 + 192) + (GameState.scrollX2 + 192))/2
 		if player != null:
 			player.victorydemo = true
 	

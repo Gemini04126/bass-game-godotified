@@ -446,11 +446,10 @@ animation = &"Attack"
 autoplay = "Idle"
 
 [node name="hitable" type="Area2D" parent="."]
-visible = false
 collision_layer = 4
 collision_mask = 8
 
-[node name="Collision3" type="CollisionShape2D" parent="hitable"]
+[node name="MainHitbox" type="CollisionShape2D" parent="hitable"]
 position = Vector2(2, -10)
 shape = SubResource("RectangleShape2D_8am6b")
 debug_color = Color(0, 0.627451, 1, 0.419608)
@@ -460,7 +459,7 @@ visible = false
 collision_layer = 4
 collision_mask = 2
 
-[node name="Collision2" type="CollisionShape2D" parent="hurt"]
+[node name="Hurtbox" type="CollisionShape2D" parent="hurt"]
 position = Vector2(2, -10)
 shape = SubResource("RectangleShape2D_8am6b")
 debug_color = Color(1, 0, 0.0705882, 0.419608)

@@ -168,12 +168,14 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 			STATES.LADDER:
 				ladder()
+				ladderInput()
 				ladderAnimate()
 				processCharge()
 				processBuster()
 				processDamage()
 			STATES.LADDER_SHOOT, STATES.LADDER_THROW, STATES.LADDER_SHIELD:
 				velocity.y = 0
+				ladderInput()
 				processCharge()
 				processShoot()
 				processDamage()
@@ -185,6 +187,7 @@ func _physics_process(delta: float) -> void:
 			STATES.DEAD:
 				dead()
 				animationMatching()
+			
 				
 		if GameState.freezeframe == false:
 			position.x += wind_push
@@ -326,7 +329,7 @@ func processCharge():
 func weapon_cbuster():
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_just_pressed("shoot")) or Input.is_action_just_pressed("buster"):
 		if GameState.inputdisabled == false:
-			if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3 or (GameState.upgrades_enabled[3] == true and GameState.onscreen_bullets < 5)):
+			if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3 or (GameState.upgrades_enabled[2] == true and GameState.onscreen_bullets < 5)):
 				attack_timer.start(0.3)
 				GameState.onscreen_bullets += 1
 				if GameState.ultimate == false:
@@ -340,7 +343,10 @@ func weapon_cbuster():
 				add_sibling(projectile)
 				projectile.position.x = position.x + (sprite.scale.x * 18)
 				projectile.position.y = position.y + 2
-				projectile.velocity.x = sprite.scale.x * 350
+				if GameState.upgrades_enabled[15]:
+					projectile.velocity.x = sprite.scale.x * 450
+				else:
+					projectile.velocity.x = sprite.scale.x * 350
 				projectile.scale.x = sprite.scale.x
 				bustercharge = 0
 				$ChargeFX.play("none")
@@ -350,7 +356,10 @@ func weapon_cbuster():
 				busterAnimMatch()
 				return
 	if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_just_released("shoot")) or Input.is_action_just_released("buster"):
-		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3 or (GameState.upgrades_enabled[3] == true and GameState.onscreen_bullets < 5)):
+		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and (GameState.onscreen_bullets < 3 or (GameState.upgrades_enabled[2] == true and GameState.onscreen_bullets < 5)):
+			if currentState == STATES.LADDER and direction.x != 0:
+				sprite.scale.x = direction.x
+			
 			if bustercharge < 32: # no Charge
 				bustercharge = 0
 				$ChargeFX.play("none")
@@ -372,8 +381,10 @@ func weapon_cbuster():
 					add_sibling(projectile)
 					
 					if GameState.ultimate == true and direction.y != 0:
-						projectile.velocity.x = sprite.scale.x * 280
-						projectile.velocity.y = direction.y * -70
+						projectile.velocity.x = sprite.scale.x * 360
+						projectile.velocity.y = direction.y * -90
+					elif GameState.upgrades_enabled[15]:
+						projectile.velocity.x = sprite.scale.x * 450
 					else:
 						projectile.velocity.x = sprite.scale.x * 350
 						
@@ -390,8 +401,7 @@ func weapon_cbuster():
 				if GameState.inputdisabled == false:
 					attack_timer.start(0.3)
 				
-					position.x -= sprite.scale.x * 2
-				
+					
 					GameState.onscreen_bullets += 1
 					
 					
@@ -406,18 +416,27 @@ func weapon_cbuster():
 					projectile.position.x = position.x + (sprite.scale.x * 18)
 					projectile.position.y = position.y + 2
 					
-					if GameState.upgrades_enabled[6] and direction.y != 0:
-						projectile.velocity.x = sprite.scale.x * 280
-						projectile.velocity.y = direction.y * -70
+					if GameState.upgrades_enabled[11] and direction.y != 0:
+						if GameState.upgrades_enabled[15]:
+							projectile.velocity.x = sprite.scale.x * 360
+							projectile.velocity.y = direction.y * -90
+						else:
+							projectile.velocity.x = sprite.scale.x * 280
+							projectile.velocity.y = direction.y * -70
 					else:
-						projectile.velocity.x = sprite.scale.x * 350
+						if GameState.upgrades_enabled[15]:
+							projectile.velocity.x = sprite.scale.x * 450
+						else:
+							projectile.velocity.x = sprite.scale.x * 350
 					projectile.scale.x = sprite.scale.x
 					
 					projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
 					add_sibling(projectile)
 					projectile.position.x = position.x + (sprite.scale.x * 18)
 					projectile.position.y = position.y + 2
-					recoil = -sprite.scale.x * 4
+					if currentState != STATES.LADDER and currentState != STATES.LADDER_SHOOT:
+						position.x -= sprite.scale.x * 2
+						recoil = -sprite.scale.x * 4
 					
 				bustercharge = 0
 				$ChargeFX.play("none")
@@ -428,7 +447,7 @@ func weapon_cbuster():
 				return
 	if ((GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_pressed("shoot")) or Input.is_action_pressed("buster")):
 		if bustercharge < 111:
-			if GameState.upgrades_enabled[7] and busterflashtimer == 2:
+			if GameState.upgrades_enabled[12] and busterflashtimer == 2:
 				bustercharge += 1
 			bustercharge += 1
 				

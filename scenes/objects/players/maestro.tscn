@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://bksinirshmwgf"]
+[gd_scene load_steps=72 format=3 uid="uid://bksinirshmwgf"]
 
 [ext_resource type="Script" uid="uid://bmoeo1pjk4r87" path="res://scenes/objects/players/maestro.gd" id="1_ct76e"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_lnglj"]
@@ -504,6 +504,22 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_uybrg"]
+resource_name = "VICTORY_TELEPORT"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [26, 29, 30, 31, 32, 33, 34]
+}
+
 [sub_resource type="Animation" id="Animation_xy5yj"]
 resource_name = "WALK"
 length = 0.466744
@@ -591,6 +607,7 @@ _data = {
 &"STEP": SubResource("Animation_awquw"),
 &"TELEPORT": SubResource("Animation_ubhby"),
 &"TELEPORT_LANDING": SubResource("Animation_1nvuj"),
+&"VICTORY_TELEPORT": SubResource("Animation_uybrg"),
 &"WALK": SubResource("Animation_xy5yj"),
 &"WALKING_SHOOT": SubResource("Animation_nbhxj"),
 &"WARPING": SubResource("Animation_6rfa2"),
@@ -695,7 +712,7 @@ z_index = 1
 material = SubResource("ShaderMaterial_dtetj")
 texture = ExtResource("4_w3lef")
 hframes = 35
-frame = 13
+frame = 34
 
 [node name="ScytheChargeFX" type="AnimatedSprite2D" parent="."]
 z_index = 3

@@ -213,6 +213,7 @@ func _physics_process(delta: float) -> void:
 				
 			STATES.LADDER:
 				ladder()
+				ladderInput()
 				ladderAnimate()
 				processCharge()
 				processShoot()
@@ -221,6 +222,7 @@ func _physics_process(delta: float) -> void:
 				module_video()
 			STATES.LADDER_SHOOT, STATES.LADDER_THROW, STATES.LADDER_SHIELD, STATES.LADDER_AIM, STATES.LADDER_AIM_DOWN, STATES.LADDER_AIM_DIAG, STATES.LADDER_AIM_UP:
 				velocity.y = 0
+				ladderInput()
 				processCharge()
 				processShoot()
 				processBuster()
@@ -234,12 +236,16 @@ func _physics_process(delta: float) -> void:
 			STATES.DEAD:
 				dead()
 				animationMatching()
+			STATES.VICTORY:
+				victory(delta)
 				
 		if GameState.freezeframe == false:
 			position.x += wind_push
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
+		if currentState != STATES.VICTORY and victorydemo == true:
+			currentState = STATES.VICTORY
 		if currentState != STATES.LADDER:
 			ladderticks = 0
 		if is_on_floor():
@@ -650,3 +656,51 @@ func play_start_sound() -> void:
 
 func _on_teleported() -> void:
 	pass # Replace with function body.
+
+func victory(delta):
+	if deathtime < 80 or deathtime > 81:
+		deathtime += 1
+	
+	if deathtime == 80:
+		$AnimationPlayer.play("WALK")
+		if position.x > GameState.middleroom:
+			sprite.scale.x = -1
+			velocity.x = MAXSPEED * -1
+		if position.x < GameState.middleroom:
+			sprite.scale.x = 1
+			velocity.x = MAXSPEED * 1
+		deathtime += 1
+	
+	if deathtime == 81 and (position.x > GameState.middleroom -1 and position.x < GameState.middleroom +1):
+		$AnimationPlayer.play("IDLE")
+		velocity.x = 0
+		deathtime += 1
+		
+	if deathtime == 110:
+		$AnimationPlayer.play("VICTORY_POSE")
+		
+	if deathtime > 100 and deathtime < 160:
+		velocity.y -= 1.25
+	
+	if deathtime > 160 and deathtime < 250:
+		velocity.y *= 0.95
+		
+	if deathtime == 250:
+		$AnimationPlayer.play("FALL")
+		
+	if deathtime > 252 and deathtime < 500:
+		applyGrav(delta)
+		if is_on_floor():
+			deathtime = 519
+		
+	if deathtime == 520:
+		$AnimationPlayer.play("VICTORY_TELEPORT")
+		$Audio/Warp.play()
+		
+	if deathtime == 535:
+		velocity.y = -320
+		$mainCollision.disabled = true
+		
+	if deathtime == 580:
+		Fade.fade_out()
+		
