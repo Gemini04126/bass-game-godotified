@@ -348,6 +348,7 @@ func refill_ammo() -> void:
 		weapon_energy[n] = max_WE # Reset WE
 
 func _physics_process(_delta: float) -> void:
+	middleroom = ((scrollX1 * 384) + ((scrollX2+1) * 384))/2
 	if pausescreen == null and Input.is_action_just_pressed("start") and player != null:
 		pausescreen = preload("res://scenes/menus/pause.tscn").instantiate()
 		add_child(pausescreen)
@@ -415,7 +416,6 @@ func _physics_process(_delta: float) -> void:
 		bossfightstatus = 5
 		
 	if bossfightstatus == 6:
-		middleroom = ((GameState.scrollX1 + 192) + (GameState.scrollX2 + 192))/2
 		if player != null:
 			player.victorydemo = true
 	

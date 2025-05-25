@@ -25,7 +25,13 @@ func _unhandled_input(event):
 						GameState.character_selected = 0 # Reset to Maestro.
 					_:
 						GameState.character_selected += 1
-			#KEY_F7:
+			KEY_F7: # Switch difficulty!!!
+				match GameState.difficulty:
+					4: #Very Hard
+						GameState.difficulty = 0 # Reset to Easy!
+					_:
+						GameState.difficulty += 1 #INCREASE THE DIFFICULTY
+				print(GameState.difficulty)
 			# No F8, because that's the button to exit the game.
 			#KEY_F9:
 			#KEY_F10:

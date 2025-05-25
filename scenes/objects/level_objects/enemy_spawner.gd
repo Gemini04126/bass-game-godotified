@@ -13,8 +13,12 @@ var readytospawn : bool = true
 @export_enum ("Sniper Joe", "Gabyoall", "Shotman", "Wanaan Kai", "Commando Joe", "Sutsi", "Tosser") var type : int ##The type of enemy.
 @export var direction : int
 @export var subtype : int ##Variation on the enemy.
-@export_enum ("Easy", "Normal", "Hard", "Very Hard", "Mania") var difficulty : int ##0: Easy, 1: Normal, 2:Hard, 3:V.H.
 @onready var baby
+
+@export var easy : bool = false
+@export var normal : bool = false
+@export var hard : bool = false
+@export var vhard : bool = false
 
 var enemytype = [
 	preload("res://scenes/objects/enemies/sniper_joe.tscn"),
@@ -29,11 +33,17 @@ var enemytype = [
 func _ready() -> void:
 	if not Engine.is_editor_hint():
 		$Info.queue_free()
+		if (
+			(GameState.difficulty == 0 and easy == false) or
+			(GameState.difficulty == 1 and normal == false) or
+			(GameState.difficulty == 2 and hard == false) or
+			(GameState.difficulty == 3 and vhard == false)
+		):
+			queue_free()
 		
 func _process(_delta):
 	if not Engine.is_editor_hint():
-		if (GameState.difficulty == null) or (difficulty > GameState.difficulty):
-			queue_free()
+		
 		if baby == null and GameState.transdir == 0 and readytospawn == true:
 			baby = enemytype[type].instantiate()
 			add_sibling(baby)
@@ -74,4 +84,5 @@ func _process(_delta):
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	readytospawn = true
+	if baby == null:
+		readytospawn = true

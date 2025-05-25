@@ -117,7 +117,7 @@ func _process(_delta):
 		postbossdelay -= 1
 		
 	if GameState.bossfightstatus == 3 and postbossdelay <= 0:
-		if GameState.bossestokill == 0:
+		if GameState.bossestokill <= 0:
 			GameState.bossfightstatus = 4
 			postbossdelay = 220
 		

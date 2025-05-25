@@ -572,6 +572,8 @@ func _physics_process(_delta):
 						projectile.position = position
 						projectile.velocity = EXPLOSION_SPEEDS[i]
 						GameState.bosses.erase(self)
+						GameState.bossestokill -= 1
+						
 							
 					exploded = true
 				else:

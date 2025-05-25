@@ -15,9 +15,11 @@ script/source = "extends Enemy_Template
 class_name Gabyoall
 @onready var projectile
 var direction : int
-var stun : int
+var stun : int = 0
+var speed : int
 
 func _ready():
+	scale.x = 1
 	basedmg()
 	Dmg_Vals[GameState.DMGTYPE.CB_SMOG] = 1
 	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] = 1
@@ -70,13 +72,15 @@ func _ready():
 	Dmg_Vals[GameState.DMGTYPE.RA_PLUTO] = 2 # yeah fuck you i'm stronger 💪😤
 	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2 # Maybe?
 		
-	if GameState.camposx != null:
-		if GameState.camposx > position.x:
-			direction = 1
-		else:
-			direction = -1
-	else:
-		direction = 1
+	direction = 1
+		
+	##if GameState.player != null:
+	##	if GameState.player.position.x < position.x:
+	##		direction = -1
+	##	else:
+	##		direction = 1
+	##else:
+	##	direction = -1
 	Atk_Dmg = 4
 	Cur_HP = 2
 
@@ -84,54 +88,52 @@ func _physics_process(_delta):
 	if GameState.transdir != 0:
 		queue_free()
 		
-	if GameState.freezeframe == true:
+	if GameState.freezeframe == true or blown:
 		$Sprite.pause()
 	else:
+		move_and_slide()
+	
 		if !$Sprite.is_playing():
 			$Sprite.play()
-	
-	if blown == false and GameState.freezeframe == false:
-		if $Timer.is_stopped() and position != null:
-			if stun < 1:
-				position.x += direction * 1
-				if $Sprite.animation != \"Slow\" or !$Sprite.is_playing():
-					$Sprite.play(\"Slow\")
-			else:
-				if $Sprite.animation != \"Slow\":
-					$Sprite.play(\"Slow\")
-				$Sprite.stop()
-				if !$LeftFloorCheck.is_colliding() && !$RightFloorCheck.is_colliding():
-					position.y += 3
-			stun -= 1
-			if GameState.player != null:
-				if (position.y > GameState.player.position.y - 10) and (position.y < GameState.player.position.y + 15):
-					$Timer.start(0.002)
-					if stun < 1:
-						position.x += direction * 2
-						if $Sprite.animation != \"Fast\" or !$Sprite.is_playing():
-							$Sprite.play(\"Fast\")
-				else:
-					if stun > 1:
-						$Timer.start(0.01)
-					else:
-						$Timer.start(0.03)
-			else:
-						$Timer.start(0.03)
-						
-		if $RightDirCheck.is_colliding() && direction == 1:
-			direction = -1
-		
-		if $LeftDirCheck.is_colliding() && direction == -1:
-			direction = 1
-		
-		if !$RightFloorCheck.is_colliding() && $LeftFloorCheck.is_colliding() && direction == 1:
-			direction = -1
-		
-		if !$LeftFloorCheck.is_colliding() && $RightFloorCheck.is_colliding() && direction == -1:
-			direction = 1
 			
-		if !$LeftFloorCheck.is_colliding() && !$RightFloorCheck.is_colliding():
-			stun = 35
+		if speed == 30:
+			if direction == 1:
+				$Sprite.play(\"SlowR\")
+			if direction == -1:
+				$Sprite.play(\"SlowL\")
+		if speed == 250:
+			$Sprite.play(\"Fast\")
+		
+				
+	
+	velocity.x = direction * speed
+	if is_on_floor():
+		if GameState.player != null:
+			if (position.y > GameState.player.position.y - 10) and (position.y < GameState.player.position.y + 15):
+				speed = 250
+			else:
+				speed = 30
+			
+	if !$RightFloorCheck.is_colliding() && !$LeftFloorCheck.is_colliding():
+		stun = 2
+		velocity.y += 2
+		speed = 0
+	else:
+		if stun > 1:
+			$Sprite.pause()
+			stun -= 1
+			speed = 0
+				
+	if $RightDirCheck.is_colliding() && direction == 1:
+		direction = -1
+	if $LeftDirCheck.is_colliding() && direction == -1:
+		direction = 1
+	
+	if !$RightFloorCheck.is_colliding() && $LeftFloorCheck.is_colliding() && direction == 1:
+		direction = -1
+	
+	if !$LeftFloorCheck.is_colliding() && $RightFloorCheck.is_colliding() && direction == -1:
+		direction = 1
 		
 	if Cur_HP <= 0:
 		projectile = preload(\"res://scenes/objects/explosion_1.tscn\").instantiate()
@@ -159,14 +161,16 @@ func _on_hitable_body_entered(weapon): # needs to be redefined because gabying o
 	if Cur_Inv <= 0:
 		if Dmg_Vals[weapon.W_Type] == 0:
 			weapon.reflect()
-		
+			
 		if Dmg_Vals[weapon.W_Type] == 1:
 			weapon.reflect()
 			stun = 150
+			velocity.x = 0
 		
 		if Dmg_Vals[weapon.W_Type] == 2:
 			weapon.kill()
 			Cur_HP = 0
+			velocity.x = 0
 			
 		if weapon.W_Type == GameState.DMGTYPE.CB_GALE:
 			blown = true
@@ -187,7 +191,7 @@ func _on_hurt_body_entered(body):
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
-	queue_free()
+	pass#queue_free()
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3u8v0"]
@@ -257,7 +261,24 @@ animations = [{
 "texture": SubResource("AtlasTexture_ividu")
 }],
 "loop": true,
-"name": &"Slow",
+"name": &"SlowL",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q7obw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ividu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_isxqs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e56gj")
+}],
+"loop": true,
+"name": &"SlowR",
 "speed": 10.0
 }, {
 "frames": [{
@@ -270,21 +291,22 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wp5vq"]
-size = Vector2(16, 16)
+size = Vector2(14, 14)
 
 [node name="Gabyoall" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_gtk0d")
 collision_layer = 0
 collision_mask = 17
+floor_snap_length = 3.0
 script = SubResource("GDScript_7o8ee")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_3u8v0")
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_62nvj")
-animation = &"Fast"
-autoplay = "Slow"
-frame_progress = 0.0982196
+animation = &"SlowL"
+autoplay = "SlowL"
+frame_progress = 0.194997
 
 [node name="hitable" type="Area2D" parent="."]
 collision_layer = 4
@@ -315,7 +337,7 @@ enable_node_path = NodePath("../VisibleOnScreenNotifier2D")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(0.5, 4.76837e-06)
-scale = Vector2(9.75, 6)
+rect = Rect2(-200, -40, 800, 80)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5

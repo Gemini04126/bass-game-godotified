@@ -16,7 +16,7 @@ func _physics_process(delta):
 			$UnderWater1.enabled = false
 			print("Under1")
 			
-		if GameState.player.position.y > 900 and $UnderWater2.enabled == true:
+		if GameState.player.position.y > 580 and GameState.player.position.x > 3900 and $UnderWater2.enabled == true:
 			$UnderWater2.enabled = false
 			print("Under2")
 			

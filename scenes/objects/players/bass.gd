@@ -324,7 +324,8 @@ func dashing(delta):
 				slide_timer.start(0.001)
 	
 	if !is_on_floor():
-		velocity.x = 0
+		if on_ice == false:
+			velocity.x = 0
 		currentState = STATES.JUMP
 		
 	if Input.is_action_just_pressed("jump") or !is_on_floor():
