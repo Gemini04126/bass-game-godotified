@@ -55,7 +55,7 @@ func _process(_delta: float) -> void:
 		$WeaponBar2.visible = false
 		
 	else:
-		if GameState.upgrades_enabled[2] == true:
+		if GameState.upgrades_enabled[1] == true:
 			$WeaponBar2.visible = true
 			if GameState.infinite_ammo == false:
 				$WeaponBar2.frame = clamp(GameState.weapon_energy[GameState.current_weapon], 0, 36)
@@ -75,7 +75,7 @@ func _process(_delta: float) -> void:
 			$WeaponBar2.material.set_shader_parameter(\"palette\", GameState.player.get_node(\"Sprite2D\").material.get_shader_parameter(\"palette\"))
 		
 	# Health bar
-	if GameState.upgrades_enabled[1] == true:
+	if GameState.upgrades_enabled[0] == true:
 		$HealthBar2.visible = true
 		$HealthBar.visible = false
 		$HealthBar2.frame = clamp(GameState.current_hp, 0, 36)

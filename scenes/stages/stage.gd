@@ -43,12 +43,12 @@ func _ready():
 	GameState.player = null
 	GameState.playerposx = 0
 	GameState.playerposy = 0
-	if GameState.upgrades_enabled[1] == true:
+	if GameState.upgrades_enabled[0] == true:
 		GameState.max_HP = 36
 	else:
 		GameState.max_HP = 28
 		
-	if GameState.upgrades_enabled[2] == true:
+	if GameState.upgrades_enabled[1] == true:
 		GameState.max_WE = 36
 	else:
 		GameState.max_WE = 28
