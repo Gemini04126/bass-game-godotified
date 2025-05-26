@@ -490,7 +490,7 @@ func weapon_buster():
 				else:
 					projectile.velocity.x = sign(sprite.scale.x) * buster_speed
 					projectile.position.x = position.x + sprite.scale.x * 17
-					projectile.position.y = position.y + 2
+					projectile.position.y = position.y + 3
 					
 	#		is_dashing = false
 			return

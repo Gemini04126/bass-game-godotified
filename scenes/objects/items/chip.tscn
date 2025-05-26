@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://bl8ixhwwlxlwj"]
+
+[ext_resource type="Script" uid="uid://esdfhw162mso" path="res://scenes/objects/items/chip.gd" id="1_svo4r"]
+[ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_gmtc2"]
+[ext_resource type="Texture2D" uid="uid://dmt53f2dc1ut2" path="res://sprites/objects/PowerPart.png" id="2_lkdow"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_trjlv"]
+shader = ExtResource("2_gmtc2")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmtc2"]
+atlas = ExtResource("2_lkdow")
+region = Rect2(0, 0, 22, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trjlv"]
+atlas = ExtResource("2_lkdow")
+region = Rect2(0, 14, 22, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lkdow"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmtc2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_trjlv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Chip" type="Node2D"]
+script = ExtResource("1_svo4r")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_trjlv")
+sprite_frames = SubResource("SpriteFrames_lkdow")
+frame_progress = 0.856021

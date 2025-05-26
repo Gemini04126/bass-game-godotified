@@ -53,6 +53,7 @@ func _ready():
 	Dmg_Vals[GameState.DMGTYPE.MD_VIDEO] = 1
 	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 1
 	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 1
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 1
 	
 	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 1
 	Dmg_Vals[GameState.DMGTYPE.RA_GALAXY] = 2

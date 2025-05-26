@@ -55,6 +55,11 @@ func _process(_delta):
 				
 	if Engine.is_editor_hint():
 		$Info/SubType.text = "%s" % subtype
+		$Info/E.visible = easy
+		$Info/N.visible = normal
+		$Info/H.visible = hard
+		$Info/V.visible = vhard
+		
 		
 		if baby == null:
 			baby = enemytype[type].instantiate()

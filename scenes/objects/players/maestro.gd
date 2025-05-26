@@ -428,13 +428,13 @@ func allowLeftRight(delta):
 				if (sprite.scale.x != sign(direction.x)) and currentSpeed != 0:
 					if is_on_floor() == true && on_ice == true:
 						if velocity.x <= -MAXSPEED && velocity.x >= MAXSPEED:
-							velocity.x = lerpf(velocity.x, sprite.scale.x * 250, delta * ICE_FLOOR_WEIGHT)
+							velocity.x = lerpf(velocity.x, sprite.scale.x * 350, delta * ICE_FLOOR_WEIGHT)
 					else:
 						currentSpeed = MAXSPEED
 				if is_on_floor() == true && on_ice == true:
-					velocity.x = lerpf(velocity.x, sprite.scale.x * MAXSPEED * 1.25, delta * ICE_FLOOR_WEIGHT)
+					velocity.x = lerpf(velocity.x, sprite.scale.x * MAXSPEED * 1.5, delta * ICE_FLOOR_WEIGHT)
 			elif is_on_floor() == false && ice_jump == true:
-					velocity.x = lerpf(velocity.x, sprite.scale.x * MAXSPEED * 1.25, delta * ICE_AIR_WEIGHT)
+					velocity.x = lerpf(velocity.x, sprite.scale.x * MAXSPEED * 1.5, delta * ICE_AIR_WEIGHT)
 			elif slowed == true:
 				velocity.x = 50 * direction.x
 				pass
@@ -671,7 +671,7 @@ func sliding(delta):
 		if GameState.upgrades_enabled[13]:
 			velocity.x = lerpf(velocity.x, sprite.scale.x * 375, delta * 4)
 		else:
-			velocity.x = lerpf(velocity.x, sprite.scale.x * 250, delta * 4)
+			velocity.x = lerpf(velocity.x, sprite.scale.x * 300, delta * 4)
 	
 	if direction.x != 0:
 		if direction.x + sprite.scale.x == 0:
@@ -681,7 +681,8 @@ func sliding(delta):
 				slide_timer.start(0.001)
 	
 	if !is_on_floor() and GameState.ultimate == false:
-		velocity.x = 0
+		if ice_jump == false:
+			velocity.x = 0
 		currentState = STATES.JUMP
 		
 	if Input.is_action_just_pressed("jump") and !$ceilCheck.is_colliding():
@@ -699,7 +700,7 @@ func _on_slide_timer_timeout() -> void:
 		$hurtboxArea/mainHurtbox.set_disabled(false)
 		if !is_on_floor():
 			pass
-		if on_ice == false:
+		if on_ice == false and ice_jump == false:
 			velocity.x = 0
 		if direction.x:
 			currentState = STATES.WALK
@@ -783,7 +784,7 @@ func busterAnimMatch():
 
 func shieldAnimMatch():
 	shoot_timer.start()
-	if currentState != STATES.SLIDE and is_on_floor():
+	if currentState != STATES.SLIDE and is_on_floor() and on_ice == false:
 		velocity.x = 0
 		currentState = STATES.IDLE_SHIELD
 	elif currentState == STATES.JUMP:
@@ -793,7 +794,7 @@ func shieldAnimMatch():
 
 func throwAnimMatch():
 	shoot_timer.start()
-	if currentState != STATES.SLIDE and is_on_floor():
+	if currentState != STATES.SLIDE and is_on_floor() and on_ice == false:
 		velocity.x = 0
 		currentState = STATES.IDLE_THROW
 	elif currentState == STATES.JUMP:
@@ -1013,7 +1014,8 @@ func weapon_shark():
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.SHARK] -= 5
 				shoot_timer.start()
-				velocity.x = 0
+				if on_ice == false:
+					velocity.x = 0
 				currentState = STATES.IDLE_FIN_SHREDDER
 				anim.seek(0)
 				shot_type = 4
