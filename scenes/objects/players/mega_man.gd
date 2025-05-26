@@ -177,6 +177,8 @@ func _physics_process(delta: float) -> void:
 				applyGrav(delta)
 			STATES.DEAD:
 				dead()
+			STATES.VICTORY:
+				victory(delta)
 		position.x += wind_push
 		animationMatching()
 		switchWeapons()

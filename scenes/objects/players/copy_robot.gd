@@ -187,6 +187,8 @@ func _physics_process(delta: float) -> void:
 			STATES.DEAD:
 				dead()
 				animationMatching()
+			STATES.VICTORY:
+				victory(delta)
 			
 				
 		if GameState.freezeframe == false:

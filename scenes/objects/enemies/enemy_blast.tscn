@@ -141,7 +141,10 @@ script = SubResource("GDScript_7e10n")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tmmfq")
+animation = &"hit"
 autoplay = "default"
+frame = 2
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_eg0en")

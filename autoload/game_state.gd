@@ -160,16 +160,16 @@ var camposy
 var screenmode
 
 #Current X and Y limits
-var scrollX1
-var scrollX2
-var scrollY1
-var scrollY2
+var scrollX1 : int
+var scrollX2 : int
+var scrollY1 : int
+var scrollY2 : int
 
 #Old X and Y limits to respect the previous screen transition
-var scrollX3
-var scrollX4
-var scrollY3
-var scrollY4
+var scrollX3 : int
+var scrollX4 : int
+var scrollY3 : int
+var scrollY4 : int
 
 #screen transition flags
 var screentransiton : int

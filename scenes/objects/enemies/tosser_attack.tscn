@@ -8,7 +8,7 @@
 script/source = "extends CharacterBody2D
 
 const Atk_Dmg = 4
-var projectile
+var projectile : Node
 const SPEED = 300.0
 var gravity = 800
 var type #0 is ice, 1 is bomb
@@ -30,9 +30,6 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
 
 func destroy():
-	$CollisionShape2D.set_deferred(\"disabled\", true)
-	velocity.x = 0
-	velocity.y = 0
 	if type == 0:
 		projectile = preload(\"res://scenes/objects/enemies/enemy_bullet.tscn\").instantiate()
 		add_sibling(projectile)
@@ -49,7 +46,7 @@ func destroy():
 		projectile.position = position
 		projectile.velocity.x = 110
 		projectile.velocity.y = 210
-	if type == 1:
+	elif type == 1:
 		$BoomSound.play()
 		projectile = preload(\"res://scenes/objects/enemies/enemy_blast.tscn\").instantiate()
 		add_sibling(projectile)
