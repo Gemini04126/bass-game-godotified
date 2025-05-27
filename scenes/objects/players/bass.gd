@@ -126,7 +126,7 @@ func _physics_process(delta: float) -> void:
 				module_video()
 				if on_ice == true:
 					velocity.x = lerpf(velocity.x, 0, delta * ICE_FLOOR_WEIGHT)
-			STATES.IDLE_SHIELD, STATES.PAPER_CUT:
+			STATES.IDLE_SHIELD, STATES.PAPER_CUT, STATES.IDLE_FIN_SHREDDER:
 				checkForFloor()
 				animationMatching()
 				processShoot()
@@ -560,20 +560,12 @@ func module_blaze() -> void:
 		dashjumped = false
 		ice_jump = false
 		currentState = STATES.JUMP
-		projectile = projectile_scenes[1].instantiate()
-		add_sibling(projectile)
-		projectile.position.x = position.x
-		projectile.position.y = position.y
-		projectile.velocity.y = 280
+		BasicProjectileAttack("res://scenes/objects/players/weapons/bass/blast_jump.tscn", Vector2(0, 280), Vector2(0, 0))
 
 func module_video():
 	if Input.is_action_just_pressed("dash") && Input.is_action_pressed("move_up") && (GameState.onscreen_track2s == 0) && (GameState.modules_enabled[GameState.WEAPONS.VIDEO] == true):
 		$Audio/BlastJump.play()
-		projectile = projectile_scenes[2].instantiate()
-		add_sibling(projectile)
-		projectile.sprite.scale.x = sprite.scale.x
-		projectile.position.x = position.x
-		projectile.position.y = position.y+2
+		BasicProjectileAttack("res://scenes/objects/players/weapons/bass/track_2.tscn", Vector2(0, 0), Vector2(0, 2))
 		GameState.onscreen_track2s += 1
 		print(GameState.onscreen_track2s)
 
@@ -591,16 +583,9 @@ func module_origami() -> void:
 		if Input.is_action_just_pressed("shoot"):
 			velocity.x = 0
 			$Audio/ReaperDash.play()
-			
-			
-			projectile = projectile_scenes[3].instantiate()
-			add_sibling(projectile)
-			projectile.position.y = position.y
-			projectile.position.x = position.x + sprite.scale.x * 12
-			projectile.velocity.x = sprite.scale.x * 70
 			slide_timer.start(0)
-			projectile.scale.x = sprite.scale.x
 			currentState = STATES.PAPER_CUT
+			BasicProjectileAttack("res://scenes/objects/players/weapons/bass/papercut.tscn", Vector2(70, 0), Vector2(12, 0))
 
 func module_gale() -> void:
 	if GameState.modules_enabled[GameState.WEAPONS.GALE] == true:

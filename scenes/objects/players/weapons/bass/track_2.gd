@@ -78,10 +78,10 @@ func handle_buster():
 		
 
 	if (Input.is_action_pressed("buster") && Input.is_action_pressed("move_left")):
-		sprite.scale.x = -1
+		scale.x = -1
 		
 	if (Input.is_action_pressed("buster") && Input.is_action_pressed("move_right")):
-		sprite.scale.x = 1
+		scale.x = 1
 		
 
 
@@ -95,22 +95,22 @@ func handle_buster():
 		
 		match aim:
 			-1:
-				projectile.velocity.x = sign(sprite.scale.x) * (buster_speed * 0.5)
+				projectile.velocity.x = sign(scale.x) * (buster_speed * 0.5)
 				projectile.velocity.y = (buster_speed * 0.5)
-				projectile.position.x = position.x + sprite.scale.x * 14
+				projectile.position.x = position.x + scale.x * 14
 				projectile.position.y = position.y + 10
 			0:
-				projectile.velocity.x = sign(sprite.scale.x) * buster_speed
-				projectile.position.x = position.x + sprite.scale.x * 17
+				projectile.velocity.x = sign(scale.x) * buster_speed
+				projectile.position.x = position.x + scale.x * 17
 				projectile.position.y = position.y + 2
 			1:
-				projectile.velocity.x = sign(sprite.scale.x) * (buster_speed * 0.5)
+				projectile.velocity.x = sign(scale.x) * (buster_speed * 0.5)
 				projectile.velocity.y = -(buster_speed * 0.5)
-				projectile.position.x = position.x + sprite.scale.x * 14
+				projectile.position.x = position.x + scale.x * 14
 				projectile.position.y = position.y + -6
 			2:
 				projectile.velocity.y = -buster_speed
-				projectile.position.x = position.x + sprite.scale.x * 2
+				projectile.position.x = position.x + scale.x * 2
 				projectile.position.y = position.y - 17
 		
 		buster_timer = 0

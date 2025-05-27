@@ -31,15 +31,6 @@ func _init() -> void:
 		preload("res://sprites/players/rachel/palettes/BreakCharge1.png")
 	]
 
-	projectile_scenes = [
-		preload("res://scenes/objects/players/rachel/weapons/buster.tscn"),
-		preload("res://scenes/objects/players/rachel/weapons/balloon_adaptor.tscn")
-	]
-
-	weapon_scenes = [
-		preload("res://scenes/objects/players/rachel/weapons/pharaoh_wave.tscn")
-	]
-
 #region Weapon Shit
 func processBuster():
 	if Input.is_action_pressed("buster"):
@@ -124,21 +115,15 @@ func processShoot():
 # ================
 
 ## Rachel Buster
-## Your default weapon. Deals 2 damage per hit?
 ##
+## Your default weapon. Deals 2 damage per hit?
 func weapon_buster():
 	if rapid_timer.is_stopped() and GameState.onscreen_bullets < 4:
 		rapid_timer.start(0.15)
 		shot_type = 0
 		attack_timer.start(0.3)
 		GameState.onscreen_bullets += 1
-		projectile = projectile_scenes[0].instantiate()
-		add_sibling(projectile)
-		projectile.process_mode = Node.PROCESS_MODE_ALWAYS
-		projectile.position.x = position.x + (sprite.scale.x * 18)
-		projectile.position.y = position.y + 4
-		projectile.velocity.x = sprite.scale.x * 350
-		projectile.scale.x = sprite.scale.x
+		BasicProjectileAttack("res://scenes/objects/players/rachel/weapons/buster.tscn", Vector2(350, 0))
 		Charge = 0
 		$Audio/Buster1.play()
 
@@ -182,23 +167,13 @@ func weapon_magma():
 ## Uses 1.75 WE, and deals ? damage.
 ## Fires two waves, one on each side of the user, that pierce armor and shields.
 func weapon_pharaoh():
-	if Input.is_action_just_pressed("shoot") && (currentState != STATES.SLIDE) and (currentState != STATES.HURT) && GameState.weapon_energy[WEAPONS.PHARAOH] >= 1.75:
+	if Input.is_action_just_pressed("shoot") && (currentState != STATES.SLIDE) and (currentState != STATES.HURT) && (GameState.weapon_energy[WEAPONS.PHARAOH] >= 1.75 or GameState.infinite_ammo == true):
 		if GameState.onscreen_sp_bullets == 0:
-			GameState.weapon_energy[WEAPONS.PHARAOH] -= 1.75
+			if GameState.infinite_ammo == false:
+				GameState.weapon_energy[WEAPONS.PHARAOH] -= 1.75
 			GameState.onscreen_sp_bullets += 2
-			projectile = weapon_scenes[0].instantiate()
-			add_sibling(projectile)
-			projectile.position.x = position.x + 5
-			projectile.position.y = position.y
-			projectile.velocity.x = 200
-			projectile.scale.x = 1
-
-			projectile = weapon_scenes[0].instantiate()
-			add_sibling(projectile)
-			projectile.position.x = position.x - 5
-			projectile.position.y = position.y
-			projectile.velocity.x = -200
-			projectile.scale.x = -1
+			BasicProjectileAttack("res://scenes/objects/players/rachel/weapons/pharaoh_wave.tscn", Vector2(200, 0), Vector2(5, 0))
+			BasicProjectileAttack("res://scenes/objects/players/rachel/weapons/pharaoh_wave.tscn", Vector2(200, 0), Vector2(5, 0), Vector2(-1, 1))
 			return
 
 ## Chill Spike
@@ -224,11 +199,7 @@ func weapon_balloon():
 		shot_type = 2
 		attack_timer.start(0.3)
 		GameState.onscreen_sp_bullets += 1
-		projectile = projectile_scenes[1].instantiate()
-		add_sibling(projectile)
-
-		projectile.position.y = position.y
-		projectile.position.x = position.x + sprite.scale.x * 30
+		BasicProjectileAttack("res://scenes/objects/players/rachel/weapons/balloon_adaptor.tscn", Vector2.ZERO, Vector2(30, 0))
 
 ## Magnet Beam
 ## Uses 2 WE, no matter how long the platform is, and deals no damage.

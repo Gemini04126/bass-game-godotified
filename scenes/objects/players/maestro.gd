@@ -182,6 +182,8 @@ var weapon_palette: Array[Texture2D] = [
 	preload("res://sprites/players/weapons/ScytheCharge1.png")
 ]
 
+var default_projectile_offset := Vector2(18, 4)
+
 var projectile_scenes = [
 	preload("res://scenes/objects/players/weapons/copy_robot/buster_small.tscn"),
 	preload("res://scenes/objects/players/weapons/copy_robot/buster_medium.tscn"),
@@ -908,13 +910,7 @@ func weapon_buster():
 		shot_type = 0
 		attack_timer.start(0.3)
 		GameState.onscreen_bullets += 1
-		projectile = projectile_scenes[0].instantiate()
-		add_sibling(projectile)
-		projectile.process_mode = Node.PROCESS_MODE_ALWAYS
-		projectile.position.x = position.x + (sprite.scale.x * 18)
-		projectile.position.y = position.y + 4
-		projectile.velocity.x = sprite.scale.x * 350
-		projectile.scale.x = sprite.scale.x
+		BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_small.tscn", Vector2(350, 0))
 		Charge = 0
 		$Audio/Buster1.play()
 
@@ -1021,14 +1017,7 @@ func weapon_shark():
 				shot_type = 4
 				attack_timer.start(0.51)
 				GameState.onscreen_sp_bullets += 1
-				projectile = weapon_scenes[4].instantiate()
-				add_sibling(projectile)
-	
-				projectile.position.x = position.x + sprite.scale.x * 15
-				projectile.position.y = position.y - 3
-				projectile.velocity.x = sprite.scale.x * 65
-				projectile.scale.x = sprite.scale.x
-				return
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/fin_shredder.tscn", Vector2(65, 0), Vector2(15, 0))
 
 func weapon_origami():
 	if Input.is_action_just_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.ORIGAMI] >= 1 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets < 5:
@@ -1145,16 +1134,7 @@ func weapon_guerilla():
 		shot_type = 1
 		attack_timer.start(0.3)
 		GameState.onscreen_sp_bullets += 1
-		projectile = weapon_scenes[3].instantiate()
-		add_sibling(projectile)
-		projectile.velocity.x = sprite.scale.x * 80
-		projectile.velocity.y = 80
-		
-		projectile.scale.x = sprite.scale.x
-		projectile.direction = sprite.scale.x
-		
-		projectile.position.x = position.x + (sprite.scale.x * 18)
-		projectile.position.y = position.y + 4
+		BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/rolling_bomb.tscn", Vector2(80, 80), Vector2(18, 4))
 
 func weapon_reaper():
 	if ScytheCharge == 0:
@@ -1454,3 +1434,19 @@ func victory(delta):
 	if deathtime == 135:
 		velocity.y = -320
 		$mainCollision.disabled = true
+
+## A basic projectile attack.
+##
+## scenePath: A String with the path to the desired scene.
+## speed: A Vector2 containing the desired horizontal and vertical speed, without scale multipliers, as they are done automatically.
+## offset: A Vector2 containing the desired offset, with the character's Buster offsets by default. Optional.
+## projectileScale: A Vector2 containing a scale multiplier for the projectile. Useful for projectiles that need to be upside down or backwards or something. Optional.
+func BasicProjectileAttack(scenePath: String, speed: Vector2, offset:= default_projectile_offset, projectileScale:= Vector2(1, 1)):
+	projectile = load(scenePath).instantiate()
+	add_sibling(projectile)
+	projectile.process_mode = Node.PROCESS_MODE_ALWAYS
+	projectile.position = position + (offset * (sprite.scale * projectileScale))
+	projectile.velocity = speed * (sprite.scale * projectileScale)
+	projectile.scale = (sprite.scale * projectileScale)
+	if "direction" in projectile:
+		projectile.direction = sprite.scale.x * projectileScale.x
