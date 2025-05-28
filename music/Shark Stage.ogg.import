@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://crqnponngxosi"
+path="res://.godot/imported/Shark Stage.ogg-98d5d84abe44679eb9860ccae67bcf93.oggvorbisstr"
+
+[deps]
+
+source_file="res://music/Shark Stage.ogg"
+dest_files=["res://.godot/imported/Shark Stage.ogg-98d5d84abe44679eb9860ccae67bcf93.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=8.0
+bpm=0
+beat_count=0
+bar_beats=4
