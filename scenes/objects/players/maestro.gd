@@ -1290,48 +1290,23 @@ func weapon_punk():
 		anim.seek(0)
 		shot_type = 2
 		attack_timer.start(0.3)
+		
 		GameState.onscreen_sp_bullets += 1
-		projectile = projectile_scenes[5].instantiate()
-		projectile.scale.x = sprite.scale.x
-
-		add_sibling(projectile)
-		projectile.position.x = position.x
-		projectile.position.y = position.y
-
-		projectile.velocity.y = -450
-		projectile.velocity.x = sprite.scale.x * 95
+		BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/screw_crusher.tscn", Vector2(95, -450),Vector2(10,0))
 	return
 
 func weapon_ballade():
 	if Input.is_action_just_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.BALLADE] >= 3 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets == 0:
 		if GameState.infinite_ammo == false:
 			GameState.weapon_energy[GameState.WEAPONS.BALLADE] -= 3
+		throwAnimMatch()
 		anim.seek(0)
 
 		shot_type = 2
 		attack_timer.start(0.3)
 		GameState.onscreen_sp_bullets += 1
-		projectile = projectile_scenes[4].instantiate()
+		AimProjectileAttack("res://scenes/objects/players/weapons/copy_robot/ballade_cracker.tscn", 350, true, Vector2(0,0))
 
-		add_sibling(projectile)
-		projectile.position.x = position.x
-		projectile.position.y = position.y
-
-		projectile.velocity.y = 0
-		projectile.velocity.x = sprite.scale.x * CRACKER_SPEED * 1
-
-		if(Input.is_action_pressed("move_up")):
-			projectile.velocity.y = -CRACKER_SPEED * 0.5
-			projectile.velocity.x = sprite.scale.x * CRACKER_SPEED * 0.5
-
-		if(Input.is_action_pressed("move_up") && !Input.is_action_pressed("move_left") && !Input.is_action_pressed("move_right")):
-			projectile.velocity.y = -CRACKER_SPEED * 1
-			projectile.velocity.x = 0
-
-		if(Input.is_action_pressed("move_down")):
-			projectile.velocity.y = CRACKER_SPEED * 0.5
-			projectile.velocity.x = sprite.scale.x * CRACKER_SPEED * 0.5
-			return
 
 func weapon_quint():
 	return
@@ -1450,3 +1425,24 @@ func BasicProjectileAttack(scenePath: String, speed: Vector2, offset:= default_p
 	projectile.scale = (sprite.scale * projectileScale)
 	if "direction" in projectile:
 		projectile.direction = sprite.scale.x * projectileScale.x
+		
+## An aimable projectile attack.
+##
+## scenePath: A String with the path to the desired scene.
+## speed: The speed at which the projectile moves. Automatically calculated 
+## allowdown: 
+## offset: A Vector2 containing the desired offset, with the character's Buster offsets by default. Optional.
+## projectileScale: A Vector2 containing a scale multiplier for the projectile. Useful for projectiles that need to be upside down or backwards or something. Optional.
+func AimProjectileAttack(scenePath: String, speed: float, allowdown:bool, offset:= default_projectile_offset, projectileScale:= Vector2(1, 1)):
+	BasicProjectileAttack(scenePath,Vector2(0,0),offset,projectileScale)
+	if direction.y == -1 and allowdown == false:
+		projectile.velocity.x = speed * (sprite.scale.x * 0.5)
+		projectile.velocity.y = speed * (1 * 0.5)
+	elif direction.x == 0 and direction.y == 0:
+		projectile.velocity.x = speed * (sprite.scale.x)
+	elif direction.x != 0 and direction.y != 0:
+		projectile.velocity.x = speed * (direction.x * 0.5)
+		projectile.velocity.y = speed * (-direction.y * 0.5)
+	elif direction.x == 0 or direction.y == 0:
+		projectile.velocity.x = speed * (direction.x)
+		projectile.velocity.y = speed * (-direction.y)

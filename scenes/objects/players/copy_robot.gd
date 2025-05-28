@@ -8,6 +8,7 @@ var busterflashtimer : int = 1
 var sharkcharge : int
 var bustercharge : int
 var sakugarne : bool = false
+var busterspeed
 
 func _init() -> void:
 	projectile_scenes = [
@@ -84,6 +85,11 @@ func _physics_process(delta: float) -> void:
 			position.x += 1
 			recoil -= 1
 	check_for_death()
+	
+	if GameState.upgrades_enabled[15] == true:
+		busterspeed = 125
+	else:
+		busterspeed = 0
 	
 	GameState.player.position.x = position.x
 	GameState.player.position.y = position.y
@@ -335,11 +341,11 @@ func weapon_cbuster():
 				attack_timer.start(0.3)
 				GameState.onscreen_bullets += 1
 				if GameState.ultimate == false:
-					projectile = projectile_scenes[0].instantiate()
+					BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_small.tscn", Vector2(350 + busterspeed ,0))
 					$Audio/Buster1.play()
 				
 				else:
-					projectile = projectile_scenes[1].instantiate()
+					BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_medium.tscn", Vector2(350 + busterspeed ,0))
 					$Audio/Buster2.play()
 				
 				add_sibling(projectile)
@@ -374,25 +380,16 @@ func weapon_cbuster():
 					attack_timer.start(0.3)
 					GameState.onscreen_bullets += 1
 					if GameState.ultimate == false:
-						projectile = projectile_scenes[1].instantiate()
+						BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_medium.tscn", Vector2(350 + busterspeed ,0))
 						$Audio/Buster2.play()
 					else:
-						projectile = projectile_scenes[2].instantiate()
+						if direction.y == 0:
+							BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_large.tscn", Vector2(450,0))
+						else:
+							BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_large.tscn", Vector2(360, -90 * direction.y))
+						
 						$Audio/Buster3.play()
 					busterAnimMatch()
-					add_sibling(projectile)
-					
-					if GameState.ultimate == true and direction.y != 0:
-						projectile.velocity.x = sprite.scale.x * 360
-						projectile.velocity.y = direction.y * -90
-					elif GameState.upgrades_enabled[15]:
-						projectile.velocity.x = sprite.scale.x * 450
-					else:
-						projectile.velocity.x = sprite.scale.x * 350
-						
-					projectile.position.x = position.x + (sprite.scale.x * 18)
-					projectile.position.y = position.y + 2
-					projectile.scale.x = sprite.scale.x
 				bustercharge = 0
 				$ChargeFX.play("none")
 				$Audio/Charge1.stop()
@@ -408,34 +405,22 @@ func weapon_cbuster():
 					
 					
 					if GameState.ultimate == false:
-						projectile = projectile_scenes[2].instantiate()
-						$Audio/Buster3.play()
+						BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_large.tscn", Vector2(350+busterspeed,0))
 					else:
-						projectile = projectile_scenes[9].instantiate()
-						$Audio/Buster3.play()
+						BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_ultimate.tscn", Vector2(350+busterspeed,0))
+					$Audio/Buster3.play()
 					busterAnimMatch()
-					add_sibling(projectile)
-					projectile.position.x = position.x + (sprite.scale.x * 18)
-					projectile.position.y = position.y + 2
-					
 					if GameState.upgrades_enabled[11] and direction.y != 0:
-						if GameState.upgrades_enabled[15]:
-							projectile.velocity.x = sprite.scale.x * 360
-							projectile.velocity.y = direction.y * -90
-						else:
-							projectile.velocity.x = sprite.scale.x * 280
-							projectile.velocity.y = direction.y * -70
-					else:
-						if GameState.upgrades_enabled[15]:
-							projectile.velocity.x = sprite.scale.x * 450
-						else:
-							projectile.velocity.x = sprite.scale.x * 350
-					projectile.scale.x = sprite.scale.x
+						projectile.velocity.y = direction.y * (projectile.velocity.x * 0.2)
+						projectile.velocity.x *= 0.8
+					
+					
 					
 					projectile = preload("res://scenes/objects/explosion_1.tscn").instantiate()
 					add_sibling(projectile)
 					projectile.position.x = position.x + (sprite.scale.x * 18)
 					projectile.position.y = position.y + 2
+					
 					if currentState != STATES.LADDER and currentState != STATES.LADDER_SHOOT:
 						position.x -= sprite.scale.x * 2
 						recoil = -sprite.scale.x * 4

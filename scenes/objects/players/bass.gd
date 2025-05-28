@@ -445,19 +445,17 @@ func weapon_buster():
 		else:
 			no_grounded_movement = false
 		if (GameState.current_weapon == GameState.WEAPONS.BUSTER and Input.is_action_pressed("shoot")) or Input.is_action_pressed("buster"):
-			if Input.is_action_pressed("move_left"):
-				sprite.scale.x = -1
-			if Input.is_action_pressed("move_right"):
-				sprite.scale.x = 1
+			if direction.x != 0:
+				sprite.scale.x = direction.x
 			
 			if rapid_timer.is_stopped() and (GameState.onscreen_bullets < 4 or (GameState.upgrades_enabled[3] == true and GameState.onscreen_bullets < 6)):
 				rapid_timer.start(0.10)
 				shot_type = 1
-				GameState.onscreen_bullets += 1
 				attack_timer.start(0.4)
-				projectile = projectile_scenes[0].instantiate()
-				add_sibling(projectile)
-				projectile.scale.x = sprite.scale.x
+				GameState.onscreen_bullets += 1
+				
+				AimProjectileAttack("res://scenes/objects/players/weapons/bass/buster.tscn",buster_speed,false)
+				
 				if GameState.machinecharge > 0:
 					projectile.charged = true
 					GameState.machinecharge -= 1
@@ -474,21 +472,15 @@ func weapon_buster():
 				# inputs
 				if Input.is_action_pressed("move_up"):
 					if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
-						projectile.velocity.x = sign(sprite.scale.x) * (buster_speed * 0.5)
-						projectile.velocity.y = -(buster_speed * 0.5)
 						projectile.position.x = position.x + sprite.scale.x * 14
 						projectile.position.y = position.y + -6
 					else:
-						projectile.velocity.y = -buster_speed
 						projectile.position.x = position.x + sprite.scale.x * 2
 						projectile.position.y = position.y - 17
 				elif Input.is_action_pressed("move_down"):
-					projectile.velocity.x = sign(sprite.scale.x) * (buster_speed * 0.5)
-					projectile.velocity.y = (buster_speed * 0.5)
 					projectile.position.x = position.x + sprite.scale.x * 14
 					projectile.position.y = position.y + 10
 				else:
-					projectile.velocity.x = sign(sprite.scale.x) * buster_speed
 					projectile.position.x = position.x + sprite.scale.x * 17
 					projectile.position.y = position.y + 3
 					
