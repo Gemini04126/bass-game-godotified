@@ -1,0 +1,72 @@
+[gd_scene load_steps=2 format=3 uid="uid://csoltlnv24ev7"]
+
+[ext_resource type="PackedScene" uid="uid://0616w0vuf71e" path="res://scenes/background.tscn" id="1_5se8y"]
+
+[node name="SoundTest" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" parent="." instance=ExtResource("1_5se8y")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Title" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.037037
+anchor_right = 1.0
+anchor_bottom = 0.037037
+offset_bottom = 8.0
+grow_horizontal = 2
+text = "Welcome to the sound test!"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="Controls" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Controls: (may change...)
+A - Fade Out
+S - Exit
+D - Select"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -42.0
+offset_top = -57.0
+offset_right = 16.0
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 0
+rounded = true
+alignment = 3
+suffix = "."
+
+[node name="Label" type="RichTextLabel" parent="SpinBox"]
+layout_mode = 0
+offset_left = 58.0
+offset_top = 4.0
+offset_right = 98.0
+offset_bottom = 12.0
+text = "None"

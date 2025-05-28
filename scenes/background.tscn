@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://0616w0vuf71e"]
+
+[ext_resource type="Texture2D" uid="uid://bd17fhvxiacvn" path="res://sprites/menus/menureel2.png" id="1_y0upk"]
+[ext_resource type="Texture2D" uid="uid://cvtbdmu1w0ued" path="res://sprites/menus/menureel1.png" id="2_jougr"]
+
+[node name="Background" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0.266667, 1)
+
+[node name="Down" type="Parallax2D" parent="."]
+scroll_offset = Vector2(253, -59)
+repeat_size = Vector2(256, 256)
+autoscroll = Vector2(-16, 16)
+repeat_times = 3
+ignore_camera_scroll = true
+
+[node name="Reel1" type="Sprite2D" parent="Down"]
+position = Vector2(115, -86)
+texture = ExtResource("2_jougr")
+
+[node name="Reel2" type="Sprite2D" parent="Down"]
+position = Vector2(209, -52)
+texture = ExtResource("2_jougr")
+
+[node name="Up" type="Parallax2D" parent="."]
+scroll_offset = Vector2(-3, -59)
+repeat_size = Vector2(256, 256)
+autoscroll = Vector2(16, -16)
+repeat_times = 3
+ignore_camera_scroll = true
+
+[node name="Reel1" type="Sprite2D" parent="Up"]
+position = Vector2(134, 215)
+texture = ExtResource("1_y0upk")
+
+[node name="Reel2" type="Sprite2D" parent="Up"]
+position = Vector2(230, 247)
+texture = ExtResource("1_y0upk")
