@@ -79,6 +79,8 @@ var slideused = false
 var forcebeamed : bool = false
 var deathtime : int = 0
 var ladderticks : int = 0
+
+var shields : Array[Node2D]
 #input related
 
 
@@ -916,69 +918,28 @@ func weapon_buster():
 
 func weapon_blaze():
 	if Input.is_action_just_pressed("shoot") and !transing:
-		var space : float = 1.570796
-		if shield == null && shield2 == null && shield3 == null && shield4 == null && (GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 1 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets == 0:
+		if shields.size() == 0 && (GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 1 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets == 0:
 			shot_type = 3
 			anim.seek(0)
 			attack_timer.start(0.5)
 			shieldAnimMatch()
-			if GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 1 or GameState.infinite_ammo == true:
-				GameState.onscreen_sp_bullets += 1
-				shield = weapon_scenes[2].instantiate()
-				add_sibling(shield)
-				shield.theta = 0*space
-				shield.position = position
-				
-			if GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 3 or GameState.infinite_ammo == true:
-				GameState.onscreen_sp_bullets += 1
-				shield2 = weapon_scenes[2].instantiate()
-				add_sibling(shield2)
-				shield2.theta = 1*space
-				shield2.position = position
-				
-			if GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 2 or GameState.infinite_ammo == true:
-				GameState.onscreen_sp_bullets += 1
-				shield3 = weapon_scenes[2].instantiate()
-				add_sibling(shield3)
-				shield3.theta = 2*space
-				shield3.position = position
-				
-			if GameState.weapon_energy[GameState.WEAPONS.BLAZE] >= 4 or GameState.infinite_ammo == true:
-				GameState.onscreen_sp_bullets += 1
-				shield4 = weapon_scenes[2].instantiate()
-				add_sibling(shield4)
-				shield4.theta = 3*space
-				shield4.position = position
-				
+			
+			if GameState.weapon_energy[GameState.WEAPONS.BLAZE] < 4:
+				ShieldProjectileAttack("res://scenes/objects/players/weapons/special_weapons/scorch_barrier.tscn", GameState.weapon_energy[GameState.WEAPONS.BLAZE], 0)
+			else:
+				ShieldProjectileAttack("res://scenes/objects/players/weapons/special_weapons/scorch_barrier.tscn", 4, 0)
+			
 			if GameState.infinite_ammo == false:
 				GameState.weapon_energy[GameState.WEAPONS.BLAZE] -= 4
-			#print(get_children())
 		else:
-			if shield or shield2 or shield3 or shield4:
+			if shields.size() > 0:
 				throwAnimMatch()
 				shot_type = 2
 				anim.seek(0)
 				attack_timer.start(0.3)
-				if shield != null:
-					shield.fired = true
-					if sprite.scale.x == -1:
-						shield.left = true
-				if shield2 != null:
-					shield2.fired = true
-					if sprite.scale.x == -1:
-						shield2.left = true
-				if shield3 != null:
-					shield3.fired = true
-					if sprite.scale.x == -1:
-						shield3.left = true
-				if shield4 != null:
-					shield4.fired = true
-					if sprite.scale.x == -1:
-						shield4.left = true
-				shield = null
-				shield2 = null
-				shield3 = null
-				shield4 = null
+				for i in shields.size():
+					shields[i].fired = true
+				shields.clear()
 
 func weapon_video():
 	if Input.is_action_just_pressed("shoot") and !transing and GameState.freezeframe == false:
@@ -994,14 +955,7 @@ func weapon_smog():
 			shot_type = 1
 			attack_timer.start(0.3)
 			GameState.onscreen_sp_bullets += 1
-			projectile = weapon_scenes[1].instantiate()
-			add_sibling(projectile)
-
-			projectile.position.x = position.x + sprite.scale.x * 15
-			projectile.position.y = position.y + 4
-			projectile.velocity.x = sprite.scale.x * 100
-			projectile.scale.x = sprite.scale.x
-			return
+			BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/poison_cloud.tscn", Vector2(75, 0))
 
 func weapon_shark():
 	if Input.is_action_just_pressed("shoot") && (currentState != STATES.SLIDE) and (currentState != STATES.HURT) && is_on_floor() && (GameState.weapon_energy[GameState.WEAPONS.SHARK] >= 5 or GameState.infinite_ammo == true):
@@ -1028,83 +982,8 @@ func weapon_origami():
 			shot_type = 2
 			attack_timer.start(0.3)
 			GameState.onscreen_sp_bullets += 3
-			projectile = weapon_scenes[0].instantiate()
-	
-			#SHOOT FORWARD
-			if !Input.is_action_pressed("move_up") && !Input.is_action_pressed("move_down"):
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 9)
-				projectile.position.y = position.y + 2
-				projectile.scale.x = -sprite.scale.x
-				projectile.velocity.x = sprite.scale.x * ORIGAMI_SPEED
-	
-				projectile = weapon_scenes[0].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 9)
-				projectile.position.y = position.y + 2
-				projectile.scale.x = -sprite.scale.x
-				projectile.velocity.x = sprite.scale.x * ORIGAMI_SPEED * 0.775
-				projectile.velocity.y = -ORIGAMI_SPEED * 0.225
-	
-				projectile = weapon_scenes[0].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 9)
-				projectile.position.y = position.y + 2
-				projectile.scale.x = -sprite.scale.x
-				projectile.velocity.x = sprite.scale.x * ORIGAMI_SPEED * 0.775
-				projectile.velocity.y =  ORIGAMI_SPEED * 0.225
-	
-			if Input.is_action_pressed("move_up"):
-				projectile = weapon_scenes[0].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 9)
-				projectile.position.y = position.y + 2
-				projectile.scale.x = -sprite.scale.x
-				projectile.velocity.x = sprite.scale.x * ORIGAMI_SPEED * 0.5
-				projectile.velocity.y =  -ORIGAMI_SPEED * 0.5
-	
-				projectile = weapon_scenes[0].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 9)
-				projectile.position.y = position.y + 2
-				projectile.scale.x = -sprite.scale.x
-				projectile.velocity.x = sprite.scale.x * ORIGAMI_SPEED * 0.775
-				projectile.velocity.y =  -ORIGAMI_SPEED * 0.225
-	
-				projectile = weapon_scenes[0].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 9)
-				projectile.position.y = position.y + 2
-				projectile.scale.x = -sprite.scale.x
-				projectile.velocity.x = sprite.scale.x * ORIGAMI_SPEED *  0.225
-				projectile.velocity.y =  -ORIGAMI_SPEED * 0.775
-	
-			if Input.is_action_pressed("move_down"):
-				projectile = weapon_scenes[0].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 9)
-				projectile.position.y = position.y + 2
-				projectile.scale.x = -sprite.scale.x
-				projectile.velocity.x = sprite.scale.x * ORIGAMI_SPEED *  0.225
-				projectile.velocity.y =  ORIGAMI_SPEED * 0.775
-	
-				projectile = weapon_scenes[0].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 9)
-				projectile.position.y = position.y + 2
-				projectile.scale.x = -sprite.scale.x
-				projectile.velocity.x = sprite.scale.x * ORIGAMI_SPEED * 0.5
-				projectile.velocity.y =  ORIGAMI_SPEED * 0.5
-	
-				projectile = weapon_scenes[0].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 9)
-				projectile.position.y = position.y + 2
-				projectile.scale.x = -sprite.scale.x
-				projectile.velocity.x = sprite.scale.x * ORIGAMI_SPEED * 0.775
-				projectile.velocity.y =  ORIGAMI_SPEED * 0.225
-
-			return
+			
+			SpreadProjectileAttack("res://scenes/objects/players/weapons/special_weapons/origami_star.tscn",3,60,250,direction.y * -30)
 
 func weapon_gale():
 	if Input.is_action_just_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.GALE] >= 7 or GameState.infinite_ammo == true) && GameState.onscreen_sp_bullets < 1:
@@ -1151,13 +1030,7 @@ func weapon_reaper():
 			shot_type = 2
 			attack_timer.start(0.3)
 			if ScytheCharge < 20: #Uncharged. Throws 1 boomerang with an alternating curve
-
-				projectile = weapon_scenes[5].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 15)
-				projectile.position.y = position.y - 2
-				projectile.velocity.x = sprite.scale.x * 170
-				projectile.scale.x = -sprite.scale.x
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/boomer_scythe.tscn", Vector2(170, 0), Vector2(15, -2))
 				GameState.onscreen_sp_bullets += 1
 
 				if Input.is_action_pressed("move_up"):
@@ -1179,23 +1052,11 @@ func weapon_reaper():
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.REAPER] -= 2
 				GameState.onscreen_sp_bullets += 2
-
-				projectile = weapon_scenes[5].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 21)
-				projectile.position.y = position.y - 8
-				projectile.velocity.x = sprite.scale.x * 210
-				projectile.velocity.y = 35
-				projectile.scale.x = -sprite.scale.x
+				
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/boomer_scythe.tscn", Vector2(210, 35), Vector2(21, -8))
 				projectile.direction = -1
 
-				projectile = weapon_scenes[5].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 21)
-				projectile.position.y = position.y + 8
-				projectile.velocity.x = sprite.scale.x * 210
-				projectile.velocity.y = -35
-				projectile.scale.x = -sprite.scale.x
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/boomer_scythe.tscn", Vector2(210, -35), Vector2(21, 8))
 				projectile.direction = 1
 
 			if ScytheCharge >= 70: #Full charge. Throws 2 shots that run to the top and bottom of the screen and return.
@@ -1203,22 +1064,10 @@ func weapon_reaper():
 					GameState.weapon_energy[GameState.WEAPONS.REAPER] -= 4
 				GameState.onscreen_sp_bullets += 2
 
-				projectile = weapon_scenes[6].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 21)
-				projectile.position.y = position.y + 8
-				projectile.velocity.x = sprite.scale.x * 310
-				projectile.velocity.y = 35
-				projectile.scale.x = -sprite.scale.x
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/charge_scythe.tscn", Vector2(310, 35), Vector2(21, 8))
 				projectile.direction = -1
 
-				projectile = weapon_scenes[6].instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 21)
-				projectile.position.y = position.y - 8
-				projectile.velocity.x = sprite.scale.x * 310
-				projectile.velocity.y = -35
-				projectile.scale.x = -sprite.scale.x
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/charge_scythe.tscn", Vector2(310, -35), Vector2(21, -8))
 				projectile.direction = 1
 
 			ScytheCharge = 0
@@ -1430,7 +1279,7 @@ func BasicProjectileAttack(scenePath: String, speed: Vector2, offset:= default_p
 ##
 ## scenePath: A String with the path to the desired scene.
 ## speed: The speed at which the projectile moves. Automatically calculated 
-## allowdown: 
+## allowdown: Allow aiming directly down. If false, it will be diagonal down.
 ## offset: A Vector2 containing the desired offset, with the character's Buster offsets by default. Optional.
 ## projectileScale: A Vector2 containing a scale multiplier for the projectile. Useful for projectiles that need to be upside down or backwards or something. Optional.
 func AimProjectileAttack(scenePath: String, speed: float, allowdown:bool, offset:= default_projectile_offset, projectileScale:= Vector2(1, 1)):
@@ -1446,3 +1295,50 @@ func AimProjectileAttack(scenePath: String, speed: float, allowdown:bool, offset
 	elif direction.x == 0 or direction.y == 0:
 		projectile.velocity.x = speed * (direction.x)
 		projectile.velocity.y = speed * (-direction.y)
+	
+## Summons a group of projectiles from the player, evenly divided.
+## a var named theta must be required. That is the angle which the projectile is offset from the player.
+## scenePath: A String with the path to the desired scene.
+## amount : How many projectiles. They are spread evenly among 360 degrees. 
+## initoffset: If you want the first projectile to spawn somewhere else, use this! in degrees
+## offset: A Vector2 containing the desired offset, with the character's Buster offsets by default. Optional.
+## projectileScale: A Vector2 containing a scale multiplier for the projectile. Useful for projectiles that need to be upside down or backwards or something. Optional.
+
+func ShieldProjectileAttack(scenePath: String, amount : int, initoffset : int = 0, offset:= Vector2(0,0), projectileScale:= Vector2(1, 1)):
+	var space = deg_to_rad(360/amount)
+	var first = deg_to_rad(initoffset)
+	var count = 0
+			
+	while count < amount:
+		BasicProjectileAttack(scenePath,Vector2(0,0),offset,projectileScale)
+		shields.append(projectile)
+		projectile.theta = (count*space) + first
+		count += 1
+
+## Summons a group of projectiles from the player, evenly divided.
+## a var named theta must be required. That is the angle which the projectile is offset from the player.
+## scenePath: A String with the path to the desired scene.
+## amount : How many projectiles. They are spread evenly among 360 degrees. 
+## initoffset: If you want the first projectile to spawn somewhere else, use this! Optional
+## offset: A Vector2 containing the desired offset, with the character's Buster offsets by default. Optional.
+## projectileScale: A Vector2 containing a scale multiplier for the projectile. Useful for projectiles that need to be upside down or backwards or something. Optional.
+
+func SpreadProjectileAttack(scenePath: String, amount : int, spread : float, speed : int, initoffset : int = 0, offset:= Vector2(0,0), projectileScale:= Vector2(1, 1)):
+	var interval = deg_to_rad(spread/amount)
+	var first = deg_to_rad(initoffset)
+	var count = 0
+	var angler : float
+	
+	if amount % 2 == 0:
+		first += interval * -0.5
+	
+	angler = -((amount - 1) / 2) * interval + first 
+	
+	print(angler)
+
+	
+	while count < amount:
+		BasicProjectileAttack(scenePath, Vector2(cos(angler)*speed,sin(angler)*speed), offset, projectileScale)
+		angler += interval
+		
+		count += 1

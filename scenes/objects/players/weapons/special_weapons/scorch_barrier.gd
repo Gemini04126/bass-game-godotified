@@ -14,22 +14,22 @@ var baseposy : float
 var theta : float # changed from int to float
 
 var radius : int
-
 var dist : float
+var rotatedir : int
 
 var durability : int = 6
 var invul : int
 var DmgQueue : int # make the game not crash when you touch an enemy
-
 var speed : int
 
-var freezeframed : bool = false
+var freezeframed : bool = false #prevents crashing lol
 
 var wet : bool
 var fired : bool
 var left : bool
 
 func _ready():
+	GameState.onscreen_sp_bullets += 1
 	if GameState.character_selected == 2:
 		W_Type = GameState.DMGTYPE.CR_BLAZE
 	else:
@@ -37,7 +37,6 @@ func _ready():
 	baseposx = position.x
 	baseposy = position.y
 	$SpawnSound.play()
-	#theta = rotation
 	animate()
 	
 		
@@ -49,6 +48,7 @@ func _physics_process(_delta):
 		GameState.onscreen_sp_bullets -= 1
 		$MainSprite.play("hit")
 		await $MainSprite.animation_finished
+		GameState.player.shields.erase(self)
 		queue_free()
 	
 	if GameState.current_weapon != GameState.WEAPONS.BLAZE:
@@ -80,21 +80,11 @@ func _physics_process(_delta):
 	else:
 		$CollisionShape2D.set_deferred("disabled", false)
 	
-	if theta > 6.283185:
-		theta -= 6.283185
 	
-	if GameState.character_selected == 2:
-		theta += (0.35 * (1 -(radius * 0.020)))
-		
-	else:
-		theta += 0.20
-	if wet == false:
-		if $AmbientSound.finished:
-			$AmbientSound.play()
 		
 	
 	if fired == true && GameState.character_selected != 2: # Bass version
-		if left == false:
+		if rotatedir == 1:
 			dist += 1
 			if dist > 10 :
 				dist += 0.5
@@ -102,7 +92,7 @@ func _physics_process(_delta):
 				dist += 0.5
 			if dist > 30 :
 				dist += 0.5
-		if left == true:
+		if rotatedir == -1:
 			dist -= 1
 			if dist < -10 :
 				dist -= 0.5
@@ -126,6 +116,19 @@ func _physics_process(_delta):
 	if fired == false:
 		baseposx = GameState.player.position.x
 		baseposy = GameState.player.position.y
+		rotatedir = GameState.player.sprite.scale.x
+		
+	if rad_to_deg(theta) > 360:
+		theta -= deg_to_rad(360)
+	
+	if GameState.character_selected == 2:
+		theta += rotatedir*(0.35 * (1 -(radius * 0.020)))
+		
+	else:
+		theta += 0.175 * rotatedir	
+	if wet == false:
+		if $AmbientSound.finished:
+			$AmbientSound.play()
 	
 	position.x = dist + baseposx + cos(theta)*radius
 	position.y = baseposy + sin(theta)*radius
@@ -157,6 +160,7 @@ func _physics_process(_delta):
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	GameState.onscreen_sp_bullets -= 1
 	if fired == true:
+		GameState.player.shields.erase(self)
 		queue_free()
 
 func destroy():

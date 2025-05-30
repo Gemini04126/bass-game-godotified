@@ -21,6 +21,8 @@ func _physics_process(_delta):
 	if $AnimatedSprite2D.animation == "Spawn":
 		if time > 25:
 			$AnimatedSprite2D.play("Loop")
+			
+	move_and_slide()
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	GameState.onscreen_sp_bullets -= 1
