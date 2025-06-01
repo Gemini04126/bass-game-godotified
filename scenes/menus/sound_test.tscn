@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://csoltlnv24ev7"]
 
-[ext_resource type="PackedScene" uid="uid://0616w0vuf71e" path="res://scenes/background.tscn" id="1_5se8y"]
+[ext_resource type="PackedScene" uid="uid://0616w0vuf71e" path="res://scenes/menus/background.tscn" id="1_5se8y"]
 
 [node name="SoundTest" type="Control"]
 layout_mode = 3
@@ -9,6 +9,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0.266667, 1)
 
 [node name="Background" parent="." instance=ExtResource("1_5se8y")]
 layout_mode = 0
@@ -60,8 +69,7 @@ offset_bottom = -41.0
 grow_horizontal = 2
 grow_vertical = 0
 rounded = true
-alignment = 3
-suffix = "."
+alignment = 2
 
 [node name="Label" type="RichTextLabel" parent="SpinBox"]
 layout_mode = 0

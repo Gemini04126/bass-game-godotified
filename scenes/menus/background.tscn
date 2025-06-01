@@ -3,13 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://bd17fhvxiacvn" path="res://sprites/menus/menureel2.png" id="1_y0upk"]
 [ext_resource type="Texture2D" uid="uid://cvtbdmu1w0ued" path="res://sprites/menus/menureel1.png" id="2_jougr"]
 
-[node name="Background" type="ColorRect"]
+[node name="Background" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0.266667, 1)
 
 [node name="Down" type="Parallax2D" parent="."]
 scroll_offset = Vector2(253, -59)
