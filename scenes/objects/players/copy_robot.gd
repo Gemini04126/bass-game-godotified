@@ -11,6 +11,7 @@ var sakugarne : bool = false
 var busterspeed
 
 func _init() -> void:
+	JUMP_HEIGHT = 13
 	projectile_scenes = [
 		preload("res://scenes/objects/players/weapons/copy_robot/buster_small.tscn"),
 		preload("res://scenes/objects/players/weapons/copy_robot/buster_medium.tscn"),
@@ -119,7 +120,6 @@ func _physics_process(delta: float) -> void:
 				checkForFloor()
 				processJump()
 				processShoot()
-				processCharge()
 				ladderCheck()
 				processDamage()
 			STATES.IDLE_THROW, STATES.IDLE_FIN_SHREDDER:
@@ -127,7 +127,7 @@ func _physics_process(delta: float) -> void:
 				animationMatching()
 				processJump()
 				processShoot()
-				processCharge()
+				
 				processDamage()
 			STATES.IDLE_SHIELD, STATES.IDLE_DOUBLE_FIN_SHREDDER:
 				checkForFloor()
@@ -142,7 +142,6 @@ func _physics_process(delta: float) -> void:
 				slideProcess()
 				processJump()
 				processShoot()
-				processCharge()
 				ladderCheck()
 				processDamage()
 			STATES.WALK, STATES.WALKING_SHOOT:
@@ -153,7 +152,7 @@ func _physics_process(delta: float) -> void:
 				processJump()
 				allowLeftRight(delta)
 				processShoot()
-				processCharge()
+				
 				ladderCheck()
 				processDamage()
 			STATES.JUMP, STATES.JUMP_SHOOT, STATES.JUMP_THROW, STATES.JUMP_SHIELD:
@@ -161,7 +160,7 @@ func _physics_process(delta: float) -> void:
 				applyGrav(delta)
 				allowLeftRight(delta)
 				processShoot()
-				processCharge()
+				
 				ladderCheck()
 				processDamage()
 			STATES.SLIDE:
@@ -169,20 +168,20 @@ func _physics_process(delta: float) -> void:
 				animationMatching()
 				if !$ceilCheck.is_colliding():
 					processJump()
-				processCharge()
+				
 				ladderCheck()
 				processDamage()
 			STATES.LADDER:
 				ladder()
 				ladderInput()
 				ladderAnimate()
-				processCharge()
+				
 				processBuster()
 				processDamage()
 			STATES.LADDER_SHOOT, STATES.LADDER_THROW, STATES.LADDER_SHIELD:
 				velocity.y = 0
 				ladderInput()
-				processCharge()
+				
 				processShoot()
 				processDamage()
 				animationMatching()
@@ -196,7 +195,7 @@ func _physics_process(delta: float) -> void:
 			STATES.VICTORY:
 				victory(delta)
 			
-				
+		processCharge()
 		if GameState.freezeframe == false:
 			position.x += wind_push
 		switchWeapons()
@@ -218,6 +217,28 @@ func _physics_process(delta: float) -> void:
 			standing = true
 		else:
 			standing = false
+
+func processJump():
+	if GameState.inputdisabled == false:
+		if currentState == STATES.SLIDE:
+			JumpHeight = -2
+		if Input.is_action_just_pressed("jump") && direction.y != -1:
+			if !is_on_floor() and currentState == STATES.SLIDE:
+				currentState = STATES.JUMP
+			else:
+				if in_water == true:
+					velocity.y = WATER_JUMP_VELOCITY
+				else:
+					velocity.y = JUMP_VELOCITY
+				
+				currentState = STATES.JUMP
+				$Audio/Jump.play()
+				
+			slide_timer.stop()
+			$hurtboxArea/mainHurtbox.set_disabled(false)
+			$mainCollision.disabled = false
+			if JumpHeight >= 0:
+				JumpHeight = 0
 		
 func processShoot():
 	if Input.is_action_just_pressed("shoot") && !transing && GameState.inputdisabled == false:
@@ -274,7 +295,7 @@ func processCharge():
 			sprite.material.set_shader_parameter("palette", weapon_palette[17])
 		if busterflashtimer != 1:
 			set_current_weapon_palette()
-	if bustercharge > 92:
+	if bustercharge > 102:
 		if busterflashtimer == 2:
 			sprite.material.set_shader_parameter("palette", weapon_palette[18])
 		
@@ -297,7 +318,7 @@ func processCharge():
 				sprite.material.set_shader_parameter("palette", weapon_palette[21])
 			if weaponflashtimer != 1 and bustercharge < 32:
 				set_current_weapon_palette()
-		if sharkcharge > 25:
+		if sharkcharge > 35:
 			if weaponflashtimer == 2:
 				sprite.material.set_shader_parameter("palette", weapon_palette[22])
 		if sharkcharge == 0 and bustercharge == 0:
@@ -375,7 +396,7 @@ func weapon_cbuster():
 				$Audio/Charge2.stop()
 				set_current_weapon_palette()
 				return
-			if bustercharge >= 32 and bustercharge < 92: # medium charge
+			if bustercharge >= 32 and bustercharge < 102: # medium charge
 				if GameState.inputdisabled == false:
 					attack_timer.start(0.3)
 					GameState.onscreen_bullets += 1
@@ -396,7 +417,7 @@ func weapon_cbuster():
 				$Audio/Charge2.stop()
 				set_current_weapon_palette()
 				return
-			if bustercharge >= 92: # da big boi
+			if bustercharge >= 102: # da big boi
 				if GameState.inputdisabled == false:
 					attack_timer.start(0.3)
 				
@@ -464,37 +485,22 @@ func weapon_shark():
 		print("released")
 		$SharkChargeFX.play("none")
 				
-		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and GameState.onscreen_sp_bullets < 1 and (GameState.weapon_energy[GameState.WEAPONS.SHARK] > 3 or GameState.infinite_ammo == true):
-			if sharkcharge < 25: #Uncharged. Single Fin Shredder
+		if (currentState != STATES.SLIDE) and (currentState != STATES.HURT) and is_on_floor() and GameState.onscreen_sp_bullets < 1 and (GameState.weapon_energy[GameState.WEAPONS.SHARK] > 3 or GameState.infinite_ammo == true):
+			if sharkcharge < 35: #Uncharged. Single Fin Shredder
 
 				anim.seek(0)
 				shot_type = 4
 				GameState.onscreen_sp_bullets += 1
-				projectile = weapon_scenes[4].instantiate()
-				add_sibling(projectile)
 				shoot_timer.start(0.65)
 				velocity.x = 0
 				currentState = STATES.IDLE_FIN_SHREDDER
 				
-				
-				
-				if !is_on_floor():
-					projectile.position.x = position.x + sprite.scale.x * 25
-				else:
-					projectile.position.x = position.x + sprite.scale.x * 15
-				
-				projectile.position.y = position.y - 3
-				
-				if !is_on_floor():
-					projectile.velocity.x = sprite.scale.x * 45
-				else:
-					projectile.velocity.x = sprite.scale.x * 1
-				projectile.scale.x = sprite.scale.x
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/fin_shredder.tscn", Vector2(1, 15), Vector2(15, -4))
 				
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.SHARK] -= 3
 
-			if sharkcharge > 25: #Charged. Double Fin Shredder!
+			if sharkcharge > 35: #Charged. Double Fin Shredder!
 				if GameState.infinite_ammo == false:
 					GameState.weapon_energy[GameState.WEAPONS.SHARK] -= 4
 				GameState.onscreen_sp_bullets += 1
@@ -519,7 +525,7 @@ func weapon_shark():
 	if !Input.is_action_pressed("shoot"):
 		sharkcharge = 0
 
-	if sharkcharge >= 25 && (GameState.weapon_energy[GameState.WEAPONS.SHARK] < 6 and GameState.infinite_ammo == false):
+	if sharkcharge >= 35 && (GameState.weapon_energy[GameState.WEAPONS.SHARK] < 6 and GameState.infinite_ammo == false):
 		sharkcharge = 2
 
 	if Input.is_action_pressed("shoot") && (GameState.weapon_energy[GameState.WEAPONS.SHARK] > 0 or GameState.infinite_ammo == true):
@@ -529,7 +535,7 @@ func weapon_shark():
 				
 		if sharkcharge < 78:
 			sharkcharge += 1
-			if sharkcharge == 26:
+			if sharkcharge == 36:
 				$SharkChargeFX.play("charge2")
 				$Audio/Charge1.play()
 		else:

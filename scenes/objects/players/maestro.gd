@@ -91,7 +91,13 @@ var shields : Array[Node2D]
 @export var STOP_VELOCITY: int = -120
 @export var JUMP_HEIGHT: int = 14
 @export var FAST_FALL: int = 400
+
+@export var WATER_JUMP_VELOCITY: int = -285
+@export var WATER_PEAK_VELOCITY: int = -110
+@export var WATER_STOP_VELOCITY: int = -110
+@export var WATER_JUMP_HEIGHT: int = 23
 @export var WATER_FAST_FALL: int = 200
+		
 @export var MAXSPEED: int = 100
 @export var RUNSPEED: int = 80
 
@@ -373,6 +379,9 @@ func applyGrav(delta):
 			if fallstored != 0:
 				velocity.y = fallstored
 				fallstored = 0
+			if WATER_FAST_FALL < velocity.y and in_water == true:
+				velocity.y = WATER_FAST_FALL
+				
 			if FAST_FALL < velocity.y:
 				velocity.y = FAST_FALL
 	else:
@@ -473,7 +482,11 @@ func processJump():
 			if !is_on_floor() and currentState == STATES.SLIDE:
 				currentState = STATES.JUMP
 			else:
-				velocity.y = JUMP_VELOCITY
+				if in_water == true:
+					velocity.y = WATER_JUMP_VELOCITY
+				else:
+					velocity.y = JUMP_VELOCITY
+				
 				currentState = STATES.JUMP
 				$Audio/Jump.play()
 				
@@ -531,6 +544,7 @@ func Jump(delta):
 	if is_on_floor():
 		ice_jump = false
 		dashjumped = false
+		$Audio/Land.play()
 		if direction.x != 0 and GameState.inputdisabled == false:
 			currentState = STATES.WALK
 		else:
@@ -539,23 +553,35 @@ func Jump(delta):
 	if on_ice == true:
 		ice_jump = true
 	if GameState.inputdisabled == false:
-		if (JumpHeight < JUMP_HEIGHT && Input.is_action_pressed("jump")):
-			velocity.y = JUMP_VELOCITY
+		if (((in_water == false and JumpHeight < JUMP_HEIGHT) or (in_water == true and JumpHeight < WATER_JUMP_HEIGHT)) && Input.is_action_pressed("jump")):
+			if in_water == true:
+				velocity.y = WATER_JUMP_VELOCITY
+			else:
+				velocity.y = JUMP_VELOCITY
 			JumpHeight += 1
-	if (JumpHeight == JUMP_HEIGHT):
+	if (((in_water == false and JumpHeight == JUMP_HEIGHT) or (in_water == true and JumpHeight == WATER_JUMP_HEIGHT))):
 		JumpHeight = 80
-		velocity.y = PEAK_VELOCITY
-	if (Input.is_action_just_released("jump") and JumpHeight < JUMP_HEIGHT):
+		if in_water == true:
+			velocity.y = WATER_PEAK_VELOCITY
+		else:
+			velocity.y = PEAK_VELOCITY
+	if (Input.is_action_just_released("jump") and ((in_water == false and JumpHeight < JUMP_HEIGHT) or (in_water == true and JumpHeight < WATER_JUMP_HEIGHT))):
 		JumpHeight = 80
-		velocity.y = STOP_VELOCITY
+		if in_water == true:
+			velocity.y = WATER_STOP_VELOCITY
+		else:
+			velocity.y = STOP_VELOCITY
 	if direction.x == 0 :
 		if ice_jump == false:
 			velocity.x = 0
 		else:
 			velocity.x = lerpf(velocity.x, 0, delta * ICE_AIR_WEIGHT)
-	if is_on_ceiling() and JumpHeight < JUMP_HEIGHT:
+	if is_on_ceiling() and ((in_water == false and JumpHeight < JUMP_HEIGHT) or (in_water == true and JumpHeight < WATER_JUMP_HEIGHT)):
 		JumpHeight = 80
-		velocity.y = STOP_VELOCITY
+		if in_water == true:
+			velocity.y = WATER_STOP_VELOCITY
+		else:
+			velocity.y = STOP_VELOCITY
 	
 	if velocity.y > 0:
 		JumpHeight = 80
@@ -714,7 +740,7 @@ func _on_slide_timer_timeout() -> void:
 
 
 func _on_water_check(area: Area2D) -> void:
-	if area.is_in_group("splash") and velocity.y != 0:
+	if area.is_in_group("splash"):
 		var splash = preload("res://scenes/objects/splash.tscn").instantiate()
 		add_child(splash)
 		splash.name = "splashie"
@@ -755,10 +781,10 @@ func dead():
 			add_child(projectile)
 			projectile.velocity = EXPLOSION_SPEEDS[i]
 		pain_timer.start(2550)
-	if deathtime == 80:
+	if deathtime == 160:
 		print("death")
 		Fade.fade_out()
-	if deathtime == 120:
+	if deathtime == 200:
 		GameState.player_lives -= 1
 		reset(false)
 		get_tree().reload_current_scene()

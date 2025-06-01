@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=3 uid="uid://bsy7vba3t8awq"]
+[gd_scene load_steps=107 format=3 uid="uid://bsy7vba3t8awq"]
 
 [ext_resource type="Script" uid="uid://bsxw7au27mfj5" path="res://scenes/objects/players/bass.gd" id="1_lug7r"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_m015p"]
@@ -9,15 +9,17 @@
 [ext_resource type="Texture2D" uid="uid://bjwiqdbq8sleh" path="res://sprites/players/weapons/scythechargefx1.png" id="6_u1bed"]
 [ext_resource type="AudioStream" uid="uid://d2oevy2xek073" path="res://sounds/jump.wav" id="7_fb25d"]
 [ext_resource type="Texture2D" uid="uid://dkbxpsk2vma6u" path="res://sprites/players/weapons/scythechargefx2.png" id="7_tah6h"]
-[ext_resource type="AudioStream" uid="uid://cgaetckoiu15m" path="res://sounds/land.wav" id="8_xc18w"]
+[ext_resource type="Texture2D" uid="uid://bf6rxbqbyr4cy" path="res://sprites/players/weapons/sharkcharge1.png" id="8_mrol0"]
 [ext_resource type="AudioStream" uid="uid://bgfwytu8kifqv" path="res://sounds/blastjump.wav" id="8_xq33u"]
 [ext_resource type="AudioStream" uid="uid://pk86bd6damih" path="res://sounds/start_bass.wav" id="9_e7if1"]
 [ext_resource type="AudioStream" uid="uid://h87d8b65n30n" path="res://sounds/slide.wav" id="9_nafqf"]
+[ext_resource type="Texture2D" uid="uid://cth27gt07i8aq" path="res://sprites/players/weapons/sharkcharge2.png" id="9_r0k5b"]
 [ext_resource type="AudioStream" uid="uid://ds4m68uui1avq" path="res://sounds/switch.wav" id="10_f8yl7"]
 [ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/playerhurt.wav" id="11_deyoo"]
 [ext_resource type="AudioStream" uid="uid://rm3ckgibk0u5" path="res://sounds/charge1.wav" id="12_dte03"]
 [ext_resource type="AudioStream" uid="uid://dnnvv4semeufh" path="res://sounds/charge2.ogg" id="13_o8ixe"]
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="14_m0k0y"]
+[ext_resource type="AudioStream" uid="uid://cdtgoahbb05wh" path="res://sounds/land2.wav" id="14_r0k5b"]
 [ext_resource type="AudioStream" uid="uid://mcla46x8hsbd" path="res://sounds/scorchambient.wav" id="17_fb25d"]
 [ext_resource type="AudioStream" uid="uid://gm5p36ys1f14" path="res://sounds/cr_chargeshot.wav" id="18_xc18w"]
 [ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="19_deyoo"]
@@ -25,6 +27,7 @@
 [ext_resource type="AudioStream" uid="uid://bq6ccpgtocrqr" path="res://sounds/machbust.wav" id="21_o8ixe"]
 [ext_resource type="Texture2D" uid="uid://culj6yyxpqgs1" path="res://sprites/players/bass/palettes/Bass Buster.png" id="22_o8ixe"]
 [ext_resource type="Texture2D" uid="uid://bu1d7yfrawcb5" path="res://sprites/hud/bass_weapons.png" id="23_o8ixe"]
+[ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="28_r0k5b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qymoq"]
 shader = ExtResource("2_m015p")
@@ -120,6 +123,82 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_a6jfx")
+}],
+"loop": true,
+"name": &"charge2",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"none",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d20i3"]
+shader = ExtResource("2_m015p")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7872"]
+atlas = ExtResource("8_mrol0")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g112h"]
+atlas = ExtResource("8_mrol0")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxk45"]
+atlas = ExtResource("8_mrol0")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3iqg"]
+atlas = ExtResource("9_r0k5b")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sp30o"]
+atlas = ExtResource("9_r0k5b")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32lav"]
+atlas = ExtResource("9_r0k5b")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p5lr6"]
+atlas = ExtResource("9_r0k5b")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8khm7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7872")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g112h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxk45")
+}],
+"loop": true,
+"name": &"charge1",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3iqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sp30o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_32lav")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p5lr6")
 }],
 "loop": true,
 "name": &"charge2",
@@ -1096,6 +1175,14 @@ sprite_frames = SubResource("SpriteFrames_r0k5b")
 animation = &"none"
 autoplay = "none"
 
+[node name="SharkChargeFX" type="AnimatedSprite2D" parent="."]
+z_index = 3
+material = SubResource("ShaderMaterial_d20i3")
+position = Vector2(0, 6)
+sprite_frames = SubResource("SpriteFrames_8khm7")
+animation = &"none"
+autoplay = "none"
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_knm54")
@@ -1230,7 +1317,8 @@ stream = ExtResource("7_fb25d")
 bus = &"SFX"
 
 [node name="Land" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("8_xc18w")
+stream = ExtResource("14_r0k5b")
+volume_db = -10.0
 bus = &"SFX"
 
 [node name="Slide" type="AudioStreamPlayer" parent="Audio"]
@@ -1285,6 +1373,10 @@ volume_db = -5.0
 
 [node name="Machine2" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("21_o8ixe")
+
+[node name="FinShredder" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("28_r0k5b")
+bus = &"SFX"
 
 [connection signal="teleported" from="." to="." method="_on_teleported"]
 [connection signal="timeout" from="Timers/SwitchTimer" to="." method="_on_switch_timer_timeout"]

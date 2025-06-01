@@ -25,7 +25,7 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_2] = 2
 	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_3] = 4
 	Dmg_Vals[GameState.DMGTYPE.CR_BLAZE] = 2
-	Dmg_Vals[GameState.DMGTYPE.CR_SHARK1] = 4
+	Dmg_Vals[GameState.DMGTYPE.CR_SHARK1] = 8
 	Dmg_Vals[GameState.DMGTYPE.CR_SHARK2] = 10
 	Dmg_Vals[GameState.DMGTYPE.CR_ARROW] = 1
 	Dmg_Vals[GameState.DMGTYPE.CR_ENKER] = 1

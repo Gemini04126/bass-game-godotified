@@ -9,7 +9,7 @@ var oldtype : int
 var olddirection: int
 var readied : bool
 
-@export_enum ("Test Boss", "Shark Man") var type : int ##The type of enemy.
+@export_enum ("Test Boss", "Shark Man", "Blaze Man") var type : int ##The type of enemy.
 @export_enum ("Mute", "Stage", "Boss", "FortBoss", "Wily") var music : int ##Music to play
 @export var dontchangemusic : bool ##Check this if you don't want the music to change!
 
@@ -17,7 +17,8 @@ var readied : bool
 @onready var baby
 var enemytype = [
 	preload("res://scenes/objects/bosses/testboss.tscn"),
-	preload("res://scenes/objects/bosses/shark_man.tscn")
+	preload("res://scenes/objects/bosses/shark_man.tscn"),
+	preload("res://scenes/objects/bosses/blaze_man.tscn")
 ]
 
 func _on_visible_on_screen_notifier_2d_screen_entered():

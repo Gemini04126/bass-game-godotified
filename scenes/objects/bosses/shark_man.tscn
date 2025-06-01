@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://ckdeuge1iatm5"]
+[gd_scene load_steps=91 format=3 uid="uid://ckdeuge1iatm5"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xo4wh"]
 [ext_resource type="Texture2D" uid="uid://2jtqdlu4xtk5" path="res://sprites/hud/bossbarpals/shark.png" id="2_l2mpc"]
@@ -207,8 +207,20 @@ func _physics_process(_delta):
 					
 		if is_on_floor() and jumping == false:
 			velocity.x *= 0.4
+			
+		if !is_on_floor() and jumping == true:
+			if velocity.y < 0:
+				$Sprite2.play(\"jump1\")
+			if velocity.y > -80:
+				$Sprite2.play(\"jump2\")
+			if velocity.y > 80:
+				$Sprite2.play(\"jump3\")
+			if velocity.y > 100:
+				$Sprite2.play(\"jump4\")
+			
 				
 		$Overlay.scale.x = $Sprite.scale.x
+		$Sprite2.scale.x = $Sprite.scale.x
 			
 		if Input.is_action_pressed(\"jump\"):
 			attackpick += 1
@@ -221,6 +233,7 @@ func _physics_process(_delta):
 			attackpick = 0 
 		
 		if state == null:
+			$Sprite2.play(\"jump4\")
 			velocity.y = 80
 			if is_on_floor():
 				state = STATES.INTRO
@@ -257,11 +270,16 @@ func _physics_process(_delta):
 				else:
 					Cur_HP += 1
 					$Audio/HPFill.play()
-		
+				
 		if state == STATES.IDLE:
 			turntoplayer()
-			$Sprite.play(\"Idle\")
-			statetimer -= 1
+			if GameState.current_hp <= 0:
+				$Sprite.play(\"Victory\")
+				statetimer = 9500
+			else:
+				$Sprite2.play(\"none\")
+				$Sprite.play(\"Idle\")
+				statetimer -= 1
 			if statetimer <= 0:
 				if attackpick < 2 and lastattack != 1:
 					if GameState.droptimer > 3 and Cur_HP <= 28:
@@ -273,10 +291,13 @@ func _physics_process(_delta):
 					state = STATES.ATTACK1
 					$Sprite.play(\"FinShredder\")
 					$Overlay.play(\"FinShredder\")
+					$Sprite2.play(\"shredder\")
+					$Sprite2.set_frame_and_progress(0,0)
 				
 				elif (attackpick == 2 or (attackpick == 6 and (GameState.player.position.x < position.x + 200 or GameState.player.position.x > position.x - 200))) and lastattack != 2:
 					state = STATES.ATTACK2
 					$Sprite.play(\"Crouch\")
+					$Sprite2.play(\"crouch\")
 					
 				elif (attackpick == 3 or (attackpick == 6 and (GameState.player.position.x > position.x + 200 or GameState.player.position.x < position.x - 200))) and lastattack != 3:
 					state = STATES.ATTACK3
@@ -284,10 +305,20 @@ func _physics_process(_delta):
 						$Audio/DoubleReppuken.play()
 					$Sprite.play(\"FinShredder\")
 					$Overlay.play(\"FinShredder\")
-				
+					$Sprite2.play(\"shredder\")
+					$Sprite2.set_frame_and_progress(0,0)
+					
 				elif (attackpick == 4) and lastattack != 4:
 					state = STATES.ATTACK4
 					$Sprite.play(\"Crouch\")
+					$Sprite2.play(\"crouch\")
+					
+				elif (attackpick == 5) and lastattack != 5 and GameState.difficulty > 1:
+					state = STATES.ATTACK5
+					$Sprite.play(\"FinShredder\")
+					$Overlay.play(\"FinShredder\")
+					$Sprite2.play(\"shredder\")
+					$Sprite2.set_frame_and_progress(0,0)
 			
 		if state == STATES.ATTACK1: ##FIN SHREDDER
 			statetimer += 1
@@ -307,15 +338,17 @@ func _physics_process(_delta):
 				projectile.velocity.x = $Sprite.scale.x * -210
 			if statetimer == 80 or (statetimer == 70 and Cur_HP <= 28):
 				attacks -= 1
-				if attacks == 0:
+				if attacks == 0 or GameState.current_hp == 0:
 					state = STATES.IDLE
 				else:
 					statetimer = 0
 					$Sprite.play(\"FinShredder\")
 					$Overlay.play(\"FinShredder\")
+					$Sprite2.play(\"shredder\")
 					
 					if Cur_HP <= 28 and GameState.droptimer == 3:
 						$Sprite.play(\"Crouch\")
+						$Sprite2.play(\"crouch\")
 						state = STATES.ATTACK2
 					if Cur_HP <= 28 and GameState.droptimer == 4:
 						state = STATES.ATTACK3
@@ -338,6 +371,7 @@ func _physics_process(_delta):
 			if statetimer > 15 and  statetimer < 2000 and is_on_floor():
 				$Sprite.play(\"RagingStorm\")
 				$Overlay.play(\"RagingStorm\")
+				$Sprite2.play(\"storm\")
 				if geese == true:
 					$Audio/RagingStorm.play()
 					
@@ -409,7 +443,7 @@ func _physics_process(_delta):
 			statetimer += 1
 			if statetimer == 10:
 				$Audio/Shredder.play()
-				projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
+				projectile = preload(\"res://scenes/objects/bosses/shark_shredder3.tscn\").instantiate()
 				add_sibling(projectile)
 				projectile.position.x = position.x + ($Sprite.scale.x * -28)
 				projectile.position.y = position.y - 20
@@ -418,17 +452,28 @@ func _physics_process(_delta):
 			if (statetimer == 40 and Cur_HP > 28) or (statetimer == 20 and Cur_HP <= 28):
 				$Sprite.stop()
 				$Sprite.play(\"FinShredder\")
+				$Sprite2.play(\"shredder\")
 				$Overlay.play(\"FinShredder\")
 					
 			if (statetimer == 50 and Cur_HP > 28) or (statetimer == 40 and Cur_HP <= 28):
-				projectile.queue_free()
-				$Audio/Shredder.play()
-				projectile = preload(\"res://scenes/objects/bosses/shark_shredder2.tscn\").instantiate()
-				add_sibling(projectile)
-				projectile.position.x = position.x + ($Sprite.scale.x * 32)
-				projectile.position.y = position.y + 6
-				projectile.scale.x = -$Sprite.scale.x
-				projectile.velocity.x = $Sprite.scale.x * -300
+				if projectile != null:
+					projectile.queue_free()
+					$Audio/Shredder.play()
+					projectile = preload(\"res://scenes/objects/bosses/shark_shredder2.tscn\").instantiate()
+					add_sibling(projectile)
+					projectile.position.x = position.x + ($Sprite.scale.x * 32)
+					projectile.position.y = position.y + 6
+					projectile.scale.x = -$Sprite.scale.x
+					projectile.velocity.x = $Sprite.scale.x * -300
+				
+				else:
+					$Audio/Shredder.play()
+					projectile = preload(\"res://scenes/objects/bosses/shark_shredder.tscn\").instantiate()
+					add_sibling(projectile)
+					projectile.position.x = position.x + ($Sprite.scale.x * 9)
+					projectile.position.y = position.y - 20
+					projectile.scale.x = -$Sprite.scale.x
+					projectile.velocity.x = $Sprite.scale.x * -210
 			
 			if statetimer == 110 or (statetimer == 90 and Cur_HP <= 28):
 				state = STATES.IDLE
@@ -450,6 +495,7 @@ func _physics_process(_delta):
 				
 			if statetimer > 10 and  statetimer < 200 and is_on_floor():
 				$Sprite.play(\"Crouch\")
+				$Sprite2.play(\"crouch\")
 				jumping = false
 				$Audio/Step.play()
 					
@@ -539,9 +585,11 @@ func _physics_process(_delta):
 				$Audio/Step.play()
 				statetimer = 500
 				$Sprite.play(\"Crouch\")
+				$Sprite2.play(\"crouch\")
 				
 			if statetimer > 510: 
 				state = STATES.IDLE
+				$Sprite2.play(\"none\")
 				$Sprite.play(\"Idle\")
 				
 				if Cur_HP > 28:
@@ -551,9 +599,20 @@ func _physics_process(_delta):
 				
 				
 				
-
-				
+		if state == STATES.ATTACK5: ##FIN SHREDDER 3
+			statetimer += 1
+			lastattack = 5
 			
+			if statetimer == 10:
+				$Audio/Shredder.play()
+				projectile = preload(\"res://scenes/objects/bosses/shark_shredder3.tscn\").instantiate()
+				add_sibling(projectile)
+				projectile.position.x = position.x + ($Sprite.scale.x * 9)
+				projectile.position.y = position.y - 20
+				projectile.scale.x = -$Sprite.scale.x
+				projectile.velocity.x = $Sprite.scale.x * -30
+			if statetimer == 80 or (statetimer == 70 and Cur_HP <= 28):
+				state = STATES.IDLE
 			
 		if state == STATES.DEAD:
 			velocity.x = scale.x * -15
@@ -590,8 +649,12 @@ func _physics_process(_delta):
 		
 	if !$InvulTimer.is_stopped():
 		$Sprite.visible = flash
+		$Sprite2.visible = flash
+		$Overlay.visible = flash
 	else:
 		$Sprite.visible = true
+		$Sprite2.visible = true
+		$Overlay.visible = true
 		quickhits = 0
 
 func _on_hitable_body_entered(weapon): # needs to be redefined because damage values
@@ -655,6 +718,209 @@ func _on_hurt_body_entered(body):
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5nqm8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xcajq"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(256, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wuxfd"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(320, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3rux"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(384, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u2bmp"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(448, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pxx7"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pnjh6"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ce7q"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(128, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yelrv"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(192, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kcryo"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(256, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awq20"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(320, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eb5hd"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(384, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uehca"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(448, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ad4po"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(192, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8s6ax"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_51r84"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jr8p"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(128, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_df213"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nq80l"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23dx2"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(128, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kuhyw"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(192, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vu5l7"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(256, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41w2n"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(320, 384, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_df213"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xcajq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wuxfd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m3rux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u2bmp")
+}],
+"loop": false,
+"name": &"crouch",
+"speed": 13.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pxx7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pnjh6")
+}],
+"loop": true,
+"name": &"jump1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ce7q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yelrv")
+}],
+"loop": true,
+"name": &"jump2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kcryo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awq20")
+}],
+"loop": true,
+"name": &"jump3",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eb5hd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uehca")
+}],
+"loop": true,
+"name": &"jump4",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"none",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ad4po")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8s6ax")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_51r84")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jr8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ad4po")
+}],
+"loop": false,
+"name": &"shredder",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_df213")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nq80l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23dx2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kuhyw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vu5l7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_41w2n")
+}],
+"loop": false,
+"name": &"storm",
+"speed": 10.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jmdv5"]
 atlas = ExtResource("3_l2mpc")
@@ -723,6 +989,90 @@ region = Rect2(576, 128, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_nbslf"]
 atlas = ExtResource("3_l2mpc")
 region = Rect2(512, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_db5ic"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hx1ud"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(128, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0valg"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(192, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ckbm"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gskut"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vh1s"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_waq6m"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ag34h"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mls6"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35k07"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xk7ja"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ume3s"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a0ebh"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpw2w"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkjg2"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0d283"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ia5qr"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28ubu"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xv0j"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ivuq"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jhlc"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 320, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kwo4k"]
 animations = [{
@@ -862,6 +1212,119 @@ animations = [{
 "loop": false,
 "name": &"RagingStorm",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_db5ic")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hx1ud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0valg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ckbm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gskut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vh1s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_waq6m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ag34h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mls6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35k07")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xk7ja")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ume3s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a0ebh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpw2w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkjg2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0d283")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ia5qr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_28ubu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xv0j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ivuq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ivuq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jhlc")
+}],
+"loop": false,
+"name": &"Victory",
+"speed": 10.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oqya0"]
@@ -975,11 +1438,18 @@ collision_layer = 0
 script = SubResource("GDScript_k5bra")
 barPalette = ExtResource("2_l2mpc")
 
+[node name="Sprite2" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_5nqm8")
+position = Vector2(0, -15)
+sprite_frames = SubResource("SpriteFrames_df213")
+animation = &"crouch"
+autoplay = "none"
+
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_5nqm8")
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_kwo4k")
-animation = &"Jump"
+animation = &"Crouch"
 autoplay = "Jump"
 
 [node name="Overlay" type="AnimatedSprite2D" parent="."]

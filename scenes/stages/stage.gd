@@ -333,11 +333,6 @@ func process_refills():
 func _on_water_body_exited(dry):
 	
 	if dry.is_in_group("player"):
-		dry.JUMP_VELOCITY = -225.0
-		dry.PEAK_VELOCITY = -90.0	
-		dry.STOP_VELOCITY = -80.0
-		dry.JUMP_HEIGHT = 13
-		dry.FAST_FALL = 400.0
 		dry.in_water = false
 		
 	if dry.is_in_group("scorch"):
@@ -346,11 +341,6 @@ func _on_water_body_exited(dry):
 
 func _on_water_body_entered(wet):
 	if wet.is_in_group("player"):
-		wet.JUMP_VELOCITY = -285.0
-		wet.PEAK_VELOCITY = -110.0	
-		wet.STOP_VELOCITY = -110.0
-		wet.JUMP_HEIGHT = 23
-		wet.FAST_FALL = 200.0
 		wet.in_water = true
 		
 	if wet.is_in_group("scorch"):

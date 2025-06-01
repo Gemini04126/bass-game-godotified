@@ -1,0 +1,378 @@
+[gd_scene load_steps=23 format=3 uid="uid://ctqumcmsw5n54"]
+
+[ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xh30l"]
+[ext_resource type="Texture2D" uid="uid://drvy2u5qq0ywr" path="res://sprites/enemies/object_trans/transb1.png" id="2_a7yxp"]
+[ext_resource type="Texture2D" uid="uid://b243ptx5fbl6w" path="res://sprites/enemies/bosses/blaze_scorch.png" id="3_eveaq"]
+[ext_resource type="AudioStream" uid="uid://mcla46x8hsbd" path="res://sounds/scorchambient.wav" id="5_a7yxp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
+shader = ExtResource("1_xh30l")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="GDScript" id="GDScript_uangd"]
+script/source = "extends Enemy_Template
+
+class_name ScorchBarrier
+@onready var projectile
+@onready var timer = $Timer
+
+var attacks : int
+
+func _ready():
+	Cur_HP = 5
+	Dmg_Vals.resize(GameState.DMGTYPE.size())
+	Dmg_Vals[GameState.DMGTYPE.CB_SMOG] = 1
+	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] = 1
+	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 3
+	Dmg_Vals[GameState.DMGTYPE.CB_GALE] = 30
+	Dmg_Vals[GameState.DMGTYPE.CB_ORIGAMI] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 0.75
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_1] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_2] = 3
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_3] = 5
+	
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_1] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_2] = 3
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_3] = 5
+	Dmg_Vals[GameState.DMGTYPE.CR_BLAZE] = -1
+	Dmg_Vals[GameState.DMGTYPE.CR_SHARK1] = 8
+	Dmg_Vals[GameState.DMGTYPE.CR_SHARK2] = 10
+	Dmg_Vals[GameState.DMGTYPE.CR_ARROW] = 3
+	Dmg_Vals[GameState.DMGTYPE.CR_ENKER] = 1
+	Dmg_Vals[GameState.DMGTYPE.CR_PUNK] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_BALLADE] = 5
+	Dmg_Vals[GameState.DMGTYPE.CR_QUINT1] = 4
+	Dmg_Vals[GameState.DMGTYPE.CR_QUINT2] = 1
+	
+	Dmg_Vals[GameState.DMGTYPE.BS_BUSTER] = 1
+	Dmg_Vals[GameState.DMGTYPE.BS_BLAZE] = 3
+	Dmg_Vals[GameState.DMGTYPE.BS_SHARK] = 8
+	Dmg_Vals[GameState.DMGTYPE.BS_TREBLE] = 1
+	
+	Dmg_Vals[GameState.DMGTYPE.MD_BLAZE] = 3
+	Dmg_Vals[GameState.DMGTYPE.MD_VIDEO] = 2
+	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 4
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 0.95
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 1.5
+	
+	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_GALAXY] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_TOP] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_GEMINI] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_GRENADE] = 0.5
+	Dmg_Vals[GameState.DMGTYPE.RA_YAMATO] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA2] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_PHARAOH] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL2] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_WIRE] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_TERRA] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MERCURY] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MARS] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_PLUTO] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2 # Maybe?Atk_Dmg = 4
+	
+
+var baseposx : float
+var baseposy : float
+var trail
+var master
+var theta : float # changed from int to float
+
+var time : int
+var freq = 0.1
+var amplitude = 0.35
+var goalrad : float = 28
+var baserad : float
+
+var rad : float
+var radius : float = 0.8
+
+var dist : float
+var rotatedir : int
+
+var fired : bool
+
+func _physics_process(_delta):
+	#trail = preload(\"res://scenes/objects/bosses/blaze_trail.tscn\").instantiate()
+	#add_sibling(trail)
+	#trail.position = position
+	
+	if master != null:
+		if fired == false:
+			baseposx = master.position.x
+			baseposy = master.position.y
+			rotatedir = master.direction
+		if master.attacking == true:
+			fired = true
+			
+	if Cur_HP <= 0:
+		master.shields -=1
+		queue_free()
+		
+	if Cur_Inv > 0:
+		Cur_Inv -= 1
+		if Cur_Inv % 2 == 0:
+			$Sprite.visible = false
+		else:
+			$Sprite.visible = true
+	else:
+		$Sprite.visible = true
+	
+	if fired == true:
+		if rotatedir == 1:
+			dist += 0.25
+			if dist > 10 :
+				dist += 1
+			if dist > 20 :
+				dist += 1
+			if dist > 30 :
+				dist += 1
+		if rotatedir == -1:
+			dist -=  0.25
+			if dist < -10 :
+				dist -= 1
+			if dist < -20 :
+				dist -= 1
+			if dist < -30 :
+				dist -= 1
+	
+	time += 1
+	if fired == false:
+		
+		baserad = (cos(time * freq) * amplitude)
+		goalrad += baserad
+		
+		if radius < goalrad - 1:
+			radius *= 1.05
+		if radius > goalrad -1 and radius < goalrad + 1:
+			radius = goalrad
+	
+	if (radius > 25) and fired == true:
+		radius -= 2
+
+	if rad_to_deg(theta) > 360:
+		theta -= deg_to_rad(360)
+	
+	if GameState.character_selected == 2:
+		theta += rotatedir*(0.35 * (1 -(radius * 0.020)))
+		
+	else:
+		theta += 0.175 * rotatedir
+	
+	if $AmbientSound.finished:
+		$AmbientSound.play()
+	
+	position.x = dist + baseposx + cos(theta)*radius
+	position.y = baseposy + sin(theta)*radius
+	
+func _on_hitable_body_entered(weapon):
+	#Check for I-Frames or multihit
+	if Cur_Inv <= 0 or (weapon.W_Type == GameState.DMGTYPE.CB_ORIGAMI or GameState.DMGTYPE.CB_REAPER_1 or GameState.DMGTYPE.CB_REAPER_2 or GameState.DMGTYPE.MD_GUERILLA):
+		#Does it do 0 damage?
+		if Dmg_Vals[weapon.W_Type] == 0:
+			#For these, have the projectile dissipate.
+			if (weapon.W_Type == GameState.DMGTYPE.BS_SHARK or GameState.DMGTYPE.CR_SHARK1 or GameState.DMGTYPE.CR_SHARK2):
+				weapon.destroy()
+			#For all others, the projectile bounces off. Plink!
+			else:
+				weapon.destroy()
+		#Cool, it does damage!!
+		else:
+			#Is it Scorch Barrier?
+			if weapon.is_in_group(\"scorch\"):
+				#For most characters, reduce durability by...
+				if GameState.character_selected != 2:
+					weapon.durability -= 1
+				#Copy robot isn't so lucky...
+				else:
+					weapon.durability -= 2
+			#Look up the damage type and do damage according to it.
+			Cur_HP -= Dmg_Vals[weapon.W_Type]
+			Cur_Inv = 2
+			print(weapon.W_Type)
+			
+			#If the projectile kills, or are the below weapons on hit, go to the kill state!
+			if Cur_HP <= 0 or (weapon.W_Type == GameState.DMGTYPE.CR_SHARK1 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2 or weapon.W_Type == GameState.DMGTYPE.BS_SHARK):
+				weapon.kill()
+				print(weapon.W_Type)
+			else:
+				weapon.destroy()
+				if Cur_HP <= 3:
+					$Sprite.play(\"Mid\")
+				if Cur_HP == 1:
+					$Sprite.play(\"Weak\")
+				
+				
+func _on_hurt_body_entered(body):
+	body.DmgQueue = Atk_Dmg
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	master.shields -= 1
+	queue_free()
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3u8v0"]
+shader = ExtResource("1_xh30l")
+shader_parameter/palette = ExtResource("2_a7yxp")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iwcsl"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mshqg"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h8t3n"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drbry"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xh30l"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7yxp"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eveaq"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgy5m"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1ftn"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ifjv"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwmrr"]
+atlas = ExtResource("3_eveaq")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g1ftn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iwcsl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mshqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h8t3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drbry")
+}],
+"loop": true,
+"name": &"Full",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xh30l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7yxp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eveaq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgy5m")
+}],
+"loop": true,
+"name": &"Mid",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1ftn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ifjv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vwmrr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ifjv")
+}],
+"loop": true,
+"name": &"Weak",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ifjv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vwmrr"]
+size = Vector2(12, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nl24n"]
+size = Vector2(28, 27)
+
+[node name="Scorch Barrier" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_gtk0d")
+collision_layer = 0
+script = SubResource("GDScript_uangd")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_3u8v0")
+sprite_frames = SubResource("SpriteFrames_g1ftn")
+animation = &"Weak"
+autoplay = "Full"
+frame_progress = 0.948961
+
+[node name="hitable" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+
+[node name="MainHitbox" type="CollisionShape2D" parent="hitable"]
+shape = SubResource("RectangleShape2D_4ifjv")
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="Hurtbox" type="CollisionShape2D" parent="hurt"]
+shape = SubResource("RectangleShape2D_vwmrr")
+debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_nl24n")
+debug_color = Color(0, 1, 0.0705882, 0.419608)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="AmbientSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_a7yxp")
+volume_db = 2.0
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="hitable" to="." method="_on_hitable_body_entered"]
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

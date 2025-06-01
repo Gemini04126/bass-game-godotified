@@ -141,6 +141,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_g3ewl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s3yrw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7y71r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7y71r")
+}],
+"loop": false,
+"name": &"BassFast",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": null
 }, {
 "duration": 1.0,
@@ -197,6 +214,7 @@ size = Vector2(42.1053, 27)
 [node name="Fin Shredder" type="CharacterBody2D"]
 z_index = 2
 collision_layer = 8
+floor_snap_length = 3.0
 script = ExtResource("1_nr124")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -204,9 +222,10 @@ material = SubResource("ShaderMaterial_ygio2")
 position = Vector2(-0.178566, 0)
 scale = Vector2(1.01948, 1)
 sprite_frames = SubResource("SpriteFrames_tmmfq")
-animation = &"Copy"
+animation = &"BassFast"
 autoplay = "Bass"
-frame_progress = 0.459108
+frame = 3
+frame_progress = 1.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(-1.13687e-13, 2)

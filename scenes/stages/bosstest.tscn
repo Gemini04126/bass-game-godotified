@@ -73,6 +73,8 @@ position = Vector2(692, 97)
 
 [node name="Spawner2" parent="." instance=ExtResource("6_2kp8o")]
 position = Vector2(579, 288)
+type = 2
+music = 4
 
 [node name="Spawner4" parent="." instance=ExtResource("6_2kp8o")]
 position = Vector2(307, 540)

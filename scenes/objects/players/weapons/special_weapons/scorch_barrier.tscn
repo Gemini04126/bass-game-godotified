@@ -224,9 +224,8 @@ material = SubResource("ShaderMaterial_fyvtn")
 position = Vector2(-0.25, 0)
 scale = Vector2(1.02381, 1)
 sprite_frames = SubResource("SpriteFrames_tmmfq")
-animation = &"Bass-Move"
+animation = &"Bass"
 autoplay = "Bass"
-frame_progress = 0.594663
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." groups=["scorch"]]
 position = Vector2(-2.86102e-06, 0.499992)

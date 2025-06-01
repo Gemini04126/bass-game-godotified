@@ -1,21 +1,26 @@
 extends CharacterBody2D
 
 var W_Type = GameState.DMGTYPE.BS_SHARK
+var wait : int
 var dying : bool
+var readied : bool
 
 func _ready():
 	$SpawnSound.play()
+	wait = 8
 	if GameState.character_selected == 2:
 		$AnimatedSprite2D.play("Copy")
-		W_Type = GameState.DMGTYPE.CR_SHARK1
 		$BassHitbox.queue_free()
 	else:
 		$AnimatedSprite2D.play("Bass")
 		$CopyHitbox.queue_free()
-	velocity.y = 2
+	
 		
 		
 func _physics_process(_delta):
+	
+	wait -= 1
+	
 	move_and_slide()
 	
 	if GameState.player != null:
@@ -24,24 +29,34 @@ func _physics_process(_delta):
 	if GameState.current_weapon != GameState.WEAPONS.SHARK:
 		queue_free()
 	
-	if (($AnimatedSprite2D.animation == "Bass") or ($AnimatedSprite2D.animation == "Copy")) and ($AnimatedSprite2D.get_frame() == 3) and (is_on_floor()):
+	if ($AnimatedSprite2D.animation == "Bass") and readied == true:
+		$AnimatedSprite2D.play("BassFast")
+	
+	if (($AnimatedSprite2D.animation == "Bass") or ($AnimatedSprite2D.animation == "Copy") or ($AnimatedSprite2D.animation == "BassFast")) and ($AnimatedSprite2D.get_frame() == 3) and (is_on_floor()):
 		if !GameState.character_selected == 2:
 			velocity.x = velocity.x * 4
 			$AnimatedSprite2D.play("Bass-loop")
 		else:
-			velocity.x = velocity.x * 300
+			velocity.x = velocity.x * 225
 			$AnimatedSprite2D.play("Copy-loop")
 	
 	if dying == true:
 		if ($AnimatedSprite2D.get_frame() == 0):
-			velocity.x = velocity.x * 0.7
-		velocity.x = velocity.x * 0.8
+			if readied == true:
+				velocity.x = velocity.x * 0.8
+			else:
+				velocity.x = velocity.x * 0.7
+			
+		if readied == true:
+			velocity.x = velocity.x * 0.9
+		else:
+			velocity.x = velocity.x * 0.8
 		if ($AnimatedSprite2D.get_frame() == 3):
 			GameState.onscreen_sp_bullets -= 1
 			queue_free()
 	
 	
-	if !is_on_floor() or velocity.x == 0:
+	if (!is_on_floor() or velocity.x == 0) and wait < 1:
 		destroy()
 	
 
