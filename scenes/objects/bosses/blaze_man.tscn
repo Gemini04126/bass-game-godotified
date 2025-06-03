@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://xwoub3th7bmx" path="res://sprites/enemies/bosses/shark_man.png" id="3_nq1ve"]
 [ext_resource type="AudioStream" uid="uid://ctstbffrq85ky" path="res://sounds/bar_fill.wav" id="4_1cana"]
 [ext_resource type="Texture2D" uid="uid://bfml3lwo6jc0w" path="res://sprites/enemies/bosses/blaze_man.png" id="4_d3gm3"]
-[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/playerhurt.wav" id="5_yhebs"]
+[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/player_hurt.wav" id="5_yhebs"]
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="6_2cevd"]
 [ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="7_iwiwa"]
 [ext_resource type="AudioStream" uid="uid://lap56ylqg4a6" path="res://sounds/scythe2.wav" id="8_da0kd"]

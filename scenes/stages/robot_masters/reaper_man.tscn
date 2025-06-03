@@ -9,6 +9,7 @@
 
 [node name="Reaper Man" type="Node2D"]
 script = ExtResource("1_n84sh")
+boss_weapon = 8
 C1scrollX2 = 45
 C1scrollY2 = 4
 

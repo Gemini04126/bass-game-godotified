@@ -15,14 +15,14 @@
 [ext_resource type="AudioStream" uid="uid://cgaetckoiu15m" path="res://sounds/land.wav" id="13_covr8"]
 [ext_resource type="AudioStream" uid="uid://h87d8b65n30n" path="res://sounds/slide.wav" id="14_5w5ww"]
 [ext_resource type="AudioStream" uid="uid://ds4m68uui1avq" path="res://sounds/switch.wav" id="15_nk8es"]
-[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/playerhurt.wav" id="16_006fw"]
+[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/player_hurt.wav" id="16_006fw"]
 [ext_resource type="AudioStream" uid="uid://b73ktw1kw5fms" path="res://sounds/cr_charge1.wav" id="17_r83u2"]
 [ext_resource type="AudioStream" uid="uid://c5ihh7o02sag7" path="res://sounds/cr_charge2.wav" id="18_a87jw"]
 [ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="19_1fqrs"]
 [ext_resource type="AudioStream" uid="uid://crjlkw50illgr" path="res://sounds/enemykill.wav" id="20_5v68v"]
 [ext_resource type="AudioStream" uid="uid://gm5p36ys1f14" path="res://sounds/cr_chargeshot.wav" id="21_jiekj"]
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="22_ykr8j"]
-[ext_resource type="AudioStream" uid="uid://b5ogbbgcst441" path="res://sounds/start_copy.wav" id="23_q803e"]
+[ext_resource type="AudioStream" uid="uid://b5ogbbgcst441" path="res://sounds/cr_start.wav" id="23_q803e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qymoq"]
 shader = ExtResource("1_j85hj")

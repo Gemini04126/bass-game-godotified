@@ -39,6 +39,7 @@ size = Vector2(20, 6.77417)
 
 [node name="Guerrilla Man" type="Node2D"]
 script = ExtResource("1_vyele")
+boss_weapon = 7
 C1scrollX2 = 3
 C1scrollY1 = 7
 C1scrollY2 = 7

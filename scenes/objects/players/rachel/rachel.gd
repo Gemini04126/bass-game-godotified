@@ -1,7 +1,7 @@
 extends MaestroPlayer
 
 # Enums
-enum WEAPONS {BUSTER, GALAXY, TOP, GEMINI, GRENADE, YAMATO, MAGMA, PHARAOH, CHILL, WIRE, BALLOON, MAGNET, TERRA, MERCURY, MARS, PLUTO, ROSE}
+enum WEAPONS {BUSTER, GALAXY, TOP, GEMINI, GRENADE, YAMATO, MAGMA, PHARAOH, CHILL, ROSE, WIRE, BALLOON, MAGNET, TERRA, MERCURY, MARS, PLUTO}
 
 # References
 @onready var rapid_timer = $Timers/RapidTimer
@@ -17,6 +17,7 @@ func _init() -> void:
 		preload("res://sprites/players/rachel/palettes/Magma Bazooka.png"),
 		preload("res://sprites/players/rachel/palettes/Pharaoh Wave.png"),
 		preload("res://sprites/players/rachel/palettes/Chill Spike.png"),
+		preload("res://sprites/players/rachel/palettes/Piko Hammer.png"),
 		preload("res://sprites/players/rachel/palettes/Adaptors.png"),
 		preload("res://sprites/players/rachel/palettes/Adaptors.png"),
 		preload("res://sprites/players/rachel/palettes/Magnet Beam.png"),
@@ -24,7 +25,6 @@ func _init() -> void:
 		preload("res://sprites/players/rachel/palettes/Grab Buster.png"),
 		preload("res://sprites/players/rachel/palettes/Photon Missile.png"),
 		preload("res://sprites/players/rachel/palettes/Break Dash.png"),
-		preload("res://sprites/players/rachel/palettes/Piko Hammer.png"),
 		preload("res://sprites/players/copy_robot/palettes/ChargeX1.png"),
 		preload("res://sprites/players/copy_robot/palettes/ChargeX2.png"),
 		preload("res://sprites/players/rachel/palettes/BreakCharge0.png"),
@@ -77,6 +77,10 @@ func processShoot():
 				if Input.is_action_just_pressed("shoot"):
 					busterAnimMatch()
 					weapon_chill()
+			WEAPONS.ROSE:
+				if Input.is_action_just_pressed("shoot"):
+					# holy shit this one's gonna be complex
+					weapon_rose()
 			WEAPONS.WIRE:
 				if Input.is_action_just_pressed("shoot"):
 					#the animation match stuff is within the actual weapon since its a special state
@@ -105,10 +109,6 @@ func processShoot():
 				if Input.is_action_pressed("shoot"):
 					#the animation match stuff is within the actual weapon since its a special state AND a two-parter
 					weapon_pluto()
-			WEAPONS.ROSE:
-				if Input.is_action_just_pressed("shoot"):
-					# holy shit this one's gonna be complex
-					weapon_rose()
 
 # ================
 # WEAPON FUNCTIONS
@@ -180,6 +180,12 @@ func weapon_pharaoh():
 ## Uses 1 WE. Glob deals 1 damage and freezes the enemy it hit, and spikes deal 2 damage.
 ## Fires a glob of an instantly-freezing material in an arc. Creates ice spikes when it hits a wall or floor, which break on contact or after a little bit of inactivity.
 func weapon_chill():
+	return
+
+## Piko Hammer
+## Uses ? WE, and deals ? damage.
+## A melee weapon that bounces you off of enemies when hit from above.
+func weapon_rose():
 	return
 
 ## Wire Adaptor
@@ -265,12 +271,6 @@ func weapon_pluto():
 		$Audio/Charge1.stop()
 		$Audio/Charge2.stop()
 		return
-
-## Piko Hammer
-## Uses ? WE, and deals ? damage.
-## A melee weapon that bounces you off of enemies when hit from above.
-func weapon_rose():
-	return
 	
 func processCharge():
 	if weaponflashtimer < 2:

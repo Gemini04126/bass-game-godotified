@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkfl0rqds5f2f"
-path="res://.godot/imported/stageseltrans.png-4a9c8fdc99726a2b0b9ea7c93027cad8.ctex"
+uid="uid://6g65o3p6ybya"
+path="res://.godot/imported/Weapon Get Portraits.png-c84d93db483416bf62b263a16ff27650.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/players/protoman/stageseltrans.png"
-dest_files=["res://.godot/imported/stageseltrans.png-4a9c8fdc99726a2b0b9ea7c93027cad8.ctex"]
+source_file="res://sprites/menus/Weapon Get Portraits.png"
+dest_files=["res://.godot/imported/Weapon Get Portraits.png-c84d93db483416bf62b263a16ff27650.ctex"]
 
 [params]
 

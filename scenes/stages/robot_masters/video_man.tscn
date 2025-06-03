@@ -326,6 +326,7 @@ size = Vector2(16, 110)
 
 [node name="Video Man" type="Node2D"]
 script = ExtResource("1_hs2cl")
+boss_weapon = 2
 C1scrollX1 = 1
 C1scrollX2 = 2
 C1scrollY1 = 1

@@ -1285,6 +1285,9 @@ func victory(delta):
 		velocity.y = -320
 		$mainCollision.disabled = true
 
+	if deathtime == 180:
+		end_level()
+
 ## A basic projectile attack.
 ##
 ## scenePath: A String with the path to the desired scene.
@@ -1368,3 +1371,11 @@ func SpreadProjectileAttack(scenePath: String, amount : int, spread : float, spe
 		angler += interval
 		
 		count += 1
+
+func end_level() -> void:
+	await Fade.fade_out().finished
+	if GameState.stage_action == 0:
+		get_tree().change_scene_to_file("res://scenes/menus/weapon_get.tscn")
+	elif GameState.stage_action == 1:
+		get_tree().change_scene_to_file("res://scenes/menus/stage_select.tscn")
+	Fade.fade_in()

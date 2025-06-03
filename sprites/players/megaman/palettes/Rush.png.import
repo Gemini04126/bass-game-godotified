@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkfl0rqds5f2f"
-path="res://.godot/imported/stageseltrans.png-4a9c8fdc99726a2b0b9ea7c93027cad8.ctex"
+uid="uid://cwaiqgo0q6w4b"
+path="res://.godot/imported/Rush.png-0b5ec9a8d073576d2a538cd9b10e6886.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/players/protoman/stageseltrans.png"
-dest_files=["res://.godot/imported/stageseltrans.png-4a9c8fdc99726a2b0b9ea7c93027cad8.ctex"]
+source_file="res://sprites/players/megaman/palettes/Rush.png"
+dest_files=["res://.godot/imported/Rush.png-0b5ec9a8d073576d2a538cd9b10e6886.ctex"]
 
 [params]
 

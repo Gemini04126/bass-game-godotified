@@ -773,5 +773,5 @@ func victory(delta):
 		$mainCollision.disabled = true
 		
 	if deathtime == 580:
-		Fade.fade_out()
+		end_level()
 		

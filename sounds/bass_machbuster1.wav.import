@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dsb2rfsve51ay"
-path="res://.godot/imported/machbuster.wav-1a04d28ae2cb71cc12f058f44a6cf920.sample"
+path="res://.godot/imported/bass_machbuster1.wav-cc4a36c287c3ffb99365b94f1efe14b7.sample"
 
 [deps]
 
-source_file="res://sounds/machbuster.wav"
-dest_files=["res://.godot/imported/machbuster.wav-1a04d28ae2cb71cc12f058f44a6cf920.sample"]
+source_file="res://sounds/bass_machbuster1.wav"
+dest_files=["res://.godot/imported/bass_machbuster1.wav-cc4a36c287c3ffb99365b94f1efe14b7.sample"]
 
 [params]
 

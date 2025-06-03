@@ -30,6 +30,7 @@ size = Vector2(4, 64)
 
 [node name="Blaze Man" type="Node2D"]
 script = ExtResource("1_eg6rr")
+boss_weapon = 1
 C1scrollX2 = 2
 
 [node name="Background" type="Node2D" parent="."]
@@ -222,7 +223,6 @@ tile_set = ExtResource("8_bsbp6")
 position = Vector2(1143, 38)
 scrollX1 = 3
 scrollX2 = 3
-direction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenTriggers/Screen Trigger"]
 position = Vector2(0, 2)
@@ -266,7 +266,6 @@ scrollX1 = 4
 scrollX2 = 7
 scrollY1 = 2
 scrollY2 = 2
-direction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenTriggers/Screen Trigger4"]
 shape = SubResource("RectangleShape2D_hx8yc")

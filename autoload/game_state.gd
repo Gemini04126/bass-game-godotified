@@ -115,6 +115,8 @@ var stageSelectColorTranslations : Array[String] = [
 	"res://sprites/players/rachel/stageseltrans.png"
 ]
 
+var stage_action : int
+var stage_boss_weapon : int
 
 var maxCharacterID = characters.size() - 1 # Whyyyyy...?
 var character_selected : int
@@ -127,12 +129,13 @@ var bossfightstatus : int = 0
 # 3: You win!
 var bossestokill : int = 0
 
-#0 : None. 1 : Stage. 2: Boss. 3:FortressBoss
+## Currently playing music. 0: None. 1: Stage. 2: Boss. 3: Fortress Boss.
 var musicplaying : int = 0 
 
 var pausescreen
 var hit_stop : int
 
+## An array of boss nodes.
 var bosses : Array[Node2D]
 
 # TODO: Could be improved using object pooling
@@ -147,8 +150,6 @@ var freezeticks : int = 0
 
 var galeforce : float # converted from int to float
 
-var playerposx
-var playerposy
 var playerstate
 var middleroom : int
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://cmprdt8hpb1ak"]
+[gd_scene load_steps=62 format=3 uid="uid://cmprdt8hpb1ak"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_o4mto"]
 [ext_resource type="Texture2D" uid="uid://coda44lape3o6" path="res://sprites/players/rachel/palettes/Rachel Buster.png" id="2_nxsrt"]
@@ -13,7 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://cgaetckoiu15m" path="res://sounds/land.wav" id="11_eb1fa"]
 [ext_resource type="AudioStream" uid="uid://h87d8b65n30n" path="res://sounds/slide.wav" id="12_tx6bm"]
 [ext_resource type="AudioStream" uid="uid://ds4m68uui1avq" path="res://sounds/switch.wav" id="13_fx324"]
-[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/playerhurt.wav" id="14_rt6b2"]
+[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/player_hurt.wav" id="14_rt6b2"]
 [ext_resource type="AudioStream" uid="uid://b73ktw1kw5fms" path="res://sounds/cr_charge1.wav" id="15_w4d5b"]
 [ext_resource type="AudioStream" uid="uid://c5ihh7o02sag7" path="res://sounds/cr_charge2.wav" id="16_kb5t1"]
 [ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="17_ott3p"]
@@ -416,6 +416,22 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_eb1fa"]
+resource_name = "VICTORY_TELEPORT"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [2, 5, 6, 7, 8, 9, 10]
+}
+
 [sub_resource type="Animation" id="Animation_uaigh"]
 length = 0.700117
 loop_mode = 1
@@ -501,6 +517,7 @@ _data = {
 &"STEP": SubResource("Animation_33c1p"),
 &"TELEPORT": SubResource("Animation_p6ymo"),
 &"TELEPORT_LANDING": SubResource("Animation_dbqgi"),
+&"VICTORY_TELEPORT": SubResource("Animation_eb1fa"),
 &"WALK": SubResource("Animation_uaigh"),
 &"WALKING_SHOOT": SubResource("Animation_jomt1"),
 &"WARPING": SubResource("Animation_tiadc"),
@@ -749,6 +766,7 @@ bus = &"SFX"
 
 [node name="Land" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("11_eb1fa")
+volume_db = -10.0
 bus = &"SFX"
 
 [node name="Slide" type="AudioStreamPlayer" parent="Audio"]

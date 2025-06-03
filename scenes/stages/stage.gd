@@ -6,6 +6,9 @@ extends Node2D
 
 @export var bosses : int
 
+@export_enum("Weapon Get Screen", "Stage Select Screen") var action = 0
+@export_enum("Nothing", "Blaze", "Video", "Smog", "Shark", "Origami", "Gale", "Guerrilla", "Reaper", "Proto", "Treble", "Carry", "Arrow", "Enker", "Punk", "Ballade", "Quint") var boss_weapon : int = GameState.WEAPONS.BUSTER
+
 @export var C1screenmode : int
 @export var C1scrollX1 : int
 @export var C1scrollX2 : int
@@ -31,6 +34,8 @@ var refilltimer : int
 var voffset : int = 8
 
 func _ready():
+	GameState.stage_action = action
+	GameState.stage_boss_weapon = boss_weapon
 	if GameState.bossestokill == 0:
 		GameState.bossestokill = bosses 
 	GameState.musicplaying = 0
@@ -41,8 +46,6 @@ func _ready():
 	GameState.galeforce = 0
 	GameState.transdir = 0
 	GameState.player = null
-	GameState.playerposx = 0
-	GameState.playerposy = 0
 	if GameState.upgrades_enabled[0] == true:
 		GameState.max_HP = 36
 	else:

@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bs0mejrwjlexo" path="res://sprites/menus/MegaJet.png" id="5_g1yjr"]
 [ext_resource type="Texture2D" uid="uid://c8sv8718ps0on" path="res://sprites/players/copy_robot/weapons/BusterLarge.png" id="6_xkycx"]
 [ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="8_h4xx4"]
-[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/playerhurt.wav" id="9_4wurb"]
+[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/player_hurt.wav" id="9_4wurb"]
 [ext_resource type="AudioStream" uid="uid://gm5p36ys1f14" path="res://sounds/cr_chargeshot.wav" id="11_kdu6f"]
 [ext_resource type="AudioStream" uid="uid://h87d8b65n30n" path="res://sounds/slide.wav" id="12_cqlu3"]
 

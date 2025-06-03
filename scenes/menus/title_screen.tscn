@@ -50,16 +50,21 @@ texture = ExtResource("2_11mew")
 stretch_mode = 4
 
 [node name="ItemList" type="ItemList" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+clip_contents = false
 layout_mode = 2
+focus_neighbor_bottom = NodePath("../ItemList2")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/panel = SubResource("StyleBoxFlat_l4n2s")
 allow_search = false
+auto_width = true
 auto_height = true
-item_count = 4
+item_count = 6
 item_0/text = "MAESTRO"
 item_1/text = "BASS"
 item_2/text = "COPY ROBOT"
-item_3/text = "MEGAMAN (not implemented)"
+item_3/text = "MEGAMAN"
+item_4/text = "PROTOMAN (not implemented)"
+item_5/text = "RACHEL"
 
 [node name="StartButton" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2

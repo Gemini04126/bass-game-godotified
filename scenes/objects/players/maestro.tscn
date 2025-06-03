@@ -13,7 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://cgaetckoiu15m" path="res://sounds/land.wav" id="9_3h8mb"]
 [ext_resource type="AudioStream" uid="uid://h87d8b65n30n" path="res://sounds/slide.wav" id="10_ubtaa"]
 [ext_resource type="AudioStream" uid="uid://ds4m68uui1avq" path="res://sounds/switch.wav" id="11_u3nua"]
-[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/playerhurt.wav" id="12_38jsf"]
+[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/player_hurt.wav" id="12_38jsf"]
 [ext_resource type="AudioStream" uid="uid://rm3ckgibk0u5" path="res://sounds/charge1.wav" id="13_u3nua"]
 [ext_resource type="AudioStream" uid="uid://dnnvv4semeufh" path="res://sounds/charge2.ogg" id="14_38jsf"]
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="15_gi8v7"]
@@ -712,7 +712,7 @@ z_index = 1
 material = SubResource("ShaderMaterial_dtetj")
 texture = ExtResource("4_w3lef")
 hframes = 35
-frame = 34
+frame = 26
 
 [node name="ScytheChargeFX" type="AnimatedSprite2D" parent="."]
 z_index = 3

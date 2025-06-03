@@ -126,6 +126,7 @@ size = Vector2(18, 4)
 
 [node name="Origami Man" type="Node2D"]
 script = ExtResource("1_ars04")
+boss_weapon = 5
 C1scrollX2 = 2
 
 [node name="Layer-1" type="TileMapLayer" parent="."]

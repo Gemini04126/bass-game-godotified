@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://belt2mwnwnqos" path="res://sprites/hud/bossbarpals/test.png" id="2_8am6b"]
 [ext_resource type="Texture2D" uid="uid://daefccg61j7bv" path="res://sprites/enemies/sniper_joe.png" id="2_soadc"]
 [ext_resource type="AudioStream" uid="uid://ctstbffrq85ky" path="res://sounds/bar_fill.wav" id="3_soadc"]
-[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/playerhurt.wav" id="4_epx4v"]
+[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/player_hurt.wav" id="4_epx4v"]
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="5_y84bs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
