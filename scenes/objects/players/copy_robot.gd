@@ -28,7 +28,7 @@ func _init() -> void:
 	weapon_palette = [
 		preload("res://sprites/players/copy_robot/palettes/Copy Buster.png"),
 		preload("res://sprites/players/copy_robot/palettes/Scorch Barrier.png"),
-		preload("res://sprites/players/copy_robot/palettes/Track 2.png"),
+		preload("res://sprites/players/copy_robot/palettes/Freeze Frame.png"),
 		preload("res://sprites/players/copy_robot/palettes/Poison Cloud.png"),
 		preload("res://sprites/players/copy_robot/palettes/Fin Shredder.png"),
 		preload("res://sprites/players/copy_robot/palettes/Origami Star.png"),

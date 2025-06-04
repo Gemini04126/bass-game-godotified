@@ -1076,6 +1076,7 @@ bus = &"SFX"
 
 [node name="Land" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("13_covr8")
+volume_db = -10.0
 bus = &"SFX"
 
 [node name="Slide" type="AudioStreamPlayer" parent="Audio"]

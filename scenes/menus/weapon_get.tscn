@@ -1,8 +1,8 @@
-[gd_scene load_steps=29 format=4 uid="uid://qwpduouc7wal"]
+[gd_scene load_steps=58 format=4 uid="uid://qwpduouc7wal"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_v07bh"]
 [ext_resource type="AudioStream" uid="uid://n2qyso7kkxfj" path="res://music/Weapon Get.mp3" id="2_rwyj5"]
-[ext_resource type="Texture2D" uid="uid://dcnuph2abwp7o" path="res://sprites/menus/WeaponGet/Bass.png" id="2_v07bh"]
+[ext_resource type="Texture2D" uid="uid://6g65o3p6ybya" path="res://sprites/menus/Weapon Get Portraits.png" id="4_b7nic"]
 [ext_resource type="TileSet" uid="uid://buvesedl67lpj" path="res://tilesets/stage_select.tres" id="4_qjs57"]
 [ext_resource type="Texture2D" uid="uid://qwdi35jvf2y8" path="res://sprites/fade.png" id="5_qjs57"]
 
@@ -159,7 +159,7 @@ const WEAPON_PALETTES : Array[Texture2D] = [
 	# Copy Robot
 	preload(\"res://sprites/players/copy_robot/palettes/Copy Buster.png\"),
 	preload(\"res://sprites/players/copy_robot/palettes/Scorch Barrier.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Track 2.png\"),
+	preload(\"res://sprites/players/copy_robot/palettes/Freeze Frame.png\"),
 	preload(\"res://sprites/players/copy_robot/palettes/Poison Cloud.png\"),
 	preload(\"res://sprites/players/copy_robot/palettes/Fin Shredder.png\"),
 	preload(\"res://sprites/players/copy_robot/palettes/Origami Star.png\"),
@@ -230,146 +230,50 @@ const WEAPON_PALETTES : Array[Texture2D] = [
 	preload(\"res://sprites/players/rachel/palettes/Break Dash.png\")
 ]
 
-const BEAM_PALETTES : Array[Texture2D] = [
-	# Maestro
-	preload(\"res://sprites/players/maestro/palettes/Maestro Buster.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Scorch Barrier.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Track 2.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Poison Cloud.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Fin Shredder.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Origami Star.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Wild Gale.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Rolling Bomb.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Boomerang Scythe.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Maestro Buster.png\"), # Proto Shield
-	preload(\"res://sprites/players/maestro/palettes/Treble.png\"), # \"Treble Boost\" (skip it)
-	preload(\"res://sprites/players/maestro/palettes/Carry.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Super Arrow.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Mirror Buster.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Screw Crusher.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Ballade Cracker.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Sakugarne.png\"),
-	# Bass
-	preload(\"res://sprites/players/bass/palettes/Bass Buster.png\"),
-	preload(\"res://sprites/players/bass/palettes/Scorch Barrier.png\"),
-	preload(\"res://sprites/players/bass/palettes/Freeze Frame.png\"),
-	preload(\"res://sprites/players/bass/palettes/Poison Cloud.png\"),
-	preload(\"res://sprites/players/bass/palettes/Fin Shredder.png\"),
-	preload(\"res://sprites/players/bass/palettes/Origami Star.png\"),
-	preload(\"res://sprites/players/bass/palettes/Wild Gale.png\"),
-	preload(\"res://sprites/players/bass/palettes/Rolling Bomb.png\"),
-	preload(\"res://sprites/players/bass/palettes/Boomerang Scythe.png\"),
-	preload(\"res://sprites/players/bass/palettes/Proto Buster.png\"),
-	preload(\"res://sprites/players/bass/palettes/Treble.png\"),
-	preload(\"res://sprites/players/bass/palettes/Bass Buster.png\"),
-	preload(\"res://sprites/players/bass/palettes/Bass Buster.png\"),
-	preload(\"res://sprites/players/bass/palettes/Bass Buster.png\"),
-	preload(\"res://sprites/players/bass/palettes/Bass Buster.png\"),
-	preload(\"res://sprites/players/bass/palettes/Bass Buster.png\"),
-	preload(\"res://sprites/players/bass/palettes/Bass Buster.png\"),
-	# Copy Robot
-	preload(\"res://sprites/players/copy_robot/menutrans/weaponget_null.png\"),
-	preload(\"res://sprites/players/copy_robot/menutrans/weaponget_blaze.png\"),
-	preload(\"res://sprites/players/copy_robot/menutrans/weaponget_video.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Poison Cloud.png\"),
-	preload(\"res://sprites/players/copy_robot/menutrans/weaponget_shark.png\"),
-	preload(\"res://sprites/players/copy_robot/menutrans/weaponget_origami.png\"),
-	preload(\"res://sprites/players/copy_robot/menutrans/weaponget_gale.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Rolling Bomb.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Boomerang Scythe.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Copy Buster.png\"), # Proto Shield
-	preload(\"res://sprites/players/copy_robot/palettes/Copy Buster.png\"), # \"Treble Boost\" (skip it)
-	preload(\"res://sprites/players/copy_robot/palettes/Carry.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Super Arrow.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Mirror Buster.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Screw Crusher.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Ballade Cracker.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Sakugarne.png\"),
-	# Mega Man
-	preload(\"res://sprites/players/megaman/palettes/MegaBuster.png\"),
-	preload(\"res://sprites/players/megaman/palettes/MagmaWave.png\"),
-	preload(\"res://sprites/players/megaman/palettes/WreckingBall.png\"),
-	preload(\"res://sprites/players/megaman/palettes/VoltBarrier.png\"),
-	preload(\"res://sprites/players/megaman/palettes/TripleThorn.png\"),
-	preload(\"res://sprites/players/megaman/palettes/RockSlam.png\"),
-	preload(\"res://sprites/players/megaman/palettes/DrillDropper.png\"),
-	preload(\"res://sprites/players/megaman/palettes/PlasmaBlade.png\"),
-	preload(\"res://sprites/players/megaman/palettes/SuperNova.png\"),
-	preload(\"res://sprites/players/megaman/palettes/MegaBall.png\"),
-	preload(\"res://sprites/players/megaman/palettes/Rush.png\"),
-	preload(\"res://sprites/players/megaman/palettes/Rush.png\"),
-	preload(\"res://sprites/players/megaman/palettes/Rush.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Mirror Buster.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Screw Crusher.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Ballade Cracker.png\"),
-	preload(\"res://sprites/players/copy_robot/palettes/Sakugarne.png\"),
-	# Proto Man
-	preload(\"res://sprites/players/protoman/palettes/Proto Buster.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Scorch Barrier.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Track 2.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Poison Cloud.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Fin Shredder.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Origami Star.png\"),
-	preload(\"res://sprites/players/protoman/palettes/Gale Force.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Rolling Bomb.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Boomerang Scythe.png\"),
-	preload(\"res://sprites/players/protoman/palettes/Proto Buster.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Treble.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Carry.png\"),
-	preload(\"res://sprites/players/maestro/palettes/Super Arrow.png\"),
-	preload(\"res://sprites/players/protoman/palettes/Proto Buster.png\"),
-	preload(\"res://sprites/players/protoman/palettes/Proto Buster.png\"),
-	preload(\"res://sprites/players/protoman/palettes/Proto Buster.png\"),
-	preload(\"res://sprites/players/protoman/palettes/Proto Buster.png\"),
-	# Rachel
-	preload(\"res://sprites/players/rachel/palettes/Rachel Buster.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Black Hole Bomb.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Top Spin.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Gemini Laser.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Flash Bomb.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Yamato Spear.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Magma Bazooka.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Pharaoh Wave.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Chill Spike.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Piko Hammer.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Adaptors.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Adaptors.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Magnet Beam.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Spark Chaser.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Grab Buster.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Photon Missile.png\"),
-	preload(\"res://sprites/players/rachel/palettes/Break Dash.png\")
-]
-
 var delay : int = 0
 
 func _ready() -> void:
 	$Sprite.material.set_shader_parameter(\"palette\", WEAPON_PALETTES[(GameState.character_selected * GameState.WEAPONS.size())])
-	$Energy.material.set_shader_parameter(\"palette\", BEAM_PALETTES[(GameState.character_selected * GameState.WEAPONS.size())])
-	if GameState.character_selected == 1:
-		$Sprite.play(\"Bass\")
-	#G: I wonder if we can still access the player's weapon palette table...? Eh, probably not, since they got unloaded
-	# for the character's original color, uncomment the line below
+	$Energy.material.set_shader_parameter(\"palette\", WEAPON_PALETTES[(GameState.character_selected * GameState.WEAPONS.size())])
+	match GameState.character_selected:
+		0: # Maestro
+			$Sprite.play(\"Maestro\")
+		1: # Bass
+			$Sprite.play(\"Bass\")
+		2: # Copy Robot
+			$Sprite.play(\"Copy Robot\")
+		3: # Mega Man
+			$Sprite.play(\"Mega Man\")
+		4: # Proto Man
+			$Sprite.play(\"Proto Man\")
+		5: # Rachel
+			$Sprite.play(\"Rachel\")
+	$Sprite.pause()
 	if GameState.character_selected != 5: # if not Rachel
 		$RichTextLabel.text = \"YOU GOT\\n\" + WEAPON_NAMES[(GameState.character_selected * GameState.WEAPONS.size()) + GameState.stage_boss_weapon]
 	else:
 		$RichTextLabel.text = \"RACHEL REMEMBERED SHE HAD\\n\" + WEAPON_NAMES[(GameState.character_selected * GameState.WEAPONS.size()) + GameState.stage_boss_weapon]
 
 func _physics_process(delta: float) -> void:
-	if $Sprite.position.x > 300:
-		$Sprite.speed_scale = 1
-	
 	if $Sprite.position.x < 320:
-		$Sprite.position.x += 3
+		if $Sprite.position.x > 319:
+			$Sprite.position.x = move_toward($Sprite.position.x, 320, 0.25)
+			$Sprite.play()
+			if $Sprite.animation == \"Copy Robot\":
+				await $Sprite.animation_finished
+				$Sprite.play(\"Copy Robot Loop\")
+		else:
+			#G: this shit never reaches exactly 320 and that makes me mad so i'm just gonna stop lerping at a certain point
+			$Sprite.position.x = lerp($Sprite.position.x, 320.0, delta * 3)
 	else:
-		if $Sprite.frame >= 6:
-			if delay == 0:
-				$Flash.play(\"default\")
-			delay += 1
-			if delay == 9:
-				$Sprite.material.set_shader_parameter(\"palette\", WEAPON_PALETTES[(GameState.character_selected * GameState.WEAPONS.size()) + GameState.stage_boss_weapon])
-				$Energy.material.set_shader_parameter(\"palette\", BEAM_PALETTES[(GameState.character_selected * GameState.WEAPONS.size()) + GameState.stage_boss_weapon])
-				$RichTextLabel.visible = true
+		await $Sprite.animation_finished or $Sprite.animation_looped
+		if delay == 0:
+			$Flash.play(\"default\")
+		delay += 1
+		if delay == 9:
+			$Sprite.material.set_shader_parameter(\"palette\", WEAPON_PALETTES[(GameState.character_selected * GameState.WEAPONS.size()) + GameState.stage_boss_weapon])
+			$Energy.material.set_shader_parameter(\"palette\", WEAPON_PALETTES[(GameState.character_selected * GameState.WEAPONS.size()) + GameState.stage_boss_weapon])
+			$RichTextLabel.visible = true
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2x64o"]
@@ -384,55 +288,265 @@ shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b7nic"]
-atlas = ExtResource("2_v07bh")
-region = Rect2(0, 0, 100, 120)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_vagmi"]
-atlas = ExtResource("2_v07bh")
-region = Rect2(100, 0, 100, 120)
+atlas = ExtResource("4_b7nic")
+region = Rect2(0, 120, 128, 120)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ktu7m"]
-atlas = ExtResource("2_v07bh")
-region = Rect2(200, 0, 100, 120)
+atlas = ExtResource("4_b7nic")
+region = Rect2(128, 120, 128, 120)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fu3p6"]
-atlas = ExtResource("2_v07bh")
-region = Rect2(300, 0, 100, 120)
+atlas = ExtResource("4_b7nic")
+region = Rect2(256, 120, 128, 120)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1kk02"]
-atlas = ExtResource("2_v07bh")
-region = Rect2(400, 0, 100, 120)
+atlas = ExtResource("4_b7nic")
+region = Rect2(384, 120, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iuye5"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(512, 120, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjs57"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(0, 240, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7nic"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(128, 240, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_txpn1"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(256, 240, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ye4kf"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(384, 240, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tww7y"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(512, 240, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vpmtp"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(384, 240, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ma2nk"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(512, 240, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7jm0"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(0, 0, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvj3c"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(128, 0, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mhj6m"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(256, 0, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_viw3l"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(384, 0, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2541"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(512, 0, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qe4jm"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(0, 360, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iq1ut"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(128, 360, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qn34q"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(256, 360, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fsumr"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(384, 360, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mk8xd"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(512, 360, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svbso"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(0, 480, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yu17k"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(128, 480, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky62x"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(256, 480, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2k3n"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(384, 480, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tucou"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(512, 480, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gscbv"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(0, 600, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5eyme"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(128, 600, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ewold"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(256, 600, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_riiux"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(384, 600, 128, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4o0hf"]
+atlas = ExtResource("4_b7nic")
+region = Rect2(512, 600, 128, 120)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_esnyd"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_b7nic")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_vagmi")
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vagmi")
-}, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_ktu7m")
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ktu7m")
-}, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_fu3p6")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1kk02")
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1kk02")
+"duration": 4.0,
+"texture": SubResource("AtlasTexture_iuye5")
 }],
 "loop": false,
 "name": &"Bass",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qjs57")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_b7nic")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_txpn1")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_ye4kf")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_tww7y")
+}],
+"loop": false,
+"name": &"Copy Robot",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vpmtp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ma2nk")
+}],
+"loop": true,
+"name": &"Copy Robot Loop",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f7jm0")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_jvj3c")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_mhj6m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_viw3l")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_k2541")
+}],
+"loop": false,
+"name": &"Maestro",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qe4jm")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_iq1ut")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_qn34q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fsumr")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_mk8xd")
+}],
+"loop": false,
+"name": &"Mega Man",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svbso")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_yu17k")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_ky62x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2k3n")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_tucou")
+}],
+"loop": false,
+"name": &"Proto Man",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gscbv")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_5eyme")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_ewold")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_riiux")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_4o0hf")
+}],
+"loop": false,
+"name": &"Rachel",
 "speed": 20.0
 }]
 
@@ -536,6 +650,15 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="Animation" id="Animation_txpn1"]
+resource_name = "Bass"
+step = 0.05
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ye4kf"]
+_data = {
+&"Bass": SubResource("Animation_txpn1")
+}
+
 [node name="WeaponGet" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -566,17 +689,17 @@ tile_set = ExtResource("4_qjs57")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_v07bh")
-position = Vector2(-50, 108)
+position = Vector2(-64, 108)
 sprite_frames = SubResource("SpriteFrames_esnyd")
-animation = &"Bass"
+animation = &"Maestro"
 autoplay = "Bass"
-speed_scale = 0.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 visible = false
-offset_top = 44.0
+layout_mode = 0
+offset_top = 48.0
 offset_right = 224.0
-offset_bottom = 172.0
+offset_bottom = 170.0
 bbcode_enabled = true
 text = "YOU GOT
 [rainbow][wave]bepis[/wave][/rainbow]"
@@ -663,3 +786,8 @@ sprite_frames = SubResource("SpriteFrames_iuye5")
 frame = 11
 frame_progress = 1.0
 centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ye4kf")
+}
