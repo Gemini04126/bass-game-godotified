@@ -281,7 +281,7 @@ position = Vector2(0, -7)
 scale = Vector2(1.01948, 1)
 sprite_frames = SubResource("SpriteFrames_yb04u")
 autoplay = "default"
-frame_progress = 0.914774
+frame_progress = 0.117709
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(-1.13687e-13, 2)

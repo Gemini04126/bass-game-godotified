@@ -1213,7 +1213,7 @@ func switchWeapons():
 					GameState.current_weapon -= 1
 	if GameState.old_weapon != GameState.current_weapon:
 		GameState.onscreen_sp_bullets = 0
-		if !Input.is_action_just_pressed("start"):
+		if Input.is_action_just_pressed("switch_left") or Input.is_action_just_pressed("switch_right"):
 			$Audio/Switch.play()
 			$Timers/SwitchTimer.start(2)
 			$WeaponIcon.visible = true

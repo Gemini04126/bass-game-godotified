@@ -755,6 +755,12 @@ func victory(delta):
 	
 	if deathtime > 160 and deathtime < 250:
 		velocity.y *= 0.95
+	
+	if deathtime == 200:
+		$AnimationPlayer.play("VICTORY_POSE_2")
+		GameState.current_weapon = GameState.stage_boss_weapon
+		set_current_weapon_palette()
+		$Audio/Cool.play()
 		
 	if deathtime == 250:
 		$AnimationPlayer.play("FALL")
