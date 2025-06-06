@@ -27,16 +27,17 @@ func _on_visible_on_screen_notifier_2d_screen_entered():
 
 func _process(_delta):
 	if not Engine.is_editor_hint():
-		if GameState.transdir == 0 && readied == true:
-			GameState.bossfightstatus = 1
-			baby = enemytype[type].instantiate()
-			add_sibling(baby)
-			baby.position = position
-			GameState.bosses.append(baby)
-			print(GameState.bosses)
-			if dontchangemusic == false:
-				GameState.musicplaying = music
-			queue_free()
+		if GameState.player != null:
+			if GameState.transdir == 0 && readied == true && GameState.player.is_on_floor():
+				GameState.bossfightstatus = 1
+				baby = enemytype[type].instantiate()
+				add_sibling(baby)
+				baby.position = position
+				GameState.bosses.append(baby)
+				print(GameState.bosses)
+				if dontchangemusic == false:
+					GameState.musicplaying = music
+				queue_free()
 	if Engine.is_editor_hint():
 		if baby == null:
 			baby = enemytype[type].instantiate()

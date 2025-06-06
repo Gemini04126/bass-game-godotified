@@ -25,7 +25,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l3773"]
 size = Vector2(6591.75, 1621.08)
 
-[sub_resource type="Shader" id="Shader_0ixp5"]
+[sub_resource type="Shader" id="Shader_rvgjc"]
 code = "shader_type canvas_item;
 // NOTE: palette sizes has to be to the power of 2
 uniform float amount : hint_range(1,514,1);
@@ -61,12 +61,12 @@ void fragment(){
 }"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_36puo"]
-shader = SubResource("Shader_0ixp5")
+shader = SubResource("Shader_rvgjc")
 shader_parameter/amount = 514.0
 shader_parameter/originalPalette = ExtResource("5_160ol")
 shader_parameter/swapPalette = ExtResource("6_wisqg")
 
-[sub_resource type="Shader" id="Shader_7unld"]
+[sub_resource type="Shader" id="Shader_pg82x"]
 code = "shader_type canvas_item;
 // NOTE: palette sizes has to be to the power of 2
 uniform float amount : hint_range(1,514,1);
@@ -102,7 +102,7 @@ void fragment(){
 }"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8oeq3"]
-shader = SubResource("Shader_7unld")
+shader = SubResource("Shader_pg82x")
 shader_parameter/amount = 514.0
 shader_parameter/originalPalette = ExtResource("5_160ol")
 shader_parameter/swapPalette = ExtResource("7_fkwms")
