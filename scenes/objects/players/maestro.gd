@@ -355,8 +355,10 @@ func _physics_process(delta: float) -> void:
 		if currentState != STATES.WARPING and warping == 1:
 			velocity.x = 0
 			velocity.y = 0
+			$AnimationPlayer.play("WARPING")
 			currentState = STATES.WARPING
 		elif currentState != STATES.WARP2 and warping == 2:
+			$AnimationPlayer.play("WARP2")
 			currentState = STATES.WARP2
 			$Timers/StateTimer.start(0.35)
 		elif currentState == STATES.WARP2 and $Timers/StateTimer.is_stopped():

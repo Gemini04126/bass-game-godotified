@@ -32,6 +32,12 @@ var oldscaley
 func _physics_process(_delta):
 	$Trigger/Trigger.disabled = disabled
 	
+	if GameState.player != null:
+		if GameState.player.position.x > position.x:
+			scale.x = -1
+		if GameState.player.position.x < position.x:
+			scale.x = 1
+	
 	if teleporting == true and $Timer.is_stopped():
 		
 		GameState.scrollX1 = scrollX1
@@ -42,10 +48,12 @@ func _physics_process(_delta):
 		GameState.player.position.y = (destinationY * 16) + (GameState.scrollY1 * 216)
 		
 		teleporting = false
-		GameState.player.warping = 2 
+		GameState.player.warping = 2
 
 func _on_trigger_body_entered(body):
 	if body.is_in_group("player"):
+		
+		GameState.player.position.x = position.x
 		disabled = true
 		teleporting = true
 		GameState.player.warping = 1 
