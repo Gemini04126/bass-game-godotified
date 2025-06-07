@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cxdfvnhix1m6l" path="res://scenes/objects/level_objects/yoku_block.gd" id="1_jphyu"]
 [ext_resource type="Texture2D" uid="uid://lgywvb01j6qj" path="res://sprites/objects/yoku_blocks/Test.png" id="2_vhyso"]
 [ext_resource type="Texture2D" uid="uid://bhd11waqmcviy" path="res://sprites/objects/yoku_blocks/yoku_shadow.png" id="3_o0o1l"]
-[ext_resource type="AudioStream" uid="uid://xgre6yptpa2v" path="res://sounds/yoku.wav" id="3_y5jt4"]
+[ext_resource type="AudioStream" uid="uid://xgre6yptpa2v" path="res://audio/sfx/yoku.wav" id="3_y5jt4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lxo2e"]
 

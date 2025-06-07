@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_2fmbe"]
 [ext_resource type="TileSet" uid="uid://bglohi0dt4uvq" path="res://tilesets/test_stage.tres" id="2_mckyc"]
-[ext_resource type="AudioStream" uid="uid://dafwctwcprydn" path="res://music/Stage Select.ogg" id="3_2sjvs"]
-[ext_resource type="AudioStream" uid="uid://c80tsa2fn61wv" path="res://music/Fortress Boss.mp3" id="4_1x6wb"]
+[ext_resource type="AudioStream" uid="uid://dafwctwcprydn" path="res://audio/music/Stage Select.ogg" id="3_2sjvs"]
+[ext_resource type="AudioStream" uid="uid://c80tsa2fn61wv" path="res://audio/music/Fortress Boss.mp3" id="4_1x6wb"]
 [ext_resource type="Texture2D" uid="uid://dbwlbcnwmhpph" path="res://shaders/palettes/water/refightshark.png" id="4_anv4o"]
 [ext_resource type="Texture2D" uid="uid://fklfu5btisd3" path="res://shaders/palettes/water/noeffect.png" id="5_t1u80"]
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="5_wjigj"]

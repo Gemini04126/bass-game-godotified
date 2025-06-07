@@ -4,9 +4,9 @@
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_xc3ul"]
 [ext_resource type="Texture2D" uid="uid://dypdii7eevtlu" path="res://sprites/players/weapons/Crusher.png" id="3_6dush"]
 [ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="3_tksod"]
-[ext_resource type="AudioStream" uid="uid://dcvhxvuushcu4" path="res://sounds/chargeshot.wav" id="4_ig54h"]
-[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="5_21833"]
-[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="6_ox70o"]
+[ext_resource type="AudioStream" uid="uid://dcvhxvuushcu4" path="res://audio/sfx/chargeshot.wav" id="4_ig54h"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://audio/sfx/pop.wav" id="5_21833"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://audio/sfx/tink.wav" id="6_ox70o"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fajo5"]
 shader = ExtResource("2_xc3ul")

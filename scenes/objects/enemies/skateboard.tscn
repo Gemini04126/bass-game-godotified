@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://b0ehqhwdu53sk"]
 
 [ext_resource type="Texture2D" uid="uid://bpi6lxhwfo1g1" path="res://sprites/enemies/skater_guy.png" id="1_x7oon"]
-[ext_resource type="AudioStream" uid="uid://d2oevy2xek073" path="res://sounds/jump.wav" id="2_0m7vk"]
-[ext_resource type="AudioStream" uid="uid://djvqj0ndwgcyb" path="res://sounds/damage.wav" id="3_oyupe"]
+[ext_resource type="AudioStream" uid="uid://d2oevy2xek073" path="res://audio/sfx/jump.wav" id="2_0m7vk"]
+[ext_resource type="AudioStream" uid="uid://djvqj0ndwgcyb" path="res://audio/sfx/damage.wav" id="3_oyupe"]
 
 [sub_resource type="GDScript" id="GDScript_gwqdi"]
 script/source = "extends Enemy_Template

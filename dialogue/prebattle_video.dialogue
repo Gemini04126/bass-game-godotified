@@ -1,0 +1,31 @@
+~ start
+if GameState.character_selected == 0
+	Video Man: A standard, off-the-shelf robot, trying to save the city? This'd make for a great movie!
+	Video Man: Now hold still while I get my camera!
+elif GameState.character_selected == 1
+	Video Man: What's up, Bass? Did you like my movies?
+	Bass: If I didn't want to blast you, I'd be asleep by now.
+	Bass: All movies are boring, and yours are no exception!
+	Video Man: Boring???\nYou clearly have no idea what you're talking about.
+	Video Man: I was already tasked with kicking you around,\nbut now I wanna try and beat some sense into you!
+elif GameState.character_selected == 2
+	Video Man: Hey, Mega Man! What did you think of the movies?
+	Copy Robot: They were bad. So bad, I could weep!
+	Video Man: Aww, that's a shame.\nGuess I'm just not fit to be a director.
+	Video Man: I want to try my hand at one more thing, though...\nDirecting a fight scene!
+elif GameState.character_selected == 3
+	Video Man: Hey, Mega Man! What did you think of the movies?
+	Mega Man: They were really cool! I think the backgrounds could use a bit of work, but you're shaping up to be a great director!
+	Video Man: That's great to hear! I'd love to discuss movies with you, but I have a job to do.
+elif GameState.character_selected == 4
+	Video Man: Woah, didn't expect to see you here, Proto Man! What did you think of my movies?
+	Proto Man: I'm not much of a movie person, so I can't really say.\nThis is more of a topic for my brother.
+	#if GameState.stage.brokenman_defeated == true
+		#Proto Man: (temp) Horrible knockoff of me, by the way.\nSomehow, it's even worse than the Joes.
+		#Video Man: (temp) Sucks to suck.
+	Video Man: I gotcha. Let's get this over with, then.
+elif GameState.character_selected == 5
+	Video Man: ...A human? What are you going to do that the rest of the humans in the city couldn't?
+	Rachel: I dunno, kick your ass? Nice rip-off of Mobile Suit Gu***m, by the way.
+	Video Man: I'd like to see you try! And it's inspired by VO*OMS, you moron!!!
+=> END

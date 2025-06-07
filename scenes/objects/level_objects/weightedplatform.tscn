@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b0nj4lkeg0ul7" path="res://scenes/objects/level_objects/weightedplatform.gd" id="1_oneki"]
 [ext_resource type="Texture2D" uid="uid://bc2fuukbieeon" path="res://sprites/objects/droppingplatform.png" id="2_10vsa"]
 [ext_resource type="Texture2D" uid="uid://cjv1snt4gwets" path="res://sprites/objects/droppingplatformanim.png" id="3_7vlc4"]
-[ext_resource type="AudioStream" uid="uid://cn13qslcclrfn" path="res://sounds/platformclick.wav" id="4_10vsa"]
+[ext_resource type="AudioStream" uid="uid://cn13qslcclrfn" path="res://audio/sfx/platformclick.wav" id="4_10vsa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mfqma"]
 atlas = ExtResource("2_10vsa")

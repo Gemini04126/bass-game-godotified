@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_sm2fs"]
 [ext_resource type="TileSet" uid="uid://bglohi0dt4uvq" path="res://tilesets/test_stage.tres" id="2_pfg30"]
-[ext_resource type="AudioStream" uid="uid://djxcyatg2dd7s" path="res://music/Test Stage.mp3" id="3_0xyya"]
+[ext_resource type="AudioStream" uid="uid://djxcyatg2dd7s" path="res://audio/music/Test Stage.mp3" id="3_0xyya"]
 [ext_resource type="PackedScene" uid="uid://bygcs4m5638w6" path="res://scenes/objects/enemies/gabyoall.tscn" id="16_8sqdo"]
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="17_qn4li"]
 [ext_resource type="PackedScene" uid="uid://pqu0lvkmbufk" path="res://scenes/objects/enemies/telly_hole.tscn" id="18_bewhl"]

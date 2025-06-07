@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://6h5u6fdvqsx5"
+path="res://.godot/imported/prebattle_video.dialogue-4df70fc0fed9f19c8212544d382c960a.tres"
+
+[deps]
+
+source_file="res://dialogue/prebattle_video.dialogue"
+dest_files=["res://.godot/imported/prebattle_video.dialogue-4df70fc0fed9f19c8212544d382c960a.tres"]
+
+[params]
+
+defaults=true

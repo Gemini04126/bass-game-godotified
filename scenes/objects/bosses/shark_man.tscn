@@ -1,18 +1,19 @@
-[gd_scene load_steps=91 format=3 uid="uid://ckdeuge1iatm5"]
+[gd_scene load_steps=92 format=3 uid="uid://ckdeuge1iatm5"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xo4wh"]
 [ext_resource type="Texture2D" uid="uid://2jtqdlu4xtk5" path="res://sprites/hud/bossbarpals/shark.png" id="2_l2mpc"]
-[ext_resource type="AudioStream" uid="uid://ctstbffrq85ky" path="res://sounds/bar_fill.wav" id="3_5nqm8"]
+[ext_resource type="AudioStream" uid="uid://ctstbffrq85ky" path="res://audio/sfx/bar_fill.wav" id="3_5nqm8"]
 [ext_resource type="Texture2D" uid="uid://xwoub3th7bmx" path="res://sprites/enemies/bosses/shark_man.png" id="3_l2mpc"]
-[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://sounds/player_hurt.wav" id="4_jw8de"]
-[ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://sounds/mega_death.wav" id="5_8obg6"]
-[ext_resource type="AudioStream" uid="uid://lap56ylqg4a6" path="res://sounds/scythe2.wav" id="7_5nqm8"]
-[ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://sounds/explode.wav" id="7_jw8de"]
-[ext_resource type="AudioStream" uid="uid://3orgt2y566i3" path="res://sounds/rm_step.wav" id="9_8obg6"]
-[ext_resource type="AudioStream" uid="uid://dbqhptn2q0uk3" path="res://sounds/shark_g1.wav" id="10_u7p8t"]
-[ext_resource type="AudioStream" uid="uid://dwyvbh6cxvbmk" path="res://sounds/shark_g2.wav" id="11_kwo4k"]
-[ext_resource type="AudioStream" uid="uid://bjcjfg1xjw465" path="res://sounds/shark_g3.wav" id="12_nbslf"]
-[ext_resource type="AudioStream" uid="uid://q2a82o1m28d8" path="res://sounds/shark_g4.wav" id="13_kg6rs"]
+[ext_resource type="Resource" uid="uid://ntb86y0ejew7" path="res://dialogue/prebattle_shark.dialogue" id="3_nbslf"]
+[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://audio/sfx/player_hurt.wav" id="4_jw8de"]
+[ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://audio/sfx/mega_death.wav" id="5_8obg6"]
+[ext_resource type="AudioStream" uid="uid://lap56ylqg4a6" path="res://audio/sfx/scythe2.wav" id="7_5nqm8"]
+[ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://audio/sfx/explode.wav" id="7_jw8de"]
+[ext_resource type="AudioStream" uid="uid://3orgt2y566i3" path="res://audio/sfx/rm_step.wav" id="9_8obg6"]
+[ext_resource type="AudioStream" uid="uid://dbqhptn2q0uk3" path="res://audio/sfx/shark_g1.wav" id="10_u7p8t"]
+[ext_resource type="AudioStream" uid="uid://dwyvbh6cxvbmk" path="res://audio/sfx/shark_g2.wav" id="11_kwo4k"]
+[ext_resource type="AudioStream" uid="uid://bjcjfg1xjw465" path="res://audio/sfx/shark_g3.wav" id="12_nbslf"]
+[ext_resource type="AudioStream" uid="uid://q2a82o1m28d8" path="res://audio/sfx/shark_g4.wav" id="13_kg6rs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
 shader = ExtResource("1_xo4wh")
@@ -27,6 +28,7 @@ class_name Shark_Man
 @onready var projectile
 @export var slot : int
 @export var barPalette : CompressedTexture2D
+@export var prebattle: DialogueResource
 var geese : bool = false
 var Dmg_Vals : Array[float]
 var Inv_Vals : Array[float]
@@ -265,6 +267,9 @@ func _physics_process(_delta):
 				if Cur_HP == Max_HP:
 					if Input.is_action_pressed(\"dash\") and Input.is_action_pressed(\"jump\") and Input.is_action_pressed(\"move_left\") and GameState.current_hp >= 28:
 						geese = true
+					if GameState.dialogue_open == false:
+						DialogueManager.show_dialogue_balloon(prebattle)
+					await DialogueManager.dialogue_ended
 					state = STATES.IDLE
 					statetimer = 50
 				else:
@@ -1437,6 +1442,7 @@ material = SubResource("ShaderMaterial_gtk0d")
 collision_layer = 0
 script = SubResource("GDScript_k5bra")
 barPalette = ExtResource("2_l2mpc")
+prebattle = ExtResource("3_nbslf")
 
 [node name="Sprite2" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_5nqm8")
@@ -1449,7 +1455,7 @@ autoplay = "none"
 material = SubResource("ShaderMaterial_5nqm8")
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_kwo4k")
-animation = &"Crouch"
+animation = &"Intro"
 autoplay = "Jump"
 
 [node name="Overlay" type="AnimatedSprite2D" parent="."]

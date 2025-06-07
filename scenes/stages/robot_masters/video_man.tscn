@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_hs2cl"]
 [ext_resource type="Script" uid="uid://f7bd7y4dfk0p" path="res://scenes/stages/robot_masters/videobgs.gd" id="2_7b04w"]
 [ext_resource type="Texture2D" uid="uid://c6h7euuvt3d6g" path="res://sprites/tilesets/Video.png" id="2_bi60d"]
-[ext_resource type="AudioStream" uid="uid://cb0vuiofgo415" path="res://music/Video Stage.mp3" id="4_waymo"]
-[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://music/Boss Battle.mp3" id="5_bi60d"]
+[ext_resource type="AudioStream" uid="uid://cb0vuiofgo415" path="res://audio/music/Video Stage.mp3" id="4_waymo"]
+[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://audio/music/Boss Battle.mp3" id="5_bi60d"]
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="5_bjw86"]
 [ext_resource type="TileSet" uid="uid://bp0hrrsh7jne5" path="res://tilesets/layout.tres" id="6_m3ilk"]
 [ext_resource type="PackedScene" uid="uid://el66rgn1gkh3" path="res://scenes/objects/level_objects/teleporter.tscn" id="7_7xpcu"]
@@ -596,7 +596,7 @@ position = Vector2(192, 0)
 position = Vector2(-448, 0)
 
 [node name="Electricfield" parent="." instance=ExtResource("10_546oa")]
-position = Vector2(468, 434)
+position = Vector2(416, 336)
 requirement = 4
 
 [node name="Electricfield2" parent="." instance=ExtResource("10_546oa")]

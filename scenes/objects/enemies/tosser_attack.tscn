@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://cjww7eclo8l2b"]
 
 [ext_resource type="Texture2D" uid="uid://ridy4qhly2ed" path="res://sprites/enemies/tosser.png" id="1_1hmcy"]
-[ext_resource type="AudioStream" uid="uid://cq4lw880ecl7v" path="res://sounds/enemyattack.wav" id="3_iogsl"]
-[ext_resource type="AudioStream" uid="uid://dagp08oy1dyj5" path="res://sounds/bomb.wav" id="5_1hmcy"]
+[ext_resource type="AudioStream" uid="uid://cq4lw880ecl7v" path="res://audio/sfx/enemyattack.wav" id="3_iogsl"]
+[ext_resource type="AudioStream" uid="uid://dagp08oy1dyj5" path="res://audio/sfx/bomb.wav" id="5_1hmcy"]
 
 [sub_resource type="GDScript" id="GDScript_npklr"]
 script/source = "extends CharacterBody2D

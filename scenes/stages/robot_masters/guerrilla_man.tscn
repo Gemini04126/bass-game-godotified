@@ -1,8 +1,8 @@
 [gd_scene load_steps=22 format=4 uid="uid://dko1ldfifobnn"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_vyele"]
-[ext_resource type="AudioStream" uid="uid://6eg00db4lry5" path="res://music/Guerrilla Stage.mp3" id="4_6r0jx"]
-[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://music/Boss Battle.mp3" id="5_ayc0n"]
+[ext_resource type="AudioStream" uid="uid://6eg00db4lry5" path="res://audio/music/Guerrilla Stage.mp3" id="4_6r0jx"]
+[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://audio/music/Boss Battle.mp3" id="5_ayc0n"]
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="6_211mx"]
 [ext_resource type="Material" uid="uid://uh2c8jbp8qwd" path="res://shaders/WaterPalette.tres" id="6_dpouu"]
 [ext_resource type="TileSet" uid="uid://bp0hrrsh7jne5" path="res://tilesets/layout.tres" id="6_l04i1"]

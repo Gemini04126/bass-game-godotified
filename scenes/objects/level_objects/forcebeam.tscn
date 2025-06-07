@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bwda7dnihc8uy" path="res://scenes/objects/level_objects/forcebeam.gd" id="1_0l044"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_gofin"]
 [ext_resource type="Texture2D" uid="uid://cg8ry4jr41n1w" path="res://sprites/objects/forcebeam.png" id="2_gycsu"]
-[ext_resource type="AudioStream" uid="uid://gm5p36ys1f14" path="res://sounds/cr_chargeshot.wav" id="3_7lock"]
+[ext_resource type="AudioStream" uid="uid://gm5p36ys1f14" path="res://audio/sfx/cr_chargeshot.wav" id="3_7lock"]
 [ext_resource type="Texture2D" uid="uid://b64kcux5nlw2r" path="res://sprites/tilesets/enker_trans.png" id="3_kh2hs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vk8e7"]

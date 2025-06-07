@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://0l5y5vu318et" path="res://scenes/objects/players/weapons/bass/track_2_buster.gd" id="1_v81oh"]
 [ext_resource type="Texture2D" uid="uid://dgbm5vkljp0jr" path="res://sprites/players/bass/weapons/mod_guerilla.png" id="2_qg4q6"]
 [ext_resource type="Texture2D" uid="uid://bs5dokmafjugl" path="res://sprites/players/bass/weapons/buster.png" id="3_5v6it"]
-[ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="4_n8qmf"]
-[ext_resource type="AudioStream" uid="uid://dsb2rfsve51ay" path="res://sounds/bass_machbuster1.wav" id="5_fxv5a"]
-[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="6_3xtqp"]
-[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="7_6w3x4"]
+[ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://audio/sfx/bustershot.wav" id="4_n8qmf"]
+[ext_resource type="AudioStream" uid="uid://dsb2rfsve51ay" path="res://audio/sfx/bass_machbuster1.wav" id="5_fxv5a"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://audio/sfx/pop.wav" id="6_3xtqp"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://audio/sfx/tink.wav" id="7_6w3x4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rwdxe"]
 atlas = ExtResource("2_qg4q6")

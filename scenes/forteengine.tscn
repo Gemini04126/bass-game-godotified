@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bhg2m4qy84u3b"]
 
 [ext_resource type="Script" uid="uid://be5j1vkkylcga" path="res://scenes/forteengine.gd" id="1_bkmcs"]
-[ext_resource type="AudioStream" uid="uid://b75o8q6oqre8x" path="res://sounds/ForteEngine.wav" id="2_bkmcs"]
+[ext_resource type="AudioStream" uid="uid://b75o8q6oqre8x" path="res://audio/sfx/ForteEngine.wav" id="2_bkmcs"]
 
 [node name="Startup" type="Node2D"]
 script = ExtResource("1_bkmcs")

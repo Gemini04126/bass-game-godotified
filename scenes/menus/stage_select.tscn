@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://ido5yfmbgfpr" path="res://scenes/stages/robot_masters/origami_man.tscn" id="14_kr1yd"]
 [ext_resource type="PackedScene" uid="uid://cjnw7w724yfff" path="res://scenes/stages/robot_masters/gale_woman.tscn" id="15_7nr6x"]
 [ext_resource type="PackedScene" uid="uid://dko1ldfifobnn" path="res://scenes/stages/robot_masters/guerrilla_man.tscn" id="16_ailq2"]
-[ext_resource type="AudioStream" uid="uid://dafwctwcprydn" path="res://music/Stage Select.ogg" id="16_j227q"]
+[ext_resource type="AudioStream" uid="uid://dafwctwcprydn" path="res://audio/music/Stage Select.ogg" id="16_j227q"]
 [ext_resource type="PackedScene" uid="uid://c75rkf0piqm15" path="res://scenes/stages/robot_masters/reaper_man.tscn" id="17_76eow"]
 [ext_resource type="Texture2D" uid="uid://s86miiei6ned" path="res://sprites/tilesets/Stage Selected BG.png" id="17_luowi"]
 [ext_resource type="Texture2D" uid="uid://c340y0ic887dr" path="res://sprites/menus/Scanlines.png" id="18_w0wnn"]

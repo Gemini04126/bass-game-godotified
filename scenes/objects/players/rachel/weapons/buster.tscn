@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://c05yeeic5gxdt" path="res://sprites/players/rachel/weapons/Buster.png" id="1_bol3u"]
 [ext_resource type="Texture2D" uid="uid://dgiwcwe0dt077" path="res://sprites/explosion.png" id="2_gqwnw"]
-[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="3_lcvpa"]
-[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="4_ttiku"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://audio/sfx/pop.wav" id="3_lcvpa"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://audio/sfx/tink.wav" id="4_ttiku"]
 
 [sub_resource type="GDScript" id="GDScript_qxaat"]
 script/source = "extends CharacterBody2D

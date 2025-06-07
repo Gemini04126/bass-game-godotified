@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="2_kn8la"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_yey5d"]
 [ext_resource type="Texture2D" uid="uid://b64kcux5nlw2r" path="res://sprites/tilesets/enker_trans.png" id="3_3vvoo"]
-[ext_resource type="AudioStream" uid="uid://5ujy4lng0s7r" path="res://music/Enker Stage.mp3" id="3_ws14o"]
+[ext_resource type="AudioStream" uid="uid://5ujy4lng0s7r" path="res://audio/music/Enker Stage.mp3" id="3_ws14o"]
 [ext_resource type="Texture2D" uid="uid://dckkpkvfm50ri" path="res://sprites/tilesets/Enker.png" id="4_3vvoo"]
 [ext_resource type="Script" uid="uid://8tr7tryha17r" path="res://scenes/stages/yoku_blocks.gd" id="6_r4y5d"]
 [ext_resource type="TileSet" uid="uid://bp0hrrsh7jne5" path="res://tilesets/layout.tres" id="7_0ps5m"]

@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cm8w86jwnp3vb" path="res://scenes/objects/players/weapons/copy_robot/buster_small.gd" id="1_ibwb5"]
 [ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="1_mtts4"]
-[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="4_6625l"]
-[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="5_qdnsf"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://audio/sfx/pop.wav" id="4_6625l"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://audio/sfx/tink.wav" id="5_qdnsf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8a2ww"]
 atlas = ExtResource("1_mtts4")

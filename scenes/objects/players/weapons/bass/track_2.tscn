@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://pb5loro7xgr7" path="res://scenes/objects/players/weapons/bass/track_2.gd" id="1_7d8uq"]
 [ext_resource type="Texture2D" uid="uid://0tivgu5oksup" path="res://sprites/players/bass/weapons/mod_video.png" id="2_tmdwp"]
-[ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://sounds/bustershot.wav" id="3_b7arp"]
+[ext_resource type="AudioStream" uid="uid://62xrmywm48ps" path="res://audio/sfx/bustershot.wav" id="3_b7arp"]
 [ext_resource type="Texture2D" uid="uid://dgiwcwe0dt077" path="res://sprites/explosion.png" id="3_phdkr"]
-[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="4_vq1at"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://audio/sfx/pop.wav" id="4_vq1at"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t86bn"]
 atlas = ExtResource("2_tmdwp")

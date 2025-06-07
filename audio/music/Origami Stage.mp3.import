@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cdbs7vh1x6kx"
+path="res://.godot/imported/Origami Stage.mp3-379ac905c6afd519124d843743486bbc.mp3str"
+
+[deps]
+
+source_file="res://audio/music/Origami Stage.mp3"
+dest_files=["res://.godot/imported/Origami Stage.mp3-379ac905c6afd519124d843743486bbc.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

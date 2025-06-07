@@ -117,6 +117,7 @@ var stageSelectColorTranslations : Array[String] = [
 
 var stage_action : int
 var stage_boss_weapon : int
+var dialogue_open: bool = false
 
 var maxCharacterID = characters.size() - 1 # Whyyyyy...?
 var character_selected : int

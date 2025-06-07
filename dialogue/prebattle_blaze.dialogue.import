@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://y1tukrw2h1va"
+path="res://.godot/imported/prebattle_blaze.dialogue-8120423c47a0f0d651842a9f093f18d9.tres"
+
+[deps]
+
+source_file="res://dialogue/prebattle_blaze.dialogue"
+dest_files=["res://.godot/imported/prebattle_blaze.dialogue-8120423c47a0f0d651842a9f093f18d9.tres"]
+
+[params]
+
+defaults=true

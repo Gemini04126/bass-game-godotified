@@ -1,0 +1,14 @@
+~ start
+if GameState.character_selected == 0
+	Blaze Man: Maestro
+elif GameState.character_selected == 1
+	Blaze Man: Bass
+elif GameState.character_selected == 2
+	Blaze Man: Copy Robot
+elif GameState.character_selected == 3
+	Blaze Man: Mega Man
+elif GameState.character_selected == 4
+	Blaze Man: Proto Man
+elif GameState.character_selected == 5
+	Blaze Man: Rachel
+=> END

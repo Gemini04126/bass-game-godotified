@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://bwnmnn0441jru" path="res://sprites/players/copy_robot/weapons/BusterMedium.png" id="1_dl824"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xpas8"]
 [ext_resource type="Texture2D" uid="uid://b2a6clmnuk0xd" path="res://sprites/players/copy_robot/weapons/bustermedium2.png" id="4_jk530"]
-[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="5_pu124"]
-[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="6_7byil"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://audio/sfx/pop.wav" id="5_pu124"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://audio/sfx/tink.wav" id="6_7byil"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ditjs"]
 shader = ExtResource("1_xpas8")

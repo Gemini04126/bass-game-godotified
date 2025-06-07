@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dfhk5ojxqhqhk"
+path="res://.godot/imported/Ballade Stage.mp3-cf548d38b39a025db52d59da51b759de.mp3str"
+
+[deps]
+
+source_file="res://audio/music/Ballade Stage.mp3"
+dest_files=["res://.godot/imported/Ballade Stage.mp3-cf548d38b39a025db52d59da51b759de.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

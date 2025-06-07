@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xh30l"]
 [ext_resource type="Texture2D" uid="uid://drvy2u5qq0ywr" path="res://sprites/enemies/object_trans/transb1.png" id="2_a7yxp"]
 [ext_resource type="Texture2D" uid="uid://b243ptx5fbl6w" path="res://sprites/enemies/bosses/blaze_scorch.png" id="3_eveaq"]
-[ext_resource type="AudioStream" uid="uid://mcla46x8hsbd" path="res://sounds/scorchambient.wav" id="5_a7yxp"]
+[ext_resource type="AudioStream" uid="uid://mcla46x8hsbd" path="res://audio/sfx/scorchambient.wav" id="5_a7yxp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
 shader = ExtResource("1_xh30l")

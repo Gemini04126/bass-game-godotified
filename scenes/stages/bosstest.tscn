@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_wpagv"]
 [ext_resource type="TileSet" uid="uid://bglohi0dt4uvq" path="res://tilesets/test_stage.tres" id="2_lgdgo"]
-[ext_resource type="AudioStream" uid="uid://dafwctwcprydn" path="res://music/Stage Select.ogg" id="3_3umls"]
-[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://music/Boss Battle.mp3" id="4_xpmbv"]
+[ext_resource type="AudioStream" uid="uid://dafwctwcprydn" path="res://audio/music/Stage Select.ogg" id="3_3umls"]
+[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://audio/music/Boss Battle.mp3" id="4_xpmbv"]
 [ext_resource type="PackedScene" uid="uid://gp63stnmpat1" path="res://scenes/objects/bosses/boss_spawner.tscn" id="6_2kp8o"]
 [ext_resource type="PackedScene" uid="uid://dk3d42ldsmpo7" path="res://scenes/objects/level_objects/boss_door.tscn" id="8_6bsi3"]
 [ext_resource type="PackedScene" uid="uid://trkgtebh8rbb" path="res://scenes/objects/level_objects/boss_door_h.tscn" id="8_oywgw"]

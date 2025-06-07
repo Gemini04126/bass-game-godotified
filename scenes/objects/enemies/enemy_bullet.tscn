@@ -3,10 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://bs5dokmafjugl" path="res://sprites/players/bass/weapons/buster.png" id="1_qphi7"]
 [ext_resource type="Texture2D" uid="uid://b0wmbfr68jjcj" path="res://sprites/players/copy_robot/weapons/BusterSmall.png" id="2_jcmev"]
 [ext_resource type="Texture2D" uid="uid://ridy4qhly2ed" path="res://sprites/enemies/tosser.png" id="3_n106u"]
-[ext_resource type="AudioStream" uid="uid://cq4lw880ecl7v" path="res://sounds/enemyattack.wav" id="4_ewr1s"]
-[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="5_dsg5k"]
-[ext_resource type="AudioStream" uid="uid://cdgq3h0fsnat3" path="res://sounds/glassbreak.wav" id="5_jcmev"]
-[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="6_r88h7"]
+[ext_resource type="AudioStream" uid="uid://cq4lw880ecl7v" path="res://audio/sfx/enemyattack.wav" id="4_ewr1s"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://audio/sfx/pop.wav" id="5_dsg5k"]
+[ext_resource type="AudioStream" uid="uid://cdgq3h0fsnat3" path="res://audio/sfx/glassbreak.wav" id="5_jcmev"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://audio/sfx/tink.wav" id="6_r88h7"]
 
 [sub_resource type="GDScript" id="GDScript_7e10n"]
 script/source = "extends CharacterBody2D

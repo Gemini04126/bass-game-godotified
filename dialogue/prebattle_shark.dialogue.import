@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://ntb86y0ejew7"
+path="res://.godot/imported/prebattle_shark.dialogue-28640e623f387242af114a8b38bbf731.tres"
+
+[deps]
+
+source_file="res://dialogue/prebattle_shark.dialogue"
+dest_files=["res://.godot/imported/prebattle_shark.dialogue-28640e623f387242af114a8b38bbf731.tres"]
+
+[params]
+
+defaults=true

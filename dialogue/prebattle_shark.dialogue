@@ -1,0 +1,14 @@
+~ start
+if GameState.character_selected == 0
+	Shark Man: Maestro
+elif GameState.character_selected == 1
+	Shark Man: Bass
+elif GameState.character_selected == 2
+	Shark Man: Copy Robot
+elif GameState.character_selected == 3
+	Shark Man: Mega Man
+elif GameState.character_selected == 4
+	Shark Man: Proto Man
+elif GameState.character_selected == 5
+	Shark Man: Rachel
+=> END

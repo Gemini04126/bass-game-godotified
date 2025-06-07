@@ -1,11 +1,11 @@
 [gd_scene load_steps=59 format=4 uid="uid://qwpduouc7wal"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_v07bh"]
-[ext_resource type="AudioStream" uid="uid://n2qyso7kkxfj" path="res://music/Weapon Get.mp3" id="2_rwyj5"]
+[ext_resource type="AudioStream" uid="uid://n2qyso7kkxfj" path="res://audio/music/Weapon Get.mp3" id="2_rwyj5"]
 [ext_resource type="Texture2D" uid="uid://6g65o3p6ybya" path="res://sprites/menus/Weapon Get Portraits.png" id="4_b7nic"]
 [ext_resource type="TileSet" uid="uid://buvesedl67lpj" path="res://tilesets/stage_select.tres" id="4_qjs57"]
 [ext_resource type="Texture2D" uid="uid://qwdi35jvf2y8" path="res://sprites/fade.png" id="5_qjs57"]
-[ext_resource type="AudioStream" uid="uid://b6wwso405hb26" path="res://sounds/shing.wav" id="6_b7nic"]
+[ext_resource type="AudioStream" uid="uid://b6wwso405hb26" path="res://audio/sfx/shing.wav" id="6_b7nic"]
 
 [sub_resource type="GDScript" id="GDScript_ohgfi"]
 script/source = "extends Control

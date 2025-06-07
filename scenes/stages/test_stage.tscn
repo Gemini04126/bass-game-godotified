@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bpd4uso3ynaeo" path="res://scenes/objects/enemies/metall.tscn" id="5_pn607"]
 [ext_resource type="Script" uid="uid://c32jmfemw7eli" path="res://scenes/stages/yokublocklayer.gd" id="6_68o5h"]
 [ext_resource type="PackedScene" uid="uid://blmlnutul2hyu" path="res://scenes/objects/level_objects/yoku_block.tscn" id="7_iycjf"]
-[ext_resource type="AudioStream" uid="uid://djxcyatg2dd7s" path="res://music/Test Stage.mp3" id="7_lu0fe"]
+[ext_resource type="AudioStream" uid="uid://djxcyatg2dd7s" path="res://audio/music/Test Stage.mp3" id="7_lu0fe"]
 [ext_resource type="PackedScene" uid="uid://dmulyeg8hg6yt" path="res://scenes/objects/enemies/sniper_joe.tscn" id="8_ffb0a"]
 [ext_resource type="PackedScene" uid="uid://ba1usu2a5isjc" path="res://scenes/objects/level_objects/breakable_block.tscn" id="8_ugwe1"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="9_7wv41"]

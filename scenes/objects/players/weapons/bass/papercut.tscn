@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://djnqnlm4j34a7" path="res://scenes/objects/players/weapons/bass/papercut.gd" id="1_pr0uf"]
 [ext_resource type="Texture2D" uid="uid://ci7isoihfgws6" path="res://sprites/players/bass/weapons/mod_origami.png" id="2_pr0uf"]
-[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://sounds/pop.wav" id="5_dju7a"]
-[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://sounds/tink.wav" id="6_ip0vx"]
+[ext_resource type="AudioStream" uid="uid://cs2dmn3ahpbea" path="res://audio/sfx/pop.wav" id="5_dju7a"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://audio/sfx/tink.wav" id="6_ip0vx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nkt2s"]
 atlas = ExtResource("2_pr0uf")

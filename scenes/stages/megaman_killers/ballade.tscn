@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_r6k7g"]
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="2_m53gv"]
 [ext_resource type="Texture2D" uid="uid://63kwqi5jdugg" path="res://sprites/tilesets/Test.png" id="2_om2pp"]
-[ext_resource type="AudioStream" uid="uid://dfhk5ojxqhqhk" path="res://music/Ballade Stage.mp3" id="4_4bro4"]
+[ext_resource type="AudioStream" uid="uid://dfhk5ojxqhqhk" path="res://audio/music/Ballade Stage.mp3" id="4_4bro4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dlclr"]
 resource_name = "Test"

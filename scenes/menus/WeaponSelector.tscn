@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dneg3i57lletf" path="res://sprites/hud/menu_bar.png" id="3_6k7oi"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="3_xltel"]
 [ext_resource type="Texture2D" uid="uid://nqwuaw71xka6" path="res://sprites/hud/menu_bar2.png" id="4_xkjft"]
-[ext_resource type="AudioStream" uid="uid://1ujjh0m4lfmf" path="res://sounds/menumove.wav" id="8_hgtbf"]
+[ext_resource type="AudioStream" uid="uid://1ujjh0m4lfmf" path="res://audio/sfx/menumove.wav" id="8_hgtbf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5fvbm"]
 shader = ExtResource("3_xltel")
