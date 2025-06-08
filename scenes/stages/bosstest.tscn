@@ -72,12 +72,12 @@ debug_color = Color(0, 0.6, 0.701961, 0.764706)
 position = Vector2(692, 97)
 
 [node name="Spawner2" parent="." instance=ExtResource("6_2kp8o")]
-position = Vector2(579, 288)
+position = Vector2(709, 364)
 type = 2
 music = 4
 
 [node name="Spawner4" parent="." instance=ExtResource("6_2kp8o")]
-position = Vector2(307, 540)
+position = Vector2(312, 544)
 type = 1
 music = 3
 

@@ -32,6 +32,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
+	if GameState.bossfightstatus != 0 and $Bossmusic.playing == false:
+		$Bossmusic.play()
+		
 	if GameState.camposy < 300:
 		if $Timer.is_stopped():
 			if GameState.freezeframe == false:

@@ -418,6 +418,7 @@ func create_resource_from_text(text: String) -> Resource:
 ## Show the example balloon
 func show_example_dialogue_balloon(resource: DialogueResource, title: String = "", extra_game_states: Array = []) -> CanvasLayer:
 	var balloon: Node = load(_get_example_balloon_path()).instantiate()
+	GameState.dialogue_open = true
 	_start_balloon.call_deferred(balloon, resource, title, extra_game_states)
 	return balloon
 

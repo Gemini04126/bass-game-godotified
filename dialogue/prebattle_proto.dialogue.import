@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://dgfmoj7gyubax"
+path="res://.godot/imported/prebattle_proto.dialogue-f1e9e7968e8dd4e6e4272411602b6a38.tres"
+
+[deps]
+
+source_file="res://dialogue/prebattle_proto.dialogue"
+dest_files=["res://.godot/imported/prebattle_proto.dialogue-f1e9e7968e8dd4e6e4272411602b6a38.tres"]
+
+[params]
+
+defaults=true

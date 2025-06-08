@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://b83p8reea6pm5"
+path="res://.godot/imported/prebattle_smog.dialogue-d87cca8b96352ad393e951d261d94633.tres"
+
+[deps]
+
+source_file="res://dialogue/prebattle_smog.dialogue"
+dest_files=["res://.godot/imported/prebattle_smog.dialogue-d87cca8b96352ad393e951d261d94633.tres"]
+
+[params]
+
+defaults=true

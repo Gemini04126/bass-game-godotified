@@ -1,0 +1,24 @@
+~ start
+if GameState.character_selected == 0
+	Proto Man: Maestro? What are you doing here?!
+	Maestro: ...
+	Proto Man: How evil could you get?!
+elif GameState.character_selected == 1
+	Bass: So, it's you!
+	Proto Man: Looks like my plans were found out.
+	Proto Man: I won't let you report any of this to Wily! 
+elif GameState.character_selected == 2
+	Copy Robot: Hey, big bro! How's it hanging
+	Proto Man: Do you think I'd fall for such a weak trick? Who are you?
+	Copy Robot: Just some guy trying to prove himself and doesn't hide behind some lame shades.
+elif GameState.character_selected == 3
+	Mega Man: Proto Man, did you call me here?
+	Proto Man: Are you really Mega Man? Prove your identity.
+	Mega Man: I- wh- huh???
+elif GameState.character_selected == 4
+	Proto Man: A fake Mega Man, and now a fake me?!
+	???: ...
+	Proto Man: I'll rip that mask off and expose who you really are!
+elif GameState.character_selected == 5
+	Proto Man: Hold it. You are not supposed to be 
+=> END

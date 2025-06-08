@@ -26,7 +26,7 @@ var smogchargetimer : int
 var sharkcharge : int
 
 func _init() -> void:
-	JUMP_HEIGHT = 12
+	JUMP_HEIGHT = 13
 	weapon_palette = [
 		preload("res://sprites/players/bass/palettes/Bass Buster.png"),
 		preload("res://sprites/players/bass/palettes/Scorch Barrier.png"),

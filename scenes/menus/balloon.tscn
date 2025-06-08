@@ -11,7 +11,7 @@
 layer = 100
 script = ExtResource("1_s2gbs")
 next_action = &"jump"
-skip_action = &"shoot"
+skip_action = &"start"
 
 [node name="Balloon" type="Control" parent="."]
 unique_name_in_owner = true

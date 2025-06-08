@@ -159,7 +159,7 @@ debug_freemove={
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://dialogue/prebattle_video.dialogue", "res://dialogue/prebattle_shark.dialogue", "res://dialogue/prebattle_blaze.dialogue")
+locale/translations_pot_files=PackedStringArray("res://dialogue/prebattle_video.dialogue", "res://dialogue/prebattle_shark.dialogue", "res://dialogue/prebattle_blaze.dialogue", "res://dialogue/prebattle_gale.dialogue", "res://dialogue/prebattle_proto.dialogue", "res://dialogue/prebattle_smog.dialogue")
 
 [layer_names]
 

@@ -1,11 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://gp63stnmpat1"]
+[gd_scene load_steps=3 format=3 uid="uid://gp63stnmpat1"]
 
 [ext_resource type="Script" uid="uid://ckx64t5b2ht0i" path="res://scenes/objects/bosses/boss_spawner.gd" id="1_cyg6j"]
+[ext_resource type="Texture2D" uid="uid://dxwerqrjo057p" path="res://sprites/enemies/bosses/boss_previews.png" id="2_0ama5"]
 
 [node name="BossSpawner" type="Node2D"]
 script = ExtResource("1_cyg6j")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 scale = Vector2(2, 2)
+
+[node name="Icon" type="Sprite2D" parent="."]
+texture = ExtResource("2_0ama5")
+hframes = 16
+
+[node name="Music" type="Label" parent="."]
+offset_left = -8.0
+offset_top = 8.0
+offset_bottom = 16.0
+text = "0"
+
+[node name="Intro" type="Label" parent="."]
+offset_top = 8.0
+offset_right = 8.0
+offset_bottom = 16.0
+text = "N"
 
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]

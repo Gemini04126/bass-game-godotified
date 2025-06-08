@@ -1,4 +1,4 @@
-[gd_scene load_steps=92 format=3 uid="uid://ckdeuge1iatm5"]
+[gd_scene load_steps=96 format=3 uid="uid://ckdeuge1iatm5"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xo4wh"]
 [ext_resource type="Texture2D" uid="uid://2jtqdlu4xtk5" path="res://sprites/hud/bossbarpals/shark.png" id="2_l2mpc"]
@@ -25,6 +25,7 @@ shader_parameter/fps = 6.0
 script/source = "extends CharacterBody2D
 
 class_name Shark_Man
+var fullintro : bool
 @onready var projectile
 @export var slot : int
 @export var barPalette : CompressedTexture2D
@@ -44,7 +45,7 @@ var track2hits : int
 var deadtick
 var bossesleft
 
-var statetimer
+var statetimer : int = 0
 var attacks
 var attackpick = 0
 
@@ -52,9 +53,16 @@ var lastattack = 0
 var floating : bool = false
 var jumping : bool = false
 
+
+var timer : int = 0
+var freq = 0.03
+var amplitude = 0.15
+var v = Vector2(0, 25)
+
 enum STATES
 {
 	SPAWN,
+	PREBATTLE,
 	INTRO,
 	IDLE,
 	ATTACK1,
@@ -235,11 +243,70 @@ func _physics_process(_delta):
 			attackpick = 0 
 		
 		if state == null:
-			$Sprite2.play(\"jump4\")
-			velocity.y = 80
-			if is_on_floor():
-				state = STATES.INTRO
-				$Sprite.play(\"Intro\")
+			if fullintro == true:
+				state = STATES.PREBATTLE
+			else:
+				$Sprite2.play(\"jump4\")
+				velocity.y = 80
+				if is_on_floor():
+					state = STATES.INTRO
+					$Sprite2.play(\"crouch\")
+					$Sprite.play(\"Intro\")
+				
+		if state == STATES.PREBATTLE:
+			print(position.x)
+			if statetimer == 0:
+				statetimer += 1
+				$Collision.disabled = true
+				$Sprite.z_index = -2
+				$Sprite2.z_index = -2
+				$Sprite.play(\"Intro1\")
+				velocity.x = -190
+				position.x = (384*GameState.scrollX1) + 340
+				position.y = (224*GameState.scrollY1) + 108
+			if statetimer == 1 and position.x < (384*GameState.scrollX1) + 40:
+				statetimer += 1
+				turntoplayer()
+				$Sprite.play(\"Intro2\")
+				position.x = (384*GameState.scrollX1) + 40
+				position.y += 18
+				velocity.x = 210
+			if statetimer == 2  and position.x > (384*GameState.scrollX1) + 370:
+				statetimer += 1
+				$Sprite.play(\"Float\")
+				$Sprite2.play(\"jump2\")
+				turntoplayer()
+				velocity.x = -90
+			if statetimer == 3  and position.x < (384*GameState.scrollX1) + 280 and velocity.x != 0:
+				$Sprite.z_index = 0
+				$Sprite2.z_index = 0
+				velocity.x *= 0.92
+				
+			if statetimer == 3 and position.x < (384*GameState.scrollX1) + 280 and velocity.x > -1:
+				DialogueManager.show_dialogue_balloon(prebattle)
+				GameState.dialogue_open = true
+				velocity.x = 0
+				statetimer += 1
+				
+				
+			if statetimer == 4 and GameState.dialogue_open == false:
+				statetimer += 1
+				$Collision.disabled = false
+				$Sprite.play(\"Jump\")
+				$Sprite2.play(\"jump4\")
+				velocity.y = 80
+				
+			if statetimer == 3 or statetimer == 4:
+				timer += 1
+				v.y = (cos(timer * freq) * amplitude)
+				position.y += v.y
+				
+			if statetimer == 5:
+				if is_on_floor():
+					state = STATES.INTRO
+					$Sprite2.play(\"crouch\")
+					$Sprite.play(\"Intro\")
+				
 				
 		if state == STATES.WEAKNESS:
 			if statetimer == 0:
@@ -260,6 +327,7 @@ func _physics_process(_delta):
 			if statetimer >= 27:
 				if is_on_floor():
 					state = STATES.IDLE
+					jumping = false
 					
 				
 		if state == STATES.INTRO:
@@ -267,9 +335,7 @@ func _physics_process(_delta):
 				if Cur_HP == Max_HP:
 					if Input.is_action_pressed(\"dash\") and Input.is_action_pressed(\"jump\") and Input.is_action_pressed(\"move_left\") and GameState.current_hp >= 28:
 						geese = true
-					if GameState.dialogue_open == false:
-						DialogueManager.show_dialogue_balloon(prebattle)
-					await DialogueManager.dialogue_ended
+					$Sprite2.play(\"none\")
 					state = STATES.IDLE
 					statetimer = 50
 				else:
@@ -979,6 +1045,22 @@ region = Rect2(0, 0, 64, 64)
 atlas = ExtResource("3_l2mpc")
 region = Rect2(0, 64, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcioc"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(576, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8i4wo"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(576, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dc8yx"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(512, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0g5f"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(512, 320, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_l2mpc"]
 atlas = ExtResource("3_l2mpc")
 region = Rect2(64, 64, 64, 64)
@@ -1189,6 +1271,28 @@ animations = [{
 }],
 "loop": false,
 "name": &"Intro",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wcioc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8i4wo")
+}],
+"loop": true,
+"name": &"Intro1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dc8yx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e0g5f")
+}],
+"loop": true,
+"name": &"Intro2",
 "speed": 10.0
 }, {
 "frames": [{
@@ -1448,7 +1552,7 @@ prebattle = ExtResource("3_nbslf")
 material = SubResource("ShaderMaterial_5nqm8")
 position = Vector2(0, -15)
 sprite_frames = SubResource("SpriteFrames_df213")
-animation = &"crouch"
+animation = &"jump2"
 autoplay = "none"
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
@@ -1457,6 +1561,8 @@ position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_kwo4k")
 animation = &"Intro"
 autoplay = "Jump"
+frame = 3
+frame_progress = 1.0
 
 [node name="Overlay" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_5nqm8")

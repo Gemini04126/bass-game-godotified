@@ -1,14 +1,26 @@
 ~ start
 if GameState.character_selected == 0
-	Shark Man: Maestro
+	Shark Man: Woah, this lil dude is COOL!
 elif GameState.character_selected == 1
-	Shark Man: Bass
+	Bass: Looks like you're up, small fry.
+	Shark Man: I've been looking for you Bass. It's a shame you didn't let me hunt you down.
+	Bass: I'm the hunter here, and I've finally caught you. Ready to go?
+	Shark Man: You arrogant fool. I can't wait to tear you apart.
 elif GameState.character_selected == 2
-	Shark Man: Copy Robot
+	Shark Man: I knew I could smell an impostor who's in over his head. Run along now and I'll let you go.
+	Copy Robot: I'd say I have bigger fish to fry, but you're pretty huge! I'm gonna have to stay.
+	Shark Man: Ha! I'll enjoy ripping you to shreds. Get ready, boy!
 elif GameState.character_selected == 3
-	Shark Man: Mega Man
+	Mega Man: Shark Man... Surrender now and I'll leave you be.
+	Shark Man: Do you seriously expect me to just stop? You're quite foolish.
+	Mega Man: I wanted to at least give you a chance...
+	Shark Man:
 elif GameState.character_selected == 4
-	Shark Man: Proto Man
+	Proto Man: Shark Man... Surrender now and I won't break you.
+	Shark Man: \.
+	Proto Man: No, I just wanted to 
 elif GameState.character_selected == 5
-	Shark Man: Rachel
+	Shark Man: How could a human make it to this room...?
+	Rachel: I dunno!
+	Shark Man: You seem dangerous enough. I'll make you sorry you came here.
 => END

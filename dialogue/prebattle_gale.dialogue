@@ -1,0 +1,16 @@
+~ start
+if GameState.character_selected == 0
+	Gale Woman: Maestro
+elif GameState.character_selected == 1
+	Gale Woman: The weather up here is wonderful, is it not?
+	Bass: No way, it's too windy.
+	Gale Woman: What a shame, I thought you'd be more agreeable.
+elif GameState.character_selected == 2
+	Gale Woman: Copy Robot
+elif GameState.character_selected == 3
+	Gale Woman: Mega Man
+elif GameState.character_selected == 4
+	Gale Woman: Proto Man
+elif GameState.character_selected == 5
+	Gale Woman: Rachel
+=> END

@@ -85,7 +85,7 @@ var theta : float # changed from int to float
 var time : int
 var freq = 0.1
 var amplitude = 0.35
-var goalrad : float = 28
+var goalrad : float = 25
 var baserad : float
 
 var rad : float
@@ -322,9 +322,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ifjv"]
+size = Vector2(24, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vwmrr"]
-size = Vector2(12, 12)
+size = Vector2(8, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nl24n"]
 size = Vector2(28, 27)

@@ -23,7 +23,7 @@ class_name Blaze_Man
 @onready var projectile
 @export var slot : int
 @export var barPalette : CompressedTexture2D
-var geese : bool = false
+var fullintro : bool
 var Dmg_Vals : Array[float]
 var Inv_Vals : Array[float]
 var Atk_Dmg = 4
@@ -41,6 +41,7 @@ var direction = -1
 var attacking : bool = false
 
 var runs : int
+var noshieldruns : int
 var shields : int = 0
 
 var statetimer
@@ -263,6 +264,8 @@ func _physics_process(_delta):
 			if statetimer >= 27:
 				$Sprite.play(\"Run\")
 				runs += 1 
+				if shields <= 0:
+					noshieldruns += 1
 				state = STATES.RUNNING
 					
 		if state == STATES.WEAKNESS:
@@ -296,13 +299,16 @@ func _physics_process(_delta):
 				$Sprite.play(\"Skid\")
 				state = STATES.SKIDDING
 				if shields <= 0:
-					if runs >= 2:
+					if noshieldruns >= 2:
 						runs = 0
 						shields = 0
+						noshieldruns = 0
 						SummonShield()
+					noshieldruns += 1
 				runs += 1 
 				
-			if shields <= 5 or ($RightProjectile3.is_colliding() and direction == 1) or ($LeftProjectile3.is_colliding() and direction == -1):
+				
+			if shields <= 0 or ($RightProjectile3.is_colliding() and direction == 1) or ($LeftProjectile3.is_colliding() and direction == -1):
 				if ($RightProjectile.is_colliding()) or ($LeftProjectile.is_colliding()) or ($RightProjectile2.is_colliding()) or ($LeftProjectile2.is_colliding()) or $RightProjectile3.is_colliding() or $LeftProjectile3.is_colliding() or (($LeftRay2.is_colliding() or $RightRay2.is_colliding()) and shields <= 0):
 					statetimer = 0
 					state = STATES.JUMP
@@ -311,7 +317,8 @@ func _physics_process(_delta):
 			if statetimer == 0:
 				$Sprite.play(\"Jump\")
 				jumping = true
-				velocity.y = -250
+				velocity.x *= 1.10
+				velocity.y = -295
 				
 			if is_on_floor() and statetimer > 35 and jumping == true:
 				$Sprite.play(\"Crouch\")
@@ -355,6 +362,7 @@ func _physics_process(_delta):
 			if velocity.y > 0 and attacking == false and (position.y > GameState.player.position.y - 32) and (position.y < GameState.player.position.y -18):
 				$Sprite.play(\"Cast\")
 				velocity.y = 0
+				shields = 0
 				attacking = true
 				
 			if statetimer < 1000 and statetimer > 10 and is_on_floor():

@@ -21,11 +21,13 @@ elif GameState.character_selected == 4
 	Video Man: Woah, didn't expect to see you here, Proto Man! What did you think of my movies?
 	Proto Man: I'm not much of a movie person, so I can't really say.\nThis is more of a topic for my brother.
 	#if GameState.stage.brokenman_defeated == true
-		#Proto Man: (temp) Horrible knockoff of me, by the way.\nSomehow, it's even worse than the Joes.
-		#Video Man: (temp) Sucks to suck.
+		#Proto Man: Was Broken Man 3 supposed to be based around Break Man? It's very inaccurate
+		#Video Man: Hey, it's an action movie, not a documentary.
+		#Proto Man: I see. Regardless, I'm very angry at you.
+		
 	Video Man: I gotcha. Let's get this over with, then.
 elif GameState.character_selected == 5
 	Video Man: ...A human? What are you going to do that the rest of the humans in the city couldn't?
 	Rachel: I dunno, kick your ass? Nice rip-off of Mobile Suit Gu***m, by the way.
-	Video Man: I'd like to see you try! And it's inspired by VO*OMS, you moron!!!
+	Video Man: I- no!!! It's inspired by VO*OMS, you moron!!!
 => END
