@@ -21,41 +21,41 @@ class_name ScorchBarrier
 var attacks : int
 
 func _ready():
-	Cur_HP = 5
+	Cur_HP = 10
 	Dmg_Vals.resize(GameState.DMGTYPE.size())
 	Dmg_Vals[GameState.DMGTYPE.CB_SMOG] = 1
-	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] = 1
-	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 3
-	Dmg_Vals[GameState.DMGTYPE.CB_GALE] = 30
-	Dmg_Vals[GameState.DMGTYPE.CB_ORIGAMI] = 2
-	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 0.75
-	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_1] = 2
-	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_2] = 3
-	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_3] = 5
+	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] = 3
+	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 7
+	Dmg_Vals[GameState.DMGTYPE.CB_GALE] = 100
+	Dmg_Vals[GameState.DMGTYPE.CB_ORIGAMI] = 4
+	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_1] = 3
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_2] = 5
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_3] = 15
 	
-	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_1] = 2
-	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_2] = 3
-	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_3] = 5
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_1] = 3
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_2] = 6
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_3] = 10
 	Dmg_Vals[GameState.DMGTYPE.CR_BLAZE] = -1
-	Dmg_Vals[GameState.DMGTYPE.CR_SHARK1] = 8
-	Dmg_Vals[GameState.DMGTYPE.CR_SHARK2] = 10
-	Dmg_Vals[GameState.DMGTYPE.CR_ARROW] = 3
+	Dmg_Vals[GameState.DMGTYPE.CR_SHARK1] = 100
+	Dmg_Vals[GameState.DMGTYPE.CR_SHARK2] = 100
+	Dmg_Vals[GameState.DMGTYPE.CR_ARROW] = 100
 	Dmg_Vals[GameState.DMGTYPE.CR_ENKER] = 1
 	Dmg_Vals[GameState.DMGTYPE.CR_PUNK] = 2
 	Dmg_Vals[GameState.DMGTYPE.CR_BALLADE] = 5
 	Dmg_Vals[GameState.DMGTYPE.CR_QUINT1] = 4
 	Dmg_Vals[GameState.DMGTYPE.CR_QUINT2] = 1
 	
-	Dmg_Vals[GameState.DMGTYPE.BS_BUSTER] = 1
-	Dmg_Vals[GameState.DMGTYPE.BS_BLAZE] = 3
-	Dmg_Vals[GameState.DMGTYPE.BS_SHARK] = 8
+	Dmg_Vals[GameState.DMGTYPE.BS_BUSTER] = 2
+	Dmg_Vals[GameState.DMGTYPE.BS_BLAZE] = 0
+	Dmg_Vals[GameState.DMGTYPE.BS_SHARK] = 100
 	Dmg_Vals[GameState.DMGTYPE.BS_TREBLE] = 1
 	
-	Dmg_Vals[GameState.DMGTYPE.MD_BLAZE] = 3
+	Dmg_Vals[GameState.DMGTYPE.MD_BLAZE] = 0
 	Dmg_Vals[GameState.DMGTYPE.MD_VIDEO] = 2
-	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 4
-	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 0.95
-	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 1.5
+	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 100
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 3
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 4
 	
 	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 2
 	Dmg_Vals[GameState.DMGTYPE.RA_GALAXY] = 1
@@ -73,14 +73,18 @@ func _ready():
 	Dmg_Vals[GameState.DMGTYPE.RA_MERCURY] = 1
 	Dmg_Vals[GameState.DMGTYPE.RA_MARS] = 1
 	Dmg_Vals[GameState.DMGTYPE.RA_PLUTO] = 1
-	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2 # Maybe?Atk_Dmg = 4
+	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2 # Maybe?
 	
+	Atk_Dmg = 2
+
 
 var baseposx : float
 var baseposy : float
 var trail
 var master
 var theta : float # changed from int to float
+
+var angry : bool = false
 
 var time : int
 var freq = 0.1
@@ -102,6 +106,8 @@ func _physics_process(_delta):
 	#trail.position = position
 	
 	if master != null:
+		if master.Cur_HP <= 28:
+			angry = true
 		if fired == false:
 			baseposx = master.position.x
 			baseposy = master.position.y
@@ -142,26 +148,26 @@ func _physics_process(_delta):
 	
 	time += 1
 	if fired == false:
-		
-		baserad = (cos(time * freq) * amplitude)
-		goalrad += baserad
+				
+		if angry == false:
+			goalrad = 21
+				
+		if angry == true:
+			baserad = (cos(time * freq) * amplitude)
+			goalrad += baserad
 		
 		if radius < goalrad - 1:
 			radius *= 1.05
 		if radius > goalrad -1 and radius < goalrad + 1:
 			radius = goalrad
+			
+	if fired == true and angry == true:
+		radius += 0.75
 	
-	if (radius > 25) and fired == true:
-		radius -= 2
-
 	if rad_to_deg(theta) > 360:
 		theta -= deg_to_rad(360)
 	
-	if GameState.character_selected == 2:
-		theta += rotatedir*(0.35 * (1 -(radius * 0.020)))
-		
-	else:
-		theta += 0.175 * rotatedir
+	theta += 0.175 * rotatedir
 	
 	if $AmbientSound.finished:
 		$AmbientSound.play()
@@ -191,19 +197,20 @@ func _on_hitable_body_entered(weapon):
 				else:
 					weapon.durability -= 2
 			#Look up the damage type and do damage according to it.
-			Cur_HP -= Dmg_Vals[weapon.W_Type]
-			Cur_Inv = 2
-			print(weapon.W_Type)
+			if radius >= goalrad:
+				Cur_HP -= Dmg_Vals[weapon.W_Type]
+				Cur_Inv = 2
+				print(weapon.W_Type)
 			
 			#If the projectile kills, or are the below weapons on hit, go to the kill state!
-			if Cur_HP <= 0 or (weapon.W_Type == GameState.DMGTYPE.CR_SHARK1 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2 or weapon.W_Type == GameState.DMGTYPE.BS_SHARK):
+			if Cur_HP <= 0 and ((weapon.W_Type != GameState.DMGTYPE.CR_BUSTER_3) or (weapon.W_Type == GameState.DMGTYPE.CR_SHARK1 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2 or weapon.W_Type == GameState.DMGTYPE.BS_SHARK)):
 				weapon.kill()
 				print(weapon.W_Type)
 			else:
 				weapon.destroy()
-				if Cur_HP <= 3:
+				if Cur_HP <= 7:
 					$Sprite.play(\"Mid\")
-				if Cur_HP == 1:
+				if Cur_HP == 3:
 					$Sprite.play(\"Weak\")
 				
 				

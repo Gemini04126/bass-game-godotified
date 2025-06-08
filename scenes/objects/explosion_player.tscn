@@ -9,7 +9,7 @@ script/source = "extends CharacterBody2D
 class_name PlayerExplosion
 
 func _ready() -> void:
-	if GameState.character_selected == 2:
+	if GameState.character_selected == 2 and GameState.current_hp <= 0:
 		$AnimatedSprite2D.play(\"alt\")
 
 func _physics_process(_delta: float) -> void:

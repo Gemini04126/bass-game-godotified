@@ -1,0 +1,112 @@
+[gd_scene load_steps=12 format=3 uid="uid://1yv7kmx2aimg"]
+
+[ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_8qc1c"]
+[ext_resource type="Texture2D" uid="uid://drvy2u5qq0ywr" path="res://sprites/enemies/object_trans/transb1.png" id="2_1dyrb"]
+[ext_resource type="Texture2D" uid="uid://cvoyjysr7ukbj" path="res://sprites/enemies/bosses/blaze_wave.png" id="3_8qc1c"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
+shader = ExtResource("1_8qc1c")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="GDScript" id="GDScript_oh0wy"]
+script/source = "extends CharacterBody2D
+
+const Atk_Dmg = 3
+var projectile
+var master
+
+func _physics_process(_delta):
+	if velocity.x > 0:
+		$Sprite.scale.x = -1
+	if GameState.freezeframe == false:
+		move_and_slide()
+	if $RayCast2D.is_colliding() or $RayCast2D2.is_colliding():
+		destroy()
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()
+
+func _on_hurt_body_entered(body):
+	if body.is_in_group(\"player\"):
+		body.DmgQueue = Atk_Dmg
+	if body.is_in_group(\"scorch\"):
+		body.durability -= 25
+
+func destroy():
+	velocity.x = 0
+	velocity.y = 0
+	queue_free()
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3u8v0"]
+shader = ExtResource("1_8qc1c")
+shader_parameter/palette = ExtResource("2_1dyrb")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dyrb"]
+atlas = ExtResource("3_8qc1c")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olpn7"]
+atlas = ExtResource("3_8qc1c")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0xfsa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dyrb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olpn7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8qc1c"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1dyrb"]
+size = Vector2(16, 8)
+
+[node name="BlastTrail" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_gtk0d")
+collision_layer = 0
+script = SubResource("GDScript_oh0wy")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_3u8v0")
+sprite_frames = SubResource("SpriteFrames_0xfsa")
+autoplay = "default"
+frame_progress = 0.44502
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="Hurtbox" type="CollisionShape2D" parent="hurt"]
+shape = SubResource("RectangleShape2D_8qc1c")
+debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_1dyrb")
+debug_color = Color(0, 1, 0.0705882, 0.419608)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(-9, 0)
+
+[node name="RayCast2D2" type="RayCast2D" parent="."]
+target_position = Vector2(9, 0)
+
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

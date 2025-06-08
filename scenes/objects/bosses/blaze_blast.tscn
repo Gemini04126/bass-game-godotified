@@ -1,0 +1,185 @@
+[gd_scene load_steps=16 format=3 uid="uid://hoy7p3vhsk0j"]
+
+[ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xrp63"]
+[ext_resource type="Texture2D" uid="uid://drvy2u5qq0ywr" path="res://sprites/enemies/object_trans/transb1.png" id="2_8qmfj"]
+[ext_resource type="Texture2D" uid="uid://pro4ksjahwcs" path="res://sprites/enemies/bosses/blaze_blast1.png" id="4_u6g5p"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
+shader = ExtResource("1_xrp63")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="GDScript" id="GDScript_oh0wy"]
+script/source = "extends CharacterBody2D
+
+const Atk_Dmg = 4
+var projectile
+var master
+
+func _physics_process(_delta):
+	if GameState.freezeframe == false:
+		move_and_slide()
+	if is_on_floor():
+		if projectile == null:
+			destroy()
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()
+
+func _on_hurt_body_entered(body):
+	if body.is_in_group(\"player\"):
+		body.DmgQueue = Atk_Dmg
+	if body.is_in_group(\"scorch\"):
+		body.durability -= 25
+
+func destroy():
+	projectile = load(\"res://scenes/objects/bosses/blaze_wave.tscn\").instantiate()
+	add_sibling(projectile)
+	projectile.master = master
+	projectile.position = position
+	projectile.velocity.x = -150
+	projectile.position.y += 6
+	
+	projectile = load(\"res://scenes/objects/bosses/blaze_wave.tscn\").instantiate()
+	add_sibling(projectile)
+	projectile.master = master
+	projectile.position = position
+	projectile.velocity.x = 150
+	projectile.position.y += 6
+	
+	if GameState.difficulty >= 2:
+		projectile = load(\"res://scenes/objects/bosses/blaze_wave.tscn\").instantiate()
+		add_sibling(projectile)
+		projectile.master = master
+		projectile.position = position
+		projectile.velocity.x = -250
+		projectile.position.y += 6
+		
+		projectile = load(\"res://scenes/objects/bosses/blaze_wave.tscn\").instantiate()
+		add_sibling(projectile)
+		projectile.master = master
+		projectile.position = position
+		projectile.velocity.x = 250
+		projectile.position.y += 6
+		
+	if GameState.difficulty >= 3:
+		projectile = load(\"res://scenes/objects/bosses/blaze_wave.tscn\").instantiate()
+		add_sibling(projectile)
+		projectile.master = master
+		projectile.position = position
+		projectile.velocity.x = -80
+		projectile.position.y += 6
+		
+		projectile = load(\"res://scenes/objects/bosses/blaze_wave.tscn\").instantiate()
+		add_sibling(projectile)
+		projectile.master = master
+		projectile.position = position
+		projectile.velocity.x = 80
+		projectile.position.y += 6
+	
+	velocity.x = 0
+	velocity.y = 0
+	$Sprite.play(\"die\")
+	await $Sprite.animation_finished
+	queue_free()
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3u8v0"]
+shader = ExtResource("1_xrp63")
+shader_parameter/palette = ExtResource("2_8qmfj")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3awkq"]
+atlas = ExtResource("4_u6g5p")
+region = Rect2(0, 0, 32, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0loc8"]
+atlas = ExtResource("4_u6g5p")
+region = Rect2(0, 24, 32, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4m0r"]
+atlas = ExtResource("4_u6g5p")
+region = Rect2(0, 48, 32, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0abj"]
+atlas = ExtResource("4_u6g5p")
+region = Rect2(0, 24, 32, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vxx1"]
+atlas = ExtResource("4_u6g5p")
+region = Rect2(0, 48, 32, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nny4e"]
+atlas = ExtResource("4_u6g5p")
+region = Rect2(0, 72, 32, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yjhhq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3awkq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0loc8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4m0r")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f0abj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vxx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nny4e")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"die",
+"speed": 14.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrp63"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nl24n"]
+size = Vector2(28, 27)
+
+[node name="BlastWave" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_gtk0d")
+collision_layer = 0
+script = SubResource("GDScript_oh0wy")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_3u8v0")
+sprite_frames = SubResource("SpriteFrames_yjhhq")
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="Hurtbox" type="CollisionShape2D" parent="hurt"]
+shape = SubResource("RectangleShape2D_xrp63")
+debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_nl24n")
+debug_color = Color(0, 1, 0.0705882, 0.419608)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
