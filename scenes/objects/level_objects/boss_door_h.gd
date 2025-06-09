@@ -24,6 +24,7 @@ var oldscaley
 
 @export var direction : int ##right = 1 down = 2 left = 3 up = 4
 @export var way : int ## 0: Up, 1: Down,
+@export var checkpoint : int
 
 @export var screenmode : int
 
@@ -68,10 +69,12 @@ func _on_open_trigger_body_entered(body):
 				GameState.scrollX2 = scrollX2
 				GameState.scrollY1 = scrollY1
 				GameState.scrollY2 = scrollY2
-		
+				
 				GameState.screentransiton = 50
 				GameState.transdir = direction
 					
+				if checkpoint != 0:
+					GameState.checkpoint = checkpoint
 
 
 

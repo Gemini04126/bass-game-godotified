@@ -56,17 +56,28 @@ func _ready():
 	else:
 		GameState.max_WE = 28
 	
+	if GameState.checkpoint == 0 or GameState.checkpoint == null:
+		$Camera2D.position = $StartPosition.position
+		GameState.scrollX1 = C1scrollX1
+		GameState.scrollX2 = C1scrollX2
+		GameState.scrollY1 = C1scrollY1
+		GameState.scrollY2 = C1scrollY2
 	
-	$StartPosition/Sprite2D.queue_free()	# just delete the sprite2d instead of making it invisible. why have it stick around?
-
-
-	$Camera2D.position = $StartPosition.position
-	GameState.scrollX1 = C1scrollX1
-	GameState.scrollX2 = C1scrollX2
-	GameState.scrollY1 = C1scrollY1
-	GameState.scrollY2 = C1scrollY2
-	GameState.screenmode = C1screenmode
-		
+	if GameState.checkpoint == 1:
+		$Camera2D.position = $StartPosition2.position
+		GameState.scrollX1 = C2scrollX1
+		GameState.scrollX2 = C2scrollX2
+		GameState.scrollY1 = C2scrollY1
+		GameState.scrollY2 = C2scrollY2
+	
+	if GameState.checkpoint == 2:
+		$Camera2D.position = $StartPosition3.position
+		GameState.scrollX1 = C3scrollX1
+		GameState.scrollX2 = C3scrollX2
+		GameState.scrollY1 = C3scrollY1
+		GameState.scrollY2 = C3scrollY2
+	
+	
 	
 		
 	await Fade.fade_in().finished
@@ -82,8 +93,18 @@ func _ready():
 	player = player_scene.instantiate()
 	add_child(player)
 	player.position.y = GameState.camposy - 130
-	player.position.x = $StartPosition.position.x
-	player.targetpos = $StartPosition.position.y
+	if GameState.checkpoint == 0 or GameState.checkpoint == null:
+		player.position.x = $StartPosition.position.x
+		player.targetpos = $StartPosition.position.y
+	
+	if GameState.checkpoint == 1:
+		player.position.x = $StartPosition2.position.x
+		player.targetpos = $StartPosition2.position.y
+	
+	if GameState.checkpoint == 2:
+		player.position.x = $StartPosition3.position.x
+		player.targetpos = $StartPosition3.position.y
+	
 	
 	if GameState.character_selected == 2:
 		GameState.weapons_unlocked[11]=GameState.upgrades_enabled[16]

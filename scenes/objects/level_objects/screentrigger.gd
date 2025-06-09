@@ -12,6 +12,7 @@ class_name ScreenChange
 ## Direction the transition goes in.
 @export_enum ("None", "Right", "Down", "Left", "Up") var direction : int = 1
 
+@export var checkpoint : int
 @export var screenmode : int
 
 @export var ladder_only : bool
@@ -50,6 +51,8 @@ func _on_body_entered(body):
 				GameState.scrollY2 = scrollY2
 		
 				GameState.screenmode = screenmode
+				if checkpoint != 0:
+					GameState.checkpoint = checkpoint
 				
 				if smooth == false:
 					GameState.transdir = direction

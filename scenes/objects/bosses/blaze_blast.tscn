@@ -164,6 +164,7 @@ script = SubResource("GDScript_oh0wy")
 z_index = 2
 material = SubResource("ShaderMaterial_3u8v0")
 sprite_frames = SubResource("SpriteFrames_yjhhq")
+frame_progress = 0.99287
 
 [node name="hurt" type="Area2D" parent="."]
 collision_layer = 4

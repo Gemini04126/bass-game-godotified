@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=3 uid="uid://ckdeuge1iatm5"]
+[gd_scene load_steps=101 format=3 uid="uid://ckdeuge1iatm5"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_xo4wh"]
 [ext_resource type="Texture2D" uid="uid://2jtqdlu4xtk5" path="res://sprites/hud/bossbarpals/shark.png" id="2_l2mpc"]
@@ -582,7 +582,8 @@ func _physics_process(_delta):
 				floating = true
 				
 			if statetimer == 230:
-				$Sprite.play(\"PreBoomer\")
+				$Sprite.play(\"Boomer1\")
+				$Overlay.play(\"Boomer1\")
 				
 			if statetimer > 230 and statetimer < 290:
 				velocity.y *= 0.9
@@ -595,6 +596,7 @@ func _physics_process(_delta):
 					$Audio/Shippuken.play()
 					
 				$Sprite.play(\"Boomerang\")
+				$Overlay.play(\"Boomer2\")
 				$Audio/Boomerang.play()
 				
 				projectile = preload(\"res://scenes/objects/bosses/shark_boomerang.tscn\").instantiate()
@@ -621,6 +623,7 @@ func _physics_process(_delta):
 			if statetimer == 310 and Cur_HP <= 28:
 				turntoplayer()
 				$Sprite.play(\"Boomerang\")
+				$Overlay.play(\"Boomer2\")
 				$Audio/Boomerang.play()
 				if geese == true:
 					$Audio/Shippuken.play()
@@ -993,17 +996,25 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_do33u"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1u0mv"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(64, 128, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_jmdv5"]
 atlas = ExtResource("3_l2mpc")
 region = Rect2(128, 128, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_amro4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_alwp2"]
 atlas = ExtResource("3_l2mpc")
 region = Rect2(192, 128, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1u0mv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_amro4"]
 atlas = ExtResource("3_l2mpc")
-region = Rect2(0, 128, 64, 64)
+region = Rect2(256, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kwo4k"]
 atlas = ExtResource("3_l2mpc")
@@ -1033,10 +1044,6 @@ region = Rect2(256, 0, 64, 64)
 atlas = ExtResource("3_l2mpc")
 region = Rect2(0, 128, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_alwp2"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(64, 128, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_apgux"]
 atlas = ExtResource("3_l2mpc")
 region = Rect2(0, 0, 64, 64)
@@ -1064,14 +1071,6 @@ region = Rect2(512, 320, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_l2mpc"]
 atlas = ExtResource("3_l2mpc")
 region = Rect2(64, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_do33u"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(512, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o400k"]
-atlas = ExtResource("3_l2mpc")
-region = Rect2(576, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nbslf"]
 atlas = ExtResource("3_l2mpc")
@@ -1165,19 +1164,27 @@ region = Rect2(64, 320, 64, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_do33u")
+}],
+"loop": true,
+"name": &"Boomer1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1u0mv")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_jmdv5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_amro4")
+"texture": SubResource("AtlasTexture_alwp2")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_amro4")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_amro4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1u0mv")
 }],
 "loop": false,
 "name": &"Boomerang",
@@ -1240,9 +1247,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7t2eh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_alwp2")
 }],
 "loop": true,
 "name": &"Float",
@@ -1301,17 +1305,6 @@ animations = [{
 }],
 "loop": true,
 "name": &"Jump",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_do33u")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o400k")
-}],
-"loop": true,
-"name": &"PreBoomer",
 "speed": 5.0
 }, {
 "frames": [{
@@ -1436,6 +1429,30 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8q7cg"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(320, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mcht"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(384, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivjdh"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(320, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i0dm1"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(448, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_md0d1"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(512, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhwkp"]
+atlas = ExtResource("3_l2mpc")
+region = Rect2(576, 128, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_oqya0"]
 atlas = ExtResource("3_l2mpc")
 region = Rect2(320, 0, 64, 64)
@@ -1478,6 +1495,37 @@ region = Rect2(448, 64, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kg6rs"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8q7cg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5mcht")
+}],
+"loop": true,
+"name": &"Boomer1",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ivjdh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i0dm1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_md0d1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhwkp")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"Boomer2",
+"speed": 15.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oqya0")
@@ -1535,7 +1583,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"RagingStorm",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wp5vq"]
@@ -1552,24 +1600,24 @@ prebattle = ExtResource("3_nbslf")
 material = SubResource("ShaderMaterial_5nqm8")
 position = Vector2(0, -15)
 sprite_frames = SubResource("SpriteFrames_df213")
-animation = &"jump2"
+animation = &"none"
 autoplay = "none"
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_5nqm8")
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_kwo4k")
-animation = &"Intro"
+animation = &"Boomer1"
 autoplay = "Jump"
-frame = 3
-frame_progress = 1.0
 
 [node name="Overlay" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_5nqm8")
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_kg6rs")
-animation = &"FinShredder"
+animation = &"Boomer2"
 autoplay = "None"
+frame = 4
+frame_progress = 1.0
 
 [node name="hitable" type="Area2D" parent="."]
 collision_layer = 4

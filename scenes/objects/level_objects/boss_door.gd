@@ -34,6 +34,7 @@ var oldscaley
 @export var way : int 
 
 @export var screenmode : int
+@export var checkpoint : int
 
 @export var ladderonly : bool
 
@@ -78,6 +79,8 @@ func _on_open_trigger_body_entered(body):
 				GameState.screentransiton = 50
 				GameState.transdir = direction
 					
+				if checkpoint != 0:
+					GameState.checkpoint = checkpoint
 
 
 

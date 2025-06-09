@@ -178,7 +178,7 @@ var screentransiton : int
 var bossdoor : bool
 var transdir : int
 
-var checkpoint
+var checkpoint : int
 var doorprogress : int = 0
 
 #player variables
