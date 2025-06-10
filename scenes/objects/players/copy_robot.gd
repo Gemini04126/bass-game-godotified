@@ -12,6 +12,7 @@ var busterspeed
 
 func _init() -> void:
 	JUMP_HEIGHT = 13
+	default_projectile_offset = Vector2(18, 2)
 	projectile_scenes = [
 		preload("res://scenes/objects/players/weapons/copy_robot/buster_small.tscn"),
 		preload("res://scenes/objects/players/weapons/copy_robot/buster_medium.tscn"),
@@ -364,21 +365,12 @@ func weapon_cbuster():
 				attack_timer.start(0.3)
 				GameState.onscreen_bullets += 1
 				if GameState.ultimate == false:
-					BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_small.tscn", Vector2(350 + busterspeed ,0))
+					BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_small.tscn", Vector2((350 if !GameState.upgrades_enabled[15] else 450) + busterspeed, 0))
 					$Audio/Buster1.play()
 				
 				else:
-					BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_medium.tscn", Vector2(350 + busterspeed ,0))
+					BasicProjectileAttack("res://scenes/objects/players/weapons/copy_robot/buster_medium.tscn", Vector2((350 if !GameState.upgrades_enabled[15] else 450) + busterspeed, 0))
 					$Audio/Buster2.play()
-				
-				add_sibling(projectile)
-				projectile.position.x = position.x + (sprite.scale.x * 18)
-				projectile.position.y = position.y + 2
-				if GameState.upgrades_enabled[15]:
-					projectile.velocity.x = sprite.scale.x * 450
-				else:
-					projectile.velocity.x = sprite.scale.x * 350
-				projectile.scale.x = sprite.scale.x
 				bustercharge = 0
 				$ChargeFX.play("none")
 				$Audio/Charge1.stop()
