@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://mf2nkqotmkdf"]
+
+[ext_resource type="Texture2D" uid="uid://dgiwcwe0dt077" path="res://sprites/explosion.png" id="1_203te"]
+[ext_resource type="Script" uid="uid://w5lwf7kqrmyk" path="res://scenes/objects/players/bossdataball.gd" id="2_203te"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_203te"]
+atlas = ExtResource("1_203te")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6ye6"]
+atlas = ExtResource("1_203te")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7sud8"]
+atlas = ExtResource("1_203te")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tcjha"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_203te")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6ye6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7sud8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fico4"]
+
+[node name="BossDataBall" type="CharacterBody2D"]
+z_index = 2
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("2_203te")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tcjha")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_fico4")

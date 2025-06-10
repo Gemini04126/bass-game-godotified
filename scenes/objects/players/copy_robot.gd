@@ -201,6 +201,8 @@ func _physics_process(delta: float) -> void:
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
+		if currentState != STATES.VICTORY and victorydemo == true:
+			currentState = STATES.VICTORY
 		if currentState != STATES.LADDER:
 			ladderticks = 0
 		if currentState != STATES.WARPING and warping == 1:
@@ -583,3 +585,67 @@ func _on_shoot_timer_timeout() -> void:
 	elif STATES.keys()[currentState].contains("LADDER"):
 		$AnimationPlayer.play("LADDER-1-IDLE")
 		currentState = STATES.LADDER
+
+func victory(delta):
+	if deathtime < 80 or deathtime > 81:
+		deathtime += 1
+	
+	if deathtime == 80:
+		$AnimationPlayer.play("WALK")
+		if position.x > GameState.middleroom:
+			sprite.scale.x = -1
+			velocity.x = MAXSPEED * -1
+		if position.x < GameState.middleroom:
+			sprite.scale.x = 1
+			velocity.x = MAXSPEED * 1
+		deathtime += 1
+	
+	if deathtime == 81 and (position.x > GameState.middleroom -1 and position.x < GameState.middleroom +1):
+		$AnimationPlayer.play("IDLE")
+		velocity.x = 0
+		deathtime += 1
+		
+	if deathtime == 110:
+		$AnimationPlayer.play("JUMP")
+		if in_water == true:
+			velocity.y = WATER_JUMP_VELOCITY
+		else:
+			velocity.y = JUMP_VELOCITY
+	
+	if deathtime > 120 and deathtime < 150:
+		applyGrav(delta)
+		if in_water == true:
+			deathtime += 2
+	
+	if deathtime == 150 or deathtime == 190  or deathtime == 230 or deathtime == 270:
+		velocity.y = 0
+		ShieldProjectileAttack("res://scenes/objects/players/bossdataball.tscn",8,0)
+		
+	if deathtime == 170 or deathtime == 210  or deathtime == 250 or deathtime == 290:
+		$Audio/Absorb.play()
+		
+		
+	if deathtime == 350:
+		$AnimationPlayer.play("VICTORYJUMP")
+		GameState.current_weapon = GameState.stage_boss_weapon
+		set_current_weapon_palette()
+		$Audio/Cool.play()
+		
+	if deathtime == 380:
+		$AnimationPlayer.play("FALL")
+		
+	if deathtime > 382 and deathtime < 700:
+		applyGrav(delta)
+		if is_on_floor():
+			deathtime = 719
+		
+	if deathtime == 720:
+		$AnimationPlayer.play("VICTORY_TELEPORT")
+		$Audio/Warp.play()
+		
+	if deathtime == 735:
+		velocity.y = -320
+		$mainCollision.disabled = true
+		
+	if deathtime == 780:
+		end_level()
