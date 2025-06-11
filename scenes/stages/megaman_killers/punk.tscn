@@ -75,6 +75,7 @@ sources/0 = SubResource("TileSetAtlasSource_dlclr")
 [node name="Punk" type="Node2D"]
 script = ExtResource("1_02ro2")
 boss_weapon = 14
+progress_update = "PunkDead"
 
 [node name="Layer0" type="TileMapLayer" parent="."]
 texture_filter = 1

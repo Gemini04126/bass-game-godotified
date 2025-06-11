@@ -388,7 +388,11 @@ func _physics_process(delta: float) -> void:
 		$Sprite.material.set_shader_parameter(\"palette\", WEAPON_PALETTES[(GameState.character_selected * GameState.WEAPONS.size()) + GameState.stage_boss_weapon])
 		$Energy.material.set_shader_parameter(\"palette\", ENERGY_PALETTES[(GameState.character_selected * GameState.WEAPONS.size()) + GameState.stage_boss_weapon])
 		$RichTextLabel.visible = true
-		
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed(\"start\"):
+		await Fade.fade_out().finished
+		get_tree().change_scene_to_file(\"res://scenes/menus/continue.tscn\")
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2x64o"]

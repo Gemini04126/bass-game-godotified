@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpxvylxr7jmlp"
-path="res://.godot/imported/enker.png-910e5b9c00e71c16a72fefe0c102d7e1.ctex"
+uid="uid://cqmivmahopdos"
+path="res://.godot/imported/spr_realisticexplosion_12.png-b30d856a74aa0b5b0cb105d68f8b9050.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/objects/yoku_blocks/enker.png"
-dest_files=["res://.godot/imported/enker.png-910e5b9c00e71c16a72fefe0c102d7e1.ctex"]
+source_file="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_12.png"
+dest_files=["res://.godot/imported/spr_realisticexplosion_12.png-b30d856a74aa0b5b0cb105d68f8b9050.ctex"]
 
 [params]
 

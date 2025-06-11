@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_j85hj"]
 [ext_resource type="Script" uid="uid://cqrvwic8eyldn" path="res://scenes/objects/players/mega_man.gd" id="2_j85hj"]
 [ext_resource type="Texture2D" uid="uid://culj6yyxpqgs1" path="res://sprites/players/bass/palettes/Bass Buster.png" id="3_v70fy"]
-[ext_resource type="Texture2D" uid="uid://dspk0k641qf8b" path="res://sprites/hud/copy_robot_weapons.png" id="4_jx67k"]
+[ext_resource type="Texture2D" uid="uid://b8cjlluipu7u3" path="res://sprites/hud/weapons_menu_icons.png" id="4_j85hj"]
 [ext_resource type="Texture2D" uid="uid://c18jx5q3e1uac" path="res://sprites/players/copy_robot/palettes/Copy Buster.png" id="5_rv6pu"]
 [ext_resource type="Texture2D" uid="uid://gsuyx8h1402k" path="res://sprites/players/megaman/megaman.png" id="6_j85hj"]
 [ext_resource type="Texture2D" uid="uid://bwjcpi32dvfu0" path="res://sprites/players/copy_robot/chargefx1.png" id="7_nkm56"]
@@ -926,8 +926,10 @@ visible = false
 z_index = 6
 material = SubResource("ShaderMaterial_a3d7m")
 position = Vector2(0, -20)
-texture = ExtResource("4_jx67k")
-hframes = 17
+texture = ExtResource("4_j85hj")
+hframes = 13
+region_enabled = true
+region_rect = Rect2(0, 64, 208, 16)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
@@ -941,8 +943,8 @@ z_index = 3
 material = SubResource("ShaderMaterial_om5r5")
 position = Vector2(0, 3)
 sprite_frames = SubResource("SpriteFrames_uj5mc")
-animation = &"charge2"
-frame_progress = 0.781686
+animation = &"none"
+autoplay = "none"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

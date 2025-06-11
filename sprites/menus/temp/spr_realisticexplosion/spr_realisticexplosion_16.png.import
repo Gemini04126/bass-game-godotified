@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6ett6afagpl8"
-path="res://.godot/imported/rachel_weapons.png-2b8cbc7a632d646300fd8ab785070e7a.ctex"
+uid="uid://c48x6oil5valf"
+path="res://.godot/imported/spr_realisticexplosion_16.png-27813f9d5b0191920a270109e1c3050f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/hud/rachel_weapons.png"
-dest_files=["res://.godot/imported/rachel_weapons.png-2b8cbc7a632d646300fd8ab785070e7a.ctex"]
+source_file="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_16.png"
+dest_files=["res://.godot/imported/spr_realisticexplosion_16.png-27813f9d5b0191920a270109e1c3050f.ctex"]
 
 [params]
 

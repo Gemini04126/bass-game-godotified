@@ -426,7 +426,7 @@ func weapon_cbuster():
 					$Audio/Buster3.play()
 					busterAnimMatch()
 					if GameState.upgrades_enabled[11] and direction.y != 0:
-						projectile.velocity.y = direction.y * (projectile.velocity.x * 0.2)
+						projectile.velocity.y = direction.y * (projectile.velocity.x * 0.2) * -sprite.scale.x
 						projectile.velocity.x *= 0.8
 					
 					
@@ -611,7 +611,7 @@ func victory(delta):
 	
 	if deathtime == 150 or deathtime == 190  or deathtime == 230 or deathtime == 270:
 		velocity.y = 0
-		ShieldProjectileAttack("res://scenes/objects/players/bossdataball.tscn",8,0)
+		ShieldProjectileAttack("res://scenes/objects/players/bossdataball.tscn", 8, 0, Vector2(900, 900))
 		
 	if deathtime == 170 or deathtime == 210  or deathtime == 250 or deathtime == 290:
 		$Audio/Absorb.play()

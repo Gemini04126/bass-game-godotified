@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://culj6yyxpqgs1" path="res://sprites/players/bass/palettes/Bass Buster.png" id="4_gb8jo"]
 [ext_resource type="Texture2D" uid="uid://cei1vcjb3eqo7" path="res://sprites/players/rachel/rachel.png" id="4_ithhk"]
 [ext_resource type="Texture2D" uid="uid://bot48w7086agv" path="res://sprites/players/HurtStar.png" id="5_6rbj7"]
-[ext_resource type="Texture2D" uid="uid://c6ett6afagpl8" path="res://sprites/hud/rachel_weapons.png" id="5_mjqb1"]
+[ext_resource type="Texture2D" uid="uid://b8cjlluipu7u3" path="res://sprites/hud/weapons_menu_icons.png" id="5_mjqb1"]
 [ext_resource type="Texture2D" uid="uid://8mdvvlmmrxfn" path="res://sprites/players/HurtSweat.png" id="6_vmmg0"]
 [ext_resource type="AudioStream" uid="uid://dr1p57c1kr6na" path="res://audio/sfx/warp.wav" id="9_tiadc"]
 [ext_resource type="AudioStream" uid="uid://d2oevy2xek073" path="res://audio/sfx/jump.wav" id="10_mt0xi"]
@@ -619,6 +619,8 @@ material = SubResource("ShaderMaterial_mjqb1")
 position = Vector2(0, -20)
 texture = ExtResource("5_mjqb1")
 hframes = 17
+region_enabled = true
+region_rect = Rect2(0, 128, 272, 16)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_7773x")

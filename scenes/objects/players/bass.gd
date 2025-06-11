@@ -756,16 +756,22 @@ func victory(delta):
 	if deathtime > 160 and deathtime < 250:
 		velocity.y *= 0.95
 	
-	if deathtime == 200:
+	if deathtime >= 120 and deathtime < 180: # 60 physics frames, a full second
+		if deathtime % 5 == 0: # every 5 physics frames
+			ShieldProjectileAttack("res://scenes/objects/players/bossdataball.tscn", 2, (deathtime - 115) * 6, Vector2(900, 900))
+		if deathtime % 20 == 0: # every 20 physics frames
+			$Audio/Absorb.play()
+	
+	if deathtime == 240:
 		$AnimationPlayer.play("VICTORY_POSE_2")
 		GameState.current_weapon = GameState.stage_boss_weapon
 		set_current_weapon_palette()
 		$Audio/Cool.play()
 		
-	if deathtime == 250:
+	if deathtime == 290:
 		$AnimationPlayer.play("FALL")
 		
-	if deathtime > 252 and deathtime < 500:
+	if deathtime > 292 and deathtime < 500:
 		applyGrav(delta)
 		if is_on_floor():
 			deathtime = 519

@@ -8,6 +8,7 @@
 [node name="Quint" type="Node2D"]
 script = ExtResource("1_xwhf4")
 boss_weapon = 16
+progress_update = "QuintDead"
 
 [node name="Present" type="TileMapLayer" parent="."]
 texture_filter = 1

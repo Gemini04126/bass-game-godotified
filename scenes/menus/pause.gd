@@ -208,23 +208,85 @@ var PWEAPONS = [
 ]
 
 var RWEAPONS = [
-	"P.BUSTER",
-	"SCORCH B.",
-	"FREEZE F.",
-	"POISON C.",
-	"F.SHREDDER",
-	"ORIGAMI S.",
-	"GALE FORCE",
-	"ROLLING B.",
-	"B.SCYTHE",
-	"P.SHIELD",
-	"TREBLE.A",
-	"F.CARRY",
-	"S.ARROW",
-	"MIRROR B.",
-	"SCREW C.",
-	"BALLADE C.",
-	"SAKUGARNE"
+	"Short-range
+	but powerful
+	Buster. Fires
+	rapidly.",
+	
+	"Press again
+	to create blk
+	hole. Weak
+	but multihit.",
+
+	"Invulnerable
+	spin! Bounce
+	off enemies.
+	Use in air.",
+
+	"Bounces,
+	each segment
+	deals low dmg
+	but multihit.",
+
+	"Fires
+	straight.
+	Multihit up
+	to 15dmg/use.",
+
+	"Rapid fire
+	piercing.
+	Slight up/dwn
+	angle.",
+
+	"Triple shot,
+	can be
+	charged up.",
+
+	"Fires two
+	waves going
+	opposite dirs
+	from center.",
+
+	"Fires in an
+	arc, freezes
+	enemies hit
+	before lands.",
+
+	"Piko Hammer
+	Probably gnna
+	remove later.",
+
+	"Fire hook
+	at ceiling.
+	Deals 1 dmg
+	on hit.",
+
+	"Create
+	balloon plat.
+	Slowly rises.",
+
+	"Infinite
+	length temp
+	platform.
+	Move quickly!",
+
+	"Homes in and
+	multihits.",
+
+	"Steals life
+	from enemies!
+	Fires fwd.
+	Slow.",
+
+	"Fires fwd.
+	Delay, then
+	fast. Deals
+	area damage.",
+
+	"Charge to
+	dash forward!
+	Invulnerable,
+	but no stop!"
 ]
 
 func _ready():

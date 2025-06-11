@@ -744,7 +744,7 @@ func _on_slide_timer_timeout() -> void:
 func _on_water_check(area: Area2D) -> void:
 	if area.is_in_group("splash"):
 		var splash = preload("res://scenes/objects/splash.tscn").instantiate()
-		add_child(splash)
+		add_child.call_deferred(splash)
 		splash.name = "splashie"
 		splash.top_level = true
 		splash.global_position = $waterCheck.global_position
@@ -788,8 +788,12 @@ func dead():
 		Fade.fade_out()
 	if deathtime == 200:
 		GameState.player_lives -= 1
-		reset(false)
-		get_tree().reload_current_scene()
+		if GameState.player_lives < 0:
+			get_tree().change_scene_to_file("res://scenes/menus/continue.tscn")
+			reset(false)
+		else:
+			reset(false)
+			get_tree().reload_current_scene()
 
 
 #STATES.keys()[currentState]
@@ -1377,6 +1381,8 @@ func SpreadProjectileAttack(scenePath: String, amount : int, spread : float, spe
 func end_level() -> void:
 	await Fade.fade_out().finished
 	if GameState.stage_action == 0:
+		if GameState.stage_progress_update:
+			GameState.PROGRESSDICT.set(GameState.stage_progress_update, true)
 		get_tree().change_scene_to_file("res://scenes/menus/weapon_get.tscn")
 	elif GameState.stage_action == 1:
 		get_tree().change_scene_to_file("res://scenes/menus/stage_select.tscn")

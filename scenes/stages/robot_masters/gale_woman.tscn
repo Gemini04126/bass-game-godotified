@@ -15,6 +15,7 @@ size = Vector2(8, 208)
 [node name="Gale Woman" type="Node2D"]
 script = ExtResource("1_jhd4h")
 boss_weapon = 6
+progress_update = "GaleDead"
 C1scrollX2 = 1
 C1scrollY1 = 12
 C1scrollY2 = 12

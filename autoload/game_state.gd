@@ -117,6 +117,7 @@ var stageSelectColorTranslations : Array[String] = [
 
 var stage_action : int
 var stage_boss_weapon : int
+var stage_progress_update : String = ""
 var dialogue_open: bool = false
 
 var maxCharacterID = characters.size() - 1 # Whyyyyy...?
@@ -205,7 +206,7 @@ var PROGRESSDICT = {
 	"VideoDead": false,
 	"OrigamiDead": false,
 	"GaleDead": false,
-	"GuerillaDead": false,
+	"GuerrillaDead": false,
 	"ReaperDead": false,
 	"SharkDead": false,
 	"SmogDead": false,
@@ -213,8 +214,14 @@ var PROGRESSDICT = {
 	"PunkDead": false,
 	"BalladeDead": false,
 	"QuintDead": false,
-	"TrebleDead": false,
 	"ProtoManDead": false,
+	"Wily1Beaten": false,
+	"Wily2Beaten": false,
+	"Wily3Beaten": false,
+	"Wily4Beaten": false,
+	"Wily5Beaten": false,
+	"Wily6Beaten": false,
+	"TrebleRescued": false,
 	"HaveProtoKey1": false,
 	"HaveProtoKey2": false,
 	"HaveProtoKey3": false,
@@ -306,14 +313,6 @@ var modules_enabled = [
 	false, # Spirit Dash
 	false, # Proto Shield
 	false, # CMON TREBLE!
-	false, #stop crashing
-	false, #stop fuckin crashing
-	false, #stop fucking crashing
-	false, #stop it, stop crashing
-	false, #stop it, stop crashing
-	false, #stop it, stop crashing
-	false, #stop it, stop crashing
-	false #stop FUCKING CRASHING
 ]
 
 var modules_boosted = [

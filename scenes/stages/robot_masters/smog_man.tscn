@@ -11,6 +11,7 @@
 [node name="Smog Man" type="Node2D"]
 script = ExtResource("1_ftdj2")
 boss_weapon = 3
+progress_update = "SmogDead"
 
 [node name="Foreground" type="TileMapLayer" parent="."]
 texture_filter = 1

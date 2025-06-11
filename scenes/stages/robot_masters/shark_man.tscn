@@ -306,6 +306,7 @@ size = Vector2(113, 7)
 script = ExtResource("1_kfbs7")
 bosses = 1
 boss_weapon = 4
+progress_update = "SharkDead"
 C1screenmode = 1
 C1scrollX2 = 2
 C2scrollX1 = 10

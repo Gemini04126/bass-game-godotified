@@ -5,9 +5,9 @@ extends Node2D
 @onready var splash  
 
 @export var bosses : int
-
 @export_enum("Weapon Get Screen", "Stage Select Screen") var action = 0
 @export_enum("Nothing", "Blaze", "Video", "Smog", "Shark", "Origami", "Gale", "Guerrilla", "Reaper", "Proto", "Treble", "Carry", "Arrow", "Enker", "Punk", "Ballade", "Quint") var boss_weapon : int = GameState.WEAPONS.BUSTER
+@export var progress_update : String = ""
 
 @export var C1screenmode : int
 @export var C1scrollX1 : int
@@ -36,6 +36,7 @@ var voffset : int = 8
 func _ready():
 	GameState.stage_action = action
 	GameState.stage_boss_weapon = boss_weapon
+	GameState.stage_progress_update = progress_update
 	if GameState.bossestokill == 0:
 		GameState.bossestokill = bosses 
 	GameState.musicplaying = 0

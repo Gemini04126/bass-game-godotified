@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 		$Graphics/Top.material.set_shader_parameter(\"palette\", GameState.player.get_node(\"Sprite2D\").material.get_shader_parameter(\"palette\"))
 		$Graphics/Bottom.material.set_shader_parameter(\"palette\", GameState.player.get_node(\"Sprite2D\").material.get_shader_parameter(\"palette\"))
 
-	if GameState.current_weapon != 10: # Would use the enum, but... you get the idea by now
+	if GameState.current_weapon != 11: # Would use the enum, but... you get the idea by now
 		destroy()
 
 func destroy() -> void:

@@ -109,6 +109,7 @@ size = Vector2(326, 28)
 [node name="BossTester" type="Node2D"]
 script = ExtResource("1_2fmbe")
 action = 1
+progress_update = "Wily5Beaten"
 C1scrollX1 = 1
 C1scrollX2 = 1
 C1scrollY1 = 1

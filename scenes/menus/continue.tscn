@@ -1,0 +1,317 @@
+[gd_scene load_steps=25 format=3 uid="uid://cd8tckh8jiy38"]
+
+[ext_resource type="AudioStream" uid="uid://d0f21keuktbd2" path="res://audio/sfx/rachel_badexplosion.wav" id="1_f8f7o"]
+[ext_resource type="Texture2D" uid="uid://bbog6u60m4qv7" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_0.png" id="1_rayc5"]
+[ext_resource type="Texture2D" uid="uid://wrwa1nefdnwg" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_1.png" id="2_s865v"]
+[ext_resource type="Texture2D" uid="uid://wwklqqga4xrv" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_2.png" id="3_o7icd"]
+[ext_resource type="Texture2D" uid="uid://ewt05ar7udor" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_3.png" id="4_x6qqb"]
+[ext_resource type="Texture2D" uid="uid://bet4762cfgplu" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_4.png" id="5_g04ua"]
+[ext_resource type="Texture2D" uid="uid://bd2bqtux22e0l" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_5.png" id="6_kt74w"]
+[ext_resource type="Texture2D" uid="uid://djwp367lg3elm" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_6.png" id="7_nu562"]
+[ext_resource type="Texture2D" uid="uid://cu1q582cvdejd" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_7.png" id="8_kirne"]
+[ext_resource type="Texture2D" uid="uid://44sjq5ue3vdo" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_8.png" id="9_u36yk"]
+[ext_resource type="Texture2D" uid="uid://cignjt3nlel4v" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_9.png" id="10_tus3u"]
+[ext_resource type="Texture2D" uid="uid://dusin5p7m2otf" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_10.png" id="11_vm3mh"]
+[ext_resource type="Texture2D" uid="uid://b3ivo1yt641bt" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_11.png" id="12_u50qu"]
+[ext_resource type="Texture2D" uid="uid://cqmivmahopdos" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_12.png" id="13_7ayun"]
+[ext_resource type="Texture2D" uid="uid://ux708fh84nxn" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_13.png" id="14_crlwj"]
+[ext_resource type="Texture2D" uid="uid://b7303tpfiqvx0" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_14.png" id="15_h6xse"]
+[ext_resource type="Texture2D" uid="uid://bcmqdn1in5vdo" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_15.png" id="16_1hyuu"]
+[ext_resource type="Texture2D" uid="uid://c48x6oil5valf" path="res://sprites/menus/temp/spr_realisticexplosion/spr_realisticexplosion_16.png" id="17_u4nla"]
+[ext_resource type="AudioStream" uid="uid://mfk4w30lewvq" path="res://audio/sfx/tink.wav" id="19_k61ld"]
+[ext_resource type="AudioStream" uid="uid://c2aq3pxcuuqlh" path="res://audio/sfx/temp/snd_lancerlaugh.wav" id="19_s865v"]
+
+[sub_resource type="GDScript" id="GDScript_hq44a"]
+script/source = "extends Control
+
+func _ready() -> void:
+	if GameState.player_lives < 0:
+		$GameOver.visible = true
+		$StageComplete.visible = false
+		$Title.text = \"[shake]Game over...[/shake]\"
+		await Fade.fade_in().finished
+		$GameOver/Continue.grab_focus()
+	else:
+		$StageComplete.visible = true
+		$GameOver.visible = false
+		$Title.text = \"[wave]Stage complete![/wave]\"
+		await Fade.fade_in().finished
+		$StageComplete/TestWeapon.grab_focus()
+
+func _on_save_pressed() -> void:
+	$StageComplete/Save.disabled = true
+	$GameOver/Save.disabled = true
+	$AnimationPlayer.play(\"new_animation\")
+
+func _on_stage_select_pressed() -> void:
+	get_tree().change_scene_to_file(\"res://scenes/menus/stage_select.tscn\")
+
+# these two are gonna be more complicated so i'll do them later
+func _on_test_weapon_pressed() -> void:
+	$AudioStreamPlayer2.play()
+
+func _on_continue_pressed() -> void:
+	$AudioStreamPlayer2.play()
+"
+
+[sub_resource type="Animation" id="Animation_s865v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Title:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["[wave]Stage complete![/wave]"]
+}
+
+[sub_resource type="Animation" id="Animation_rayc5"]
+resource_name = "new_animation"
+length = 3.66668
+step = 0.0666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667, 0.533333, 0.6, 0.666667, 0.733333, 0.8, 0.866667, 0.933333, 1, 1.06667, 1.13333, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [null, ExtResource("1_rayc5"), ExtResource("2_s865v"), ExtResource("3_o7icd"), ExtResource("4_x6qqb"), ExtResource("5_g04ua"), ExtResource("6_kt74w"), ExtResource("7_nu562"), ExtResource("8_kirne"), ExtResource("9_u36yk"), ExtResource("10_tus3u"), ExtResource("11_vm3mh"), ExtResource("12_u50qu"), ExtResource("13_7ayun"), ExtResource("14_crlwj"), ExtResource("15_h6xse"), ExtResource("16_1hyuu"), ExtResource("17_u4nla"), null]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StageComplete/Save")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.466667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GameOver/Save")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.466667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Title:text")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.93333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": ["[wave]Stage complete![/wave]", "[wave][rainbow sat=0.4]i'll make the save screen tomorrow,
+motivation affording, even if it sucks![/rainbow][/wave]"]
+}
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AudioStreamPlayer")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("1_f8f7o")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("19_s865v")
+}],
+"times": PackedFloat32Array(0.0666667, 1.93333)
+}
+tracks/4/use_blend = true
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o7icd"]
+_data = {
+&"RESET": SubResource("Animation_s865v"),
+&"new_animation": SubResource("Animation_rayc5")
+}
+
+[node name="Continue" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_hq44a")
+
+[node name="StageComplete" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TestWeapon" type="Button" parent="StageComplete"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -24.0
+offset_right = 64.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Test out weapon"
+
+[node name="StageSelect" type="Button" parent="StageComplete"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = -8.0
+offset_right = 84.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back to stage select"
+
+[node name="Save" type="Button" parent="StageComplete"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Save game"
+
+[node name="GameOver" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Continue" type="Button" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -24.0
+offset_right = 36.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Continue"
+
+[node name="StageSelect" type="Button" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = -8.0
+offset_right = 84.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back to stage select"
+
+[node name="Save" type="Button" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Save game"
+
+[node name="Title" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -68.0
+offset_right = 68.0
+offset_bottom = 40.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[wave]Stage complete![/wave]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(195, 124)
+scale = Vector2(2, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_o7icd")
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_k61ld")
+
+[connection signal="pressed" from="StageComplete/TestWeapon" to="." method="_on_test_weapon_pressed"]
+[connection signal="pressed" from="StageComplete/StageSelect" to="." method="_on_stage_select_pressed"]
+[connection signal="pressed" from="StageComplete/Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="GameOver/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="GameOver/StageSelect" to="." method="_on_stage_select_pressed"]
+[connection signal="pressed" from="GameOver/Save" to="." method="_on_save_pressed"]
