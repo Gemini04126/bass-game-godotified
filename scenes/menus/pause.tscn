@@ -256,10 +256,18 @@ scale = Vector2(192.5, 108.5)
 sprite_frames = SubResource("SpriteFrames_u81yu")
 animation = &"fadeout"
 autoplay = "fadein"
-frame = 9
-frame_progress = 1.0
+
+[node name="FadeFG" type="AnimatedSprite2D" parent="."]
+process_mode = 3
+z_index = 10
+position = Vector2(191.5, 107.5)
+scale = Vector2(192.5, 108.5)
+sprite_frames = SubResource("SpriteFrames_u81yu")
+animation = &"fadein"
+autoplay = "fadein"
 
 [node name="BassWeps" type="Node2D" parent="."]
+process_mode = 4
 visible = false
 
 [node name="Buster" parent="BassWeps" instance=ExtResource("3_ino5w")]
@@ -270,7 +278,6 @@ offset_right = 26.0
 offset_bottom = 25.0
 focus_neighbor_right = NodePath("../Treble")
 focus_neighbor_bottom = NodePath("../Scorch")
-focus_mode = 2
 item = 0
 
 [node name="Treble" parent="BassWeps" instance=ExtResource("3_ino5w")]
@@ -281,7 +288,6 @@ offset_right = 138.0
 offset_bottom = 25.0
 focus_neighbor_left = NodePath("../Buster")
 focus_neighbor_bottom = NodePath("../Origami")
-focus_mode = 2
 item = 10
 
 [node name="Scorch" parent="BassWeps" instance=ExtResource("3_ino5w")]
@@ -293,7 +299,6 @@ offset_bottom = 49.0
 focus_neighbor_top = NodePath("../Buster")
 focus_neighbor_right = NodePath("../Origami")
 focus_neighbor_bottom = NodePath("../Frame")
-focus_mode = 2
 
 [node name="Frame" parent="BassWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -304,7 +309,6 @@ offset_bottom = 73.0
 focus_neighbor_top = NodePath("../Scorch")
 focus_neighbor_right = NodePath("../Gale")
 focus_neighbor_bottom = NodePath("../Smog")
-focus_mode = 2
 item = 2
 
 [node name="Smog" parent="BassWeps" instance=ExtResource("3_ino5w")]
@@ -316,7 +320,6 @@ offset_bottom = 97.0
 focus_neighbor_top = NodePath("../Frame")
 focus_neighbor_right = NodePath("../Bomb")
 focus_neighbor_bottom = NodePath("../Shark")
-focus_mode = 2
 item = 3
 
 [node name="Shark" parent="BassWeps" instance=ExtResource("3_ino5w")]
@@ -328,7 +331,6 @@ offset_bottom = 121.0
 focus_neighbor_top = NodePath("../Smog")
 focus_neighbor_right = NodePath("../Reaper")
 focus_neighbor_bottom = NodePath("../Proto")
-focus_mode = 2
 item = 4
 
 [node name="Origami" parent="BassWeps" instance=ExtResource("3_ino5w")]
@@ -340,7 +342,6 @@ offset_bottom = 49.0
 focus_neighbor_left = NodePath("../Scorch")
 focus_neighbor_top = NodePath("../Treble")
 focus_neighbor_bottom = NodePath("../Gale")
-focus_mode = 2
 item = 5
 
 [node name="Gale" parent="BassWeps" instance=ExtResource("3_ino5w")]
@@ -352,7 +353,6 @@ offset_bottom = 73.0
 focus_neighbor_left = NodePath("../Frame")
 focus_neighbor_top = NodePath("../Origami")
 focus_neighbor_bottom = NodePath("../Bomb")
-focus_mode = 2
 item = 6
 
 [node name="Bomb" parent="BassWeps" instance=ExtResource("3_ino5w")]
@@ -364,7 +364,6 @@ offset_bottom = 97.0
 focus_neighbor_left = NodePath("../Smog")
 focus_neighbor_top = NodePath("../Gale")
 focus_neighbor_bottom = NodePath("../Reaper")
-focus_mode = 2
 item = 7
 
 [node name="Reaper" parent="BassWeps" instance=ExtResource("3_ino5w")]
@@ -376,7 +375,6 @@ offset_bottom = 121.0
 focus_neighbor_left = NodePath("../Shark")
 focus_neighbor_top = NodePath("../Bomb")
 focus_neighbor_bottom = NodePath("../Proto")
-focus_mode = 2
 item = 8
 
 [node name="Proto" parent="BassWeps" instance=ExtResource("3_ino5w")]
@@ -388,10 +386,10 @@ offset_bottom = 142.0
 focus_neighbor_left = NodePath("../Shark")
 focus_neighbor_top = NodePath("../Shark")
 focus_neighbor_right = NodePath("../Reaper")
-focus_mode = 2
 item = 9
 
 [node name="CopyWeps" type="Node2D" parent="."]
+process_mode = 4
 visible = false
 
 [node name="Buster" parent="CopyWeps" instance=ExtResource("3_ino5w")]
@@ -402,7 +400,6 @@ offset_right = 26.0
 offset_bottom = 16.0
 focus_neighbor_right = NodePath("../Treble")
 focus_neighbor_bottom = NodePath("../Scorch")
-focus_mode = 2
 item = 0
 row = 2
 
@@ -415,7 +412,6 @@ offset_bottom = 34.0
 focus_neighbor_top = NodePath("../Buster")
 focus_neighbor_right = NodePath("../Origami")
 focus_neighbor_bottom = NodePath("../Frame")
-focus_mode = 2
 row = 2
 
 [node name="Frame" parent="CopyWeps" instance=ExtResource("3_ino5w")]
@@ -427,7 +423,6 @@ offset_bottom = 52.0
 focus_neighbor_top = NodePath("../Scorch")
 focus_neighbor_right = NodePath("../Gale")
 focus_neighbor_bottom = NodePath("../Smog")
-focus_mode = 2
 item = 2
 row = 2
 
@@ -440,7 +435,6 @@ offset_bottom = 70.0
 focus_neighbor_top = NodePath("../Frame")
 focus_neighbor_right = NodePath("../Bomb")
 focus_neighbor_bottom = NodePath("../Shark")
-focus_mode = 2
 item = 3
 row = 2
 
@@ -453,7 +447,6 @@ offset_bottom = 88.0
 focus_neighbor_top = NodePath("../Smog")
 focus_neighbor_right = NodePath("../Scythe")
 focus_neighbor_bottom = NodePath("../Carry")
-focus_mode = 2
 item = 4
 row = 2
 
@@ -465,7 +458,6 @@ offset_right = 26.0
 offset_bottom = 106.0
 focus_neighbor_top = NodePath("../Shark")
 focus_neighbor_bottom = NodePath("../Mirror")
-focus_mode = 2
 item = 11
 row = 2
 
@@ -478,7 +470,6 @@ offset_bottom = 124.0
 focus_neighbor_top = NodePath("../Carry")
 focus_neighbor_right = NodePath("../Punk")
 focus_neighbor_bottom = NodePath("../Ballade")
-focus_mode = 2
 item = 13
 row = 2
 
@@ -490,7 +481,6 @@ offset_right = 26.0
 offset_bottom = 142.0
 focus_neighbor_top = NodePath("../Mirror")
 focus_neighbor_right = NodePath("../Quint")
-focus_mode = 2
 item = 15
 row = 2
 
@@ -502,7 +492,6 @@ offset_right = 138.0
 offset_bottom = 16.0
 focus_neighbor_left = NodePath("../Buster")
 focus_neighbor_bottom = NodePath("../Origami")
-focus_mode = 2
 item = 10
 row = 2
 
@@ -515,7 +504,6 @@ offset_bottom = 34.0
 focus_neighbor_left = NodePath("../Scorch")
 focus_neighbor_top = NodePath("../Treble")
 focus_neighbor_bottom = NodePath("../Gale")
-focus_mode = 2
 item = 5
 row = 2
 
@@ -528,7 +516,6 @@ offset_bottom = 52.0
 focus_neighbor_left = NodePath("../Frame")
 focus_neighbor_top = NodePath("../Origami")
 focus_neighbor_bottom = NodePath("../Bomb")
-focus_mode = 2
 item = 6
 row = 2
 
@@ -541,7 +528,6 @@ offset_bottom = 70.0
 focus_neighbor_left = NodePath("../Smog")
 focus_neighbor_top = NodePath("../Gale")
 focus_neighbor_bottom = NodePath("../Scythe")
-focus_mode = 2
 item = 7
 row = 2
 
@@ -554,7 +540,6 @@ offset_bottom = 88.0
 focus_neighbor_left = NodePath("../Shark")
 focus_neighbor_top = NodePath("../Bomb")
 focus_neighbor_bottom = NodePath("../Arrow")
-focus_mode = 2
 item = 8
 row = 2
 
@@ -567,7 +552,6 @@ offset_bottom = 106.0
 focus_neighbor_left = NodePath("../Carry")
 focus_neighbor_top = NodePath("../Scythe")
 focus_neighbor_bottom = NodePath("../Punk")
-focus_mode = 2
 item = 12
 row = 2
 
@@ -580,7 +564,6 @@ offset_bottom = 124.0
 focus_neighbor_left = NodePath("../Mirror")
 focus_neighbor_top = NodePath("../Arrow")
 focus_neighbor_bottom = NodePath("../Quint")
-focus_mode = 2
 item = 14
 row = 2
 
@@ -592,11 +575,11 @@ offset_right = 138.0
 offset_bottom = 142.0
 focus_neighbor_left = NodePath("../Ballade")
 focus_neighbor_top = NodePath("../Punk")
-focus_mode = 2
 item = 16
 row = 2
 
 [node name="MegaWeps" type="Node2D" parent="."]
+process_mode = 4
 visible = false
 
 [node name="Buster" parent="MegaWeps" instance=ExtResource("3_ino5w")]
@@ -607,7 +590,6 @@ offset_right = 26.0
 offset_bottom = 16.0
 focus_neighbor_right = NodePath("../Treble")
 focus_neighbor_bottom = NodePath("../Scorch")
-focus_mode = 2
 item = 0
 row = 4
 
@@ -620,7 +602,6 @@ offset_bottom = 34.0
 focus_neighbor_top = NodePath("../Buster")
 focus_neighbor_right = NodePath("../Origami")
 focus_neighbor_bottom = NodePath("../Frame")
-focus_mode = 2
 row = 4
 
 [node name="Frame" parent="MegaWeps" instance=ExtResource("3_ino5w")]
@@ -632,7 +613,6 @@ offset_bottom = 52.0
 focus_neighbor_top = NodePath("../Scorch")
 focus_neighbor_right = NodePath("../Gale")
 focus_neighbor_bottom = NodePath("../Smog")
-focus_mode = 2
 item = 2
 row = 4
 
@@ -645,7 +625,6 @@ offset_bottom = 70.0
 focus_neighbor_top = NodePath("../Frame")
 focus_neighbor_right = NodePath("../Bomb")
 focus_neighbor_bottom = NodePath("../Shark")
-focus_mode = 2
 item = 3
 row = 4
 
@@ -658,7 +637,6 @@ offset_bottom = 88.0
 focus_neighbor_top = NodePath("../Smog")
 focus_neighbor_right = NodePath("../Scythe")
 focus_neighbor_bottom = NodePath("../Carry")
-focus_mode = 2
 item = 4
 row = 4
 
@@ -670,7 +648,6 @@ offset_right = 26.0
 offset_bottom = 106.0
 focus_neighbor_top = NodePath("../Shark")
 focus_neighbor_bottom = NodePath("../Mirror")
-focus_mode = 2
 item = 11
 row = 4
 
@@ -683,7 +660,6 @@ offset_bottom = 124.0
 focus_neighbor_top = NodePath("../Carry")
 focus_neighbor_right = NodePath("../Punk")
 focus_neighbor_bottom = NodePath("../Ballade")
-focus_mode = 2
 item = 13
 row = 4
 
@@ -695,7 +671,6 @@ offset_right = 26.0
 offset_bottom = 142.0
 focus_neighbor_top = NodePath("../Mirror")
 focus_neighbor_right = NodePath("../Quint")
-focus_mode = 2
 item = 15
 row = 4
 
@@ -707,7 +682,6 @@ offset_right = 138.0
 offset_bottom = 16.0
 focus_neighbor_left = NodePath("../Buster")
 focus_neighbor_bottom = NodePath("../Origami")
-focus_mode = 2
 item = 10
 row = 4
 
@@ -720,7 +694,6 @@ offset_bottom = 34.0
 focus_neighbor_left = NodePath("../Scorch")
 focus_neighbor_top = NodePath("../Treble")
 focus_neighbor_bottom = NodePath("../Gale")
-focus_mode = 2
 item = 5
 row = 4
 
@@ -733,7 +706,6 @@ offset_bottom = 52.0
 focus_neighbor_left = NodePath("../Frame")
 focus_neighbor_top = NodePath("../Origami")
 focus_neighbor_bottom = NodePath("../Bomb")
-focus_mode = 2
 item = 6
 row = 4
 
@@ -746,7 +718,6 @@ offset_bottom = 70.0
 focus_neighbor_left = NodePath("../Smog")
 focus_neighbor_top = NodePath("../Gale")
 focus_neighbor_bottom = NodePath("../Scythe")
-focus_mode = 2
 item = 7
 row = 4
 
@@ -759,7 +730,6 @@ offset_bottom = 88.0
 focus_neighbor_left = NodePath("../Shark")
 focus_neighbor_top = NodePath("../Bomb")
 focus_neighbor_bottom = NodePath("../Arrow")
-focus_mode = 2
 item = 8
 row = 4
 
@@ -772,7 +742,6 @@ offset_bottom = 106.0
 focus_neighbor_left = NodePath("../Carry")
 focus_neighbor_top = NodePath("../Scythe")
 focus_neighbor_bottom = NodePath("../Punk")
-focus_mode = 2
 item = 12
 row = 4
 
@@ -785,7 +754,6 @@ offset_bottom = 124.0
 focus_neighbor_left = NodePath("../Mirror")
 focus_neighbor_top = NodePath("../Arrow")
 focus_neighbor_bottom = NodePath("../Quint")
-focus_mode = 2
 item = 14
 row = 4
 
@@ -797,11 +765,11 @@ offset_right = 138.0
 offset_bottom = 142.0
 focus_neighbor_left = NodePath("../Ballade")
 focus_neighbor_top = NodePath("../Punk")
-focus_mode = 2
 item = 16
 row = 4
 
 [node name="ProtoWeps" type="Node2D" parent="."]
+process_mode = 4
 visible = false
 
 [node name="Buster" parent="ProtoWeps" instance=ExtResource("3_ino5w")]
@@ -812,7 +780,6 @@ offset_right = 26.0
 offset_bottom = 16.0
 focus_neighbor_right = NodePath("../Treble")
 focus_neighbor_bottom = NodePath("../Scorch")
-focus_mode = 2
 item = 0
 row = 6
 
@@ -825,7 +792,6 @@ offset_bottom = 34.0
 focus_neighbor_top = NodePath("../Buster")
 focus_neighbor_right = NodePath("../Origami")
 focus_neighbor_bottom = NodePath("../Frame")
-focus_mode = 2
 row = 6
 
 [node name="Frame" parent="ProtoWeps" instance=ExtResource("3_ino5w")]
@@ -837,7 +803,6 @@ offset_bottom = 52.0
 focus_neighbor_top = NodePath("../Scorch")
 focus_neighbor_right = NodePath("../Gale")
 focus_neighbor_bottom = NodePath("../Smog")
-focus_mode = 2
 item = 2
 row = 6
 
@@ -850,7 +815,6 @@ offset_bottom = 70.0
 focus_neighbor_top = NodePath("../Frame")
 focus_neighbor_right = NodePath("../Bomb")
 focus_neighbor_bottom = NodePath("../Shark")
-focus_mode = 2
 item = 3
 row = 6
 
@@ -863,7 +827,6 @@ offset_bottom = 88.0
 focus_neighbor_top = NodePath("../Smog")
 focus_neighbor_right = NodePath("../Scythe")
 focus_neighbor_bottom = NodePath("../Carry")
-focus_mode = 2
 item = 4
 row = 6
 
@@ -875,7 +838,6 @@ offset_right = 26.0
 offset_bottom = 106.0
 focus_neighbor_top = NodePath("../Shark")
 focus_neighbor_bottom = NodePath("../Mirror")
-focus_mode = 2
 item = 11
 row = 6
 
@@ -888,7 +850,6 @@ offset_bottom = 124.0
 focus_neighbor_top = NodePath("../Carry")
 focus_neighbor_right = NodePath("../Punk")
 focus_neighbor_bottom = NodePath("../Ballade")
-focus_mode = 2
 item = 13
 row = 6
 
@@ -900,7 +861,6 @@ offset_right = 26.0
 offset_bottom = 142.0
 focus_neighbor_top = NodePath("../Mirror")
 focus_neighbor_right = NodePath("../Quint")
-focus_mode = 2
 item = 15
 row = 6
 
@@ -912,7 +872,6 @@ offset_right = 138.0
 offset_bottom = 16.0
 focus_neighbor_left = NodePath("../Buster")
 focus_neighbor_bottom = NodePath("../Origami")
-focus_mode = 2
 item = 10
 row = 6
 
@@ -925,7 +884,6 @@ offset_bottom = 34.0
 focus_neighbor_left = NodePath("../Scorch")
 focus_neighbor_top = NodePath("../Treble")
 focus_neighbor_bottom = NodePath("../Gale")
-focus_mode = 2
 item = 5
 row = 6
 
@@ -938,7 +896,6 @@ offset_bottom = 52.0
 focus_neighbor_left = NodePath("../Frame")
 focus_neighbor_top = NodePath("../Origami")
 focus_neighbor_bottom = NodePath("../Bomb")
-focus_mode = 2
 item = 6
 row = 6
 
@@ -951,7 +908,6 @@ offset_bottom = 70.0
 focus_neighbor_left = NodePath("../Smog")
 focus_neighbor_top = NodePath("../Gale")
 focus_neighbor_bottom = NodePath("../Scythe")
-focus_mode = 2
 item = 7
 row = 6
 
@@ -964,7 +920,6 @@ offset_bottom = 88.0
 focus_neighbor_left = NodePath("../Shark")
 focus_neighbor_top = NodePath("../Bomb")
 focus_neighbor_bottom = NodePath("../Arrow")
-focus_mode = 2
 item = 8
 row = 6
 
@@ -977,7 +932,6 @@ offset_bottom = 106.0
 focus_neighbor_left = NodePath("../Carry")
 focus_neighbor_top = NodePath("../Scythe")
 focus_neighbor_bottom = NodePath("../Punk")
-focus_mode = 2
 item = 12
 row = 6
 
@@ -990,7 +944,6 @@ offset_bottom = 124.0
 focus_neighbor_left = NodePath("../Mirror")
 focus_neighbor_top = NodePath("../Arrow")
 focus_neighbor_bottom = NodePath("../Quint")
-focus_mode = 2
 item = 14
 row = 6
 
@@ -1002,11 +955,12 @@ offset_right = 138.0
 offset_bottom = 142.0
 focus_neighbor_left = NodePath("../Ballade")
 focus_neighbor_top = NodePath("../Punk")
-focus_mode = 2
 item = 16
 row = 6
 
 [node name="RachelWeps" type="Node2D" parent="."]
+process_mode = 4
+visible = false
 
 [node name="Buster" parent="RachelWeps" instance=ExtResource("3_ino5w")]
 material = SubResource("ShaderMaterial_b5jck")
@@ -1016,7 +970,6 @@ offset_right = 26.0
 offset_bottom = 16.0
 focus_neighbor_right = NodePath("../Balloon Adaptor")
 focus_neighbor_bottom = NodePath("../Black Hole Bomb")
-focus_mode = 2
 item = 0
 row = 8
 
@@ -1029,7 +982,6 @@ offset_bottom = 34.0
 focus_neighbor_top = NodePath("../Buster")
 focus_neighbor_right = NodePath("../Yamato Spear")
 focus_neighbor_bottom = NodePath("../Top Spin")
-focus_mode = 2
 row = 8
 
 [node name="Top Spin" parent="RachelWeps" instance=ExtResource("3_ino5w")]
@@ -1041,7 +993,6 @@ offset_bottom = 52.0
 focus_neighbor_top = NodePath("../Black Hole Bomb")
 focus_neighbor_right = NodePath("../Magma Bazooka")
 focus_neighbor_bottom = NodePath("../Gemini Laser")
-focus_mode = 2
 item = 2
 row = 8
 
@@ -1054,7 +1005,6 @@ offset_bottom = 70.0
 focus_neighbor_top = NodePath("../Top Spin")
 focus_neighbor_right = NodePath("../Pharaoh Wave")
 focus_neighbor_bottom = NodePath("../Flash Bomb")
-focus_mode = 2
 item = 3
 row = 8
 
@@ -1067,7 +1017,6 @@ offset_bottom = 88.0
 focus_neighbor_top = NodePath("../Gemini Laser")
 focus_neighbor_right = NodePath("../Chill Spike")
 focus_neighbor_bottom = NodePath("../Magnet Beam")
-focus_mode = 2
 item = 4
 row = 8
 
@@ -1079,7 +1028,6 @@ offset_right = 26.0
 offset_bottom = 106.0
 focus_neighbor_top = NodePath("../Flash Bomb")
 focus_neighbor_bottom = NodePath("../Grab Buster")
-focus_mode = 2
 item = 11
 row = 8
 
@@ -1092,7 +1040,6 @@ offset_bottom = 124.0
 focus_neighbor_top = NodePath("../Magnet Beam")
 focus_neighbor_right = NodePath("../Photon Missile")
 focus_neighbor_bottom = NodePath("../Break Dash")
-focus_mode = 2
 item = 13
 row = 8
 
@@ -1104,7 +1051,6 @@ offset_right = 26.0
 offset_bottom = 142.0
 focus_neighbor_top = NodePath("../Grab Buster")
 focus_neighbor_right = NodePath("../Piko Hammer")
-focus_mode = 2
 item = 15
 row = 8
 
@@ -1116,7 +1062,6 @@ offset_right = 138.0
 offset_bottom = 16.0
 focus_neighbor_left = NodePath("../Buster")
 focus_neighbor_bottom = NodePath("../Yamato Spear")
-focus_mode = 2
 item = 10
 row = 8
 
@@ -1129,7 +1074,6 @@ offset_bottom = 34.0
 focus_neighbor_left = NodePath("../Black Hole Bomb")
 focus_neighbor_top = NodePath("../Balloon Adaptor")
 focus_neighbor_bottom = NodePath("../Magma Bazooka")
-focus_mode = 2
 item = 5
 row = 8
 
@@ -1142,7 +1086,6 @@ offset_bottom = 52.0
 focus_neighbor_left = NodePath("../Top Spin")
 focus_neighbor_top = NodePath("../Yamato Spear")
 focus_neighbor_bottom = NodePath("../Pharaoh Wave")
-focus_mode = 2
 item = 6
 row = 8
 
@@ -1155,7 +1098,6 @@ offset_bottom = 70.0
 focus_neighbor_left = NodePath("../Gemini Laser")
 focus_neighbor_top = NodePath("../Magma Bazooka")
 focus_neighbor_bottom = NodePath("../Chill Spike")
-focus_mode = 2
 item = 7
 row = 8
 
@@ -1168,7 +1110,6 @@ offset_bottom = 88.0
 focus_neighbor_left = NodePath("../Flash Bomb")
 focus_neighbor_top = NodePath("../Pharaoh Wave")
 focus_neighbor_bottom = NodePath("../Spark Chaser")
-focus_mode = 2
 item = 8
 row = 8
 
@@ -1181,7 +1122,6 @@ offset_bottom = 106.0
 focus_neighbor_left = NodePath("../Magnet Beam")
 focus_neighbor_top = NodePath("../Chill Spike")
 focus_neighbor_bottom = NodePath("../Photon Missile")
-focus_mode = 2
 item = 12
 row = 8
 
@@ -1194,7 +1134,6 @@ offset_bottom = 124.0
 focus_neighbor_left = NodePath("../Grab Buster")
 focus_neighbor_top = NodePath("../Spark Chaser")
 focus_neighbor_bottom = NodePath("../Piko Hammer")
-focus_mode = 2
 item = 14
 row = 8
 
@@ -1206,7 +1145,6 @@ offset_right = 138.0
 offset_bottom = 142.0
 focus_neighbor_left = NodePath("../Break Dash")
 focus_neighbor_top = NodePath("../Photon Missile")
-focus_mode = 2
 item = 16
 row = 8
 
@@ -1216,13 +1154,23 @@ one_shot = true
 autostart = true
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAABAAAAAAABAAAAAAAAAAAAAAABAAAAAAAAAAEAAAABAAAAAAAAAAIAAAABAAAAAAAAAAMAAAABAAAAAAAAAAQAAAABAAAAAAAAAAUAAAABAAAAAAAAAAYAAAABAAAAAAAAAAcAAAABAAAAAAAAAAgAAAABAAAAAAAAAAkAAAABAAAAAAAAAAoAAAABAAAAAAAAAAsAAAABAAAAAAAAAAwAAAABAAAAAAAAAA0AAAABAAAAAAAAAA4AAAABAAAAAAAAAA8AAAABAAAAAAAAABAAAAABAAAAAAAAABEAAAABAAAAAAAAABIAAAABAAAAAAAAABMAAAABAAAAAAAAABQAAAABAAAAAAAAABUAAAABAAAAAAAAABYAAAABAAAAAAAAABcAAAABAAAAAAAAABgAAAABAAAAAAAAABkAAAABAAAAAAAAABoAAAABAAAAAAABABoAAAABAAAAAAACABoAAAABAAAAAAADABoAAAABAAAAAAAEABoAAAABAAAAAAAFABoAAAABAAAAAAAGABoAAAABAAAAAAAHABoAAAABAAAAAAAIABoAAAABAAAAAAAJABoAAAABAAAAAAAKABoAAAABAAAAAAALABoAAAABAAAAAAAMABoAAAABAAAAAAANABoAAAABAAAAAAAOABoAAAABAAAAAAAPABoAAAABAAAAAAAQABoAAAABAAAAAAARABoAAAABAAAAAAASABoAAAABAAAAAAATABoAAAABAAAAAAAUABoAAAABAAAAAAAVABoAAAABAAAAAAAfABoAAAABAAAAAAAgABoAAAABAAAAAAAhABoAAAABAAAAAAAiABoAAAABAAAAAAAjABoAAAABAAAAAAAkABoAAAABAAAAAAAlABoAAAABAAAAAAAmABoAAAABAAAAAAAnABoAAAABAAAAAAAoABoAAAABAAAAAAApABoAAAABAAAAAAAqABoAAAABAAAAAAArABoAAAABAAAAAAAsABoAAAABAAAAAAAtABoAAAABAAAAAAAuABoAAAABAAAAAAAvABoAAAABAAAAAAAeABoAAAABAAAAAAAdABoAAAABAAAAAAAcABoAAAABAAAAAAAbABoAAAABAAAAAAAaABoAAAABAAAAAAAZABoAAAABAAAAAAAYABoAAAABAAAAAAAXABoAAAABAAAAAAAWABoAAAABAAAAAAAvAAAAAAABAAAAAAAvAAEAAAABAAAAAAAvAAIAAAABAAAAAAAvAAMAAAABAAAAAAAvAAQAAAABAAAAAAAvAAUAAAABAAAAAAAvAAYAAAABAAAAAAAvAAcAAAABAAAAAAAvAAgAAAABAAAAAAAvAAkAAAABAAAAAAAvAAoAAAABAAAAAAAvAAsAAAABAAAAAAAvAAwAAAABAAAAAAAvAA0AAAABAAAAAAAvABYAAAABAAAAAAAvABcAAAABAAAAAAAvABgAAAABAAAAAAAvABkAAAABAAAAAAAvABUAAAABAAAAAAAvABQAAAABAAAAAAAvABMAAAABAAAAAAAvABIAAAABAAAAAAAvABEAAAABAAAAAAAvABAAAAABAAAAAAAvAA8AAAABAAAAAAAvAA4AAAABAAAAAAAuAAAAAAABAAAAAAAtAAAAAAABAAAAAAAsAAAAAAABAAAAAAArAAAAAAABAAAAAAAqAAAAAAABAAAAAAApAAAAAAABAAAAAAAoAAAAAAABAAAAAAAnAAAAAAABAAAAAAAmAAAAAAABAAAAAAAlAAAAAAABAAAAAAAkAAAAAAABAAAAAAAjAAAAAAABAAAAAAAiAAAAAAABAAAAAAAhAAAAAAABAAAAAAAgAAAAAAABAAAAAAAfAAAAAAABAAAAAAAeAAAAAAABAAAAAAAdAAAAAAABAAAAAAAcAAAAAAABAAAAAAAbAAAAAAABAAAAAAAaAAAAAAABAAAAAAAZAAAAAAABAAAAAAAYAAAAAAABAAAAAAAXAAAAAAABAAAAAAAWAAAAAAABAAAAAAAVAAAAAAABAAAAAAAUAAAAAAABAAAAAAATAAAAAAABAAAAAAASAAAAAAABAAAAAAARAAAAAAABAAAAAAAQAAAAAAABAAAAAAAPAAAAAAABAAAAAAAOAAAAAAABAAAAAAANAAAAAAABAAAAAAAMAAAAAAABAAAAAAALAAAAAAABAAAAAAAKAAAAAAABAAAAAAAJAAAAAAABAAAAAAAIAAAAAAABAAAAAAAHAAAAAAABAAAAAAAGAAAAAAABAAAAAAAFAAAAAAABAAAAAAAEAAAAAAABAAAAAAADAAAAAAABAAAAAAACAAAAAAABAAAAAAAfAAEAAAABAAAAAAAfAAIAAAABAAAAAAAfAAMAAAACAAEAAGAfAAQAAAABAAEAAGAfAAUAAAACAAEAAGAfAAYAAAABAAEAAGAfAAcAAAAAAAMAAGAfAAgAAAABAAAAAAAgAAgAAAABAAAAAAAhAAgAAAABAAAAAAAiAAgAAAABAAAAAAAjAAgAAAABAAAAAAAkAAgAAAABAAAAAAAlAAgAAAABAAAAAAAmAAgAAAABAAAAAAAnAAgAAAABAAAAAAAoAAgAAAABAAAAAAApAAgAAAABAAAAAAAqAAgAAAABAAAAAAArAAgAAAABAAAAAAAsAAgAAAABAAAAAAAtAAgAAAABAAAAAAAuAAgAAAABAAAAAAABAAEAAAABAAAAAAABAAIAAAABAAAAAAABAAYAAAABAAAAAAABAAcAAAABAAAAAAABAAgAAAABAAAAAAABAAkAAAABAAAAAAABAAoAAAABAAAAAAABAAsAAAABAAAAAAABAAwAAAABAAAAAAABAAUAAAABAAAAAAABAAQAAAABAAAAAAABAAMAAAABAAAAAAABABMAAAABAAAAAAABABIAAAABAAAAAAABABEAAAABAAAAAAABABAAAAABAAAAAAABAA8AAAABAAAAAAABAA4AAAABAAAAAAABAA0AAAABAAAAAAABABQAAAABAAAAAAABABUAAAABAAAAAAABABYAAAABAAAAAAABABcAAAABAAAAAAABABgAAAABAAAAAAABABkAAAABAAAAAAACAAEAAAABAAAAAAADAAEAAAACAAAAAAAdAAEAAAACAAAAABAeAAEAAAABAAAAAAAgAAkAAAABAAAAAAAjAAkAAAABAAAAAAAkAAkAAAABAAAAAAAlAAkAAAABAAAAAAAiAAkAAAABAAAAAAAhAAkAAAABAAAAAAAmAAkAAAABAAAAAAAnAAkAAAABAAAAAAAoAAkAAAABAAAAAAApAAkAAAABAAAAAAAqAAkAAAABAAAAAAArAAkAAAABAAAAAAAsAAkAAAABAAAAAAAtAAkAAAABAAAAAAAuAAkAAAABAAAAAAAgAAcAAAAAAAQAAGAgAAYAAAABAAIAAGAgAAUAAAACAAIAAGAgAAQAAAABAAIAAGAgAAMAAAACAAIAAGAgAAIAAAABAAAAAAAgAAEAAAABAAAAAAAfAAkAAAACAAAAABACAAIAAAACAAAAAAAeAAIAAAACAAAAABACABUAAAAAAAIAACADABUAAAABAAIAAAAEABUAAAACAAIAAAAFABUAAAABAAIAAAAGABUAAAACAAIAAAAHABUAAAABAAIAAAAIABUAAAACAAIAAAAJABUAAAABAAIAAAAKABUAAAACAAIAAAALABUAAAABAAIAAAAMABUAAAACAAIAAAANABUAAAABAAIAAAAOABUAAAACAAIAAAAPABUAAAABAAIAAAAQABUAAAACAAIAAAARABUAAAABAAIAAAASABUAAAACAAIAAAATABUAAAABAAIAAAAUABUAAAACAAIAAAAVABUAAAABAAIAAAAWABUAAAACAAIAAAAXABUAAAABAAIAAAAYABUAAAACAAIAAAAZABUAAAABAAIAAAAaABUAAAACAAIAAAAbABUAAAABAAIAAAAcABUAAAACAAIAAAAdABUAAAABAAIAAAAeABUAAAACAAIAAAAfABUAAAAAAAQAAAAgABUAAAAAAAQAAAAhABUAAAAAAAQAAAAiABUAAAAAAAQAAAAjABUAAAAAAAQAAAAkABUAAAAAAAQAAAAlABUAAAAAAAQAAAAmABUAAAABAAAAAAAtABUAAAABAAAAAAAuABUAAAABAAAAAAAsABUAAAABAAAAAAArABUAAAABAAAAAAAqABUAAAABAAAAAAApABUAAAABAAAAAAAoABUAAAABAAAAAAAnABUAAAABAAAAAAAhAAoAAAAAAAIAAEAhAAsAAAACAAEAAGAhAAwAAAABAAEAAGAhAA0AAAACAAEAAGAhAA4AAAABAAEAAGAhAA8AAAACAAEAAGAhABAAAAABAAEAAGAhABEAAAACAAEAAGAhABIAAAABAAEAAGAhABMAAAAAAAIAAGAhABQAAAAAAAMAAAAiABMAAAAAAAIAAHAiABIAAAABAAIAAGAiABEAAAACAAIAAGAiABAAAAABAAIAAGAiAA8AAAACAAIAAGAiAA4AAAABAAIAAGAiAA0AAAACAAIAAGAiAAwAAAABAAIAAGAiAAsAAAACAAIAAGAiAAoAAAAAAAIAAFAiABQAAAAAAAMAAAACABQAAAAAAAIAAAADABQAAAABAAEAAAAEABQAAAACAAEAAAAFABQAAAABAAEAAAAGABQAAAACAAEAAAAHABQAAAABAAEAAAAIABQAAAACAAEAAAAJABQAAAABAAEAAAAKABQAAAACAAEAAAALABQAAAABAAEAAAAMABQAAAACAAEAAAANABQAAAABAAEAAAAOABQAAAACAAEAAAAPABQAAAABAAEAAAAQABQAAAACAAEAAAARABQAAAABAAEAAAASABQAAAACAAEAAAATABQAAAABAAEAAAAUABQAAAACAAEAAAAVABQAAAABAAEAAAAWABQAAAACAAEAAAAXABQAAAABAAEAAAAYABQAAAACAAEAAAAZABQAAAABAAEAAAAaABQAAAACAAEAAAAbABQAAAABAAEAAAAcABQAAAACAAEAAAAdABQAAAABAAEAAAAeABQAAAACAAEAAAAfABQAAAAAAAMAAAAgABQAAAAAAAMAAAAjABQAAAAAAAMAAAAkABQAAAAAAAMAAAAlABQAAAAAAAMAAAAmABQAAAABAAAAAAAnABQAAAABAAAAAAAoABQAAAABAAAAAAApABQAAAABAAAAAAAqABQAAAABAAAAAAArABQAAAABAAAAAAAsABQAAAABAAAAAAAtABQAAAABAAAAAAAuABQAAAABAAAAAAAgABMAAAAAAAEAAGACABMAAAAAAAEAAAACABYAAAAAAAEAACACABkAAAACAAAAACAgAAoAAAAAAAEAAEAjAAoAAAAAAAEAAFAjABMAAAAAAAEAAHA=")
+tile_map_data = PackedByteArray("AAABAAAAAAABAAAAAAAAAAAAAAABAAAAAAAAAAEAAAABAAAAAAAAAAIAAAABAAAAAAAAAAMAAAABAAAAAAAAAAQAAAABAAAAAAAAAAUAAAABAAAAAAAAAAYAAAABAAAAAAAAAAcAAAABAAAAAAAAAAgAAAABAAAAAAAAAAkAAAABAAAAAAAAAAoAAAABAAAAAAAAAAsAAAABAAAAAAAAAAwAAAABAAAAAAAAAA0AAAABAAAAAAAAAA4AAAABAAAAAAAAAA8AAAABAAAAAAAAABAAAAABAAAAAAAAABEAAAABAAAAAAAAABIAAAABAAAAAAAAABMAAAABAAAAAAAAABQAAAABAAAAAAAAABUAAAABAAAAAAAAABYAAAABAAAAAAAAABcAAAABAAAAAAAAABgAAAABAAAAAAAAABkAAAABAAAAAAAAABoAAAABAAAAAAABABoAAAABAAAAAAACABoAAAAAAAIAAAADABoAAAAAAAMAAAAEABoAAAAAAAMAAAAFABoAAAAAAAMAAAAGABoAAAAAAAMAAAAHABoAAAAAAAMAAAAIABoAAAAAAAMAAAAJABoAAAAAAAMAAAAKABoAAAAAAAMAAAALABoAAAAAAAMAAAAMABoAAAAAAAMAAAANABoAAAAAAAMAAAAOABoAAAAAAAMAAAAPABoAAAAAAAMAAAAQABoAAAAAAAMAAAARABoAAAAAAAMAAAASABoAAAAAAAMAAAATABoAAAAAAAMAAAAUABoAAAAAAAMAAAAVABoAAAAAAAMAAAAfABoAAAABAAAAAAAgABoAAAABAAAAAAAhABoAAAABAAAAAAAiABoAAAABAAAAAAAjABoAAAABAAAAAAAkABoAAAABAAAAAAAlABoAAAABAAAAAAAmABoAAAABAAAAAAAnABoAAAABAAAAAAAoABoAAAABAAAAAAApABoAAAABAAAAAAAqABoAAAABAAAAAAArABoAAAABAAAAAAAsABoAAAABAAAAAAAtABoAAAABAAAAAAAuABoAAAABAAAAAAAvABoAAAABAAAAAAAeABoAAAABAAAAAAAdABoAAAAAAAMAAAAcABoAAAAAAAMAAAAbABoAAAAAAAMAAAAaABoAAAAAAAMAAAAZABoAAAAAAAMAAAAYABoAAAAAAAMAAAAXABoAAAAAAAMAAAAWABoAAAAAAAMAAAAvAAAAAAABAAAAAAAvAAEAAAABAAAAAAAvAAIAAAABAAAAAAAvAAMAAAABAAAAAAAvAAQAAAABAAAAAAAvAAUAAAABAAAAAAAvAAYAAAABAAAAAAAvAAcAAAABAAAAAAAvAAgAAAABAAAAAAAvAAkAAAABAAAAAAAvAAoAAAABAAAAAAAvAAsAAAABAAAAAAAvAAwAAAABAAAAAAAvAA0AAAABAAAAAAAvABYAAAABAAAAAAAvABcAAAABAAAAAAAvABgAAAABAAAAAAAvABkAAAABAAAAAAAvABUAAAABAAAAAAAvABQAAAABAAAAAAAvABMAAAABAAAAAAAvABIAAAABAAAAAAAvABEAAAABAAAAAAAvABAAAAABAAAAAAAvAA8AAAABAAAAAAAvAA4AAAABAAAAAAAuAAAAAAABAAAAAAAtAAAAAAABAAAAAAAsAAAAAAABAAAAAAArAAAAAAABAAAAAAAqAAAAAAABAAAAAAApAAAAAAABAAAAAAAoAAAAAAABAAAAAAAnAAAAAAABAAAAAAAmAAAAAAABAAAAAAAlAAAAAAABAAAAAAAkAAAAAAABAAAAAAAjAAAAAAABAAAAAAAiAAAAAAABAAAAAAAhAAAAAAABAAAAAAAgAAAAAAABAAAAAAAfAAAAAAABAAAAAAAeAAAAAAABAAAAAAAdAAAAAAABAAAAAAAcAAAAAAABAAAAAAAbAAAAAAABAAAAAAAaAAAAAAABAAAAAAAZAAAAAAABAAAAAAAYAAAAAAABAAAAAAAXAAAAAAABAAAAAAAWAAAAAAABAAAAAAAVAAAAAAABAAAAAAAUAAAAAAABAAAAAAATAAAAAAABAAAAAAASAAAAAAABAAAAAAARAAAAAAABAAAAAAAQAAAAAAABAAAAAAAPAAAAAAABAAAAAAAOAAAAAAABAAAAAAANAAAAAAABAAAAAAAMAAAAAAABAAAAAAALAAAAAAABAAAAAAAKAAAAAAABAAAAAAAJAAAAAAABAAAAAAAIAAAAAAABAAAAAAAHAAAAAAABAAAAAAAGAAAAAAABAAAAAAAFAAAAAAABAAAAAAAEAAAAAAABAAAAAAADAAAAAAABAAAAAAACAAAAAAABAAAAAAAfAAEAAAABAAAAAAAfAAIAAAABAAAAAAAfAAMAAAACAAEAAGAfAAQAAAABAAEAAGAfAAUAAAACAAEAAGAfAAYAAAABAAEAAGAfAAcAAAAAAAMAAGAfAAgAAAABAAAAAAAgAAgAAAABAAAAAAAhAAgAAAABAAAAAAAiAAgAAAABAAAAAAAjAAgAAAABAAAAAAAkAAgAAAABAAAAAAAlAAgAAAABAAAAAAAmAAgAAAABAAAAAAAnAAgAAAABAAAAAAAoAAgAAAABAAAAAAApAAgAAAABAAAAAAAqAAgAAAABAAAAAAArAAgAAAABAAAAAAAsAAgAAAABAAAAAAAtAAgAAAABAAAAAAAuAAgAAAABAAAAAAABAAEAAAABAAAAAAABAAIAAAABAAAAAAABAAYAAAABAAAAAAABAAcAAAABAAAAAAABAAgAAAABAAAAAAABAAkAAAABAAAAAAABAAoAAAABAAAAAAABAAsAAAABAAAAAAABAAwAAAABAAAAAAABAAUAAAABAAAAAAABAAQAAAABAAAAAAABAAMAAAABAAAAAAABABMAAAABAAAAAAABABIAAAABAAAAAAABABEAAAABAAAAAAABABAAAAABAAAAAAABAA8AAAABAAAAAAABAA4AAAABAAAAAAABAA0AAAABAAAAAAABABQAAAABAAAAAAABABUAAAABAAAAAAABABYAAAABAAAAAAABABcAAAABAAAAAAABABgAAAABAAAAAAABABkAAAABAAAAAAACAAEAAAABAAAAAAADAAEAAAACAAAAAAAdAAEAAAACAAAAABAeAAEAAAABAAAAAAAgAAkAAAABAAAAAAAjAAkAAAABAAAAAAAkAAkAAAABAAAAAAAlAAkAAAABAAAAAAAiAAkAAAABAAAAAAAhAAkAAAABAAAAAAAmAAkAAAABAAAAAAAnAAkAAAABAAAAAAAoAAkAAAABAAAAAAApAAkAAAABAAAAAAAqAAkAAAABAAAAAAArAAkAAAABAAAAAAAsAAkAAAABAAAAAAAtAAkAAAABAAAAAAAuAAkAAAABAAAAAAAfAAkAAAACAAAAABACAAIAAAACAAAAAAAeAAIAAAACAAAAABACABUAAAAAAAIAACADABUAAAABAAIAAAAEABUAAAACAAIAAAAFABUAAAABAAIAAAAGABUAAAACAAIAAAAHABUAAAABAAIAAAAIABUAAAACAAIAAAAJABUAAAABAAIAAAAKABUAAAACAAIAAAALABUAAAABAAIAAAAMABUAAAACAAIAAAANABUAAAABAAIAAAAOABUAAAACAAIAAAAPABUAAAABAAIAAAAQABUAAAACAAIAAAARABUAAAABAAIAAAASABUAAAACAAIAAAATABUAAAABAAIAAAAUABUAAAACAAIAAAAVABUAAAABAAIAAAAWABUAAAACAAIAAAAXABUAAAABAAIAAAAYABUAAAACAAIAAAAZABUAAAABAAIAAAAaABUAAAACAAIAAAAbABUAAAABAAIAAAAcABUAAAACAAIAAAAdABUAAAABAAIAAAAeABUAAAACAAIAAAAfABUAAAAAAAQAAAAgABUAAAAAAAQAAAAhABUAAAAAAAQAAAAiABUAAAAAAAQAAAAjABUAAAAAAAQAAAAuABUAAAABAAAAAAAhABQAAAAAAAMAAAAiABQAAAAAAAMAAAACABQAAAAAAAIAAAADABQAAAABAAEAAAAEABQAAAACAAEAAAAFABQAAAABAAEAAAAGABQAAAACAAEAAAAHABQAAAABAAEAAAAIABQAAAACAAEAAAAJABQAAAABAAEAAAAKABQAAAACAAEAAAALABQAAAABAAEAAAAMABQAAAACAAEAAAANABQAAAABAAEAAAAOABQAAAACAAEAAAAPABQAAAABAAEAAAAQABQAAAACAAEAAAARABQAAAABAAEAAAASABQAAAACAAEAAAATABQAAAABAAEAAAAUABQAAAACAAEAAAAVABQAAAABAAEAAAAWABQAAAACAAEAAAAXABQAAAABAAEAAAAYABQAAAACAAEAAAAZABQAAAABAAEAAAAaABQAAAACAAEAAAAbABQAAAABAAEAAAAcABQAAAACAAEAAAAdABQAAAABAAEAAAAeABQAAAACAAEAAAAfABQAAAAAAAMAAAAgABQAAAAAAAMAAAAjABQAAAAAAAMAAAAuABQAAAABAAAAAAACABMAAAAAAAEAAAACABYAAAAAAAEAACACABkAAAAAAAEAAAAgABkAAAAAAAEAAGAhABkAAAAAAAIAAGAiABkAAAAAAAIAAHAjABkAAAAAAAEAAHAgABYAAAAAAAEAAEAhABYAAAAAAAIAAEAhABcAAAACAAEAAGAhABgAAAABAAEAAGAiABYAAAAAAAIAAFAiABcAAAACAAIAAGAiABgAAAABAAIAAGAjABYAAAAAAAEAAFA=")
 tile_set = SubResource("TileSet_5sydj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_vibko")
-position = Vector2(292, 36)
+position = Vector2(35, 190)
 texture = ExtResource("6_vibko")
 flip_h = true
 region_enabled = true
 region_rect = Rect2(0, 0, 48, 48)
+
+[node name="WeaponDesc" type="Label" parent="."]
+offset_left = 264.0
+offset_top = 16.0
+offset_right = 368.0
+offset_bottom = 57.0
+text = "HERE, HAVE A
+NICE WEAPON
+DESCRIPTION!!
+XOXO, MLEMGO"

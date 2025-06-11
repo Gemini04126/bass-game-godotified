@@ -181,6 +181,8 @@ var transdir : int
 var checkpoint : int
 var doorprogress : int = 0
 
+var paused_weapon : int
+
 #player variables
 var current_weapon : int
 var old_weapon : int
@@ -304,6 +306,14 @@ var modules_enabled = [
 	false, # Spirit Dash
 	false, # Proto Shield
 	false, # CMON TREBLE!
+	false, #stop crashing
+	false, #stop fuckin crashing
+	false, #stop fucking crashing
+	false, #stop it, stop crashing
+	false, #stop it, stop crashing
+	false, #stop it, stop crashing
+	false, #stop it, stop crashing
+	false #stop FUCKING CRASHING
 ]
 
 var modules_boosted = [
@@ -351,7 +361,7 @@ func refill_ammo() -> void:
 
 func _physics_process(_delta: float) -> void:
 	middleroom = ((scrollX1 * 384) + ((scrollX2+1) * 384))/2
-	if pausescreen == null and Input.is_action_just_pressed("start") and player != null:
+	if pausescreen == null and Input.is_action_just_pressed("start") and player != null and inputdisabled == false:
 		pausescreen = preload("res://scenes/menus/pause.tscn").instantiate()
 		add_child(pausescreen)
 		get_tree().paused = true

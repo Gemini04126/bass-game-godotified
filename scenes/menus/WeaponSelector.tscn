@@ -15,6 +15,7 @@ shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
 
 [node name="WeaponSelector" type="CenterContainer"]
+focus_mode = 2
 script = ExtResource("1_op2oe")
 item = 1
 

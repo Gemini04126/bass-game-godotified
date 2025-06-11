@@ -5,7 +5,7 @@ class_name WeaponSelector extends CenterContainer
 @export_range (0, 16) var item : int
 ## Current row the item is on
 @export_range (0, 9) var row : int
-var firsttick : bool = true
+var firsttick : bool = false
 
 var selected: bool
 var hovered: bool
@@ -21,7 +21,13 @@ var BWEAPONS = [
 	"ROLLING B.",
 	"B.SCYTHE",
 	"P.STRIKE",
-	"T.ASSIST"
+	"T.ASSIST",
+	"",
+	"",
+	"",
+	"",
+	"",
+	""
 ]
 var MODULES = [
 	"B.BUSTER",
@@ -122,7 +128,13 @@ var MOD2 = [
 	"ATK/BSTR",
 	"DASH (AIR)",
 	"STAY STILL",
-	"DOGGY!!! COOL!"
+	"DOGGY!!! COOL!",
+	"",
+	"",
+	"",
+	"",
+	"",
+	""
 ]
 var CHAR = [
 	"M.BUSTER",
@@ -211,22 +223,30 @@ var RACHCOL = [
 	
 ]
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	if firsttick == true and not Engine.is_editor_hint():
+func _ready() -> void:
+	if not Engine.is_editor_hint():
 		if item == GameState.current_weapon or (item == 0 and GameState.current_weapon == GameState.WEAPONS.BUSTER):
 			grab_focus()
 			selected = true
-			firsttick = false
-		
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
 	$IconM.region_rect = Rect2 ((item-1)*16, row*16, 16, 32)
 	$IconW.region_rect = Rect2 (item*16, row*16, 16, 32)
 	
 	if not Engine.is_editor_hint():
+		if firsttick != true:
+			if item == GameState.current_weapon or ((item == 0 or item == null) and GameState.current_weapon == GameState.WEAPONS.BUSTER):
+				grab_focus()
+				selected = true
+				firsttick = true
+			
 		$IconW.region_rect = Rect2 (item*16 , GameState.character_selected*32 - 32, 16, 32)
-		if selected or hovered:
+		if selected == true:
 			if GameState.weapons_unlocked[item] == true:
-				GameState.current_weapon = item
+				if Input.is_action_just_pressed("start") and firsttick != true:
+					GameState.current_weapon = item
+				GameState.paused_weapon = item
 			$IconW.frame = 0
 			$IconM.frame = 0
 			$Bar.region_rect = Rect2 (72 , 0, 72, 232)
@@ -334,6 +354,11 @@ func _notification(what):
 func _on_focus_entered():
 	selected = true
 	$SelectSound.play()
+	if GameState.weapons_unlocked[item] == false and GameState.modules_enabled[item] == false:
+		if Input.is_action_just_pressed("move_down"):
+			if focus_neighbor_bottom != null:
+				pass
+	GameState.paused_weapon = item
 
 
 func _on_focus_exited():

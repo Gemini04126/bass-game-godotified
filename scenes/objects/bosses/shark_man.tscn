@@ -766,7 +766,7 @@ func _on_hitable_body_entered(weapon): # needs to be redefined because damage va
 				Cur_HP -= Dmg_Vals[weapon.W_Type]
 				$InvulTimer.start(Inv_Vals[weapon.W_Type])
 				if weapon.W_Type == GameState.DMGTYPE.CR_BUSTER_1 or weapon.W_Type == GameState.DMGTYPE.CR_BUSTER_3 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2 or weapon.W_Type == GameState.DMGTYPE.BS_BUSTER:
-d					if weapon.freezeframed != null:
+					if weapon.freezeframed != null:
 						$InvulTimer.start(Inv_Vals[weapon.W_Type] * 2)
 				$Audio/Damage.play()
 				if weapon.W_Type == GameState.DMGTYPE.CB_GUERILLA and Cur_HP >= 0 and state != STATES.WEAKNESS:
@@ -1593,7 +1593,6 @@ size = Vector2(23.5, 33)
 material = SubResource("ShaderMaterial_gtk0d")
 collision_layer = 0
 script = SubResource("GDScript_k5bra")
-slot = null
 barPalette = ExtResource("2_l2mpc")
 prebattle = ExtResource("3_nbslf")
 
