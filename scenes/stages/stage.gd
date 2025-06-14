@@ -33,6 +33,11 @@ var refilltimer : int
 
 var voffset : int = 8
 
+@export var time : int
+@export var freq = 0.1
+@export var amplitude = 0.35
+var currentamplitude : float
+
 func _ready():
 	GameState.stage_action = action
 	GameState.stage_boss_weapon = boss_weapon
@@ -63,13 +68,21 @@ func _ready():
 		GameState.scrollX2 = C1scrollX2
 		GameState.scrollY1 = C1scrollY1
 		GameState.scrollY2 = C1scrollY2
-	
+		if C1screenmode != null:
+			GameState.screenmode = C1screenmode
+		else:
+			GameState.screenmode = 0
+			
 	if GameState.checkpoint == 1:
 		$Camera2D.position = $StartPosition2.position
 		GameState.scrollX1 = C2scrollX1
 		GameState.scrollX2 = C2scrollX2
 		GameState.scrollY1 = C2scrollY1
 		GameState.scrollY2 = C2scrollY2
+		if C2screenmode != null:
+			GameState.screenmode = C2screenmode
+		else:
+			GameState.screenmode = 0
 	
 	if GameState.checkpoint == 2:
 		$Camera2D.position = $StartPosition3.position
@@ -77,8 +90,13 @@ func _ready():
 		GameState.scrollX2 = C3scrollX2
 		GameState.scrollY1 = C3scrollY1
 		GameState.scrollY2 = C3scrollY2
+		if C3screenmode != null:
+			GameState.screenmode = C3screenmode
+		else:
+			GameState.screenmode = 0
 	
-	
+	if GameState.screenmode == 1:
+		$Camera2D.position.y = (224*GameState.scrollY1)+108 + 8
 	
 		
 	await Fade.fade_in().finished
@@ -162,7 +180,17 @@ func _process(_delta):
 		#else:
 			#if $BossMusic.stream_paused == true:
 				#$BossMusic.stream_paused = false
-	process_camera()
+				
+	process_camera_universal()
+	match GameState.screenmode:
+		-1:
+			$Camera2D.position = GameState.player.position
+		0:
+			process_camera_0()
+		1:
+			process_camera_1()
+	GameState.camposx = $Camera2D.position.x
+	GameState.camposy = $Camera2D.position.y
 
 func _physics_process(_delta: float):
 	if GameState.player != null and GameState.screentransiton == 0:
@@ -174,7 +202,6 @@ func _physics_process(_delta: float):
 	process_drops()
 	if GameState.screentransiton > 0:
 		GameState.screentransiton -= 1
-	
 func process_drops():
 	GameState.droptimer += 1
 	if GameState.droptimer > 8:
@@ -184,8 +211,7 @@ func process_drops():
 	if GameState.itemtimer <= 0:
 		GameState.itemtimer = 15
 	
-func process_camera():
-			
+func process_camera_universal(): ##Applies to all screenmodes except for -1.
 	if GameState.transdir == 1 && ($Camera2D.position.x < (384*GameState.scrollX1) + 192):
 		if GameState.screentransiton == 0:
 			$Camera2D.position.x += 8
@@ -234,14 +260,24 @@ func process_camera():
 		GameState.transdir = 0
 		if player != null:
 			player.transing = false
-		
-	
+			
+	if GameState.screentransiton != 0:
+		if GameState.transdir == 1 or GameState.transdir == 3:
+			if $Camera2D.position.y < (224*GameState.scrollY1) + 104  + 8:
+				$Camera2D.position.y += 8
+			if $Camera2D.position.y > (224*GameState.scrollY2) + 104  + 8:
+				$Camera2D.position.y -= 8
+				
+		if GameState.transdir == 2 or GameState.transdir == 4:
+			if $Camera2D.position.x < (384*GameState.scrollX1) + 192:
+				$Camera2D.position.x += 8
+			if $Camera2D.position.x > (384*GameState.scrollX2) + 192:
+				$Camera2D.position.x -= 8
+			
+func process_camera_0(): ##Standard Screenmode.
 	if (player != null): # Null check!
 		if (GameState.current_hp > 0):
 			if (player.currentState != player.STATES.TELEPORT):
-
-				
-
 				if GameState.transdir == 0:
 					if player.position.x > (384*GameState.scrollX1) + 192 and player.position.x < (384*GameState.scrollX2) + 192 and player.warping == 0:
 						if player.position.x > $Camera2D.position.x + 8:
@@ -281,14 +317,9 @@ func process_camera():
 					if $Camera2D.position.x > (384*GameState.scrollX2) + 192:
 						$Camera2D.position.x = (384*GameState.scrollX2) + 192
 					
-					
-				
-						
 			if player.position.y > $Camera2D.position.y + 120	:
 				GameState.current_hp = 0
 					
-					
-
 	else:
 
 		if $Camera2D.position.y < (224*GameState.scrollY1) + 104  + 8:
@@ -300,32 +331,47 @@ func process_camera():
 			$Camera2D.position.x = (384*GameState.scrollX1) + 192
 		if $Camera2D.position.x > (384*GameState.scrollX2) + 192:
 			$Camera2D.position.x = (384*GameState.scrollX2) + 192
-
-	GameState.camposx = $Camera2D.position.x
-	GameState.camposy = $Camera2D.position.y
+				
+func process_camera_1(): ##Floating up and down.
+	if GameState.screentransiton == 0:
+		if currentamplitude < amplitude:
+			currentamplitude += 0.05
+	else:
+		if currentamplitude > 0:
+			currentamplitude -= 0.05
 	
-	if GameState.screentransiton != 0:
-		if GameState.transdir == 1 or GameState.transdir == 3:
-			if $Camera2D.position.y < (224*GameState.scrollY1) + 104  + 8:
-				$Camera2D.position.y += 8
-			if $Camera2D.position.y > (224*GameState.scrollY2) + 104  + 8:
-				$Camera2D.position.y -= 8
-				
-			#if $Camera2D.position.y < (224*GameState.scrollY3) + 104  + 8:
-			#	$Camera2D.position.y = (224*GameState.scrollY3) + 104  + 8
-			#if $Camera2D.position.y > (224*GameState.scrollY4) + 104  + 8:
-			#	$Camera2D.position.y = (224*GameState.scrollY4) + 104  + 8
-				
-		if GameState.transdir == 2 or GameState.transdir == 4:
-			if $Camera2D.position.x < (384*GameState.scrollX1) + 192:
-				$Camera2D.position.x += 8
-			if $Camera2D.position.x > (384*GameState.scrollX2) + 192:
-				$Camera2D.position.x -= 8
-				
-			#if $Camera2D.position.x < (384*GameState.scrollX3) + 192:
-			#	$Camera2D.position.x += 8
-			#if $Camera2D.position.x > (384*GameState.scrollX4) + 192:
-			#	$Camera2D.position.x -= 8
+	if (player != null): # Null check!
+		if (GameState.current_hp > 0):
+			if (player.currentState != player.STATES.TELEPORT):
+
+				if GameState.transdir == 0:
+					if player.position.x > (384*GameState.scrollX1) + 192 and player.position.x < (384*GameState.scrollX2) + 192 and player.warping == 0:
+						if player.position.x > $Camera2D.position.x + 8:
+							$Camera2D.position.x += 8
+						elif player.position.x < $Camera2D.position.x - 8:
+							$Camera2D.position.x -= 8
+						else:
+							$Camera2D.position.x = player.position.x
+						
+					if player.warping > 0:
+						$Camera2D.position = player.position
+						
+	
+						
+			if player.position.y > $Camera2D.position.y + 120	:
+				GameState.current_hp = 0
+					
+	else:
+		if $Camera2D.position.x < (384*GameState.scrollX1) + 192:
+			$Camera2D.position.x = (384*GameState.scrollX1) + 192
+		if $Camera2D.position.x > (384*GameState.scrollX2) + 192:
+			$Camera2D.position.x = (384*GameState.scrollX2) + 192
+	
+	if GameState.acessibility_motion == false:
+		var deform = (cos(time * freq) * currentamplitude)
+		$Camera2D.position.y += deform
+		time += 1
+	
 				
 func process_refills():
 	if (player != null): # Null check!

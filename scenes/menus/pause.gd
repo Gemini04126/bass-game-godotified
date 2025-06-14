@@ -100,7 +100,11 @@ var BMODS = [
 ]
 
 var CWEAPONS = [
-	"P.BUSTER",
+	"Buster that
+	can charge up
+	a powerful
+	attack.",
+	
 	"Shield that
 	blocks shots
 	and damages

@@ -115,6 +115,9 @@ var stageSelectColorTranslations : Array[String] = [
 	"res://sprites/players/rachel/stageseltrans.png"
 ]
 
+var acessibility_motion : bool = false
+var acessibility_flash : bool = false
+
 var stage_action : int
 var stage_boss_weapon : int
 var stage_progress_update : String = ""
