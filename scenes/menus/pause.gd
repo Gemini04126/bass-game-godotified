@@ -124,14 +124,15 @@ var CWEAPONS = [
 	Charge for a
 	double attack!",
 	
-	"5-bullet
+	"3-bullet
 	spread shot.
-	Great at
-	close range.",
+	Can be aimed
+	up and down.",
 	
 	"Blows away
-	enemies.
-	Limited uses",
+	enemies and
+	lets you
+	glide in air.",
 	
 	"Rolls on
 	any surface.
@@ -145,7 +146,7 @@ var CWEAPONS = [
 	
 	"Blocks shots
 	from your
-	front",
+	front.",
 	
 	"TREBLE.A",
 	
@@ -166,7 +167,8 @@ var CWEAPONS = [
 	
 	"Powerful
 	explosive.
-	can be aimed.",
+	can be aimed
+	in 8 dirs.",
 	
 	"SAKUGARNE"
 ]

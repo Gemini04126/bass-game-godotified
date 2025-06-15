@@ -197,8 +197,12 @@ func _physics_process(delta: float) -> void:
 				victory(delta)
 			
 		processCharge()
-		if GameState.freezeframe == false:
+		if GameState.freezeframe == false and STATES.keys()[currentState].contains("LADDER") == false:
 			position.x += wind_push
+			if velocity.y > WATER_JUMP_VELOCITY:
+				velocity.y -= fan_push
+				if velocity.y > 0:
+					velocity.y -= fan_push
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()

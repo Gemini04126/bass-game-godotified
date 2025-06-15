@@ -160,8 +160,10 @@ var no_grounded_movement : bool
 var in_water : bool
 var on_ice : bool
 var ice_jump : bool
-var wind_push = 0
 var fall_timer: int
+
+var wind_push = 0
+var fan_push = 0
 
 #Attack vars
 var shot_type = 0
@@ -327,6 +329,7 @@ func _physics_process(delta: float) -> void:
 				processDamage()
 			STATES.LADDER_SHOOT, STATES.LADDER_THROW, STATES.LADDER_SHIELD:
 				velocity.y = 0
+				velocity.x = 0
 				ladderInput()
 				processCharge()
 				processShoot()
@@ -343,8 +346,12 @@ func _physics_process(delta: float) -> void:
 			STATES.VICTORY:
 				victory(delta)
 				
-		if GameState.freezeframe == false:
+		if GameState.freezeframe == false and STATES.keys()[currentState].contains("LADDER") == false:
 			position.x += wind_push
+			if velocity.y > WATER_JUMP_VELOCITY:
+				velocity.y -= fan_push
+				if velocity.y > 0:
+					velocity.y -= fan_push
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
@@ -551,7 +558,8 @@ func Jump(delta):
 			currentState = STATES.WALK
 		else:
 			currentState = STATES.IDLE
-	
+	if dashjumped == true and JumpHeight < 3:
+		JumpHeight = 4
 	if on_ice == true:
 		ice_jump = true
 	if GameState.inputdisabled == false:
@@ -561,6 +569,8 @@ func Jump(delta):
 			else:
 				velocity.y = JUMP_VELOCITY
 			JumpHeight += 1
+			if fan_push < 0:
+				JumpHeight += 2
 	if (((in_water == false and JumpHeight == JUMP_HEIGHT) or (in_water == true and JumpHeight == WATER_JUMP_HEIGHT))):
 		JumpHeight = 80
 		if in_water == true:
@@ -589,7 +599,7 @@ func Jump(delta):
 		JumpHeight = 80
 		
 	if currentState == STATES.JUMP and attack_timer.is_stopped():
-		if velocity.y > 0:
+		if (velocity.y > 0 and fan_push <= 0) or fan_push < 0:
 			$AnimationPlayer.play("FALL")
 		else:
 			$AnimationPlayer.play("JUMP")
