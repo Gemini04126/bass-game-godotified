@@ -73,6 +73,7 @@ func _gui_input(event):
 	if (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed) or (event is InputEvent and event.is_action_pressed("start")):
 		await Fade.fade_out().finished
 		get_tree().change_scene_to_file(scene.resource_path)
+		GameState.checkpoint = 0
 	
 func _notification(what):
 	match what:
