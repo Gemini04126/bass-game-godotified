@@ -9,7 +9,7 @@ var state : int
 
 func _ready():
 	$SpawnSound.play()
-	state_timer.start(0.75)
+	state_timer.start(0.35)
 	state = 1
 		
 func _physics_process(_delta):
@@ -21,21 +21,21 @@ func _physics_process(_delta):
 	
 	if state_timer.is_stopped() && state == 1:
 		velocity.x = -velocity.x * 0.55
-		velocity.y = -direction * 180
+		velocity.y = -direction * 340
 		state += 1
 		state_timer.start(0.1)
 		
-	if state_timer.is_stopped() && state >= 2 && state < 12:
+	if state_timer.is_stopped() && state >= 2 && state < 6:
 		velocity.x *= 1.08
 		velocity.y *= 0.7
 		state += 1
 		state_timer.start(0.05)
 
-	if state >= 12:
+	if state >= 3:
 		velocity.x *= 0.85
 		velocity.y *= 0.85
-		position.x = move_toward(position.x, GameState.player.position.x, state * 0.2)
-		position.y = move_toward(position.y, GameState.player.position.y, state * 0.2)
+		position.x = move_toward(position.x, GameState.player.position.x, state * 0.6)
+		position.y = move_toward(position.y, GameState.player.position.y, state * 0.4)
 		
 	
 	if state_timer.is_stopped() && state >= 8:

@@ -3,10 +3,10 @@ if GameState.character_selected == 0
 	Smog Man: Maestro
 elif GameState.character_selected == 1
 	Smog Man: Bass, are you going to... attack me? I can't believe it, I thought you were our ally!
-	Bass: Get real. Why would I ever be friends with a smoke blower like you?
-	Smog Man: Hmph! You'll regret what you're doing eventually! If you're so strong, try some smog!
+	Bass: Get real. Just give up and save me the time chasing you down, you ugly smoke-sucker!
+	Smog Man: Ahhhh, shut up! Why don't you try spouting your stupid insults while choking on some smog?!
 elif GameState.character_selected == 2
-	Smog Man: Copy Robot
+	Smog Man: Hey!
 elif GameState.character_selected == 3
 	Smog Man: Mega Man
 elif GameState.character_selected == 4

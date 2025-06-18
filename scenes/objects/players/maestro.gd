@@ -1072,7 +1072,7 @@ func weapon_reaper():
 			shot_type = 2
 			attack_timer.start(0.3)
 			if ScytheCharge < 20: #Uncharged. Throws 1 boomerang with an alternating curve
-				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/boomer_scythe.tscn", Vector2(170, 0), Vector2(15, -2))
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/boomer_scythe.tscn", Vector2(340, 0), Vector2(15, -2))
 				GameState.onscreen_sp_bullets += 1
 
 				if Input.is_action_pressed("move_up"):
@@ -1095,10 +1095,10 @@ func weapon_reaper():
 					GameState.weapon_energy[GameState.WEAPONS.REAPER] -= 2
 				GameState.onscreen_sp_bullets += 2
 				
-				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/boomer_scythe.tscn", Vector2(210, 35), Vector2(21, -8))
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/boomer_scythe.tscn", Vector2(360, 65), Vector2(21, -8))
 				projectile.direction = -1
 
-				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/boomer_scythe.tscn", Vector2(210, -35), Vector2(21, 8))
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/boomer_scythe.tscn", Vector2(360, -65), Vector2(21, 8))
 				projectile.direction = 1
 
 			if ScytheCharge >= 70: #Full charge. Throws 2 shots that run to the top and bottom of the screen and return.
@@ -1106,10 +1106,10 @@ func weapon_reaper():
 					GameState.weapon_energy[GameState.WEAPONS.REAPER] -= 4
 				GameState.onscreen_sp_bullets += 2
 
-				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/charge_scythe.tscn", Vector2(310, 35), Vector2(21, 8))
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/charge_scythe.tscn", Vector2(480, 35), Vector2(21, 8))
 				projectile.direction = -1
 
-				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/charge_scythe.tscn", Vector2(310, -35), Vector2(21, -8))
+				BasicProjectileAttack("res://scenes/objects/players/weapons/special_weapons/charge_scythe.tscn", Vector2(480, -35), Vector2(21, -8))
 				projectile.direction = 1
 
 			ScytheCharge = 0

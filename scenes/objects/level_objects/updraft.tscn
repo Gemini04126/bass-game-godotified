@@ -5,6 +5,9 @@ script/source = "extends StaticBody2D
 
 class_name updraft
 @export var push : int
+const fxscn = preload(\"res://scenes/objects/level_objects/windfx.tscn\")
+var baby
+
 
 func _on_box_body_entered(body):
 	if body.is_in_group(\"player\"):
@@ -14,6 +17,25 @@ func _on_box_body_entered(body):
 func _on_box_body_exited(body):
 	if body.is_in_group(\"player\"):
 		body.fan_push = 0
+
+func _physics_process(delta: float) -> void:
+	if GameState.camposy != null:
+		if (position.y > GameState.camposy - 252 and position.y < GameState.camposy + 252):
+			if $Timer.is_stopped():
+				baby = fxscn.instantiate()
+				add_sibling(baby)
+				if push > 0: # UP
+					baby.position.y = position.y + (scale.y * 8)
+					baby.velocity.y = -push * 9
+				if push < 0: # DOWN
+					baby.position.y = position.y - (scale.y * 8)
+					baby.velocity.y = -push * 6
+				baby.traveltimestart = scale.y * 16
+				baby.traveltime = baby.traveltimestart
+				
+				baby.position.x = position.x + randf_range(-scale.x * 8, scale.x * 8)
+				$Timer.start(0.09)
+				
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vk8e7"]
@@ -38,6 +60,11 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="box"]
 shape = SubResource("RectangleShape2D_euuk7")
 debug_color = Color(1, 0.192157, 0.701961, 0.678431)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+autostart = true
 
 [connection signal="body_entered" from="box" to="." method="_on_box_body_entered"]
 [connection signal="body_exited" from="box" to="." method="_on_box_body_exited"]

@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://drxgf7b7nod4p"
+path="res://.godot/imported/prebattle_guerrilla.dialogue-e2663a20f58dc7e39e54cb169231fb3a.tres"
+
+[deps]
+
+source_file="res://dialogue/prebattle_guerrilla.dialogue"
+dest_files=["res://.godot/imported/prebattle_guerrilla.dialogue-e2663a20f58dc7e39e54cb169231fb3a.tres"]
+
+[params]
+
+defaults=true

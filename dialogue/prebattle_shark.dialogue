@@ -1,10 +1,9 @@
 ~ start
 if GameState.character_selected == 0
-	Shark Man: Woah, this lil dude is COOL!
+	Shark Man: Woah, this lil dude is COOL! I wanna kill him!
 elif GameState.character_selected == 1
-	Bass: Looks like you're up, small fry.
 	Shark Man: I've been looking for you Bass. It's a shame you didn't let me hunt you down.
-	Bass: I'm the hunter here, and I've finally caught you. Ready to go?
+	Bass: I'm the hunter here, and I've finally caught you. Now, give me a good time!
 	Shark Man: You arrogant fool. I can't wait to tear you apart.
 elif GameState.character_selected == 2
 	Shark Man: I knew I could smell an impostor who's in over his head. Run along now and I'll let you go.

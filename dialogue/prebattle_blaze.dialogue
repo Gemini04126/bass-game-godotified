@@ -2,13 +2,26 @@
 if GameState.character_selected == 0
 	Blaze Man: Maestro
 elif GameState.character_selected == 1
-	Blaze Man: Bass
+	Blaze Man: I'm so glad I could see you, Bass! I've been waiting for this!
+	Bass: Ooh, looks like I'm famous. What did I do to become so popular?
+	Blaze Man: Attack my creator, destroy his lab, and crush many of my fellow Robot Masters.
+	Bass: Oh, so you're one of Light's robots! Come to take revenge, huh? I'll make sure to enjoy myself! 
 elif GameState.character_selected == 2
-	Blaze Man: Copy Robot
+	Blaze Man: You're not Mega Man. Identify yourself!
+	Copy Robot: Ooh, looks like you're brighter than your lame flames! I'm just like him, so I'm surprised!
+	Blaze Man: He is a DLN-series, like me. I consider him a brother. Your facade is an insult us all!
+	Copy Robot: Call me "Big Bro", then. Time to punish you for disrespecting your family!
 elif GameState.character_selected == 3
-	Blaze Man: Mega Man
+	Mega Man: Blaze Man! Please stop this!
+	Blaze Man: Rock... Wily has fully reprogrammed me. You won't get me to stop with words.
+	Mega Man: I understand... I'll stop you!
+	Blaze Man: : Be careful! I can't hold back, no matter how hard I try!
 elif GameState.character_selected == 4
-	Blaze Man: Proto Man
+	Blaze Man: Blues... Rock told me about you. Are you here to stop me?
+	Proto Man: Yes. I'll make sure the doc can repair you ASAP.
+	Blaze Man: Thanks, Rock always told me you were reliable. 
 elif GameState.character_selected == 5
-	Blaze Man: Rachel
+	Blaze Man: A girl...? Please, escape! I don't want you to get hurt!
+	Rachel: But I don't wanna, you're toast.
+	Blaze Man: ... What?????????
 => END

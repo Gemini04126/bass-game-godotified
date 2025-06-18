@@ -9,8 +9,9 @@ var oldtype : int
 var oldsubtype : int
 var olddirection: int
 var readytospawn : bool = true
+var onscreen : bool = false
 
-@export_enum ("Sniper Joe", "Gabyoall", "Shotman", "Wanaan Kai", "Commando Joe", "Sutsi", "Tosser") var type : int ##The type of enemy.
+@export_enum ("Sniper Joe", "Gabyoall", "Shotman", "Wanaan Kai", "Commando Joe", "Sutsi", "Tosser", "Jumbro") var type : int ##The type of enemy.
 @export var direction : int
 @export var subtype : int ##Variation on the enemy.
 @onready var baby
@@ -27,7 +28,8 @@ var enemytype = [
 	preload("res://scenes/objects/enemies/wanaan_kai.tscn"),
 	preload("res://scenes/objects/enemies/commando_joe.tscn"),
 	preload("res://scenes/objects/enemies/sutsi.tscn"),
-	preload("res://scenes/objects/enemies/tosser.tscn")
+	preload("res://scenes/objects/enemies/tosser.tscn"),
+	preload("res://scenes/objects/enemies/jumbro.tscn")
 ]
 			
 func _ready() -> void:
@@ -40,11 +42,16 @@ func _ready() -> void:
 			(GameState.difficulty == 3 and vhard == false)
 		):
 			queue_free()
-		
+	
 func _process(_delta):
 	if not Engine.is_editor_hint():
 		
-		if baby == null and GameState.transdir == 0 and readytospawn == true:
+		if (position.x > GameState.camposx - 212 and position.x < GameState.camposx + 212) and (position.y > GameState.camposy - 252 and position.y < GameState.camposy + 252):
+			onscreen = true
+		else:
+			onscreen = false
+		
+		if baby == null and GameState.transdir == 0 and readytospawn == true and onscreen == true:
 			baby = enemytype[type].instantiate()
 			add_sibling(baby)
 			baby.subtype = subtype
@@ -52,6 +59,9 @@ func _process(_delta):
 			readytospawn = false
 			if direction == 1: 
 				baby.scale.x = -1
+				
+		if baby == null and onscreen == false:
+			readytospawn = true
 				
 	if Engine.is_editor_hint():
 		$Info/SubType.text = "%s" % subtype
@@ -85,9 +95,3 @@ func _process(_delta):
 		olddirection = direction
 	else:
 		pass
-		
-
-
-func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	if baby == null:
-		readytospawn = true

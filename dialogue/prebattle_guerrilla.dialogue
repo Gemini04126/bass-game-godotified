@@ -1,0 +1,17 @@
+~ start
+if GameState.character_selected == 0
+	Guerilla Man: Maestro
+elif GameState.character_selected == 1
+	Guerilla Man: Sir! Traitor unit SWN-001 has made contact! Requesting permission to engage!
+	Bass:
+	Guerilla Man: 
+	
+elif GameState.character_selected == 2
+	Guerilla Man: Copy Robot
+elif GameState.character_selected == 3
+	Guerilla Man: Mega Man
+elif GameState.character_selected == 4
+	Guerilla Man: Proto Man
+elif GameState.character_selected == 5
+	Guerilla Man: Rachel
+=> END

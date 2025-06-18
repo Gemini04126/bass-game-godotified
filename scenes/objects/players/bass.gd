@@ -240,6 +240,10 @@ func _physics_process(delta: float) -> void:
 				velocity.y -= fan_push
 				if velocity.y > 0:
 					velocity.y -= fan_push
+		if fan_push != 0:
+			airactiontaken = false
+			slowed = false
+			
 		switchWeapons()
 		if currentState != STATES.DEAD:
 			move_and_slide()
