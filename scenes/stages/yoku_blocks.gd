@@ -19,9 +19,14 @@ var num
 var interval = 0
 
 func _physics_process(_delta: float):
+	if not Engine.is_editor_hint():
+		if GameState.freezeframe == true:
+			$Timer.process_mode = Node.PROCESS_MODE_DISABLED
+		if GameState.freezeframe == false:
+			$Timer.process_mode = Node.PROCESS_MODE_INHERIT
+		
 	if $Timer.is_stopped():
 		interval += 1
-		print("bwoop")
 		if interval == intervals + 1:
 			interval = 1
 			

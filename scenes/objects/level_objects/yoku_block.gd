@@ -1,3 +1,4 @@
+@tool
 
 class_name YokuBlock
 extends StaticBody2D
@@ -35,11 +36,22 @@ func _ready():
 		static_audio_player = $YokuSound
 	$Sprite2D.texture = load(styles[_style])
 	$AnimationPlayer.play("RESET")
+	
 func _physics_process(_delta: float):
 		if $RayCast2D.is_colliding():
 			$Shadow.visible = false
 		else:
 			$Shadow.visible = true
+		if not Engine.is_editor_hint():
+			if GameState.freezeframe == true:
+				$AnimationPlayer.process_mode = Node.PROCESS_MODE_DISABLED
+				$YokuSound.process_mode = Node.PROCESS_MODE_DISABLED
+				$Timer.process_mode = Node.PROCESS_MODE_DISABLED
+			else:
+				$AnimationPlayer.process_mode = Node.PROCESS_MODE_INHERIT
+				$YokuSound.process_mode = Node.PROCESS_MODE_INHERIT
+				$Timer.process_mode = Node.PROCESS_MODE_INHERIT
+			
 		if get_parent().interval == get_parent().get_parent().interval and $Timer.is_stopped():
 			$AnimationPlayer.play("appear")
 			$Timer.start(get_parent().duration)
