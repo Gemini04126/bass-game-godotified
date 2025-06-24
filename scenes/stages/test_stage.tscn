@@ -70,6 +70,7 @@ shader_parameter/fps = 6.0
 
 [node name="TestStage" type="Node2D"]
 script = ExtResource("1_ac8st")
+default_music = ExtResource("7_lu0fe")
 C1scrollX1 = -1856
 C1scrollX2 = 1728
 C1scrollY1 = -178
@@ -152,11 +153,6 @@ gravity = 400.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SplashZone"]
 position = Vector2(-874.25, 585)
 shape = SubResource("RectangleShape2D_una46")
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_lu0fe")
-volume_db = -10.0
-bus = &"Music"
 
 [node name="Boundaries" type="StaticBody2D" parent="."]
 

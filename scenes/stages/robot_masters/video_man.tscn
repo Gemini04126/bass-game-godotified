@@ -1,10 +1,9 @@
-[gd_scene load_steps=23 format=4 uid="uid://dqmd0sycqay4"]
+[gd_scene load_steps=22 format=4 uid="uid://dqmd0sycqay4"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_hs2cl"]
 [ext_resource type="Script" uid="uid://f7bd7y4dfk0p" path="res://scenes/stages/robot_masters/videobgs.gd" id="2_7b04w"]
 [ext_resource type="Texture2D" uid="uid://c6h7euuvt3d6g" path="res://sprites/tilesets/Video.png" id="2_bi60d"]
 [ext_resource type="AudioStream" uid="uid://cb0vuiofgo415" path="res://audio/music/Video Stage.mp3" id="4_waymo"]
-[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://audio/music/Boss Battle.mp3" id="5_bi60d"]
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="5_bjw86"]
 [ext_resource type="TileSet" uid="uid://bp0hrrsh7jne5" path="res://tilesets/layout.tres" id="6_m3ilk"]
 [ext_resource type="PackedScene" uid="uid://el66rgn1gkh3" path="res://scenes/objects/level_objects/teleporter.tscn" id="7_7xpcu"]
@@ -326,6 +325,7 @@ size = Vector2(16, 110)
 
 [node name="Video Man" type="Node2D"]
 script = ExtResource("1_hs2cl")
+default_music = ExtResource("4_waymo")
 boss_weapon = 2
 progress_update = "VideoDead"
 C1scrollX1 = 1
@@ -452,19 +452,6 @@ tile_set = SubResource("TileSet_546oa")
 position = Vector2(128, 112)
 limit_left = 0
 limit_bottom = 80000
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-process_mode = 3
-stream = ExtResource("4_waymo")
-volume_db = -10.0
-bus = &"Music"
-
-[node name="BossMusic" type="AudioStreamPlayer" parent="."]
-process_mode = 3
-stream = ExtResource("5_bi60d")
-volume_db = -5.0
-bus = &"Music"
-parameters/looping = true
 
 [node name="Level Objects" type="Node2D" parent="."]
 

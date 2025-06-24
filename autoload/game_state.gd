@@ -4,7 +4,7 @@ extends CanvasLayer
 
 #region Enums
 enum WEAPONS {BUSTER, BLAZE, VIDEO, SMOG, SHARK, ORIGAMI, GALE, GUERRILLA, REAPER, PROTO, TREBLE, CARRY, ARROW, ENKER, PUNK, BALLADE, QUINT}
-enum PALETTE {NONE, MD, NES, DOOM, PICO8, GB, VB, C64, CGA, G4, G8, G16}
+enum PALETTE {NONE, MD, NES, DOOM, LOSPEC2K, PICO8, GB, VB, C64, CGA, G4, G8, G16}
 enum DMGTYPE
 {
 	#Shared DMG types between CR and Bass (CB)
@@ -74,10 +74,57 @@ enum DMGTYPE
 	#Instant Kill (KILL)
 	KILL
 }
-
 #endregion
-
+#region Constants
+## Character names.
+const char_names : Array[String] = [
+	"Maestro",
+	"Bass",
+	"Copy Robot",
+	"Mega Man",
+	"Proto Man",
+	"Rachel"
+]
+## Difficulty names.
+const diff_names : Array[String] = [
+	"Easy",
+	"Normal",
+	"Hard",
+	"Very Hard"
+]
+const pal_names : Array[String] = [
+	"None",
+	"Mega Drive/Genesis",
+	"NES",
+	"Doom",
+	"Lospec 2000",
+	"Pico-8",
+	"Game Boy (DMG)",
+	"Virtual Boy",
+	"Commodore 64",
+	"CGA",
+	"Grayscale (4)",
+	"Grayscale (8)",
+	"Grayscale (16)"
+]
+const palette_paths : Array[String] = [
+	"", # None
+	"res://shaders/palettes/megadrive.png", # Mega Drive/Genesis
+	"res://shaders/palettes/nes.png", # NES
+	"res://shaders/palettes/doom.png", # Doom
+	"res://shaders/palettes/lospec-2000.png", # Lospec 2000
+	"res://shaders/palettes/pico-8.png", # Pico-8
+	"res://shaders/palettes/gameboy.png", # Game Boy (DMG)
+	"res://shaders/palettes/virtualboy.png", # Virtual Boy
+	"res://shaders/palettes/commodore64.png", # Commodore 64
+	"res://shaders/palettes/cga.png", # CGA
+	"res://shaders/palettes/grayscale4.png", # Grayscale (4)
+	"res://shaders/palettes/grayscale8.png", # Grayscale (8)
+	"res://shaders/palettes/grayscale16.png" # Grayscale (16)
+]
+#endregion
 #region Variables
+# G: hey, why don't we just change these to be enums at this point...?
 ## List of characters. Mods can add to this to add their own characters.
 var characters : Array[String] = [
 	"res://scenes/objects/players/maestro.tscn",
@@ -115,29 +162,39 @@ var stageSelectColorTranslations : Array[String] = [
 	"res://sprites/players/rachel/stageseltrans.png"
 ]
 
+## Disables motion effects to prevent motion sickness.
 var acessibility_motion : bool = false
+## Disables flashing effects to prevent epilepsy.
 var acessibility_flash : bool = false
+## Currently selected palette.
+var palette_selected : int = PALETTE.MD
 
+## What the stage transition does -- going back to the stage select, weapon get screen, etc.
 var stage_action : int
+## What weapon the game gives the player upon beating the stage.
 var stage_boss_weapon : int
+## What part of the progress dict gets updated upon beating the stage.
 var stage_progress_update : String = ""
+## Whether or not a dialogue box is open.
 var dialogue_open: bool = false
 
+## Maximum valid character ID.
 var maxCharacterID = characters.size() - 1 # Whyyyyy...?
+## What character the player is playing as. Character is reloaded at scene load.
 var character_selected : int
-var player # absolute path to player node
+## How many lives the player has.
 var player_lives : int = 3
+## 0: No fight. 1: Boss intro. 2: Boss fight. 3: Player victory.
 var bossfightstatus : int = 0
-# 0: No fight.
-# 1: Intro
-# 2: FIGHT!
-# 3: You win!
+## How many bosses need to be killed to finish the stage.
 var bossestokill : int = 0
 
-## Currently playing music. 0: None. 1: Stage. 2: Boss. 3: Fortress Boss.
-var musicplaying : int = 0 
+## Whether music persists through deaths.
+var continuous_music : bool = false
 
+## Not sure what this does.
 var pausescreen
+## Amount of frames the game freezes when you die.
 var hit_stop : int
 
 ## An array of boss nodes.
@@ -232,8 +289,6 @@ var PROGRESSDICT = {
 }
 
 var difficulty : int
-var infinite_ammo : bool = false
-var ultimate : bool = false
 var weapon_energy : Array = [
 	0,	# Buster
 	28,	# Scorch Barrier
@@ -303,7 +358,19 @@ var weapons_unlocked = [
 	false, # Ballade Cracker
 	false, # Sakugarne
 ]
-
+var modules_unlocked = [
+	true, # nothing lol
+	false, # Blast Jump
+	false, # Track 2
+	false, # Mist Dash
+	false, # Aqua Drive
+	false, # Paper Cut
+	false, # Aero Glide
+	false, # Machine Buster
+	false, # Spirit Dash
+	false, # Proto Shield
+	false, # CMON TREBLE!
+]
 var modules_enabled = [
 	true, # nothing lol
 	false, # Blast Jump
@@ -317,7 +384,6 @@ var modules_enabled = [
 	false, # Proto Shield
 	false, # CMON TREBLE!
 ]
-
 var modules_boosted = [
 	true, # nothing lol
 	false, # Blast Jump
@@ -353,7 +419,23 @@ var upgrades_enabled = [
 	false, # Mod3 / S.Arrow
 ]
 #endregion
-
+#region Cheat variables
+## Infinite ammo.
+var infinite_ammo : bool = false
+## Ultimate mode.
+var ultimate : bool = false
+## Free movement / noclip.
+var noclip : bool = false
+## "Bruiser Brothers" mode: Spawns 2 of every boss.
+var bruiser_brothers : bool = false
+#endregion
+#region References
+## Absolute path to player node.
+var player : Node # absolute path to player node
+## Path to music player node.
+@onready var music : Node = $Audio/Music
+#endregion
+#region Functions
 func refill_health() -> void:
 	current_hp = max_HP # Reset HP
 
@@ -379,7 +461,7 @@ func _physics_process(_delta: float) -> void:
 		freezeticks += 1
 		if (character_selected == 1 and freezeticks == 15) or freezeticks == 20:
 			if !infinite_ammo:
-				GameState.weapon_energy[GameState.WEAPONS.VIDEO] -= 1
+				weapon_energy[WEAPONS.VIDEO] -= 1
 			freezeticks = 0
 			
 	if hit_stop > 0:
@@ -395,41 +477,114 @@ func _physics_process(_delta: float) -> void:
 			damageticks = 0
 			current_hp -= 1
 	
-	if musicplaying == 2:
-		if $Music/BossMusic.get_stream_playback() == null:
-			$Music/BossMusic.play()
-		if freezeframe == true:
-			$Music/BossMusic.stream_paused = true
-		else:
-			$Music/BossMusic.stream_paused = false
-	elif musicplaying != 2:
-		$Music/BossMusic.stop()
-	
-	if musicplaying == 3:
-		if $Music/FortBossMusic.get_stream_playback() == null:
-			$Music/FortBossMusic.play()
-		if freezeframe == true:
-			$Music/FortBossMusic.stream_paused = true
-		else:
-			$Music/FortBossMusic.stream_paused = false
-	else:
-		$Music/FortBossMusic.stop()
-	
-	if musicplaying == 4:
-		if $Music/WilyBossMusic.get_stream_playback() == null:
-			$Music/WilyBossMusic.play()
-		if freezeframe == true:
-			$Music/WilyBossMusic.stream_paused = true
-		else:
-			$Music/WilyBossMusic.stream_paused = false
-	else:
-		$Music/WilyBossMusic.stop()
-			
 	if bossfightstatus == 4:
-		$Music/StageComplete.play()
+		change_music(load("res://audio/music/Stage Completed.wav"))
 		bossfightstatus = 5
 		
 	if bossfightstatus == 6:
 		if player != null:
 			player.victorydemo = true
+
+func change_music(new_music: AudioStream, new_pitch: float = 1.0, new_volume: float = 0.0) -> void:
+	if (music.stream != new_music) or (music.pitch_scale != new_pitch) or (music.volume_db != new_volume) or (continuous_music == false): 
+		music.stream = new_music
+		music.pitch_scale = new_pitch
+		music.volume_db = new_volume
+		music.play()
+
+func print_debug_message(msg: String) -> void:
+	$Message.text = msg
+	$Message.visible = true
+	$Message/Timer.start()
+
+func refresh_palette() -> void:
+	if palette_selected == 0:
+		$PaletteClamp.visible = false
+	else:
+		$PaletteClamp.visible = true
+		$PaletteClamp.material.set_shader_parameter("palette", load(palette_paths[palette_selected]))
+
+func _unhandled_input(event):
+	debug_keys(event)
 	
+func debug_keys(event):
+	if (event is InputEventKey) and event.pressed:
+		match event.keycode:
+			KEY_ESCAPE:
+				if player:
+					player.reset(true) # Reset EVERYTHING about the player
+					player = null
+				get_tree().change_scene_to_file("res://scenes/menus/stage_select.tscn")
+				print_debug_message("Exited stage")
+			KEY_F1: # Refill health
+				refill_health()
+				print_debug_message("Refilled health")
+			KEY_F2: # Refill ammo
+				refill_ammo()
+				print_debug_message("Refilled ammo")
+			# No F3, because that's our debug info button thanks to that plugin.
+			KEY_F4: # Bring current boss down to 1HP
+				if bosses.size() > 0:
+					if bosses[0]:
+						if "Cur_HP" in bosses[0]:
+							if bosses[0].Cur_HP > 1:
+								bosses[0].Cur_HP = 1
+								print_debug_message("Brought boss down to 1 HP")
+							else:
+								print_debug_message("Boss is already at or below 1 HP")
+						else:
+							print_debug_message("Boss does not have Cur_HP variable")
+					else:
+						print_debug_message("No boss in slot 0")
+				else:
+					print_debug_message("Boss array has size of 0")
+			KEY_F5: # Reload the current level.
+				if player:
+					if player:
+						player.reset(true) # Reset EVERYTHING about the player
+						player = null
+				get_tree().reload_current_scene()
+				print_debug_message("Reloaded scene")
+			KEY_F6: # Switch characters... despite the character scene only loading upon level load. /shrug
+				if character_selected == maxCharacterID: # Last available character, by default Rachel.
+					character_selected = 0 # Reset to Maestro.
+				else:
+					character_selected += 1
+				print_debug_message("Changed character to " + char_names[character_selected])
+			KEY_F7: # Switch difficulty!!!
+				if difficulty == 3: # Very Hard
+					difficulty = 0 # Reset to Easy!
+				else:
+					difficulty += 1 # INCREASE THE DIFFICULTY
+				print_debug_message("Changed difficulty to " + diff_names[difficulty])
+			# No F8, because that's the button to exit the game.
+			KEY_F9: # Toggle noclip / free movement.
+				noclip = true if noclip == false else false
+			KEY_F10: # Toggle free cam.
+				screenmode = 0 if screenmode == -1 else -1
+				print_debug_message("Toggled freecam mode")
+			KEY_F11: # Toggle fullscreen.
+				match DisplayServer.window_get_mode():
+					DisplayServer.WINDOW_MODE_WINDOWED:
+						DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+					DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
+						DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+					_:
+						DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+				print_debug_message("Toggled fullscreen mode")
+			KEY_F12: # Toggle infinite ammo.
+				infinite_ammo = true if infinite_ammo == false else false
+				print_debug_message("Toggled infinite ammo")
+			KEY_QUOTELEFT: # Swap palette. Replace later with freecam or noclip
+				if palette_selected == 12: # Grayscale (16)
+					palette_selected = 0 # Reset to None
+				else:
+					palette_selected += 1 # Change palette
+				print_debug_message("Changed palette to " + pal_names[palette_selected])
+				refresh_palette()
+#endregion
+
+#region Connection functions
+func _on_message_timer_timeout() -> void:
+	$Message.visible = false
+#endregion

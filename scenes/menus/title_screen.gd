@@ -2,6 +2,7 @@ class_name TitleScreen extends CanvasLayer
 
 func _ready() -> void:
 	$CenterContainer/HBoxContainer/VBoxContainer/ItemList.select(GameState.character_selected, true)
+	GameState.change_music(load("res://audio/music/Title Screen.mp3"))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

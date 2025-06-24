@@ -1,15 +1,15 @@
-[gd_scene load_steps=8 format=4 uid="uid://7n5e5bi74b7t"]
+[gd_scene load_steps=7 format=4 uid="uid://7n5e5bi74b7t"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_ftdj2"]
 [ext_resource type="TileSet" uid="uid://hdv5uqnnqxhl" path="res://tilesets/smog.tres" id="2_qit38"]
 [ext_resource type="AudioStream" uid="uid://dl6htgsqlehwg" path="res://audio/music/Smog Stage.mp3" id="4_k636r"]
-[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://audio/music/Boss Battle.mp3" id="4_qve0u"]
 [ext_resource type="PackedScene" uid="uid://blmlnutul2hyu" path="res://scenes/objects/level_objects/yoku_block.tscn" id="4_w5jdc"]
 [ext_resource type="TileSet" uid="uid://bp0hrrsh7jne5" path="res://tilesets/layout.tres" id="6_7fnf5"]
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="6_73uof"]
 
 [node name="Smog Man" type="Node2D"]
 script = ExtResource("1_ftdj2")
+default_music = ExtResource("4_k636r")
 boss_weapon = 3
 progress_update = "SmogDead"
 
@@ -23,17 +23,6 @@ tile_set = ExtResource("2_qit38")
 position = Vector2(128, 128)
 limit_left = 0
 limit_bottom = 240
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_k636r")
-volume_db = -10.0
-bus = &"Music"
-
-[node name="BossMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_qve0u")
-volume_db = -5.0
-bus = &"Music"
-parameters/looping = true
 
 [node name="Level Objects" type="Node2D" parent="."]
 

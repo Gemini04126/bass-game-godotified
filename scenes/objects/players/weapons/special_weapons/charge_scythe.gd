@@ -41,8 +41,11 @@ func _physics_process(_delta):
 	if state_timer.is_stopped() && state >= 13:
 		state += 1
 		state_timer.start(0.1)
-		
-
+	
+	if position.y > GameState.camposy + 108:
+		position.y = GameState.camposy + 108
+	if position.y < GameState.camposy - 108:
+		position.y = GameState.camposy - 108
 		
 	if move_and_slide() == true:
 		destroy()

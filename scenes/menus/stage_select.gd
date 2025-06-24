@@ -2,6 +2,7 @@ class_name StageSelect extends CanvasLayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GameState.music.stop()
 	var player := %Player as StageSelectPanel
 	player.portrait.atlas = load(GameState.stageSelectPlayerPortraits[GameState.character_selected])
 	# break and blank out completed and beaten bosses respectively
@@ -21,7 +22,7 @@ func _physics_process(_delta):
 	await $Timer.timeout # G: turned timer int into a real timer using a node that was already here but unused
 	$Darkness.hide()
 	%Player.grab_focus()
-	$Music.play() # Not at the very start of the scene; we have to wait for the fade-in
+	GameState.change_music(load("res://audio/music/Stage Select.ogg")) # Not at the very start of the scene; we have to wait for the fade-in
 	$Rows/RowBright.play()
 	
 	$Background.material.set_shader_parameter("palette", load(GameState.stageSelectColorTranslations[GameState.character_selected]))

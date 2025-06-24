@@ -304,6 +304,7 @@ size = Vector2(113, 7)
 
 [node name="Shark Man" type="Node2D"]
 script = ExtResource("1_kfbs7")
+default_music = ExtResource("11_rvgjc")
 bosses = 1
 boss_weapon = 4
 progress_update = "SharkDead"
@@ -779,11 +780,6 @@ position = Vector2(128, 112)
 limit_left = 0
 limit_top = -20
 limit_bottom = 9000000
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-process_mode = 3
-stream = ExtResource("11_rvgjc")
-bus = &"Music"
 
 [node name="Triggers" type="Node2D" parent="."]
 position = Vector2(6336, 728)
@@ -1410,7 +1406,6 @@ direction = 4
 [node name="BossSpawner" parent="." instance=ExtResource("17_6r7wm")]
 position = Vector2(6459, 758)
 type = 1
-music = 2
 fullintro = true
 
 [node name="Special Teleporter" parent="." instance=ExtResource("21_rvgjc")]

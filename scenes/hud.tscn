@@ -244,6 +244,101 @@ animations = [{
 "texture": null
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b278")
+}],
+"loop": false,
+"name": &"READY_PROTO",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_aguk0")
 }, {
 "duration": 1.0,
@@ -285,15 +380,28 @@ animations = [{
 resource_name = "Ready"
 script/source = "extends AnimatedSprite2D
 
+var running : bool
+
 func _do_ready_thing() -> void:
+	running = true
 	if GameState.character_selected == 2: # Copy Robot
 		stop()
 		print(\"copy\")
 		play(\"SCENE\")
+	elif GameState.character_selected == 4 and not GameState.continuous_music: # Proto Man
+		stop()
+		print(\"proto\")
+		GameState.change_music(load(\"res://audio/sfx/protoman_whistle.wav\"))
+		play(\"READY_PROTO\")
 	else:
 		play(\"READY\")
 	await animation_finished
 	queue_free()
+
+func _input(event: InputEvent) -> void:
+	if running == true:
+		emit_signal(\"animation_finished\")
+		queue_free()
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uxdf7"]
@@ -483,7 +591,7 @@ hframes = 57
 [node name="READY" type="AnimatedSprite2D" parent="."]
 position = Vector2(192, 108)
 sprite_frames = SubResource("SpriteFrames_tirtj")
-animation = &"SCENE"
+animation = &"READY_PROTO"
 script = SubResource("GDScript_ntikk")
 
 [node name="FreezeFrame" type="AnimatedSprite2D" parent="."]

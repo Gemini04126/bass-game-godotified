@@ -193,6 +193,7 @@ size = Vector2(130, 8)
 
 [node name="Enker" type="Node2D"]
 script = ExtResource("1_0xq3t")
+default_music = ExtResource("3_ws14o")
 boss_weapon = 13
 progress_update = "EnkerDead"
 
@@ -293,10 +294,6 @@ tile_set = SubResource("TileSet_3s78e")
 position = Vector2(128, 128)
 limit_left = 0
 limit_bottom = 28000
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_ws14o")
-bus = &"Music"
 
 [node name="Level Objects" type="Node2D" parent="."]
 

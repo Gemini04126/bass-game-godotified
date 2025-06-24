@@ -36,7 +36,6 @@ manager/music/bus="Music"
 
 [autoload]
 
-Debug="*res://autoload/debug.gd"
 GameState="*res://autoload/game_state.tscn"
 DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"

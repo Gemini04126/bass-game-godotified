@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b2qdyqi73m1nh"]
+[gd_scene load_steps=8 format=3 uid="uid://b2qdyqi73m1nh"]
 
 [ext_resource type="Script" uid="uid://dvsodjll2pp0s" path="res://scenes/menus/title_screen.gd" id="1_8u8ci"]
 [ext_resource type="Texture2D" uid="uid://ci27q2k5qw6ig" path="res://sprites/menus/Title Screen - Logo.png" id="1_urgqw"]
-[ext_resource type="AudioStream" uid="uid://d2lwuxi6u0n5i" path="res://audio/music/Title Screen.mp3" id="2_1m5r0"]
 [ext_resource type="Texture2D" uid="uid://dccdjhol4rvhw" path="res://sprites/menus/Title Screen - Subtitle.png" id="2_11mew"]
 [ext_resource type="Texture2D" uid="uid://iqatecmiuy6e" path="res://sprites/menus/Title Screen - Bass.png" id="3_u5ruh"]
 [ext_resource type="Theme" uid="uid://c1bun7kn776g1" path="res://themes/ui_theme.tres" id="5_v27ry"]
@@ -13,12 +12,6 @@ bg_color = Color(0, 0, 0, 0)
 
 [node name="TitleScreen" type="CanvasLayer"]
 script = ExtResource("1_8u8ci")
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_1m5r0")
-volume_db = -10.0
-autoplay = true
-bus = &"Music"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 offset_right = 384.0

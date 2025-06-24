@@ -4,6 +4,8 @@ extends Node2D
 @onready var player # kind of the same thing as GameState.player, but not really? This one's used to *instantiate* the player.
 @onready var splash  
 
+@export var default_music : AudioStream
+
 @export var bosses : int
 @export_enum("Weapon Get Screen", "Stage Select Screen") var action = 0
 @export_enum("Nothing", "Blaze", "Video", "Smog", "Shark", "Origami", "Gale", "Guerrilla", "Reaper", "Proto", "Treble", "Carry", "Arrow", "Enker", "Punk", "Ballade", "Quint") var boss_weapon : int = GameState.WEAPONS.BUSTER
@@ -43,8 +45,9 @@ func _ready():
 	GameState.stage_boss_weapon = boss_weapon
 	GameState.stage_progress_update = progress_update
 	if GameState.bossestokill == 0:
-		GameState.bossestokill = bosses 
-	GameState.musicplaying = 0
+		GameState.bossestokill = bosses
+	if (GameState.continuous_music == false) or (GameState.music.stream != default_music):
+		GameState.music.stop()
 	GameState.bossfightstatus = 0
 	GameState.inputdisabled = false
 	var hud = preload("res://scenes/hud.tscn").instantiate()
@@ -100,10 +103,13 @@ func _ready():
 	
 		
 	await Fade.fade_in().finished
-	GameState.musicplaying = 1
-	$Music.play()
 	$HUD/READY._do_ready_thing()
+	if GameState.character_selected != 4 or GameState.continuous_music: # NOT Proto Man
+		GameState.change_music(default_music)
 	await $HUD/READY.animation_finished
+	if GameState.character_selected == 4 and not GameState.continuous_music: # Proto Man
+		GameState.change_music(default_music)
+	# G: why is this like this? (formatting)
 	var player_scene : PackedScene = load(
 		GameState.characters[
 			GameState.character_selected
@@ -134,14 +140,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if GameState.musicplaying == 1:
-		if GameState.freezeframe == true:
-			$Music.stream_paused = true
-		else:
-			if $Music.stream_paused == true:
-				$Music.stream_paused = false
+	if GameState.freezeframe == true:
+		GameState.music.stream_paused = true
 	else:
-		$Music.stop()
+		if GameState.music.stream_paused == true:
+			GameState.music.stream_paused = false
 				
 	if GameState.bossfightstatus == 1:
 		GameState.inputdisabled = true
@@ -154,7 +157,7 @@ func _process(_delta):
 		GameState.inputdisabled = true
 		GameState.bossfightstatus = 3
 		postbossdelay = 120
-		GameState.musicplaying = 0
+		GameState.music.stop()
 	
 	if GameState.bossfightstatus == 3:
 		postbossdelay -= 1
@@ -166,20 +169,13 @@ func _process(_delta):
 		
 		else:
 			GameState.bossfightstatus = 0
-			GameState.musicplaying = 1
+			GameState.music_change(default_music)
 			GameState.inputdisabled = false
 		
 	if GameState.bossfightstatus == 5:
 		postbossdelay -= 1
 		if postbossdelay <= 0:
 			GameState.bossfightstatus = 6
-		
-	#if GameState.bossfightstatus == 3:
-		#if GameState.freezeframe == true:
-			#$BossMusic.stream_paused = true
-		#else:
-			#if $BossMusic.stream_paused == true:
-				#$BossMusic.stream_paused = false
 				
 	process_camera_universal()
 	match GameState.screenmode:

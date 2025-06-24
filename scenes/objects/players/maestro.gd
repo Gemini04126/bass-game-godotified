@@ -784,7 +784,8 @@ func dead():
 	velocity.x = 0
 	if deathtime == 1:
 		GameState.hit_stop = 20
-		GameState.musicplaying = 0
+		if GameState.continuous_music == false:
+			GameState.music.stop()
 	if deathtime == 10:
 		$Audio/Death.play()
 		sprite.visible = false
@@ -1390,6 +1391,7 @@ func SpreadProjectileAttack(scenePath: String, amount : int, spread : float, spe
 
 func end_level() -> void:
 	await Fade.fade_out().finished
+	reset(true)
 	if GameState.stage_action == 0:
 		if GameState.stage_progress_update:
 			GameState.PROGRESSDICT.set(GameState.stage_progress_update, true)

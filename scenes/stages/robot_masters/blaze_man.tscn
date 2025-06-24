@@ -1,9 +1,8 @@
-[gd_scene load_steps=18 format=4 uid="uid://c1ixcvieoro3x"]
+[gd_scene load_steps=17 format=4 uid="uid://c1ixcvieoro3x"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_eg6rr"]
 [ext_resource type="TileSet" uid="uid://clttejdjtwxdo" path="res://tilesets/blaze.tres" id="2_88tt2"]
 [ext_resource type="AudioStream" uid="uid://duondd8cgl7qr" path="res://audio/music/Blaze Stage.mp3" id="4_bkhak"]
-[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://audio/music/Boss Battle.mp3" id="4_jeagx"]
 [ext_resource type="PackedScene" uid="uid://ba1usu2a5isjc" path="res://scenes/objects/level_objects/breakable_block.tscn" id="5_6g85i"]
 [ext_resource type="PackedScene" uid="uid://dmulyeg8hg6yt" path="res://scenes/objects/enemies/sniper_joe.tscn" id="5_vsgpg"]
 [ext_resource type="PackedScene" uid="uid://bupv4efhufyfe" path="res://scenes/objects/level_objects/lava_dumper.tscn" id="7_hx8yc"]
@@ -30,6 +29,7 @@ size = Vector2(4, 64)
 
 [node name="Blaze Man" type="Node2D"]
 script = ExtResource("1_eg6rr")
+default_music = ExtResource("4_bkhak")
 boss_weapon = 1
 progress_update = "BlazeDead"
 C1scrollX2 = 2
@@ -121,18 +121,6 @@ limit_left = -50
 limit_top = -50
 limit_bottom = 2400
 editor_draw_limits = true
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_bkhak")
-volume_db = -5.622
-bus = &"Music"
-parameters/looping = true
-
-[node name="BossMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_jeagx")
-volume_db = -5.0
-bus = &"Music"
-parameters/looping = true
 
 [node name="Level Objects" type="Node2D" parent="."]
 position = Vector2(0, 816)

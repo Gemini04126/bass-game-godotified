@@ -1,7 +1,6 @@
-[gd_scene load_steps=59 format=4 uid="uid://qwpduouc7wal"]
+[gd_scene load_steps=58 format=4 uid="uid://qwpduouc7wal"]
 
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="1_v07bh"]
-[ext_resource type="AudioStream" uid="uid://n2qyso7kkxfj" path="res://audio/music/Weapon Get.mp3" id="2_rwyj5"]
 [ext_resource type="Texture2D" uid="uid://6g65o3p6ybya" path="res://sprites/menus/Weapon Get Portraits.png" id="4_b7nic"]
 [ext_resource type="TileSet" uid="uid://buvesedl67lpj" path="res://tilesets/stage_select.tres" id="4_qjs57"]
 [ext_resource type="Texture2D" uid="uid://qwdi35jvf2y8" path="res://sprites/fade.png" id="5_qjs57"]
@@ -346,21 +345,11 @@ const ENERGY_PALETTES : Array[Texture2D] = [
 var delay : int = 0
 
 func _ready() -> void:
+	GameState.weapons_unlocked[GameState.stage_boss_weapon] = true
+	GameState.change_music(load(\"res://audio/music/Weapon Get.mp3\")) # This continues into the next screen. Should loop.
 	$Sprite.material.set_shader_parameter(\"palette\", WEAPON_PALETTES[(GameState.character_selected * GameState.WEAPONS.size())])
 	$Energy.material.set_shader_parameter(\"palette\", ENERGY_PALETTES[(GameState.character_selected * GameState.WEAPONS.size())])
-	match GameState.character_selected:
-		0: # Maestro
-			$Sprite.play(\"Maestro\")
-		1: # Bass
-			$Sprite.play(\"Bass\")
-		2: # Copy Robot
-			$Sprite.play(\"Copy Robot\")
-		3: # Mega Man
-			$Sprite.play(\"Mega Man\")
-		4: # Proto Man
-			$Sprite.play(\"Proto Man\")
-		5: # Rachel
-			$Sprite.play(\"Rachel\")
+	$Sprite.play(GameState.char_names[GameState.character_selected])
 	$Sprite.pause()
 	if GameState.character_selected != 5: # if not Rachel
 		$RichTextLabel.text = \"YOU GOT\\n\" + WEAPON_NAMES[(GameState.character_selected * GameState.WEAPONS.size()) + GameState.stage_boss_weapon]
@@ -799,11 +788,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_ohgfi")
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_rwyj5")
-volume_db = -10.0
-autoplay = true
 
 [node name="Foreground" type="TileMapLayer" parent="."]
 z_index = 2

@@ -31,6 +31,7 @@ func _ready() -> void:
 		$Title.text = \"[shake]Game over...[/shake]\"
 		await Fade.fade_in().finished
 		$GameOver/Continue.grab_focus()
+		GameState.change_music(load(\"res://audio/music/Continue.mp3\"))
 	else:
 		$StageComplete.visible = true
 		$GameOver.visible = false

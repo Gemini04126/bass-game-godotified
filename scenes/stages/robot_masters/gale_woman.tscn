@@ -1,11 +1,10 @@
-[gd_scene load_steps=18 format=4 uid="uid://cjnw7w724yfff"]
+[gd_scene load_steps=17 format=4 uid="uid://cjnw7w724yfff"]
 
 [ext_resource type="Script" uid="uid://b2eex0cx7l5sm" path="res://scenes/stages/stage.gd" id="1_jhd4h"]
 [ext_resource type="TileSet" uid="uid://cdpb0nep4t1x8" path="res://tilesets/gale.tres" id="2_d6oeb"]
 [ext_resource type="PackedScene" uid="uid://cwqbm80i7pv6x" path="res://scenes/objects/level_objects/ladder_hitbox.tscn" id="3_x8krw"]
 [ext_resource type="AudioStream" uid="uid://cvc3u3vsgfwx3" path="res://audio/music/Gale Stage.mp3" id="4_f0hss"]
 [ext_resource type="PackedScene" uid="uid://bingbkdyjdsbs" path="res://scenes/objects/players/start_position.tscn" id="5_6e181"]
-[ext_resource type="AudioStream" uid="uid://85vghnmwu41j" path="res://audio/music/Boss Battle.mp3" id="5_7lpi6"]
 [ext_resource type="TileSet" uid="uid://bp0hrrsh7jne5" path="res://tilesets/layout.tres" id="5_muxqw"]
 [ext_resource type="PackedScene" uid="uid://de6y2454v43to" path="res://scenes/objects/level_objects/screentrigger.tscn" id="6_8vnka"]
 [ext_resource type="PackedScene" uid="uid://ccb265wd4npkn" path="res://scenes/objects/level_objects/wind.tscn" id="9_a5y8n"]
@@ -45,6 +44,7 @@ size = Vector2(20, 5.56299)
 
 [node name="Gale Woman" type="Node2D"]
 script = ExtResource("1_jhd4h")
+default_music = ExtResource("4_f0hss")
 boss_weapon = 6
 progress_update = "GaleDead"
 C1screenmode = 1
@@ -280,19 +280,6 @@ topsolid = false
 position = Vector2(181, 2804)
 limit_left = 0
 limit_bottom = 90000040
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-process_mode = 3
-stream = ExtResource("4_f0hss")
-volume_db = -10.0
-bus = &"Music"
-parameters/looping = true
-
-[node name="BossMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_7lpi6")
-volume_db = -5.0
-bus = &"Music"
-parameters/looping = true
 
 [node name="Level Objects" type="Node2D" parent="."]
 

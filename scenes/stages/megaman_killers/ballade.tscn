@@ -73,6 +73,7 @@ sources/0 = SubResource("TileSetAtlasSource_dlclr")
 
 [node name="Ballade" type="Node2D"]
 script = ExtResource("1_r6k7g")
+default_music = ExtResource("4_4bro4")
 boss_weapon = 15
 progress_update = "BalladeDead"
 
@@ -86,11 +87,6 @@ tile_set = SubResource("TileSet_nnqlc")
 position = Vector2(128, 128)
 limit_left = 0
 limit_bottom = 240
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_4bro4")
-volume_db = -10.0
-bus = &"Music"
 
 [node name="Level Objects" type="Node2D" parent="."]
 
