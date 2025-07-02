@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cpke1tk508w3w"]
+[gd_scene load_steps=5 format=3 uid="uid://dxh60lov0ql6d"]
 
-[ext_resource type="Texture2D" uid="uid://0sdw6to3r6bu" path="res://sprites/objects/shredder_block.png" id="2_q87tq"]
+[ext_resource type="Texture2D" uid="uid://dtgurwmhqdr1c" path="res://sprites/objects/rope_block.png" id="1_pukj3"]
 
 [sub_resource type="GDScript" id="GDScript_l8g2u"]
 script/source = "@tool
@@ -13,31 +13,34 @@ func _process(delta: float) -> void:
 	$Sprite.frame = style
 
 func _on_hitable_body_entered(weapon):
-	if weapon.W_Type == GameState.DMGTYPE.CR_SHARK1 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2 or weapon.W_Type == GameState.DMGTYPE.BS_SHARK:
+	if weapon.W_Type == GameState.DMGTYPE.CB_ORIGAMI or weapon.W_Type == GameState.DMGTYPE.CB_REAPER_1 or weapon.W_Type == GameState.DMGTYPE.CB_REAPER_2 or weapon.W_Type == GameState.DMGTYPE.MD_ORIGAMI:
 		queue_free()
+		if weapon.W_Type == GameState.DMGTYPE.CB_REAPER_2 or weapon.W_Type == GameState.DMGTYPE.MD_ORIGAMI:
+			weapon.kill()
+		else:
+			weapon.destroy()
 	else:
 		weapon.reflect()
 	
 "
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vdur6"]
-size = Vector2(16, 32)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8uehh"]
+size = Vector2(16, 16)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d0fqh"]
-size = Vector2(16, 32)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rkhhs"]
+size = Vector2(16, 16)
 
-[node name="Shredder Block" type="StaticBody2D"]
+[node name="Cut Block" type="StaticBody2D"]
 collision_layer = 16
 collision_mask = 17
 script = SubResource("GDScript_l8g2u")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_q87tq")
+texture = ExtResource("1_pukj3")
 hframes = 16
-frame = 1
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_vdur6")
+shape = SubResource("RectangleShape2D_8uehh")
 debug_color = Color(0, 1, 0.0705882, 0)
 
 [node name="hitable" type="Area2D" parent="."]
@@ -45,7 +48,7 @@ collision_layer = 16
 collision_mask = 8
 
 [node name="MainHitbox" type="CollisionShape2D" parent="hitable"]
-shape = SubResource("RectangleShape2D_d0fqh")
+shape = SubResource("RectangleShape2D_rkhhs")
 debug_color = Color(1, 1, 1, 0.262745)
 
 [connection signal="body_entered" from="hitable" to="." method="_on_hitable_body_entered"]

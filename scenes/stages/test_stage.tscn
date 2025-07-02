@@ -355,7 +355,6 @@ position = Vector2(288, 448)
 
 [node name="ShredderBlock" parent="Level Objects/Breakable Blocks" instance=ExtResource("15_jodyc")]
 position = Vector2(-16, 552)
-style = 0
 
 [node name="Ladders" type="Node2D" parent="Level Objects"]
 process_mode = 3

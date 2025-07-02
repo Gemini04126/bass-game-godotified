@@ -10,7 +10,7 @@
 size = Vector2(2, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_euuk7"]
-size = Vector2(2, 14)
+size = Vector2(2, 12)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l3i4h"]
 shader = ExtResource("2_gofin")

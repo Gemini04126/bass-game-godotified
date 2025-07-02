@@ -1,51 +1,61 @@
-[gd_scene load_steps=37 format=3 uid="uid://bqvm2d74bnb00"]
+[gd_scene load_steps=38 format=3 uid="uid://bqvm2d74bnb00"]
 
 [ext_resource type="Texture2D" uid="uid://bmlr3no0ivqjx" path="res://sprites/objects/GaleTowerFG.png" id="1_38ub4"]
+[ext_resource type="PackedScene" uid="uid://dlrtinq1darwe" path="res://scenes/marker.tscn" id="2_tuwk5"]
 
 [sub_resource type="GDScript" id="GDScript_7e10n"]
-script/source = "extends Node2D
+script/source = "@tool
+extends Node2D
 
 var faded : bool = false
 
 func _physics_process(delta):
-	if GameState.camposx != null:
-		if position.x > GameState.camposx - 80 and position.x < GameState.camposx + 80 and $AnimatedSprite2D.animation != \"fade_out\" and $AnimatedSprite2D.animation != \"fade_in\":
-			faded = true
-			$AnimatedSprite2D.play(\"fade_out\")
-			$AnimatedSprite2D2.play(\"fade_out\")
-			$AnimatedSprite2D3.play(\"fade_out\")
-			$AnimatedSprite2D4.play(\"fade_out\")
-			$AnimatedSprite2D5.play(\"fade_out\")
-			$AnimatedSprite2D6.play(\"fade_out\")
-			$AnimatedSprite2D7.play(\"fade_out\")
-			$AnimatedSprite2D8.play(\"fade_out\")
-			$AnimatedSprite2D9.play(\"fade_out\")
-			$AnimatedSprite2D10.play(\"fade_out\")
-			$AnimatedSprite2D11.play(\"fade_out\")
-			$AnimatedSprite2D12.play(\"fade_out\")
-			$AnimatedSprite2D13.play(\"fade_out\")
-			$AnimatedSprite2D14.play(\"fade_out\")
-			$AnimatedSprite2D15.play(\"fade_out\")
-			$AnimatedSprite2D16.play(\"fade_out\")
-			
-		if (GameState.transdir == 1 or GameState.transdir == 3) and $AnimatedSprite2D.animation == \"fade_out\" and $AnimatedSprite2D.frame >= 15:
-			$AnimatedSprite2D.play(\"fade_in\")
-			$AnimatedSprite2D2.play(\"fade_in\")
-			$AnimatedSprite2D3.play(\"fade_in\")
-			$AnimatedSprite2D4.play(\"fade_in\")
-			$AnimatedSprite2D5.play(\"fade_in\")
-			$AnimatedSprite2D6.play(\"fade_in\")
-			$AnimatedSprite2D7.play(\"fade_in\")
-			$AnimatedSprite2D8.play(\"fade_in\")
-			$AnimatedSprite2D9.play(\"fade_in\")
-			$AnimatedSprite2D10.play(\"fade_in\")
-			$AnimatedSprite2D11.play(\"fade_in\")
-			$AnimatedSprite2D12.play(\"fade_in\")
-			$AnimatedSprite2D13.play(\"fade_in\")
-			$AnimatedSprite2D14.play(\"fade_in\")
-			$AnimatedSprite2D15.play(\"fade_in\")
-			$AnimatedSprite2D16.play(\"fade_in\")
-	
+	if Engine.is_editor_hint():
+		$Graphics.visible = false
+	if not Engine.is_editor_hint():
+		$Graphics.visible = true
+		$Marker.visible = false
+		$Marker2.visible = false
+		$Marker3.visible = false
+		$Marker4.visible = false
+		
+		if GameState.camposx != null:
+			if position.x > GameState.camposx - 10 and position.x < GameState.camposx + 10 and $Graphics/Sprite.animation != \"fade_out\" and $Graphics/Sprite.animation != \"fade_in\":
+				faded = true
+				$Graphics/Sprite.play(\"fade_out\")
+				$Graphics/Sprite2.play(\"fade_out\")
+				$Graphics/Sprite3.play(\"fade_out\")
+				$Graphics/Sprite4.play(\"fade_out\")
+				$Graphics/Sprite5.play(\"fade_out\")
+				$Graphics/Sprite6.play(\"fade_out\")
+				$Graphics/Sprite7.play(\"fade_out\")
+				$Graphics/Sprite8.play(\"fade_out\")
+				$Graphics/Sprite9.play(\"fade_out\")
+				$Graphics/Sprite10.play(\"fade_out\")
+				$Graphics/Sprite11.play(\"fade_out\")
+				$Graphics/Sprite12.play(\"fade_out\")
+				$Graphics/Sprite13.play(\"fade_out\")
+				$Graphics/Sprite14.play(\"fade_out\")
+				$Graphics/Sprite15.play(\"fade_out\")
+				$Graphics/Sprite16.play(\"fade_out\")
+				
+			if (GameState.transdir == 1 or GameState.transdir == 3) and $Graphics/Sprite.animation == \"fade_out\" and $Graphics/Sprite.frame >= 15:
+				$Graphics/Sprite.play(\"fade_in\")
+				$Graphics/Sprite2.play(\"fade_in\")
+				$Graphics/Sprite3.play(\"fade_in\")
+				$Graphics/Sprite4.play(\"fade_in\")
+				$Graphics/Sprite5.play(\"fade_in\")
+				$Graphics/Sprite6.play(\"fade_in\")
+				$Graphics/Sprite7.play(\"fade_in\")
+				$Graphics/Sprite8.play(\"fade_in\")
+				$Graphics/Sprite9.play(\"fade_in\")
+				$Graphics/Sprite10.play(\"fade_in\")
+				$Graphics/Sprite11.play(\"fade_in\")
+				$Graphics/Sprite12.play(\"fade_in\")
+				$Graphics/Sprite13.play(\"fade_in\")
+				$Graphics/Sprite14.play(\"fade_in\")
+				$Graphics/Sprite15.play(\"fade_in\")
+				$Graphics/Sprite16.play(\"fade_in\")
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tuwk5"]
@@ -301,100 +311,119 @@ animations = [{
 z_index = 2500
 script = SubResource("GDScript_7e10n")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Graphics" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, 8)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+[node name="Sprite2" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 animation = &"fade_out"
 autoplay = "default"
 
-[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+[node name="Sprite3" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, -24)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="."]
+[node name="Sprite4" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, 24)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D5" type="AnimatedSprite2D" parent="."]
+[node name="Sprite5" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, -40)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D6" type="AnimatedSprite2D" parent="."]
+[node name="Sprite6" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, -56)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D7" type="AnimatedSprite2D" parent="."]
+[node name="Sprite7" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, 40)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D8" type="AnimatedSprite2D" parent="."]
+[node name="Sprite8" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, 56)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D9" type="AnimatedSprite2D" parent="."]
+[node name="Sprite9" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, 72)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D10" type="AnimatedSprite2D" parent="."]
+[node name="Sprite10" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, -72)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D11" type="AnimatedSprite2D" parent="."]
+[node name="Sprite11" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, 88)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D12" type="AnimatedSprite2D" parent="."]
+[node name="Sprite12" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, 104)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D13" type="AnimatedSprite2D" parent="."]
+[node name="Sprite13" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, -88)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D14" type="AnimatedSprite2D" parent="."]
+[node name="Sprite14" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, -104)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D15" type="AnimatedSprite2D" parent="."]
+[node name="Sprite15" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, -120)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 autoplay = "default"
 
-[node name="AnimatedSprite2D16" type="AnimatedSprite2D" parent="."]
+[node name="Sprite16" type="AnimatedSprite2D" parent="Graphics"]
 z_index = 25
 position = Vector2(0, 120)
 sprite_frames = SubResource("SpriteFrames_r0g0c")
 animation = &"fade_out"
 autoplay = "default"
+
+[node name="Marker" parent="." instance=ExtResource("2_tuwk5")]
+z_index = 2800
+position = Vector2(-188, -124)
+
+[node name="Marker2" parent="." instance=ExtResource("2_tuwk5")]
+z_index = 2800
+position = Vector2(188, -124)
+
+[node name="Marker3" parent="." instance=ExtResource("2_tuwk5")]
+z_index = 2800
+position = Vector2(-188, 124)
+
+[node name="Marker4" parent="." instance=ExtResource("2_tuwk5")]
+z_index = 2800
+position = Vector2(188, 124)

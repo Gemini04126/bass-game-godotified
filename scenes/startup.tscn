@@ -536,9 +536,9 @@ material = SubResource("ShaderMaterial_mhye2")
 position = Vector2(122, -20)
 scale = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_ysuwe")
-animation = &"run"
+animation = &"shoot"
 autoplay = "drop"
-frame_progress = 0.874645
+frame_progress = 0.0601577
 
 [node name="Projectile2" type="AnimatedSprite2D" parent="."]
 visible = false

@@ -22,7 +22,7 @@ func _physics_process(delta):
 		traveltime -= velocity.y * 0.02
 	
 	
-	if traveltime <= (traveltimestart * 0.75) and $AnimatedSprite2D.animation != (\"Wind\"):
+	if traveltime <= (traveltimestart * 0.85) and $AnimatedSprite2D.animation != (\"Wind\"):
 		$AnimatedSprite2D.play(\"Wind\")
 		
 	if $AnimatedSprite2D.frame == 4:
