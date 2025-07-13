@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://c06ig6cg5o4bp"]
+[gd_scene load_steps=74 format=3 uid="uid://c06ig6cg5o4bp"]
 
 [ext_resource type="Texture2D" uid="uid://dxksr1xom2cxn" path="res://sprites/hud/bossbarpals/gale.png" id="2_e3v7y"]
 [ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_ih4en"]
@@ -9,7 +9,8 @@
 [ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://audio/sfx/mega_death.wav" id="8_r3sk3"]
 [ext_resource type="AudioStream" uid="uid://be28jkvbqhtfc" path="res://audio/sfx/bossgale.wav" id="9_dfg1o"]
 [ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://audio/sfx/explode.wav" id="9_k1hx1"]
-[ext_resource type="AudioStream" uid="uid://3orgt2y566i3" path="res://audio/sfx/rm_step.wav" id="11_4dmdu"]
+[ext_resource type="AudioStream" uid="uid://blrocpcgeqcpv" path="res://audio/sfx/gale_tornado.wav" id="10_dfg1o"]
+[ext_resource type="AudioStream" uid="uid://ducrih3v58t7j" path="res://audio/sfx/galeforce.wav" id="11_weukl"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
 shader = ExtResource("2_ih4en")
@@ -26,7 +27,6 @@ var fullintro : bool
 @export var slot : int
 @export var barPalette : CompressedTexture2D
 @export var prebattle: DialogueResource
-var geese : bool = false
 var Dmg_Vals : Array[float]
 var Inv_Vals : Array[float]
 var Atk_Dmg = 4
@@ -42,6 +42,7 @@ var deadtick
 var bossesleft
 
 var statetimer : int = 0
+var pushback : int = 0
 
 var shifttimer : int = 0
 var wildgaletimer : int = 1800
@@ -102,9 +103,9 @@ func basedmg():
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_2] = 3
 	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_3] = 5
 	
-	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_1] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_1] = 1
 	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_2] = 2
-	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_3] = 5
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_3] = 4
 	Dmg_Vals[GameState.DMGTYPE.CR_BLAZE] = 2
 	Dmg_Vals[GameState.DMGTYPE.CR_SHARK1] = 3
 	Dmg_Vals[GameState.DMGTYPE.CR_SHARK2] = 8
@@ -211,6 +212,15 @@ func turntoplayer():
 			$Sprite.scale.x = -1
 
 func _physics_process(_delta):
+	
+	if pushback > 0:
+		position.x += pushback/2
+		pushback -= 1
+		
+	if pushback < 0:
+		position.x += pushback/2
+		pushback += 1
+	
 	$Debug/Label.text = \"%s\" % statetimer
 	$Debug/Gale.text = \"%s\" % wildgaletimer
 	$Debug/Tornado.text = \"%s\" % tornadotimer
@@ -228,42 +238,42 @@ func _physics_process(_delta):
 		attackpick = 0
 	
 	if wildgaletimer > 0:
-		wildgaletimer -= 3
+		wildgaletimer -= 2
 		
 	if tornadotimer > 0:
-		tornadotimer -= 3
+		tornadotimer -= 2
 		
 	if galeforcetimer > 0:
 		galeforcetimer -= 3
+		
+	if Cur_HP <= 28:
+		wildgaletimer -= 2
+		tornadotimer -= 1
+		galeforcetimer -= 1
 	
 		
 	if GameState.player != null:
 		#if too close, she will use wild gale more
 		if (GameState.player.position.x < position.x + 100) and (GameState.player.position.x > position.x - 100):
 			wildgaletimer -= 1
-			$Debug/GaleClose.visible = true
-		else:
-			$Debug/GaleClose.visible = false
 		
 		#if player is at low health, try to finish off with Wild Gale
-		if GameState.current_hp < 8:
+		if GameState.current_hp < 10:
 			wildgaletimer -= 1
-			$Debug/GaleClose.visible = true
-		else:
-			$Debug/GaleClose.visible = false
+
 		
 		#if player is moving, tick down the tornado
 		if GameState.player.velocity.x != 0:
 			tornadotimer -= 1
-			$Debug/TornadoRunning.visible = true
-		else:
-			$Debug/TornadoRunning.visible = false
 			
+		#charging up a weapon will give you an opportunity to hit her when she uses tornado
 		if Input.is_action_pressed(\"buster\") or Input.is_action_pressed(\"shoot\"):
 			tornadotimer -= 1
-			$Debug/TornadoCharging.visible = true
-		else:
-			$Debug/TornadoCharging.visible = false
+			
+			
+		#if player is in the air, try to nail them with Gale Force
+		if GameState.player.velocity.y != 0:
+			galeforcetimer -= 2
 			
 		
 	
@@ -384,21 +394,24 @@ func _physics_process(_delta):
 				if statetimer < 360:
 					velocity.y *= 0.94
 					position.x -= $Sprite.scale.x * 0.2
-					if (GameState.player.wind_push > -1.85) and (GameState.player.wind_push < 1.85): 
+					if ((GameState.player.wind_push > -1.5) and (GameState.player.wind_push < 1.5)) or (Cur_HP<=28 and (GameState.player.wind_push > -1.85) and (GameState.player.wind_push < 1.85)): 
 						GameState.player.wind_push += -$Sprite.scale.x * 0.05
 					if wildgaleatk == 0:
+						$Audio/WildGale2.play()
 						projectile = preload(\"res://scenes/objects/bosses/gale_wildgale.tscn\").instantiate()
 						add_sibling(projectile)
-						projectile.position.y = GameState.camposy + randf_range(-30,50)
-						projectile.velocity.y = randf_range(20,90)
+						projectile.position.y = GameState.camposy + randf_range(-40,50)
+						projectile.velocity.y = randf_range(5,90)
 						if $Sprite.scale.x == 1:
 							projectile.position.x = (GameState.camposx + 212)
 							projectile.velocity.x = -120
 						if $Sprite.scale.x == -1:
 							projectile.position.x = (GameState.camposx - 212)
 							projectile.velocity.x = 120
-						$Audio/WildGale2.play()
-						wildgaleatk = 20
+						if Cur_HP <= 28:
+							wildgaleatk = 20
+						else:
+							wildgaleatk = 30
 					wildgaleatk -= 1
 						
 			if statetimer == 360:
@@ -432,6 +445,7 @@ func _physics_process(_delta):
 				velocity.y *= 0.9
 				if $Sprite.frame == 3:
 					projectile = preload(\"res://scenes/objects/bosses/gale_tornado.tscn\").instantiate()
+					$Audio/Tornado.play()
 					add_sibling(projectile)
 					projectile.position.x = position.x + ($Sprite.scale.x * -20)
 					projectile.velocity.x = ($Sprite.scale.x * -20)
@@ -457,6 +471,7 @@ func _physics_process(_delta):
 		if state == STATES.ATTACK3:
 			if statetimer == 0:
 				if $Sprite.frame == 4:
+					$Audio/GaleForce.play()
 					$Sprite.play(\"GaleForce2\")
 					statetimer = 1
 					projectile = preload(\"res://scenes/objects/bosses/gale_galeforce.tscn\").instantiate()
@@ -479,6 +494,7 @@ func _physics_process(_delta):
 			if statetimer == 1:
 				if $Sprite.frame == 3:
 					galeforcetimer = 800
+					$Sprite.play(\"Idle\")
 					state = STATES.IDLE
 				
 					
@@ -521,6 +537,8 @@ func _physics_process(_delta):
 		quickhits = 0
 
 func _on_hitable_body_entered(weapon): # needs to be redefined because damage values
+	
+	
 	if weapon.W_Type == GameState.DMGTYPE.MD_VIDEO:
 		if track2hits == 4:
 			track2hits = 0
@@ -553,6 +571,16 @@ func _on_hitable_body_entered(weapon): # needs to be redefined because damage va
 					quickhits += 1
 				#Look up the damage type and do damage according to it.
 				Cur_HP -= Dmg_Vals[weapon.W_Type]
+				
+				if weapon.velocity.x == 0:
+					turntoplayer()
+					pushback = -$Sprite.scale.x * 5
+				else:
+					if weapon.velocity.x < 0:
+						pushback = -6
+					if weapon.velocity.x > 0:
+						pushback = 6
+					
 				$InvulTimer.start(Inv_Vals[weapon.W_Type])
 				if weapon.W_Type == GameState.DMGTYPE.CR_BUSTER_1 or weapon.W_Type == GameState.DMGTYPE.CR_BUSTER_3 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2 or weapon.W_Type == GameState.DMGTYPE.BS_BUSTER:
 					if weapon.freezeframed != null:
@@ -946,6 +974,229 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ih4en"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(0, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tllyd"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(48, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggmpd"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2x7lr"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(144, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqag1"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(144, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bct3h"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(192, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hpuv5"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(240, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6r8av"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(48, 240, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylbde"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 240, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wcan"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(144, 240, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ma04t"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 240, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uqqtb"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(144, 240, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_anik2"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(192, 240, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ebs8"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(240, 240, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aakd3"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(240, 240, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sai6s"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(288, 240, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_21dl2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}],
+"loop": true,
+"name": &"Dead",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oq4cn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ih4en")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tllyd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggmpd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2x7lr")
+}],
+"loop": false,
+"name": &"GaleForce1",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqag1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bct3h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hpuv5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bct3h")
+}],
+"loop": false,
+"name": &"GaleForce2",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tirwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd0xc")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1hga")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6tt2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uriht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3874")
+}],
+"loop": false,
+"name": &"Tornado1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kl2n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i4rd4")
+}],
+"loop": true,
+"name": &"Tornado2",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5bky4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2pf6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oiu21")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iye0b")
+}],
+"loop": false,
+"name": &"Tornado3",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6r8av")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylbde")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8wcan")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ma04t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uqqtb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_anik2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ebs8")
+}],
+"loop": false,
+"name": &"WildGale1",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aakd3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sai6s")
+}],
+"loop": true,
+"name": &"WildGale2",
+"speed": 15.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wp5vq"]
 size = Vector2(23.5, 33)
 
@@ -963,6 +1214,16 @@ position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_diaq4")
 animation = &"GaleForce1"
 autoplay = "Idle"
+
+[node name="Sprite2" type="AnimatedSprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_5nqm8")
+position = Vector2(0, -6)
+sprite_frames = SubResource("SpriteFrames_21dl2")
+animation = &"Tornado1"
+autoplay = "Idle"
+frame = 3
+frame_progress = 1.0
 
 [node name="hitable" type="Area2D" parent="."]
 collision_layer = 4
@@ -1014,9 +1275,11 @@ stream = ExtResource("9_dfg1o")
 volume_db = 2.5
 bus = &"SFX"
 
-[node name="Step" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("11_4dmdu")
-bus = &"SFX"
+[node name="Tornado" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("10_dfg1o")
+
+[node name="GaleForce" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("11_weukl")
 
 [node name="FloorDetector" type="RayCast2D" parent="."]
 position = Vector2(0, -19)

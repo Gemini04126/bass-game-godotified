@@ -24,16 +24,17 @@ func _physics_process(_delta):
 			velocity.y = sin($Pointer.rotation) * 220
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
-	queue_free()
+	pass
 
 func _on_hurt_body_entered(body):
 	if body.is_in_group(\"player\"):
 		body.DmgQueue = Atk_Dmg
 	if body.is_in_group(\"scorch\"):
 		if GameState.character_selected != 2:
-			body.durability -= 3
+			body.durability -= 4
 		else:
-			body.durability -= 2
+			body.durability -= 3
+		queue_free()
 
 func destroy():
 	$CollisionShape2D.set_deferred(\"disabled\", true)
