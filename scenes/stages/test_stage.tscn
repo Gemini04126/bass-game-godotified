@@ -178,6 +178,7 @@ interval4 = 0.9
 interval5 = 0.1
 
 [node name="Timer" type="Timer" parent="Level Objects/Yoku Blocks"]
+wait_time = 0.9
 one_shot = true
 
 [node name="Int1" type="TileMapLayer" parent="Level Objects/Yoku Blocks"]

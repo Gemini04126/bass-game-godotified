@@ -73,6 +73,8 @@ func _on_open_trigger_body_entered(body):
 				GameState.screentransiton = 50
 				GameState.transdir = direction
 					
+				GameState.screenmode = screenmode
+					
 				if checkpoint != 0:
 					GameState.checkpoint = checkpoint
 

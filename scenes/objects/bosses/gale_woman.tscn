@@ -1,0 +1,1106 @@
+[gd_scene load_steps=56 format=3 uid="uid://c06ig6cg5o4bp"]
+
+[ext_resource type="Texture2D" uid="uid://dxksr1xom2cxn" path="res://sprites/hud/bossbarpals/gale.png" id="2_e3v7y"]
+[ext_resource type="Shader" uid="uid://b3xb8j1icuyp" path="res://shaders/PaletteSwap.gdshader" id="2_ih4en"]
+[ext_resource type="Resource" uid="uid://cm0yo472pxns7" path="res://dialogue/prebattle_gale.dialogue" id="3_rus5l"]
+[ext_resource type="Texture2D" uid="uid://l672wkviwcw6" path="res://sprites/enemies/bosses/gale_woman.png" id="5_rus5l"]
+[ext_resource type="AudioStream" uid="uid://ctstbffrq85ky" path="res://audio/sfx/bar_fill.wav" id="6_sd0xc"]
+[ext_resource type="AudioStream" uid="uid://cojuek45oo3hj" path="res://audio/sfx/player_hurt.wav" id="7_diaq4"]
+[ext_resource type="AudioStream" uid="uid://dix6rlhdr84oa" path="res://audio/sfx/mega_death.wav" id="8_r3sk3"]
+[ext_resource type="AudioStream" uid="uid://be28jkvbqhtfc" path="res://audio/sfx/bossgale.wav" id="9_dfg1o"]
+[ext_resource type="AudioStream" uid="uid://bu17jfenhhtt8" path="res://audio/sfx/explode.wav" id="9_k1hx1"]
+[ext_resource type="AudioStream" uid="uid://3orgt2y566i3" path="res://audio/sfx/rm_step.wav" id="11_4dmdu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gtk0d"]
+shader = ExtResource("2_ih4en")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+
+[sub_resource type="GDScript" id="GDScript_k5bra"]
+script/source = "extends CharacterBody2D
+
+class_name Gale_Woman
+var fullintro : bool
+@onready var projectile
+@export var slot : int
+@export var barPalette : CompressedTexture2D
+@export var prebattle: DialogueResource
+var geese : bool = false
+var Dmg_Vals : Array[float]
+var Inv_Vals : Array[float]
+var Atk_Dmg = 4
+var flash : bool
+var exploded : bool
+var Max_HP = 56
+var Cur_HP = 0
+var blown : bool = false
+var quickhits
+var state
+var track2hits : int
+var deadtick
+var bossesleft
+
+var statetimer : int = 0
+
+var shifttimer : int = 0
+var wildgaletimer : int = 1800
+var wildgaleatk : int = 0
+var tornadotimer : int = 800
+var galeforcetimer : int = 1900
+
+
+var attacks
+var attackpick = 0
+
+var lastattack = 0
+var floating : bool = false
+var jumping : bool = false
+
+var wildgalemargin : int = 190
+var timer : int = 0
+var freq = 0.03
+var amplitude = 0.15
+var v = Vector2(0, 25)
+
+enum STATES
+{
+	SPAWN,
+	PREBATTLE,
+	INTRO,
+	IDLE,
+	ATTACK1,
+	ATTACK2,
+	ATTACK3,
+	ATTACK4,
+	ATTACK5,
+	DEAD,
+	WEAKNESS
+}
+
+const EXPLOSION_SPEEDS : Array[Vector2] = [ #G: Hey look, I can actually pretty much just copy what I had for the Genesis version...
+# G (but from the Genesis): okay this kind of makes no sense but it also works to help visualize the orbs
+								Vector2(0, -150),
+		Vector2(-100, -100),						Vector2(100, -100),
+								Vector2(0, -50),
+	Vector2(-150, 0),	Vector2(-50, 0),	Vector2(50, 0),	Vector2(150, 0),
+								Vector2(0, 50),
+		Vector2(-100, 100),							Vector2(100, 100),
+								Vector2(0, 150)
+]
+
+func basedmg():
+	#region Damage
+	Dmg_Vals.resize(GameState.DMGTYPE.size())
+	Dmg_Vals[GameState.DMGTYPE.CB_SMOG] = 1
+	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_1] =3
+	Dmg_Vals[GameState.DMGTYPE.CB_REAPER_2] = 4
+	Dmg_Vals[GameState.DMGTYPE.CB_GALE] = 3
+	Dmg_Vals[GameState.DMGTYPE.CB_ORIGAMI] = 1
+	Dmg_Vals[GameState.DMGTYPE.CB_GUERILLA] = 0.25
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_1] = 2
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_2] = 3
+	Dmg_Vals[GameState.DMGTYPE.CB_PROTO_3] = 5
+	
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_1] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_2] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_BUSTER_3] = 5
+	Dmg_Vals[GameState.DMGTYPE.CR_BLAZE] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_SHARK1] = 3
+	Dmg_Vals[GameState.DMGTYPE.CR_SHARK2] = 8
+	Dmg_Vals[GameState.DMGTYPE.CR_ARROW] = 1
+	Dmg_Vals[GameState.DMGTYPE.CR_ENKER] = 1
+	Dmg_Vals[GameState.DMGTYPE.CR_PUNK] = 2
+	Dmg_Vals[GameState.DMGTYPE.CR_BALLADE] = 4
+	Dmg_Vals[GameState.DMGTYPE.CR_QUINT1] = 4
+	Dmg_Vals[GameState.DMGTYPE.CR_QUINT2] = 1
+	
+	Dmg_Vals[GameState.DMGTYPE.BS_BUSTER] = 1
+	Dmg_Vals[GameState.DMGTYPE.BS_BLAZE] = 2
+	Dmg_Vals[GameState.DMGTYPE.BS_SHARK] = 4
+	Dmg_Vals[GameState.DMGTYPE.BS_TREBLE] = 1
+	
+	Dmg_Vals[GameState.DMGTYPE.MD_BLAZE] = 4
+	Dmg_Vals[GameState.DMGTYPE.MD_VIDEO] = 1
+	Dmg_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 3
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA] = 1
+	Dmg_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 1
+	
+	Dmg_Vals[GameState.DMGTYPE.RA_BUSTER] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_GALAXY] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_TOP] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_GEMINI] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_GRENADE] = 0.5
+	Dmg_Vals[GameState.DMGTYPE.RA_YAMATO] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MAGMA2] = 3
+	Dmg_Vals[GameState.DMGTYPE.RA_PHARAOH] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_CHILL2] = 2
+	Dmg_Vals[GameState.DMGTYPE.RA_WIRE] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_TERRA] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MERCURY] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_MARS] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_PLUTO] = 1
+	Dmg_Vals[GameState.DMGTYPE.RA_ROSE] = 2 # Maybe?
+	#endregion
+	#region Invul
+	Inv_Vals.resize(GameState.DMGTYPE.size())
+	Inv_Vals[GameState.DMGTYPE.CB_SMOG] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CB_REAPER_1] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CB_REAPER_2] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CB_GALE] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CB_ORIGAMI] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CB_GUERILLA] = 0.01
+	Inv_Vals[GameState.DMGTYPE.CB_PROTO_1] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CB_PROTO_2] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CB_PROTO_3] = 0.75
+	
+	Inv_Vals[GameState.DMGTYPE.CR_BUSTER_1] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CR_BUSTER_2] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CR_BUSTER_3] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CR_BLAZE] = 0.45
+	Inv_Vals[GameState.DMGTYPE.CR_SHARK1] = 1
+	Inv_Vals[GameState.DMGTYPE.CR_SHARK2] = 2
+	Inv_Vals[GameState.DMGTYPE.CR_ARROW] = 1
+	Inv_Vals[GameState.DMGTYPE.CR_ENKER] = 1
+	Inv_Vals[GameState.DMGTYPE.CR_PUNK] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CR_BALLADE] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CR_QUINT1] = 0.75
+	Inv_Vals[GameState.DMGTYPE.CR_QUINT2] = 0.75
+	
+	Inv_Vals[GameState.DMGTYPE.BS_BUSTER] = 0.35
+	Inv_Vals[GameState.DMGTYPE.BS_BLAZE] = 0.35
+	Inv_Vals[GameState.DMGTYPE.BS_SHARK] = 1
+	Inv_Vals[GameState.DMGTYPE.BS_TREBLE] = 0.75
+	
+	Inv_Vals[GameState.DMGTYPE.MD_BLAZE] = 1
+	Inv_Vals[GameState.DMGTYPE.MD_VIDEO] = 0.75
+	Inv_Vals[GameState.DMGTYPE.MD_ORIGAMI] = 0
+	Inv_Vals[GameState.DMGTYPE.MD_GUERILLA] = 0.65
+	Inv_Vals[GameState.DMGTYPE.MD_GUERILLA2] = 0.65
+	
+	Inv_Vals[GameState.DMGTYPE.RA_BUSTER] = 0.25
+	Inv_Vals[GameState.DMGTYPE.RA_GALAXY] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_TOP] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_GEMINI] = 0.35
+	Inv_Vals[GameState.DMGTYPE.RA_GRENADE] = 0.15
+	Inv_Vals[GameState.DMGTYPE.RA_YAMATO] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_MAGMA] = 0.35
+	Inv_Vals[GameState.DMGTYPE.RA_MAGMA2] = 0.35
+	Inv_Vals[GameState.DMGTYPE.RA_PHARAOH] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_CHILL] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_CHILL2] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_WIRE] = 0 # it would be really funny to do this
+	Inv_Vals[GameState.DMGTYPE.RA_TERRA] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_MERCURY] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_MARS] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_PLUTO] = 0.75
+	Inv_Vals[GameState.DMGTYPE.RA_ROSE] = 0.75 # Maybe?
+	#endregion
+
+func _ready():
+	if GameState.camposy != null:
+		position.y = GameState.camposy - 100
+	basedmg()
+
+func turntoplayer():
+		if GameState.player.position.x < position.x:
+			$Sprite.scale.x = 1
+		else:
+			$Sprite.scale.x = -1
+
+func _physics_process(_delta):
+	$Debug/Label.text = \"%s\" % statetimer
+	$Debug/Gale.text = \"%s\" % wildgaletimer
+	$Debug/Tornado.text = \"%s\" % tornadotimer
+	$Debug/Force.text = \"%s\" % galeforcetimer
+	
+	if velocity.x > 300:
+		velocity.x = 300
+	if velocity.x < -300:
+		velocity.x = -300
+	
+	#Gale woman's AI revolves around multiple timers for each of her attacks. based on certain
+	#criteria, these timers will tick down at various rates.
+	
+	if attackpick == 10:
+		attackpick = 0
+	
+	if wildgaletimer > 0:
+		wildgaletimer -= 3
+		
+	if tornadotimer > 0:
+		tornadotimer -= 3
+		
+	if galeforcetimer > 0:
+		galeforcetimer -= 3
+	
+		
+	if GameState.player != null:
+		#if too close, she will use wild gale more
+		if (GameState.player.position.x < position.x + 100) and (GameState.player.position.x > position.x - 100):
+			wildgaletimer -= 1
+			$Debug/GaleClose.visible = true
+		else:
+			$Debug/GaleClose.visible = false
+		
+		#if player is at low health, try to finish off with Wild Gale
+		if GameState.current_hp < 8:
+			wildgaletimer -= 1
+			$Debug/GaleClose.visible = true
+		else:
+			$Debug/GaleClose.visible = false
+		
+		#if player is moving, tick down the tornado
+		if GameState.player.velocity.x != 0:
+			tornadotimer -= 1
+			$Debug/TornadoRunning.visible = true
+		else:
+			$Debug/TornadoRunning.visible = false
+			
+		if Input.is_action_pressed(\"buster\") or Input.is_action_pressed(\"shoot\"):
+			tornadotimer -= 1
+			$Debug/TornadoCharging.visible = true
+		else:
+			$Debug/TornadoCharging.visible = false
+			
+		
+	
+	if GameState.freezeframe == false:
+		if state != null:
+			timer += 1
+			v.y = (cos(timer * freq) * amplitude)
+			position.y += v.y
+			
+			
+			if position.y < (GameState.camposy - 80):
+				velocity.y += 2
+			if position.y > (GameState.camposy + 40):
+				velocity.y -= 5
+				
+			if position.x < (384*GameState.scrollX1) + 52:
+				velocity.x += 2
+			if position.x > (384*(GameState.scrollX2+1)) - 52:
+				velocity.x -= 2
+		
+		move_and_slide()
+		
+		if state == null:
+			if fullintro == true:
+				velocity.y = 80
+				if position.y > (GameState.camposy - 45):
+					state = STATES.PREBATTLE
+			else:
+				velocity.y = 80
+				if position.y > (GameState.camposy - 45):
+					state = STATES.INTRO
+					$Sprite.play(\"Intro1\")
+				
+		if state == STATES.PREBATTLE:
+			print(position.x)
+			velocity.y *= 0.95
+				
+		if state == STATES.INTRO:
+			velocity.y *= 0.9
+			if $Sprite.frame == 2 and $Sprite.animation == (\"Intro1\"):
+				$Sprite.play(\"Intro2\")
+			if $Sprite.animation == (\"Intro2\"):
+				if Cur_HP == Max_HP:
+					$Sprite.play(\"Intro3\")
+					state = STATES.IDLE
+					statetimer = 50
+				else:
+					Cur_HP += 1
+					$Audio/HPFill.play()
+					
+		if $Sprite.frame == 3 and $Sprite.animation == (\"Intro3\"):
+			state = STATES.IDLE
+			$Sprite.play(\"Idle\")
+				
+		if state == STATES.IDLE:
+			turntoplayer()
+			
+			if $FloorDetector.is_colliding():
+				velocity.y -= 1
+			
+			shifttimer += 1
+			
+			if shifttimer < 60:
+				velocity.x *= 1.04
+				velocity.y *= 1.01
+			if shifttimer > 60:
+				velocity.x *= 0.95
+				velocity.y *= 0.99
+			if shifttimer == 130:
+				if (GameState.player.position.x < position.x + 80) and (GameState.player.position.x > position.x - 80):
+					turntoplayer()
+					velocity.x = $Sprite.scale.x * -20
+					velocity.y = 50
+				velocity.x += randf_range(-20,20)
+				velocity.y += randf_range(-10,6)
+				shifttimer = 0
+				
+			
+			
+			if wildgaletimer <= 0:
+				statetimer = 0
+				state = STATES.ATTACK1
+				
+				
+			if tornadotimer <= 0:
+				statetimer = 0
+				state = STATES.ATTACK2
+				
+			if galeforcetimer <= 0:
+				statetimer = 0
+				$Sprite.play(\"GaleForce1\")
+				state = STATES.ATTACK3
+			
+				
+		if state == STATES.ATTACK1:
+			if statetimer == 0:
+				if GameState.player.position.x < GameState.middleroom :
+					$Sprite.scale.x = 1
+				if GameState.player.position.x > GameState.middleroom :
+					$Sprite.scale.x = -1
+				statetimer = 1
+			if statetimer == 1:
+				velocity.x += ($Sprite.scale.x * 4)
+				if  ($Sprite.scale.x == 1 and position.x > ((GameState.scrollX2+1) * 384) - wildgalemargin) or ($Sprite.scale.x == -1 and position.x < (GameState.scrollX1 * 384) + wildgalemargin):
+					statetimer = 2
+					$Sprite.play(\"WildGale1\")
+					GameState.player.wind_push = -scale.x * 0.1
+			if statetimer == 2:
+				velocity.x *= 0.9
+				if $Sprite.frame == 7:
+					$Sprite.play(\"WildGale2\")
+					$Audio/WildGale.play()
+					statetimer = 3
+					
+			if statetimer >= 3:
+				statetimer += 1
+				velocity.x = 0
+				if statetimer < 360:
+					velocity.y *= 0.94
+					position.x -= $Sprite.scale.x * 0.2
+					if (GameState.player.wind_push > -1.85) and (GameState.player.wind_push < 1.85): 
+						GameState.player.wind_push += -$Sprite.scale.x * 0.05
+					if wildgaleatk == 0:
+						projectile = preload(\"res://scenes/objects/bosses/gale_wildgale.tscn\").instantiate()
+						add_sibling(projectile)
+						projectile.position.y = GameState.camposy + randf_range(-30,50)
+						projectile.velocity.y = randf_range(20,90)
+						if $Sprite.scale.x == 1:
+							projectile.position.x = (GameState.camposx + 212)
+							projectile.velocity.x = -120
+						if $Sprite.scale.x == -1:
+							projectile.position.x = (GameState.camposx - 212)
+							projectile.velocity.x = 120
+						$Audio/WildGale2.play()
+						wildgaleatk = 20
+					wildgaleatk -= 1
+						
+			if statetimer == 360:
+				$Sprite.play(\"Idle\")
+				
+			if statetimer > 360:
+				GameState.player.wind_push *= 0.95
+				
+			if statetimer == 460:
+				GameState.player.wind_push = 0
+				wildgaletimer = 3100
+				state = STATES.IDLE
+				
+				
+		if state == STATES.ATTACK2:
+			if statetimer == 0:
+				turntoplayer()
+				if (position.x - GameState.player.position.x < 60) and (position.x - GameState.player.position.x > -60):
+					velocity.x = ($Sprite.scale.x * 60)
+				else:
+					velocity.x = -($Sprite.scale.x * 80)
+				velocity.y = 90
+				statetimer = 1
+			if statetimer == 1:
+				if $FloorDetector.is_colliding():
+					statetimer = 2
+					velocity.y *= 0.7
+					$Sprite.play(\"Tornado1\")
+			if statetimer == 2:
+				velocity.x *= 0.9
+				velocity.y *= 0.9
+				if $Sprite.frame == 3:
+					projectile = preload(\"res://scenes/objects/bosses/gale_tornado.tscn\").instantiate()
+					add_sibling(projectile)
+					projectile.position.x = position.x + ($Sprite.scale.x * -20)
+					projectile.velocity.x = ($Sprite.scale.x * -20)
+					projectile.position.y = GameState.camposy
+					$Sprite.play(\"Tornado2\")
+					statetimer = 3
+			if statetimer == 3:
+				velocity.y = -3
+				velocity.x *= 0.1
+			if statetimer >= 3:
+				statetimer += 1
+			if statetimer == 60:
+				$Sprite.play(\"Tornado3\")
+			if statetimer == 80:
+				$Sprite.play(\"Idle\")
+			if statetimer > 80:
+				velocity.y -= 2
+			if statetimer == 100:
+				tornadotimer = 2000
+				state = STATES.IDLE
+				statetimer = 0
+				
+		if state == STATES.ATTACK3:
+			if statetimer == 0:
+				if $Sprite.frame == 4:
+					$Sprite.play(\"GaleForce2\")
+					statetimer = 1
+					projectile = preload(\"res://scenes/objects/bosses/gale_galeforce.tscn\").instantiate()
+					add_sibling(projectile)
+					projectile.position = position
+					projectile.velocity.y = 100
+					
+					projectile = preload(\"res://scenes/objects/bosses/gale_galeforce.tscn\").instantiate()
+					add_sibling(projectile)
+					projectile.position = position
+					projectile.velocity.y = -40
+					projectile.velocity.x = -60
+					
+					projectile = preload(\"res://scenes/objects/bosses/gale_galeforce.tscn\").instantiate()
+					add_sibling(projectile)
+					projectile.position = position
+					projectile.velocity.y = -40
+					projectile.velocity.x = 60
+					
+			if statetimer == 1:
+				if $Sprite.frame == 3:
+					galeforcetimer = 800
+					state = STATES.IDLE
+				
+					
+		if state == STATES.DEAD:
+			velocity.x = scale.x * 15
+			if deadtick == null:
+				deadtick = true
+				projectile = preload(\"res://scenes/objects/bosses/boss_death.tscn\").instantiate()
+				add_sibling(projectile)
+				projectile.position = position
+			
+			if $Sprite.frame == 6:
+				if !exploded:
+					$Audio/Death.play()
+					for i in 12:
+						projectile = preload(\"res://scenes/objects/explosion_player.tscn\").instantiate()
+						add_sibling(projectile)
+						projectile.position = position
+						projectile.velocity = EXPLOSION_SPEEDS[i]
+						GameState.bosses.erase(self)
+						GameState.bossestokill -= 1
+						
+					exploded = true
+				else:
+					$Sprite.visible = false
+					$hitable/MainHitbox.disabled = true
+					$hurt/Hurtbox.disabled = true
+					await $Audio/Death.finished
+					queue_free()
+		
+	if flash == true:
+		flash = false
+	else:
+		flash = true
+		
+	if !$InvulTimer.is_stopped():
+		$Sprite.visible = flash
+	else:
+		$Sprite.visible = true
+		quickhits = 0
+
+func _on_hitable_body_entered(weapon): # needs to be redefined because damage values
+	if weapon.W_Type == GameState.DMGTYPE.MD_VIDEO:
+		if track2hits == 4:
+			track2hits = 0
+			Cur_HP -= 1
+			$Audio/Damage.play()
+		else:
+			track2hits += 1
+	
+	if $InvulTimer.is_stopped() or ((weapon.W_Type == GameState.DMGTYPE.CB_ORIGAMI or weapon.W_Type == GameState.DMGTYPE.CR_PUNK or weapon.W_Type == GameState.DMGTYPE.CB_REAPER_2 or weapon.W_Type == GameState.DMGTYPE.CB_REAPER_1) and quickhits < 3) or weapon.W_Type == GameState.DMGTYPE.MD_GUERILLA2:
+		if weapon.W_Type != GameState.DMGTYPE.MD_VIDEO:
+			#Does it do 0 damage?
+			if Dmg_Vals[weapon.W_Type] == 0:
+				#For these, have the projectile dissipate.
+				if (weapon.W_Type == GameState.DMGTYPE.BS_SHARK or GameState.DMGTYPE.CR_SHARK1 or GameState.DMGTYPE.CR_SHARK2):
+					weapon.destroy()
+				#For all others, the projectile bounces off. Plink!
+				else:
+					weapon.reflect()
+			#Cool, it does damage!!
+			else:
+				#Is it Scorch Barrier?
+				if (weapon.W_Type == GameState.DMGTYPE.BS_BLAZE) or (weapon.W_Type == GameState.DMGTYPE.CR_BLAZE):
+					#For most characters, reduce durability by...
+					if GameState.character_selected != 2:
+						weapon.durability -= 3
+					#Copy robot isn't so lucky...
+					else:
+						weapon.durability -= 4
+				if weapon.W_Type == GameState.DMGTYPE.CB_ORIGAMI:
+					quickhits += 1
+				#Look up the damage type and do damage according to it.
+				Cur_HP -= Dmg_Vals[weapon.W_Type]
+				$InvulTimer.start(Inv_Vals[weapon.W_Type])
+				if weapon.W_Type == GameState.DMGTYPE.CR_BUSTER_1 or weapon.W_Type == GameState.DMGTYPE.CR_BUSTER_3 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2 or weapon.W_Type == GameState.DMGTYPE.BS_BUSTER:
+					if weapon.freezeframed != null:
+						$InvulTimer.start(Inv_Vals[weapon.W_Type] * 2)
+				$Audio/Damage.play()
+				if weapon.W_Type == GameState.DMGTYPE.CB_GUERILLA and Cur_HP >= 0 and state != STATES.WEAKNESS:
+					state = STATES.WEAKNESS
+					$Sprite.play(\"Dead\")
+					statetimer = 0
+				
+	
+				
+	if (weapon.W_Type == GameState.DMGTYPE.CB_REAPER_1 or weapon.W_Type == GameState.DMGTYPE.CB_REAPER_2 or weapon.W_Type == GameState.DMGTYPE.BS_SHARK or weapon.W_Type == GameState.DMGTYPE.CR_SHARK1 or weapon.W_Type == GameState.DMGTYPE.CR_SHARK2):
+		pass
+	else:
+		weapon.destroy()
+
+	
+	if Cur_HP <= 0:
+		$Sprite.play(\"Dead\")
+		state = STATES.DEAD	
+		velocity.y = 0
+
+func _on_hurt_body_entered(body):
+	body.DmgQueue = Atk_Dmg
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5nqm8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6618"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(432, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfg1o"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(0, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_weukl"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(48, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l407t"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ypcm8"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oq4cn"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(144, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8aa37"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(144, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_re567"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(192, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uw6lc"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(240, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1enkd"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(192, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tirwx"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd0xc"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ocxaq"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd08g"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kthyf"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_la18f"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(144, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uad1n"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_edfgv"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuu03"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1fhh"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1hga"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6tt2"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(0, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uriht"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(48, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3874"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kl2n"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i4rd4"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(144, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5bky4"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pf6f"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(48, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oiu21"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(0, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iye0b"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e3v7y"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rus5l"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_diaq4"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r3sk3"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(144, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1hx1"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(96, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chb46"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(144, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4dmdu"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(192, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_60w3v"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(240, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fblao"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(240, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qj6g"]
+atlas = ExtResource("5_rus5l")
+region = Rect2(288, 48, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_diaq4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6618")
+}],
+"loop": true,
+"name": &"Dead",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dfg1o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_weukl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l407t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ypcm8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oq4cn")
+}],
+"loop": false,
+"name": &"GaleForce1",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8aa37")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_re567")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uw6lc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1enkd")
+}],
+"loop": false,
+"name": &"GaleForce2",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tirwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd0xc")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ocxaq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd08g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kthyf")
+}],
+"loop": false,
+"name": &"Intro1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_la18f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uad1n")
+}],
+"loop": true,
+"name": &"Intro2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_edfgv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuu03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v1fhh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v1fhh")
+}],
+"loop": false,
+"name": &"Intro3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1hga")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6tt2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uriht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3874")
+}],
+"loop": false,
+"name": &"Tornado1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kl2n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i4rd4")
+}],
+"loop": true,
+"name": &"Tornado2",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5bky4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2pf6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oiu21")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iye0b")
+}],
+"loop": false,
+"name": &"Tornado3",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e3v7y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rus5l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_diaq4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r3sk3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1hx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chb46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4dmdu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_60w3v")
+}],
+"loop": false,
+"name": &"WildGale1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fblao")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qj6g")
+}],
+"loop": true,
+"name": &"WildGale2",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wp5vq"]
+size = Vector2(23.5, 33)
+
+[node name="Gale Woman" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_gtk0d")
+collision_layer = 0
+motion_mode = 1
+script = SubResource("GDScript_k5bra")
+barPalette = ExtResource("2_e3v7y")
+prebattle = ExtResource("3_rus5l")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_5nqm8")
+position = Vector2(0, -6)
+sprite_frames = SubResource("SpriteFrames_diaq4")
+animation = &"GaleForce1"
+autoplay = "Idle"
+
+[node name="hitable" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+
+[node name="MainHitbox" type="CollisionShape2D" parent="hitable"]
+position = Vector2(-1, -3)
+shape = SubResource("RectangleShape2D_wp5vq")
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="Hurtbox" type="CollisionShape2D" parent="hurt"]
+position = Vector2(-1, -3)
+shape = SubResource("RectangleShape2D_wp5vq")
+debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(-1.25, -3.5)
+shape = SubResource("RectangleShape2D_wp5vq")
+debug_color = Color(0, 1, 0.0705882, 0.419608)
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="InvulTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="HPFill" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("6_sd0xc")
+volume_db = -10.0
+
+[node name="Damage" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("7_diaq4")
+
+[node name="Death" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("8_r3sk3")
+volume_db = -16.0
+bus = &"SFX"
+
+[node name="WildGale" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("9_k1hx1")
+bus = &"SFX"
+
+[node name="WildGale2" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("9_dfg1o")
+volume_db = 2.5
+bus = &"SFX"
+
+[node name="Step" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("11_4dmdu")
+bus = &"SFX"
+
+[node name="FloorDetector" type="RayCast2D" parent="."]
+position = Vector2(0, -19)
+
+[node name="Debug" type="Node2D" parent="."]
+visible = false
+position = Vector2(0, -19)
+
+[node name="Label" type="Label" parent="Debug"]
+visible = false
+offset_left = -20.0
+offset_top = -11.0
+offset_right = 20.0
+offset_bottom = -3.0
+text = "0"
+
+[node name="Gale" type="Label" parent="Debug"]
+offset_left = -24.0
+offset_top = -18.0
+offset_right = 16.0
+offset_bottom = -10.0
+theme_override_colors/font_color = Color(0.305882, 1, 0.564706, 1)
+text = "0"
+
+[node name="GaleClose" type="Label" parent="Debug"]
+visible = false
+offset_left = -32.0
+offset_top = -15.0
+offset_right = -24.0
+offset_bottom = -7.0
+theme_override_colors/font_color = Color(0.305882, 1, 0.564706, 1)
+text = "-"
+
+[node name="GaleWeak" type="Label" parent="Debug"]
+visible = false
+offset_left = -32.0
+offset_top = -17.0
+offset_right = -24.0
+offset_bottom = -9.0
+theme_override_colors/font_color = Color(0.305882, 1, 0.564706, 1)
+text = "-"
+
+[node name="Tornado" type="Label" parent="Debug"]
+offset_left = -24.0
+offset_top = -10.0
+offset_right = 16.0
+offset_bottom = -2.0
+theme_override_colors/font_color = Color(0.720467, 0.720468, 0.720467, 1)
+text = "0"
+
+[node name="TornadoRunning" type="Label" parent="Debug"]
+visible = false
+offset_left = -32.0
+offset_top = -7.0
+offset_right = -24.0
+offset_bottom = 1.0
+theme_override_colors/font_color = Color(0.720467, 0.720468, 0.720467, 1)
+text = "-"
+
+[node name="TornadoCharging" type="Label" parent="Debug"]
+visible = false
+offset_left = -32.0
+offset_top = -9.0
+offset_right = -24.0
+offset_bottom = -1.0
+theme_override_colors/font_color = Color(0.720467, 0.720468, 0.720467, 1)
+text = "-"
+
+[node name="Force" type="Label" parent="Debug"]
+offset_left = -24.0
+offset_top = -2.0
+offset_right = 16.0
+offset_bottom = 6.0
+theme_override_colors/font_color = Color(0.901961, 0.952941, 0.596078, 1)
+text = "0"
+
+[node name="Force2" type="Label" parent="Debug"]
+visible = false
+offset_left = -32.0
+offset_top = -2.0
+offset_right = -24.0
+offset_bottom = 6.0
+theme_override_colors/font_color = Color(0.901961, 0.952941, 0.596078, 1)
+text = "-"
+
+[connection signal="body_entered" from="hitable" to="." method="_on_hitable_body_entered"]
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]

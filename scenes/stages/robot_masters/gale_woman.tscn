@@ -58,7 +58,6 @@ amplitude = 0.09
 script = SubResource("GDScript_a5y8n")
 
 [node name="BG1" type="Node2D" parent="Backgrounds"]
-visible = false
 
 [node name="CloudsClosest" type="Parallax2D" parent="Backgrounds/BG1"]
 scroll_scale = Vector2(0.25, 0)
@@ -186,6 +185,7 @@ tile_map_data = PackedByteArray("AAAAAAcAAAAQAAQAAAABAAcAAAAQAAQAAAACAAcAAAAQAAQ
 tile_set = ExtResource("2_d6oeb")
 
 [node name="BG3" type="Node2D" parent="Backgrounds"]
+visible = false
 
 [node name="CloudsClosest" type="Parallax2D" parent="Backgrounds/BG3"]
 scroll_scale = Vector2(0.25, 0)

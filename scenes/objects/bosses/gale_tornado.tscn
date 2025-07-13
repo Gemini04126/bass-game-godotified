@@ -1,0 +1,316 @@
+[gd_scene load_steps=16 format=3 uid="uid://co23btspytsre"]
+
+[ext_resource type="Texture2D" uid="uid://mje3ifwqfitl" path="res://sprites/enemies/bosses/gale_tornado.png" id="1_qvrnp"]
+
+[sub_resource type="GDScript" id="GDScript_npklr"]
+script/source = "extends CharacterBody2D
+
+const Atk_Dmg = 2
+var time = 0
+var anim = \"1\"
+var projectile
+
+
+func _ready():
+	if velocity.x < 0:
+		scale.x = -1
+	
+		
+func _physics_process(_delta):
+	if GameState.freezeframe == false:
+		move_and_slide()
+		
+	time += 1
+	
+	if time < 100:
+		velocity.x *= 1.02
+	if time > 100:
+		velocity.x *= 0.98
+	
+	if time == 10:
+		anim = \"2\"
+		
+	if time == 30:
+		anim = \"3\"
+		
+	if time == 60:
+		$hurt/MainHitbox.disabled = false
+		anim = \"4\"
+		
+	if time == 70:
+		anim = \"5\"
+		
+	if time == 120:
+		anim = \"4\"
+		
+	if time == 130:
+		$hurt/MainHitbox.disabled = true
+		anim = \"3\"
+		
+	if time == 140:
+		anim = \"2\"
+		
+	if time == 150:
+		anim = \"1\"
+		
+	if time == 160:
+		queue_free()
+		
+	$Sprite.animation = anim
+	$Sprite2.animation = anim
+	$Sprite3.animation = anim
+	$Sprite4.animation = anim
+	$Sprite5.animation = anim
+	$Sprite6.animation = anim
+	$Sprite7.animation = anim
+	$Sprite8.animation = anim
+	$Sprite9.animation = anim
+	$Sprite10.animation = anim
+	$Sprite11.animation = anim
+	$Sprite12.animation = anim
+	
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()
+
+func _on_hurt_body_entered(body):
+	if body.is_in_group(\"player\"):
+		body.DmgQueue = Atk_Dmg
+	if body.is_in_group(\"scorch\"):
+		if GameState.character_selected != 2:
+			body.durability -= 3
+		else:
+			body.durability -= 2
+
+func destroy():
+	$CollisionShape2D.set_deferred(\"disabled\", true)
+	#$HitSound.play()
+	velocity.x = 0
+	velocity.y = 0
+	$AnimatedSprite2D.play(\"Destroy\")
+	await $AnimatedSprite2D.animation_finished
+	queue_free()
+
+func _on_reflect_body_entered(weapon):
+	match weapon.W_Type:
+		GameState.DMGTYPE.CB_SMOG:
+			weapon.destroy()
+		GameState.DMGTYPE.CB_GUERILLA:
+			weapon.destroy()
+		GameState.DMGTYPE.CB_REAPER_1:
+			weapon.destroy()
+		GameState.DMGTYPE.BS_SHARK:
+			# Destroy both!
+			destroy()
+			weapon.destroy()
+		GameState.DMGTYPE.CR_SHARK1:
+			# Destroy both!
+			destroy()
+			weapon.destroy()
+		_:
+			pass
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qvrnp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdbot"]
+atlas = ExtResource("1_qvrnp")
+region = Rect2(0, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p8lpv"]
+atlas = ExtResource("1_qvrnp")
+region = Rect2(0, 16, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2w8bs"]
+atlas = ExtResource("1_qvrnp")
+region = Rect2(0, 16, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hbx7x"]
+atlas = ExtResource("1_qvrnp")
+region = Rect2(0, 32, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wj6l3"]
+atlas = ExtResource("1_qvrnp")
+region = Rect2(0, 48, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6g4e"]
+atlas = ExtResource("1_qvrnp")
+region = Rect2(0, 64, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwnb5"]
+atlas = ExtResource("1_qvrnp")
+region = Rect2(0, 80, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwmnc"]
+atlas = ExtResource("1_qvrnp")
+region = Rect2(0, 96, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_62d61"]
+atlas = ExtResource("1_qvrnp")
+region = Rect2(0, 112, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbj5v"]
+atlas = ExtResource("1_qvrnp")
+region = Rect2(0, 128, 64, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r65mh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdbot")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"1",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdbot")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p8lpv")
+}],
+"loop": true,
+"name": &"2",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2w8bs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hbx7x")
+}],
+"loop": true,
+"name": &"3",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wj6l3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j6g4e")
+}],
+"loop": true,
+"name": &"4",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwnb5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwmnc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_62d61")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbj5v")
+}],
+"loop": true,
+"name": &"5",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sdbot"]
+size = Vector2(20, 192)
+
+[node name="Tornado" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 32
+collision_mask = 0
+script = SubResource("GDScript_npklr")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qvrnp")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"4"
+autoplay = "1"
+
+[node name="Sprite2" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -24)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="Sprite3" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -40)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="Sprite4" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -56)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="Sprite5" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -72)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="Sprite6" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -88)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="Sprite7" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 88)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="Sprite8" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 72)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="Sprite9" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 56)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="Sprite10" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 40)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="Sprite11" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 24)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="Sprite12" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 8)
+sprite_frames = SubResource("SpriteFrames_r65mh")
+animation = &"3"
+autoplay = "1"
+
+[node name="hurt" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 3
+
+[node name="MainHitbox" type="CollisionShape2D" parent="hurt"]
+shape = SubResource("RectangleShape2D_sdbot")
+disabled = true
+debug_color = Color(1, 0.00392157, 0.0705882, 0.419608)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="body_entered" from="hurt" to="." method="_on_hurt_body_entered"]

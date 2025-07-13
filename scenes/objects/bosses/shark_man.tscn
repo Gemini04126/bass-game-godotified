@@ -1607,7 +1607,7 @@ autoplay = "none"
 material = SubResource("ShaderMaterial_5nqm8")
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_kwo4k")
-animation = &"Boomer1"
+animation = &"Float"
 autoplay = "Jump"
 
 [node name="Overlay" type="AnimatedSprite2D" parent="."]
